@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.app.sample.mybatis.api.employ.EmployMapper">
+  
+  <select id="selectAll" resultType="EmployVO">
+    SELECT *
+    FROM   employ
+    ORDER BY id DESC
+  </select>
+  
+  <select id="selectList" resultType="EmployVO">
+    SELECT *
+    FROM   employ
+    ORDER BY id DESC
+  </select>
+  
+  <select id="selectListByName" parameterType="EmployPageREQ" resultType="EmployVO">
+    SELECT *
+    FROM   employ
+    <if test="name != null and !''.equals(name)">
+      WHERE name LIKE '%'||#{name}||'%'
+    </if>
+    ORDER BY id DESC
+  </select>
+  
+  <insert id="insert" parameterType="EmployVO">
+    INSERT INTO employ (
+        id,
+        name,
+        create_date,
+        modify_date,
+        create_id,
+        modify_id
+      ) VALUES (
+        #{id},
+        #{name},
+        now(),
+        now(),
+        #{createId},
+        #{modifyId}
+      )
+  </insert>
+  
+  <select id="select" parameterType="java.lang.String" resultType="EmployVO">
+    SELECT *
+    FROM   employ
+    WHERE  id = #{id}
+  </select>
+  
+  <update id="update" parameterType="EmployVO">
+    UPDATE employ
+       SET name = #{name},
+           modify_date = now(),
+           modify_id = #{modifyId}
+     WHERE id = #{id}
+  </update>
+  
+  <delete id="delete" parameterType="EmployVO">
+    DELETE
+      FROM employ
+     WHERE id = #{id}
+  </delete>
+  
+</mapper>
