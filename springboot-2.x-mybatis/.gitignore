@@ -6,3 +6,6 @@ target
 */.settings
 */.classpath
 */.factorypath
+
+.gradle
+build
