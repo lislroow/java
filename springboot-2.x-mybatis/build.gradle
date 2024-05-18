@@ -37,14 +37,32 @@ dependencies {
 }
 
 group = 'spring.application'
-version = '0.1'
+version = '0.1-SNAPSHOT'
+//version = '0.1'
 description = 'springboot-2.x-mybatis'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
+task sourceJar(type: Jar) {
+  from sourceSets.main.allJava
+  archiveClassifier = "sources"
+}
+
 publishing {
+  repositories {
+    maven {
+      url = "https://nexus.mgkim.net/repository/maven-${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'}/"
+      credentials {
+      username = 'admin'
+      password = '1'
+      }
+    }
+  }
   publications {
     maven(MavenPublication) {
       from(components.java)
+      artifact bootJar
+      artifact source: sourceJar, classifier: 'src', extension: 'zip'
+      artifact sourceJar
     }
   }
 }
@@ -58,5 +76,5 @@ tasks.withType(Javadoc) {
 }
 
 springBoot {
-  mainClass = 'spring.sample.mybatis.MainApplication' 
+  mainClass = 'spring.sample.mybatis.MainApplication'
 }
