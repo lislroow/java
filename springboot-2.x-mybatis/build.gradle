@@ -5,6 +5,7 @@
 plugins {
   id 'java-library'
   id 'maven-publish'
+  id 'org.springframework.boot' version '2.7.18'
 }
 
 repositories {
@@ -54,4 +55,8 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(Javadoc) {
   options.encoding = 'utf-8'
+}
+
+springBoot {
+  mainClass = 'spring.sample.mybatis.MainApplication' 
 }
