@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>spring.application</groupId>
   <artifactId>springboot-2.x-mybatis</artifactId>
-  <version>0.1</version>
+  <version>0.1-SNAPSHOT</version>
   
   <properties>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
@@ -16,7 +16,6 @@
   
   <dependencyManagement>
     <dependencies>
-      <!-- oss -->
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
@@ -31,7 +30,6 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
-      <!-- // oss -->
     </dependencies>
   </dependencyManagement>
   

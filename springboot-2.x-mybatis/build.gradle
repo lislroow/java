@@ -13,12 +13,15 @@ repositories {
 dependencies {
   implementation platform('org.springframework.boot:spring-boot-dependencies:2.7.18')
   implementation platform('org.mybatis.spring.boot:mybatis-spring-boot:2.3.2')
+  // for common
   api 'org.slf4j:slf4j-api'
   api 'org.springframework.boot:spring-boot-configuration-processor'
   api 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+  // for web
   api 'org.springframework.boot:spring-boot-starter-web'
   api 'jakarta.servlet:jakarta.servlet-api'
   api 'com.fasterxml.jackson.core:jackson-databind'
+  // for jdbc
   api 'com.h2database:h2'
   api 'com.microsoft.sqlserver:mssql-jdbc'
   api 'com.zaxxer:HikariCP'
@@ -26,6 +29,7 @@ dependencies {
   api 'org.mybatis:mybatis'
   api 'org.mybatis:mybatis-spring'
   api 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+  // for test
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'junit:junit'
 }
