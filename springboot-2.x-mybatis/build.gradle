@@ -5,13 +5,9 @@ plugins {
 }
 
 repositories {
+  maven { url = uri('https://repo.maven.apache.org/maven2/') }
+  maven { url = uri('https://nexus.mgkim.net/repository/maven-public/') }
   mavenLocal()
-  maven {
-    url = uri('https://repo.maven.apache.org/maven2/')
-  }
-  maven {
-    url = uri('https://nexus.mgkim.net/repository/maven-public/')
-  }
 }
 
 dependencies {
@@ -36,32 +32,14 @@ dependencies {
 
 group = 'spring.application'
 version = '0.1-SNAPSHOT'
-description = 'springboot-2.x-mybatis'
-java.sourceCompatibility = JavaVersion.VERSION_1_8
 
-task sourceJar(type: Jar) {
-  from sourceSets.main.allJava
-  archiveClassifier = "sources"
+java {
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-publishing {
-  repositories {
-    maven {
-      url = "https://nexus.mgkim.net/repository/maven-${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'}/"
-      credentials {
-      username = 'admin'
-      password = '1'
-      }
-    }
-  }
-  publications {
-    maven(MavenPublication) {
-      from(components.java)
-      artifact bootJar
-      artifact source: sourceJar, classifier: 'src', extension: 'zip'
-      artifact sourceJar
-    }
-  }
+springBoot {
+  mainClass = 'spring.sample.mybatis.MainApplication'
 }
 
 tasks.withType(JavaCompile) {
@@ -70,8 +48,4 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(Javadoc) {
   options.encoding = 'utf-8'
-}
-
-springBoot {
-  mainClass = 'spring.sample.mybatis.MainApplication'
 }
