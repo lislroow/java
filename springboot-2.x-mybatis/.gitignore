@@ -1,13 +1,11 @@
-target
+.project
 .settings
 .classpath
 .factorypath
-*/.settings
-*/.classpath
-*/.factorypath
+.externalToolBuilders
 
 # [maven]
-*/target
+target
 
 # [gradle]
 .gradle
