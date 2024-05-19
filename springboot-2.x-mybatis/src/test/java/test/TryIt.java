@@ -11,8 +11,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import spring.sample.mybatis.config.EncryptConfig;
 import spring.sample.mybatis.util.Uuid;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration
 public class TryIt extends EncryptConfig {
   
   @Test
