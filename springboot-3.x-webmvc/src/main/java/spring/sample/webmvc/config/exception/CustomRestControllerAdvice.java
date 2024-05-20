@@ -28,13 +28,22 @@ public class CustomRestControllerAdvice {
     return ResponseEntity.status(HttpStatus.OK).body(errorResponse);
   }
   
-  // @RequestParam 에 대한 validation 오류가 발생했을 때는
+  // @RequestParam, @PathVariable 에 대한 validation 오류가 발생했을 때는
   //   HandlerMethodValidationException 타입의 오류가 발생합니다.
   //   e.g) @RequestParam(name = "number") @Min(value = 0) Integer number
   // @Valid 를 사용해야할 경우, @RequestBody, @ModelAttribute 을 선언해주세요.
   @ExceptionHandler(HandlerMethodValidationException.class)
   protected ResponseEntity<?> handleHandlerMethodValidationException(HandlerMethodValidationException e) {
-    System.out.println("@RequestParam 일 경우 예외 처리되는 메소드입니다.");
+    System.out.println("@RequestParam, @PathVariable 일 경우 예외 처리되는 메소드입니다.");
+    ErrorResponse errorResponse = 
+        ErrorResponse.builder(e, HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage())
+        .build();
+    return ResponseEntity.status(HttpStatus.OK).body(errorResponse);
+  }
+  
+  // 그 밖에 모든 예외
+  @ExceptionHandler(Exception.class)
+  protected ResponseEntity<?> handleException(Exception e) {
     ErrorResponse errorResponse = 
         ErrorResponse.builder(e, HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage())
         .build();

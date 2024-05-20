@@ -2,6 +2,7 @@ package spring.sample.webmvc.api.employ;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,6 +61,18 @@ curl -L 'http://localhost:8080/api/validate/forRequestParam?number=0'
   @GetMapping("/api/validate/forRequestParam")
   public Integer forRequestParam(
       @RequestParam(name = "number") @Min(value = 0) Integer number) {
+    Integer result = null;
+    try {
+      result = 10 / number;
+    } catch (ArithmeticException e) {
+      throw e;
+    }
+    return result;
+  }
+  
+  @GetMapping("/api/validate/{number}/forPathVariable")
+  public Integer forPathVariable(
+      @PathVariable(name = "number") @Min(value = 0) Integer number) {
     Integer result = null;
     try {
       result = 10 / number;
