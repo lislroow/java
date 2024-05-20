@@ -16,6 +16,7 @@ public class MybatisProperties implements Condition {
 
   private String mapperLocation;
   private String configFile;
+  private String typeAliasesPackage;
   
   public static final String PREFIX = "sample.jdbc.mybatis";
   private boolean enabled;
@@ -63,6 +64,14 @@ public class MybatisProperties implements Condition {
 
   public void setConfigFile(String configFile) {
     this.configFile = configFile;
+  }
+
+  public String getTypeAliasesPackage() {
+    return typeAliasesPackage;
+  }
+
+  public void setTypeAliasesPackage(String typeAliasesPackage) {
+    this.typeAliasesPackage = typeAliasesPackage;
   }
   
 }

@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
+import org.springframework.util.ObjectUtils;
 
 import spring.sample.mybatis.config.mybatis.DaoSupport;
 
@@ -41,8 +42,10 @@ public class MybatisConfig {
     log.info("MapperScan, TypeAliasesPackage: " + BASE_PACKAGES);
     String configFile = properties.getConfigFile();
     String mapperLocation = properties.getMapperLocation();
+    String typeAliasesPackage = properties.getTypeAliasesPackage();
     log.info("configFile: " + configFile);
     log.info("mapperLocation: " + mapperLocation);
+    log.info("typeAliasesPackage: " + typeAliasesPackage);
     
     SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
     sqlSessionFactoryBean.setDataSource(dataSource);
@@ -53,7 +56,9 @@ public class MybatisConfig {
         new PathMatchingResourcePatternResolver().getResources(mapperLocation));
     // parameterType, resultType 에 java package 생략 가능
     // 단, BASE_PACKAGES 하위 package 에 동일한 클래스명이 2개 이상일 경우 어플리케이션 booting 시 오류가 발생함
-    sqlSessionFactoryBean.setTypeAliasesPackage(BASE_PACKAGES);
+    if (!ObjectUtils.isEmpty(typeAliasesPackage)) {
+      sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
+    }
     // 페이징 처리를 위한 mybatis-plugin 추가
     sqlSessionFactoryBean.setPlugins(new spring.sample.mybatis.config.mybatis.PagingInterceptor());
     return sqlSessionFactoryBean;
