@@ -1,10 +1,10 @@
-package spring.sample.mybatis.api.employ.dto;
+package spring.sample.webmvc.api.employ.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import spring.sample.mybatis.api.audit.dto.AuditVO;
+import spring.sample.webmvc.api.audit.dto.AuditVO;
 
 @Data
 @AllArgsConstructor

@@ -1,4 +1,4 @@
-package spring.sample.mybatis.api.employ;
+package spring.sample.webmvc.api.employ;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import spring.sample.mybatis.api.employ.dto.EmployPageREQ;
-import spring.sample.mybatis.api.employ.dto.EmployVO;
+import spring.sample.webmvc.api.employ.dto.EmployPageREQ;
+import spring.sample.webmvc.api.employ.dto.EmployVO;
 
 @RestController
 public class EmployController {

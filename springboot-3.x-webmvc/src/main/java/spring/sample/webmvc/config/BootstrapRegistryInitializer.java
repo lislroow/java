@@ -1,4 +1,4 @@
-package spring.sample.mybatis.config;
+package spring.sample.webmvc.config;
 
 import org.springframework.boot.BootstrapRegistry;
 

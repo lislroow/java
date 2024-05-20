@@ -1,4 +1,4 @@
-package spring.sample.mybatis.config.mybatis;
+package spring.sample.webmvc.config.mybatis;
 
 public class Pageable {
   

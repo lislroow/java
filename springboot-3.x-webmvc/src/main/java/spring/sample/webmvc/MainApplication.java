@@ -1,4 +1,4 @@
-package spring.sample.mybatis;
+package spring.sample.webmvc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

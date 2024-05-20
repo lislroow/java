@@ -1,4 +1,4 @@
-package spring.sample.mybatis.api.audit.dto;
+package spring.sample.webmvc.api.audit.dto;
 
 import java.time.LocalDateTime;
 
