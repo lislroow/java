@@ -76,9 +76,21 @@ curl -L 'http://localhost:8080/api/validate/forRequestParam?number=0'
   @Autowired
   private EmployService service;
   
-  @PostMapping("/api/validate/onService")
-  public EmployVO onService(@RequestBody EmployRegREQ param) {
+  @PostMapping("/api/validate/onServiceByAOP")
+  public EmployVO onServiceByAOP(@RequestBody EmployRegREQ param) {
     log.info("param = {}", param);
-    return EmployVO.of(service.save(param));
+    return EmployVO.of(service.validByAOP(param));
+  }
+  
+  @PostMapping("/api/validate/onServiceByInvokeWithJakarta")
+  public EmployVO onServiceByInvokeWithJakarta(@RequestBody EmployRegREQ param) {
+    log.info("param = {}", param);
+    return EmployVO.of(service.validByInvokeWithJakarta(param));
+  }
+  
+  @PostMapping("/api/validate/onServiceByInvokeWithSpring")
+  public EmployVO onServiceByInvokeWithSpring(@RequestBody EmployRegREQ param) throws Exception {
+    log.info("param = {}", param);
+    return EmployVO.of(service.validByInvokeWithSpring(param));
   }
 }
