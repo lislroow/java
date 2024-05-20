@@ -39,7 +39,6 @@ public class MybatisConfig {
   
   @Bean
   SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception {
-    log.info("MapperScan, TypeAliasesPackage: " + BASE_PACKAGES);
     String configFile = properties.getConfigFile();
     String mapperLocation = properties.getMapperLocation();
     String typeAliasesPackage = properties.getTypeAliasesPackage();
