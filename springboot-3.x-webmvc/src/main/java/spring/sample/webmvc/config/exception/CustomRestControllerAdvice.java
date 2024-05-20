@@ -1,6 +1,7 @@
 package spring.sample.webmvc.config.exception;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.core.annotation.Order;
@@ -13,10 +14,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import spring.sample.webmvc.config.exception.CustomValidErrorResponse.ErrorField;
 
 @RestControllerAdvice
 @Order(1)
+@Slf4j
 public class CustomRestControllerAdvice {
   
   @ExceptionHandler(ArithmeticException.class)
@@ -25,6 +30,7 @@ public class CustomRestControllerAdvice {
         // e.g) e.getMessage(): "정수는 0으로 나눌 수 없습니다."
         ErrorResponse.builder(e, HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage())
         .build();
+    log.error("", e);
     return ResponseEntity.status(HttpStatus.OK).body(errorResponse);
   }
   
@@ -38,6 +44,7 @@ public class CustomRestControllerAdvice {
     ErrorResponse errorResponse = 
         ErrorResponse.builder(e, HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage())
         .build();
+    log.error("", e);
     return ResponseEntity.status(HttpStatus.OK).body(errorResponse);
   }
   
@@ -47,6 +54,7 @@ public class CustomRestControllerAdvice {
     ErrorResponse errorResponse = 
         ErrorResponse.builder(e, HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage())
         .build();
+    log.error("", e);
     return ResponseEntity.status(HttpStatus.OK).body(errorResponse);
   }
   
@@ -61,6 +69,22 @@ public class CustomRestControllerAdvice {
         .message("validation_error_message")
         .errorFields(errorFields)
         .build();
+    log.error("", e);
+    return ResponseEntity.status(HttpStatus.OK).body(errorResponse);
+  }
+  
+  @ExceptionHandler(ConstraintViolationException.class)
+  protected ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException e) {
+    Set<ConstraintViolation<?>> set = e.getConstraintViolations();
+    List<ErrorField> errorFields = set.stream()
+        .map(constraintViolation -> ErrorField.of(constraintViolation))
+        .collect(Collectors.toList());
+    CustomValidErrorResponse errorResponse = CustomValidErrorResponse.builder()
+        .code("constraint_error_code")
+        .message("constraint_error_message")
+        .errorFields(errorFields)
+        .build();
+    log.error("", e);
     return ResponseEntity.status(HttpStatus.OK).body(errorResponse);
   }
   

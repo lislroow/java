@@ -32,5 +32,14 @@ public class CustomValidErrorResponse {
           .message(fieldError.getDefaultMessage())
           .build();
     }
+    
+    public static ErrorField of(final jakarta.validation.ConstraintViolation<?> constraintViolation) {
+      jakarta.validation.Path path = constraintViolation.getPropertyPath();
+      //String name = ((PathImpl)path).getLeafNode().getName();
+      return ErrorField.builder()
+          .field(path.toString())
+          .message(constraintViolation.getMessage())
+          .build();
+    }
   }
 }

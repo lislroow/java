@@ -1,5 +1,6 @@
 package spring.sample.webmvc.api.employ;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import lombok.extern.slf4j.Slf4j;
 import spring.sample.webmvc.api.employ.dto.EmployPageREQ;
 import spring.sample.webmvc.api.employ.dto.EmployRegREQ;
 import spring.sample.webmvc.api.employ.dto.EmployVO;
 
 @RestController
+@Slf4j
 public class EmployController {
 
 /*
@@ -40,19 +43,7 @@ curl -L 'http://localhost:8080/api/validate/forRequestBody' \
   @PostMapping("/api/validate/forRequestBody")
   public EmployVO forRequestBody(
       @Valid @RequestBody EmployRegREQ param) {
-    EmployVO vo = EmployVO.builder()
-        .id(param.getId())
-        .name(param.getName())
-        .age(param.getAge())
-        .eyesight(param.getEyesight())
-        .password(param.getPassword())
-        .confirmPassword(param.getConfirmPassword())
-        .employCode(param.getEmployCode())
-        .roleId(param.getRoleId())
-        .allowedIp(param.getAllowedIp())
-        .startDate(param.getStartDate())
-        .build();
-    return vo;
+    return EmployVO.of(param);
   }
 
 /*
@@ -80,5 +71,14 @@ curl -L 'http://localhost:8080/api/validate/forRequestParam?number=0'
       throw e;
     }
     return result;
+  }
+  
+  @Autowired
+  private EmployService service;
+  
+  @PostMapping("/api/validate/onService")
+  public EmployVO onService(@RequestBody EmployRegREQ param) {
+    log.info("param = {}", param);
+    return EmployVO.of(service.save(param));
   }
 }
