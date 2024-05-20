@@ -16,19 +16,14 @@ dependencies {
   // for common
   api 'org.slf4j:slf4j-api'
   api 'org.springframework.boot:spring-boot-configuration-processor'
-  api 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+  api 'org.projectlombok:lombok'
   // for web
   api 'org.springframework.boot:spring-boot-starter-web'
+  api 'org.springframework.boot:spring-boot-starter-validation'
+  // api 'jakarta.validation:jakarta.validation-api'
+  // api 'org.hibernate.validator:hibernate-validator'
   api 'jakarta.servlet:jakarta.servlet-api'
   api 'com.fasterxml.jackson.core:jackson-databind'
-  // for jdbc
-  api 'com.h2database:h2'
-  api 'com.microsoft.sqlserver:mssql-jdbc'
-  api 'com.zaxxer:HikariCP'
-  api 'org.springframework:spring-jdbc'
-  api 'org.mybatis:mybatis'
-  api 'org.mybatis:mybatis-spring'
-  api 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
   // for test
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'junit:junit'
