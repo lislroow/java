@@ -4,9 +4,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import spring.sample.webmvc.api.employ.dto.EmployPageREQ;
 import spring.sample.webmvc.api.employ.dto.EmployRegREQ;
 import spring.sample.webmvc.api.employ.dto.EmployVO;
@@ -50,5 +52,20 @@ curl -L 'http://localhost:8080/api/validate/forRequestBody' \
         .startDate(param.getStartDate())
         .build();
     return vo;
+  }
+
+/*
+curl -L 'http://localhost:8080/api/validate/forRequestParam?number=0'
+*/
+  @GetMapping("/api/validate/forRequestParam")
+  public Integer forRequestParam(
+      @RequestParam(name = "number") @Min(value = 0) Integer number) {
+    Integer result = null;
+    try {
+      result = 10 / number;
+    } catch (ArithmeticException e) {
+      throw e;
+    }
+    return result;
   }
 }
