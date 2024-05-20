@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
-import spring.sample.webmvc.config.exception.CustomErrorResponse.ErrorField;
+import spring.sample.webmvc.config.exception.CustomValidErrorResponse.ErrorField;
 
 @RestControllerAdvice
 @Order(1)
@@ -56,7 +56,7 @@ public class CustomRestControllerAdvice {
     List<ErrorField> errorFields = listFieldError.stream()
         .map(fieldError -> ErrorField.of(fieldError))
         .collect(Collectors.toList());
-    CustomErrorResponse errorResponse = CustomErrorResponse.builder()
+    CustomValidErrorResponse errorResponse = CustomValidErrorResponse.builder()
         .code("validation_error_code")
         .message("validation_error_message")
         .errorFields(errorFields)

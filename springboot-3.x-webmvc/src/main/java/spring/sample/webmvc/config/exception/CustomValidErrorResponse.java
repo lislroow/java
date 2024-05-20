@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class CustomErrorResponse {
+public class CustomValidErrorResponse {
   
   private final String code;
   private final String message;
