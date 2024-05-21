@@ -13,6 +13,8 @@ LIST=($(cat <<- EOF
 .classpath
 .factorypath
 .externalToolBuilders
+.apt_generated_tests
+.apt_generated
 target
 .gradle
 build
