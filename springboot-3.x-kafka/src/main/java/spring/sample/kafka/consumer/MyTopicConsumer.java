@@ -1,5 +1,6 @@
 package spring.sample.kafka.consumer;
 
+import java.time.Duration;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.listener.ConsumerSeekAware;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,11 +26,19 @@ public class MyTopicConsumer implements ConsumerSeekAware {
   
   @KafkaListener(topics = "mytopic", containerFactory = "kafkaListener")
   @Transactional
-  public void mytopicListener(Map<String, Object> data) {
+  public void mytopicListener(Map<String, Object> data, Acknowledgment ack) {
     log.info("data={}", data);
     if (data.get("data") instanceof java.util.Map) {
       Map<String, Object> param = (Map<String, Object>) data.get("data");
-      mapper.insert(param);
+      try {
+        mapper.insert(param);
+        //int i = 1/0;
+        ack.acknowledge();
+      } catch (Exception e) {
+        ack.nack(Duration.ofMillis(200));
+        System.err.println(e.getMessage());
+        throw e;
+      }
     }
   }
   
