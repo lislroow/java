@@ -1,0 +1,59 @@
+plugins {
+  id 'java-library'
+  id 'maven-publish'
+  id 'org.springframework.boot' version '3.2.5'
+}
+
+repositories {
+  maven { url = uri('https://repo.maven.apache.org/maven2/') }
+  maven { url = uri('https://nexus.mgkim.net/repository/maven-public/') }
+  mavenLocal()
+}
+
+dependencies {
+  implementation platform('org.springframework.boot:spring-boot-dependencies:3.2.5')
+  implementation platform('org.mybatis.spring.boot:mybatis-spring-boot:3.0.3')
+  // for common
+  api 'org.slf4j:slf4j-api'
+  api 'org.springframework.boot:spring-boot-configuration-processor'
+  api 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+  
+  // for kafka
+  api 'org.springframework.kafka:spring-kafka'
+  
+  // for web
+  api 'org.springframework.boot:spring-boot-starter-web'
+  api 'jakarta.servlet:jakarta.servlet-api'
+  api 'com.fasterxml.jackson.core:jackson-databind'
+  // for jdbc
+  api 'com.h2database:h2'
+  api 'com.microsoft.sqlserver:mssql-jdbc'
+  api 'com.zaxxer:HikariCP'
+  api 'org.springframework:spring-jdbc'
+  api 'org.mybatis:mybatis'
+  api 'org.mybatis:mybatis-spring'
+  api 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+  // for test
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'junit:junit'
+}
+
+group = 'spring.application'
+version = '0.1-SNAPSHOT'
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}
+
+springBoot {
+  mainClass = 'spring.sample.MainApplication'
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'utf-8'
+}
+
+tasks.withType(Javadoc) {
+  options.encoding = 'utf-8'
+}

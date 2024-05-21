@@ -3,16 +3,15 @@ package samples.kafka;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.json.JSONObject;
 
 public class TopicProducer {
   
   public static final String BOOTSTRAP_SERVERS = "172.28.200.30:9092";
-  public static final String GROUP_ID = "mygroup";
   private Properties props = new Properties();
   
   public TopicProducer() {
@@ -20,10 +19,9 @@ public class TopicProducer {
   }
   
   public TopicProducer(String bootstrapServers) {
-    props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-    props.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID);
-    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringSerializer.class);
-    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringSerializer.class);
+    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+    props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringSerializer.class);
+    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringSerializer.class);
   }
   
   public void send(String topic, Map<String, Object> data) {
