@@ -12,12 +12,12 @@ import org.junit.Test;
 import samples.kafka.TopicProducer;
 import samples.util.Uuid;
 
-public class TryIt {
+public class MyTopicProducer {
   
   List<String> names = Arrays.asList("scott", "tiger", "ecycle", "yslee", "yslee", "sckim", "dhkim", "jkpark", "yhlee", "jckim", "mgkim");
   
   @Test
-  public void test1() {
+  public void mytopic() {
     String topicName = "mytopic";
     Map<String, Object> data = new HashMap<String, Object>();
     String id = Uuid.create();
