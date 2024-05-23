@@ -4,15 +4,10 @@ import java.util.stream.IntStream;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import spring.sample.mybatis.config.EncryptConfig;
 import spring.sample.mybatis.util.Uuid;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration
 public class EncryptTest extends EncryptConfig {
   
   @Test

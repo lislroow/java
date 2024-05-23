@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="spring.sample.kafka.api.mytopic.MyTopicMapper">
+<mapper namespace="spring.sample.kafka.api.mytopic.MyTopic1Mapper">
   
-  <select id="selectAll" resultType="EmployVO">
+  <select id="selectAll" resultType="MyTopicVO">
     SELECT *
     FROM   mytopic
     ORDER BY id DESC
   </select>
   
-  <select id="selectList" resultType="EmployVO">
+  <select id="selectList" resultType="MyTopicVO">
     SELECT *
     FROM   mytopic
     ORDER BY id DESC
   </select>
   
-  <insert id="insert" parameterType="java.util.Map">
+  <insert id="insert" parameterType="MyTopicVO">
     INSERT INTO mytopic (
         id,
         name,

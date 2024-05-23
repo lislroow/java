@@ -2,9 +2,15 @@ package spring.sample.mybatis.api.audit.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import spring.sample.Constant;
+
 public class AuditVO {
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constant.DATETIME_FORMAT)
   private LocalDateTime createDate;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constant.DATETIME_FORMAT)
   private LocalDateTime modifyDate;
   private String createId;
   private String modifyId;

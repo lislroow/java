@@ -11,11 +11,11 @@ import spring.sample.mybatis.config.mybatis.PagedList;
 
 @Service
 @Transactional(readOnly = true)
-public class MyTopicService {
+public class MyTopic1Service {
   
-  private MyTopicMapper mapper;
+  private MyTopic1Mapper mapper;
   
-  public MyTopicService(MyTopicMapper mapper) {
+  public MyTopic1Service(MyTopic1Mapper mapper) {
     this.mapper = mapper;
   }
   

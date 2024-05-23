@@ -1,7 +1,6 @@
 package spring.sample.kafka.consumer;
 
 import java.time.Duration;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,33 +11,30 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import spring.sample.kafka.api.mytopic.MyTopicMapper;
+import spring.sample.kafka.api.mytopic.MyTopic1Mapper;
+import spring.sample.kafka.api.mytopic.dto.MyTopicVO;
 
 @Service
-public class MyTopicConsumer implements ConsumerSeekAware {
+public class MyTopic1Consumer implements ConsumerSeekAware {
   
-  private static final Logger log = LoggerFactory.getLogger(MyTopicConsumer.class);
+  private static final Logger log = LoggerFactory.getLogger(MyTopic1Consumer.class);
   
   @Autowired
-  private MyTopicMapper mapper;
+  private MyTopic1Mapper mapper;
   
 //  private ConsumerSeekCallback seekCallback;
   
-  @KafkaListener(topics = "mytopic", containerFactory = "kafkaListener")
+  @KafkaListener(topics = "mytopic1", containerFactory = "kafkaListener")
   @Transactional
-  public void mytopicListener(Map<String, Object> data, Acknowledgment ack) {
-    log.info("data={}", data);
-    if (data.get("data") instanceof java.util.Map) {
-      Map<String, Object> param = (Map<String, Object>) data.get("data");
-      try {
-        mapper.insert(param);
-        //int i = 1/0;
-        ack.acknowledge();
-      } catch (Exception e) {
-        ack.nack(Duration.ofMillis(200));
-        System.err.println(e.getMessage());
-        throw e;
-      }
+  public void mytopicListener(MyTopicVO data, Acknowledgment ack) {
+    try {
+      mapper.insert(data);
+//      int i = 1/0;
+      ack.acknowledge();
+    } catch (Exception e) {
+      ack.nack(Duration.ofMillis(200));
+      log.error("", e);
+      throw e;
     }
   }
   
