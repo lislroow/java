@@ -20,6 +20,8 @@ dependencies {
   
   // for kafka
   api 'org.springframework.kafka:spring-kafka'
+  // json (due to kafka StringSerializer, not using jackson)
+  api 'org.json:json:20240303'
   
   // for web
   api 'org.springframework.boot:spring-boot-starter-web'
