@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
+import org.springframework.kafka.listener.MessageListenerContainer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +21,14 @@ import spring.sample.mybatis.util.Uuid;
 public class MyTopic1Controller {
 
   private MyTopic1Service service;
+  private KafkaListenerEndpointRegistry registry;
   private TopicProducer<MyTopicVO> producer;
   
   public MyTopic1Controller(MyTopic1Service service,
+      KafkaListenerEndpointRegistry registry,
       TopicProducer<MyTopicVO> producer) {
     this.service = service;
+    this.registry = registry;
     this.producer = producer;
   }
   
@@ -64,5 +69,25 @@ curl -X POST http://localhost:8080/api/mytopic1/test-publish
       data.setModifyId(id);
     }
     producer.send("mytopic1", data);
+  }
+
+//POST: mytopic1 listener 실행
+/*
+curl -X POST http://localhost:8080/api/mytopic1/start
+*/
+  @PostMapping("/api/mytopic1/start")
+  public void start() {
+    MessageListenerContainer listener = this.registry.getListenerContainer("mytopic1Listener");
+    listener.start();
+  }
+  
+// POST: mytopic listener 중지
+/*
+curl -X POST http://localhost:8080/api/mytopic1/stop
+*/
+  @PostMapping("/api/mytopic1/stop")
+  public void stop() {
+    MessageListenerContainer listener = this.registry.getListenerContainer("mytopic1Listener");
+    listener.stop();
   }
 }
