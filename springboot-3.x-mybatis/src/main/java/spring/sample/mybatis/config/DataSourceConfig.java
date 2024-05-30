@@ -25,9 +25,17 @@ public class DataSourceConfig {
   
   Logger log = LoggerFactory.getLogger(DataSourceConfig.class);
   
-  @Bean(name = "main")
-  @ConfigurationProperties(prefix = "sample.jdbc.datasource")
-  DataSource dataSource() throws SQLException {
+  @Bean(name = "mssql")
+  @ConfigurationProperties(prefix = "sample.jdbc.datasource.mssql")
+  DataSource dataSource_mssql() throws SQLException {
+    return DataSourceBuilder.create()
+        .type(HikariDataSource.class)
+        .build();
+  }
+  
+  @Bean(name = "oracle")
+  @ConfigurationProperties(prefix = "sample.jdbc.datasource.oracle")
+  DataSource dataSource_oracle() throws SQLException {
     return DataSourceBuilder.create()
         .type(HikariDataSource.class)
         .build();
@@ -35,12 +43,14 @@ public class DataSourceConfig {
   
   @Bean
   RoutingDataSource routingDataSource(
-      @Qualifier("main") DataSource mainDatasource) {
+      @Qualifier("mssql") DataSource mssqlDatasource,
+      @Qualifier("oracle") DataSource oracleDatasource) {
     RoutingDataSource routingDataSource = new RoutingDataSource();
     Map<Object, Object> dataSources = new HashMap<Object, Object>();
-    dataSources.put("main", mainDatasource);
+    dataSources.put("mssql", mssqlDatasource);
+    dataSources.put("oracle", oracleDatasource);
     routingDataSource.setTargetDataSources(dataSources);
-    routingDataSource.setDefaultTargetDataSource(mainDatasource);
+    routingDataSource.setDefaultTargetDataSource(mssqlDatasource);
     return routingDataSource;
   }
   
@@ -67,7 +77,9 @@ public class DataSourceConfig {
     
     @Override
     protected Object determineCurrentLookupKey() {
-      String routingKey = "main";
+      // 특정 사용자, 특정 서비스 등에 따라 datasource 가 결정되도록 할 수 있습니다. 
+      // mssql datasource 를 기본값으로 설정했습니다.
+      String routingKey = "mssql";
       return routingKey;
     }
     
@@ -78,7 +90,7 @@ public class DataSourceConfig {
     }
   }
   
-  @Bean
+  @Bean(name = "lazyConnectionDataSourceProxy")
   LazyConnectionDataSourceProxy lazyConnectionDataSourceProxy(
       RoutingDataSource routingDataSource) {
     return new LazyConnectionDataSourceProxy(routingDataSource);
