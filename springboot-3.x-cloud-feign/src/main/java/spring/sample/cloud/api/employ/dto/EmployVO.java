@@ -30,19 +30,4 @@ public class EmployVO extends AuditVO {
   // JsonSerializer 에서 사용할 포맷을 지정
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss")
   private LocalDateTime startDate;
-  
-  public static EmployVO of(EmployRegREQ req) {
-    return EmployVO.builder()
-        .id(req.getId())
-        .name(req.getName())
-        .age(req.getAge())
-        .eyesight(req.getEyesight())
-        .password(req.getPassword())
-        .confirmPassword(req.getConfirmPassword())
-        .employCode(req.getEmployCode())
-        .roleId(req.getRoleId())
-        .allowedIp(req.getAllowedIp())
-        .startDate(req.getStartDate())
-        .build();
-  }
 }
