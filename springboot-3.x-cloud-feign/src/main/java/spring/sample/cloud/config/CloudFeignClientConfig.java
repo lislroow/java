@@ -16,7 +16,7 @@ import feign.codec.ErrorDecoder;
 
 @Configuration
 @EnableFeignClients(basePackages = "spring.sample")
-public class CloudConfig implements Jackson2ObjectMapperBuilderCustomizer {
+public class CloudFeignClientConfig implements Jackson2ObjectMapperBuilderCustomizer {
 
   @Bean
   Client feignClient() {
