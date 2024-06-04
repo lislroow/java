@@ -1,45 +1,24 @@
 package spring.sample.cloud.api.employ;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
-import spring.sample.cloud.api.employ.dto.EmployPageREQ;
-import spring.sample.cloud.api.employ.dto.EmployRegREQ;
 import spring.sample.cloud.api.employ.dto.EmployVO;
 
 @RestController
 @Slf4j
 public class EmployController {
 
-  @Autowired
-  EmployClient client;
-  
-/*
-curl -L 'http://localhost:8080/api/employ/client/test'
-*/
-  @GetMapping("/api/employ/client/test")
-  public ResponseEntity<EmployVO> clientTest() {
-    ResponseEntity<EmployVO> result = client.create("123", "scott", 19);
-    return result;
-  }
-  
-  @GetMapping("/api/employ/create")
-  public EmployVO createEmploy(
-      @RequestHeader("apiKey") String apiKey,
+  @GetMapping("/api/employ/get-param")
+  public EmployVO getParam(
       @RequestParam("name") String name,
       @RequestParam("age") Integer age) {
-    log.info("apiKey={}", apiKey);
     EmployVO result = EmployVO.builder()
         .name(name)
         .age(age)
@@ -47,77 +26,25 @@ curl -L 'http://localhost:8080/api/employ/client/test'
     return result;
   }
   
-/*
-curl -L 'http://localhost:8080/api/validate/forModelAttribute?page=1&pageSize=5&name=lee'
-*/
-  @GetMapping("/api/validate/forModelAttribute")
-  public EmployVO forModelAttribute(
-      @Valid @ModelAttribute EmployPageREQ param) {
-    EmployVO vo = EmployVO.builder()
-        .id(param.getId())
-        .name(param.getName())
+  @GetMapping("/api/employ/{id}/get-path-variable")
+  public EmployVO getPathVariable(
+      @PathVariable("id") String id) {
+    EmployVO result = EmployVO.builder()
+        .id(id)
         .build();
-    return vo;
-  }
-  
-/*
-curl -L 'http://localhost:8080/api/validate/forRequestBody' \
---header 'Content-Type: application/json' \
---data '{
-    "name": "gdhong"
-}'
-*/
-  @PostMapping("/api/validate/forRequestBody")
-  public EmployVO forRequestBody(
-      @Valid @RequestBody EmployRegREQ param) {
-    return EmployVO.of(param);
-  }
-
-/*
-curl -L 'http://localhost:8080/api/validate/forRequestParam?number=0'
-*/
-  @GetMapping("/api/validate/forRequestParam")
-  public Integer forRequestParam(
-      @RequestParam(name = "number") @Min(value = 0) Integer number) {
-    Integer result = null;
-    try {
-      result = 10 / number;
-    } catch (ArithmeticException e) {
-      throw e;
-    }
     return result;
   }
   
-  @GetMapping("/api/validate/{number}/forPathVariable")
-  public Integer forPathVariable(
-      @PathVariable(name = "number") @Min(value = 0) Integer number) {
-    Integer result = null;
-    try {
-      result = 10 / number;
-    } catch (ArithmeticException e) {
-      throw e;
-    }
+  @GetMapping("/api/employ/get-attribute")
+  public EmployVO getAttribute(@ModelAttribute EmployVO param) {
+    EmployVO result = param;
     return result;
   }
   
-  @Autowired
-  private EmployService service;
-  
-  @PostMapping("/api/validate/onServiceByAOP")
-  public EmployVO onServiceByAOP(@RequestBody EmployRegREQ param) {
-    log.info("param = {}", param);
-    return EmployVO.of(service.validByAOP(param));
+  @PostMapping("/api/employ/post-json")
+  public EmployVO postJson(@RequestBody EmployVO param) {
+    EmployVO result = param;
+    return result;
   }
   
-  @PostMapping("/api/validate/onServiceByInvokeWithJakarta")
-  public EmployVO onServiceByInvokeWithJakarta(@RequestBody EmployRegREQ param) {
-    log.info("param = {}", param);
-    return EmployVO.of(service.validByInvokeWithJakarta(param));
-  }
-  
-  @PostMapping("/api/validate/onServiceByInvokeWithSpring")
-  public EmployVO onServiceByInvokeWithSpring(@RequestBody EmployRegREQ param) throws Exception {
-    log.info("param = {}", param);
-    return EmployVO.of(service.validByInvokeWithSpring(param));
-  }
 }
