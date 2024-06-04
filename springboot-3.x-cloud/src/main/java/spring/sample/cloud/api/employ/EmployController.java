@@ -1,6 +1,7 @@
 package spring.sample.cloud.api.employ;
 
-import org.springframework.util.Assert;
+import java.time.LocalDateTime;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,5 +59,13 @@ public class EmployController {
     EmployVO result = param;
     return result;
   }
-  
+
+  @GetMapping("/api/employ/get-time")
+  public LocalDateTime getTime(
+      @RequestHeader(name = "hKey", required = false) String hValue,
+      @RequestParam("time") LocalDateTime param) {
+    log.info("hKey={}", hValue);
+    LocalDateTime result = param;
+    return result;
+  }
 }

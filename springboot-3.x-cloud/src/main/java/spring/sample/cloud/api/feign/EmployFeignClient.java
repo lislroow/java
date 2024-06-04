@@ -1,5 +1,7 @@
 package spring.sample.cloud.api.feign;
 
+import java.time.LocalDateTime;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +33,9 @@ public interface EmployFeignClient {
   @PostMapping("/api/employ/post-json")
   ResponseEntity<EmployVO> postJson(
       @RequestBody EmployVO param);
+  
+  @GetMapping("/api/employ/get-time")
+  ResponseEntity<LocalDateTime> getTime(
+      @RequestParam("time") LocalDateTime param);
   
 }

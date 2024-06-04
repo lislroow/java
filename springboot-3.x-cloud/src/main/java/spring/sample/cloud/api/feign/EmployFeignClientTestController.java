@@ -1,5 +1,7 @@
 package spring.sample.cloud.api.feign;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,4 +63,10 @@ curl -sX POST http://localhost:8080/api/employ/post-json/test
     return result;
   }
   
+  @GetMapping("/api/employ/get-time/test")
+  public ResponseEntity<LocalDateTime> getTime(
+      @RequestParam("time") LocalDateTime param) {
+    ResponseEntity<LocalDateTime> result = client.getTime(param);
+    return result;
+  }
 }
