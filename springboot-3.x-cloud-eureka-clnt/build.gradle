@@ -12,18 +12,16 @@ repositories {
 
 dependencies {
   implementation platform('org.springframework.boot:spring-boot-dependencies:3.2.5')
-  implementation platform('org.mybatis.spring.boot:mybatis-spring-boot:3.0.3')
+  implementation platform('org.springframework.cloud:spring-cloud-dependencies:2023.0.2')
   // for common
   api 'org.slf4j:slf4j-api'
   api 'org.springframework.boot:spring-boot-configuration-processor'
   api 'org.projectlombok:lombok'
+  api 'org.springframework.boot:spring-boot-starter-actuator'
+  // for cloud
+  api 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
   // for web
   api 'org.springframework.boot:spring-boot-starter-web'
-  api 'org.springframework.boot:spring-boot-starter-validation'
-  // api 'jakarta.validation:jakarta.validation-api'
-  // api 'org.hibernate.validator:hibernate-validator'
-  api 'jakarta.servlet:jakarta.servlet-api'
-  api 'com.fasterxml.jackson.core:jackson-databind'
   // for test
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'junit:junit'
@@ -38,7 +36,7 @@ java {
 }
 
 springBoot {
-  mainClass = 'spring.sample.mybatis.MainApplication'
+  mainClass = 'spring.sample.cloud.MainApplication'
 }
 
 tasks.withType(JavaCompile) {

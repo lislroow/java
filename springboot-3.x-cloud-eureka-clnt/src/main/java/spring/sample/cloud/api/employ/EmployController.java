@@ -28,7 +28,9 @@ public class EmployController {
   
   @GetMapping("/api/discovery-clients")
   public List<String> getDiscoveryClients() {
-    return discoveryClient.getServices();
+    List<String> result = discoveryClient.getServices();
+    log.info("services={}", result);
+    return result;
   }
   
   @GetMapping("/api/employ/get-param")
