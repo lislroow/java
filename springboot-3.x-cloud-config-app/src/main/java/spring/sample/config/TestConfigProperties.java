@@ -3,10 +3,11 @@ package spring.sample.config;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-//import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @ConfigurationProperties(prefix = TestConfigProperties.PREFIX)
-//@RefreshScope
+// curl -X POST http://localhost:8080/actuator/refresh
+@RefreshScope
 public class TestConfigProperties {
 
   public static final String PREFIX = "sample.test";
@@ -14,6 +15,7 @@ public class TestConfigProperties {
   private String name;
   private boolean enable;
   private List<String> list;
+  private String password;
   
   public String getName() {
     return name;
@@ -32,5 +34,11 @@ public class TestConfigProperties {
   }
   public void setList(List<String> list) {
     this.list = list;
+  }
+  public String getPassword() {
+    return password;
+  }
+  public void setPassword(String password) {
+    this.password = password;
   }
 }
