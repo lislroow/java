@@ -1,0 +1,48 @@
+plugins {
+  id 'java-library'
+  id 'maven-publish'
+  id 'org.springframework.boot' version '3.2.5'
+}
+
+repositories {
+  maven { url = uri('https://repo.maven.apache.org/maven2/') }
+  maven { url = uri('https://nexus.mgkim.net/repository/maven-public/') }
+  mavenLocal()
+}
+
+dependencies {
+  implementation platform('org.springframework.boot:spring-boot-dependencies:3.2.5')
+  implementation platform('org.springframework.cloud:spring-cloud-dependencies:2023.0.2')
+  // for common
+  api 'org.slf4j:slf4j-api'
+  api 'org.springframework.boot:spring-boot-configuration-processor'
+  api 'org.projectlombok:lombok'
+  api 'org.springframework.boot:spring-boot-starter-actuator'
+  // for cloud
+  api 'org.springframework.cloud:spring-cloud-config-server'
+  // for web
+  api 'org.springframework.boot:spring-boot-starter-web'
+  // for test
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'junit:junit'
+}
+
+group = 'spring.application'
+version = '0.1-SNAPSHOT'
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}
+
+springBoot {
+  mainClass = 'spring.sample.cloud.MainApplication'
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'utf-8'
+}
+
+tasks.withType(Javadoc) {
+  options.encoding = 'utf-8'
+}
