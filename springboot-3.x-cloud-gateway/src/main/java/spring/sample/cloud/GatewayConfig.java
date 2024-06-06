@@ -1,4 +1,4 @@
-package spring.app.common.gateway;
+package spring.sample.cloud;
 
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.cloud.gateway.route.RouteLocator;
