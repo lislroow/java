@@ -13,12 +13,12 @@ import spring.sample.mybatis.util.Uuid;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration
-public class TryIt extends EncryptConfig {
+public class EncryptTest extends EncryptConfig {
   
   @Test
   public void encrypt() {
     StringEncryptor enc = stringEncryptor();
-    System.out.println(String.format("%s: ENC(%s)", "sample.jdbc.datasource.username", enc.encrypt("scott")));  
+    System.out.println(String.format("%s: ENC(%s)", "sample.jdbc.datasource.username", enc.encrypt("12345678901234567890123456789012345678901234")));  
     System.out.println(String.format("%s: ENC(%s)", "sample.jdbc.datasource.password", enc.encrypt("tiger")));  
   }
   
