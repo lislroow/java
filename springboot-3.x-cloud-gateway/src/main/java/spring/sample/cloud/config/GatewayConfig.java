@@ -10,8 +10,8 @@ import spring.sample.cloud.filter.PreJwtFilterFactory;
 public class GatewayConfig {
   
   @Bean
-  GatewayFilterFactory<PreJwtFilterFactory.Config> preJwtFilterFactory() {
-    return new PreJwtFilterFactory();
+  GatewayFilterFactory<PreJwtFilterFactory.Config> preJwtFilterFactory(
+      SecurityConfigProperties properties) {
+    return new PreJwtFilterFactory(properties);
   }
-  
 }
