@@ -13,7 +13,7 @@ import spring.sample.mybatis.util.Uuid;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration
-public class TryIt extends EncryptConfig {
+public class EncryptTest extends EncryptConfig {
   
   @Test
   public void encrypt() {

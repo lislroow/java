@@ -1,6 +1,7 @@
 package spring.sample.cloud.api.employ;
 
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -24,6 +25,15 @@ public class EmployController {
   
   public EmployController(DiscoveryClient discoveryClient) {
     this.discoveryClient = discoveryClient;
+  }
+  
+  @GetMapping("/api/token")
+  public String token(
+      @RequestHeader(name = "x-token", required = false) String xToken,
+      @RequestHeader(name = "x-user-id", required = false) String xUserId) {
+    log.info("x-token={}", xToken);
+    log.info("x-user-id={}", xUserId);
+    return xToken;
   }
   
   @GetMapping("/api/discovery-clients")

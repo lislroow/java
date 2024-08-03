@@ -1,4 +1,4 @@
-package spring.sample.mybatis.config;
+package spring.sample.cloud.config;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
