@@ -24,6 +24,19 @@
     ORDER BY id DESC
   </select>
   
+  <select id="selectListByIdAndName" resultType="EmployVO">
+    SELECT *
+    FROM   employ
+     WHERE 1=1
+    <if test="name != null and !''.equals(name)">
+      AND name LIKE '%'||#{name}||'%'
+    </if>
+    <if test="id != null and !''.equals(id)">
+      AND id LIKE '%'||#{id}||'%'
+    </if>
+    ORDER BY id DESC
+  </select>
+  
   <insert id="insert" parameterType="EmployVO">
     INSERT INTO employ (
         id,

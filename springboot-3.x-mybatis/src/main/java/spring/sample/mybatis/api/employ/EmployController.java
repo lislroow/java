@@ -51,6 +51,15 @@ public class EmployController {
     return res;
   }
   
+  /*
+    curl --location 'http://localhost:8888/api/employ/listByIdAndName?page=1&pageSize=5&name=lee&id=qeey'
+   */
+  @GetMapping("/api/employ/listByIdAndName")
+  public PagedList<EmployVO> selectListByIdAndName(EmployPageREQ param) {
+    PagedList<EmployVO> res = service.selectListByIdAndName(param);
+    return res;
+  }
+  
   // POST: 등록
   /*
   curl --location 'http://localhost:8888/api/employ' \

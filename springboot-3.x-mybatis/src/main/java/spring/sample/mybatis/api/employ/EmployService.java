@@ -35,6 +35,12 @@ public class EmployService {
     return mapper.selectListByName(param);
   }
   
+  public PagedList<EmployVO> selectListByIdAndName(EmployPageREQ param) {
+    String id = param.getId();
+    String name = param.getName();
+    return mapper.selectListByIdAndName(id, name);
+  }
+  
   @Transactional
   public EmployVO insert(EmployVO param) {
     String id = Uuid.create();

@@ -3,6 +3,7 @@ package spring.sample.mybatis.api.employ;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import spring.sample.mybatis.api.employ.dto.EmployPageREQ;
 import spring.sample.mybatis.api.employ.dto.EmployVO;
@@ -15,6 +16,7 @@ public interface EmployMapper {
   List<EmployVO> selectAll();
   PagedList<EmployVO> selectList(Pageable param);
   PagedList<EmployVO> selectListByName(EmployPageREQ param);
+  PagedList<EmployVO> selectListByIdAndName(@Param("id") String id, @Param("name") String name);
   int insert(EmployVO param);
   EmployVO select(String id);
   int update(EmployVO param);
