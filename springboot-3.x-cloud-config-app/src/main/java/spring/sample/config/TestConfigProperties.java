@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @ConfigurationProperties(prefix = TestConfigProperties.PREFIX)
-// curl -X POST http://localhost:8080/actuator/refresh
+// curl -X POST http://localhost:8888/actuator/refresh
 @RefreshScope
 public class TestConfigProperties {
 

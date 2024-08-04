@@ -45,7 +45,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
   }
 
 /*
-curl -I -X POST --location 'http://localhost:8080/api/user/login?email=hi@mgkim.net&password=123'
+curl -I -X POST --location 'http://localhost:8888/api/user/login?email=hi@mgkim.net&password=123'
 */
   @Override
   public Authentication attemptAuthentication(

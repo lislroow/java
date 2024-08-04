@@ -25,7 +25,7 @@ public class OracleController {
   
   // GET: 조회
   /*
-    curl --location 'http://localhost:8080/api/employ/oracle/all'
+    curl --location 'http://localhost:8888/api/employ/oracle/all'
   */
   @GetMapping("/api/employ/oracle/all")
   public List<EmployVO> selectAll() {
@@ -34,7 +34,7 @@ public class OracleController {
   }
 
   /*
-    curl --location 'http://localhost:8080/api/employ/oracle/list?page=2&pageSize=3'
+    curl --location 'http://localhost:8888/api/employ/oracle/list?page=2&pageSize=3'
   */
   @GetMapping("/api/employ/oracle/list")
   public PagedList<EmployVO> selectList(Pageable param) {
@@ -43,7 +43,7 @@ public class OracleController {
   }
   
   /*
-    curl --location 'http://localhost:8080/api/employ/oracle/listByName?page=1&pageSize=5&name=lee'
+    curl --location 'http://localhost:8888/api/employ/oracle/listByName?page=1&pageSize=5&name=lee'
    */
   @GetMapping("/api/employ/oracle/listByName")
   public PagedList<EmployVO> selectListByName(EmployPageREQ param) {
@@ -53,7 +53,7 @@ public class OracleController {
   
   // POST: 등록
   /*
-  curl --location 'http://localhost:8080/api/employ/oracle' \
+  curl --location 'http://localhost:8888/api/employ/oracle' \
   --header 'Content-Type: application/json' \
   --data '{
       "name": "gdhong"
@@ -67,7 +67,7 @@ public class OracleController {
   
   // PUT: 수정
   /*
-  curl --location --request PUT 'http://localhost:8080/api/employ/oracle' \
+  curl --location --request PUT 'http://localhost:8888/api/employ/oracle' \
   --header 'Content-Type: application/json' \
   --data '{
       "id": "00s0xbssk4qvz9",
@@ -82,7 +82,7 @@ public class OracleController {
   
   // DELETE: 수정
   /*
-  curl --location --request DELETE 'http://localhost:8080/api/employ/oracle' \
+  curl --location --request DELETE 'http://localhost:8888/api/employ/oracle' \
   --header 'Content-Type: application/json' \
   --data '{
       "id": "00sl3e2kacak4i"

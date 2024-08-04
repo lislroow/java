@@ -25,7 +25,7 @@ public class MssqlController {
   
   // GET: 조회
   /*
-    curl --location 'http://localhost:8080/api/employ/mssql/all'
+    curl --location 'http://localhost:8888/api/employ/mssql/all'
   */
   @GetMapping("/api/employ/mssql/all")
   public List<EmployVO> selectAll() {
@@ -34,7 +34,7 @@ public class MssqlController {
   }
 
   /*
-    curl --location 'http://localhost:8080/api/employ/mssql/list?page=2&pageSize=3'
+    curl --location 'http://localhost:8888/api/employ/mssql/list?page=2&pageSize=3'
   */
   @GetMapping("/api/employ/mssql/list")
   public PagedList<EmployVO> selectList(Pageable param) {
@@ -43,7 +43,7 @@ public class MssqlController {
   }
   
   /*
-    curl --location 'http://localhost:8080/api/employ/mssql/listByName?page=1&pageSize=5&name=lee'
+    curl --location 'http://localhost:8888/api/employ/mssql/listByName?page=1&pageSize=5&name=lee'
    */
   @GetMapping("/api/employ/mssql/listByName")
   public PagedList<EmployVO> selectListByName(EmployPageREQ param) {
@@ -53,7 +53,7 @@ public class MssqlController {
   
   // POST: 등록
   /*
-  curl --location 'http://localhost:8080/api/employ/mssql' \
+  curl --location 'http://localhost:8888/api/employ/mssql' \
   --header 'Content-Type: application/json' \
   --data '{
       "name": "gdhong"
@@ -67,7 +67,7 @@ public class MssqlController {
   
   // PUT: 수정
   /*
-  curl --location --request PUT 'http://localhost:8080/api/employ/mssql' \
+  curl --location --request PUT 'http://localhost:8888/api/employ/mssql' \
   --header 'Content-Type: application/json' \
   --data '{
       "id": "00s0xbssk4qvz9",
@@ -82,7 +82,7 @@ public class MssqlController {
   
   // DELETE: 수정
   /*
-  curl --location --request DELETE 'http://localhost:8080/api/employ/mssql' \
+  curl --location --request DELETE 'http://localhost:8888/api/employ/mssql' \
   --header 'Content-Type: application/json' \
   --data '{
       "id": "00sl3e2kacak4i"

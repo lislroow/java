@@ -25,7 +25,7 @@ public class EmployController {
   
   // GET: 조회
   /*
-    curl --location 'http://localhost:8080/api/employ/all'
+    curl --location 'http://localhost:8888/api/employ/all'
   */
   @GetMapping("/api/employ/all")
   public List<EmployVO> selectAll() {
@@ -34,7 +34,7 @@ public class EmployController {
   }
 
   /*
-    curl --location 'http://localhost:8080/api/employ/list?page=2&pageSize=3'
+    curl --location 'http://localhost:8888/api/employ/list?page=2&pageSize=3'
   */
   @GetMapping("/api/employ/list")
   public PagedList<EmployVO> selectList(Pageable param) {
@@ -43,7 +43,7 @@ public class EmployController {
   }
   
   /*
-    curl --location 'http://localhost:8080/api/employ/listByName?page=1&pageSize=5&name=lee'
+    curl --location 'http://localhost:8888/api/employ/listByName?page=1&pageSize=5&name=lee'
    */
   @GetMapping("/api/employ/listByName")
   public PagedList<EmployVO> selectListByName(EmployPageREQ param) {
@@ -53,7 +53,7 @@ public class EmployController {
   
   // POST: 등록
   /*
-  curl --location 'http://localhost:8080/api/employ' \
+  curl --location 'http://localhost:8888/api/employ' \
   --header 'Content-Type: application/json' \
   --data '{
       "name": "gdhong"
@@ -67,7 +67,7 @@ public class EmployController {
   
   // PUT: 수정
   /*
-  curl --location --request PUT 'http://localhost:8080/api/employ' \
+  curl --location --request PUT 'http://localhost:8888/api/employ' \
   --header 'Content-Type: application/json' \
   --data '{
       "id": "00s0xbssk4qvz9",
@@ -82,7 +82,7 @@ public class EmployController {
   
   // DELETE: 수정
   /*
-  curl --location --request DELETE 'http://localhost:8080/api/employ' \
+  curl --location --request DELETE 'http://localhost:8888/api/employ' \
   --header 'Content-Type: application/json' \
   --data '{
       "id": "00sl3e2kacak4i"

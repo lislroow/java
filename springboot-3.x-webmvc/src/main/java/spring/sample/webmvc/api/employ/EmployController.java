@@ -21,7 +21,7 @@ import spring.sample.webmvc.api.employ.dto.EmployVO;
 public class EmployController {
 
 /*
-curl -L 'http://localhost:8080/api/validate/forModelAttribute?page=1&pageSize=5&name=lee'
+curl -L 'http://localhost:8888/api/validate/forModelAttribute?page=1&pageSize=5&name=lee'
 */
   @GetMapping("/api/validate/forModelAttribute")
   public EmployVO forModelAttribute(
@@ -34,7 +34,7 @@ curl -L 'http://localhost:8080/api/validate/forModelAttribute?page=1&pageSize=5&
   }
   
 /*
-curl -L 'http://localhost:8080/api/validate/forRequestBody' \
+curl -L 'http://localhost:8888/api/validate/forRequestBody' \
 --header 'Content-Type: application/json' \
 --data '{
     "name": "gdhong"
@@ -47,7 +47,7 @@ curl -L 'http://localhost:8080/api/validate/forRequestBody' \
   }
 
 /*
-curl -L 'http://localhost:8080/api/validate/forRequestParam?number=0'
+curl -L 'http://localhost:8888/api/validate/forRequestParam?number=0'
 */
   @GetMapping("/api/validate/forRequestParam")
   public Integer forRequestParam(

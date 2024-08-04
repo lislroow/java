@@ -23,7 +23,7 @@ public class EmployFeignClientTestController {
   EmployFeignClient client;
   
 /*
-curl -sX GET http://localhost:8080/api/employ/get-param/test
+curl -sX GET http://localhost:8888/api/employ/get-param/test
 */
   @GetMapping("/api/employ/get-param/test")
   public ResponseEntity<EmployVO> getParam(
@@ -34,7 +34,7 @@ curl -sX GET http://localhost:8080/api/employ/get-param/test
   }
   
 /*
-curl -sX GET http://localhost:8080/api/employ/get-param/test
+curl -sX GET http://localhost:8888/api/employ/get-param/test
 */
   @GetMapping("/api/employ/{id}/get-path-variable/test")
   public ResponseEntity<EmployVO> getPathVariable(
@@ -44,7 +44,7 @@ curl -sX GET http://localhost:8080/api/employ/get-param/test
   }
   
 /*
-curl -sX GET http://localhost:8080/api/employ/get-attribute/test
+curl -sX GET http://localhost:8888/api/employ/get-attribute/test
 */
   @GetMapping("/api/employ/get-attribute/test")
   public ResponseEntity<EmployVO> getPathVariable(
@@ -54,7 +54,7 @@ curl -sX GET http://localhost:8080/api/employ/get-attribute/test
   }
   
 /*
-curl -sX POST http://localhost:8080/api/employ/post-json/test
+curl -sX POST http://localhost:8888/api/employ/post-json/test
 */
   @PostMapping("/api/employ/post-json/test")
   public ResponseEntity<EmployVO> postJson(

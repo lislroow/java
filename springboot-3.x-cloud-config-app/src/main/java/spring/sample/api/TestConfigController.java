@@ -15,7 +15,7 @@ public class TestConfigController {
   }
   
 /*
-curl http://localhost:8080/api/test/config
+curl http://localhost:8888/api/test/config
 */
   @GetMapping("/api/test/config")
   public TestConfigProperties get() {

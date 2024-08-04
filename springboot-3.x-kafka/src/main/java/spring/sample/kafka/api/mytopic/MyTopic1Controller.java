@@ -34,7 +34,7 @@ public class MyTopic1Controller {
   
 // GET: 조회
 /*
-curl -X GET http://localhost:8080/api/mytopic1/all
+curl -X GET http://localhost:8888/api/mytopic1/all
 */
   @GetMapping("/api/mytopic1/all")
   public List<MyTopicVO> selectAll() {
@@ -43,7 +43,7 @@ curl -X GET http://localhost:8080/api/mytopic1/all
   }
 
 /*
-curl -X GET http://localhost:8080/api/mytopic1/list?page=2&pageSize=3
+curl -X GET http://localhost:8888/api/mytopic1/list?page=2&pageSize=3
 */
   @GetMapping("/api/mytopic1/list")
   public PagedList<MyTopicVO> selectList(Pageable param) {
@@ -53,7 +53,7 @@ curl -X GET http://localhost:8080/api/mytopic1/list?page=2&pageSize=3
   
 // POST: 등록
 /*
-curl -X POST http://localhost:8080/api/mytopic1/test-publish
+curl -X POST http://localhost:8888/api/mytopic1/test-publish
 */
   @PostMapping("/api/mytopic1/test-publish")
   public void testPublish() {
@@ -73,7 +73,7 @@ curl -X POST http://localhost:8080/api/mytopic1/test-publish
 
 //POST: mytopic1 listener 실행
 /*
-curl -X POST http://localhost:8080/api/mytopic1/start
+curl -X POST http://localhost:8888/api/mytopic1/start
 */
   @PostMapping("/api/mytopic1/start")
   public void start() {
@@ -83,7 +83,7 @@ curl -X POST http://localhost:8080/api/mytopic1/start
   
 // POST: mytopic listener 중지
 /*
-curl -X POST http://localhost:8080/api/mytopic1/stop
+curl -X POST http://localhost:8888/api/mytopic1/stop
 */
   @PostMapping("/api/mytopic1/stop")
   public void stop() {
