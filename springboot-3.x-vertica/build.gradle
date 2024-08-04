@@ -26,6 +26,7 @@ dependencies {
   api 'com.microsoft.sqlserver:mssql-jdbc'
   api 'com.zaxxer:HikariCP'
   api 'org.springframework:spring-jdbc'
+  api 'org.mybatis.spring.boot:mybatis-spring-boot-starter'
   api 'org.mybatis:mybatis'
   api 'org.mybatis:mybatis-spring'
   api 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
