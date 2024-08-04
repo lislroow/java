@@ -10,10 +10,12 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.util.Assert;
@@ -25,6 +27,8 @@ public class DataSourceConfig {
   
   Logger log = LoggerFactory.getLogger(DataSourceConfig.class);
   
+  // MybatisAutoConfiguration 클래스에는 @ConditionalOnSingleCandidate(DataSource.class) 가 있음
+  @Primary
   @Bean(name = "mssql")
   @ConfigurationProperties(prefix = "sample.jdbc.datasource.mssql")
   DataSource dataSource_mssql() throws SQLException {
