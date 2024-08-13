@@ -1,4 +1,4 @@
-package spring.sample.ext.util;
+package spring.sample.extlink.util;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;

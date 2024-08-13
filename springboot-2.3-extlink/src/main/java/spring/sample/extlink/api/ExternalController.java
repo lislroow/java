@@ -1,4 +1,4 @@
-package spring.sample.ext.api;
+package spring.sample.extlink.api;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

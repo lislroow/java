@@ -1,4 +1,4 @@
-package spring.sample.ext.api;
+package spring.sample.extlink.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
