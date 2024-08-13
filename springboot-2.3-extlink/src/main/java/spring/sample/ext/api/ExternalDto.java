@@ -1,4 +1,4 @@
-package spring.projectk.ext.api;
+package spring.sample.ext.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

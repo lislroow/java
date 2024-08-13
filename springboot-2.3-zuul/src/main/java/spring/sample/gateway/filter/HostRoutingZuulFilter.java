@@ -1,4 +1,4 @@
-package spring.projectk.gateway.filter;
+package spring.sample.gateway.filter;
 
 import java.nio.charset.StandardCharsets;
 

@@ -1,9 +1,9 @@
-package spring.projectk.gateway.config;
+package spring.sample.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import spring.projectk.gateway.filter.HostRoutingZuulFilter;
+import spring.sample.gateway.filter.HostRoutingZuulFilter;
 
 @Configuration
 public class ZuulConfig {

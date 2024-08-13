@@ -1,4 +1,4 @@
-package spring.projectk.ext.api;
+package spring.sample.ext.api;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

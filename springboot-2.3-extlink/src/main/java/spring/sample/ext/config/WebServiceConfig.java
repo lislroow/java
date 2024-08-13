@@ -1,4 +1,4 @@
-package spring.projectk.ext.config;
+package spring.sample.ext.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

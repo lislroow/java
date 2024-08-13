@@ -1,4 +1,4 @@
-package spring.projectk.gateway.filter;
+package spring.sample.gateway.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;

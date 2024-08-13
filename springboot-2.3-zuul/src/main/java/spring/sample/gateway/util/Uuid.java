@@ -1,4 +1,4 @@
-package spring.projectk.ext.util;
+package spring.sample.gateway.util;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;

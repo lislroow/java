@@ -1,4 +1,4 @@
-package spring.projectk.eureka.util;
+package spring.sample.eureka.util;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
