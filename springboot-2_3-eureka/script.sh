@@ -3,6 +3,7 @@
 # VAR
 CURRDIR=$( pwd -P )
 APPNAME=$(basename $CURRDIR)
+DOCKER_REGISTRY="172.28.200.40:5000"
 # //VAR
 
 # usage
@@ -62,8 +63,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 # //options
-
-DOCKER_REGISTRY="172.28.200.40:5000"
 
 # main
 function main {
