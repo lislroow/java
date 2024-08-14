@@ -1,4 +1,4 @@
-package verify;
+package simple;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
