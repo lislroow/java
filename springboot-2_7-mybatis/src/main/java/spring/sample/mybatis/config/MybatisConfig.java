@@ -1,5 +1,7 @@
 package spring.sample.mybatis.config;
 
+import javax.sql.DataSource;
+
 import org.apache.ibatis.session.ExecutorType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -12,7 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.util.ObjectUtils;
 
 import spring.sample.mybatis.config.mybatis.DaoSupport;
@@ -27,8 +28,10 @@ public class MybatisConfig {
   
   public static final String BASE_PACKAGES = "spring";
 
+  //@Autowired
+  //LazyConnectionDataSourceProxy dataSource;
   @Autowired
-  LazyConnectionDataSourceProxy dataSource;
+  DataSource dataSource;
   
   @Autowired
   MybatisProperties mybatisProperties;
