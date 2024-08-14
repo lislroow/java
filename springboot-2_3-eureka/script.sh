@@ -92,7 +92,7 @@ function main {
           docker rm "${ID}"
         fi
         docker run -itd \
-          -e JAVA_OPTS="-Dspring.profiles.active=prod -Xms256g -Xmx256g -XX:MetaspaceSize=192M -XX:MaxMetaspaceSize=192M" \
+          -e JAVA_OPTS="-Dspring.profiles.active=prod -Xms256m -Xmx256m -XX:MetaspaceSize=192m -XX:MaxMetaspaceSize=192m" \
           --network=host \
           --name=${APPNAME} \
           ${DOCKER_REGISTRY}/${APPNAME}
