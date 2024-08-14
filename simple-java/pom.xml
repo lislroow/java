@@ -1,9 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>mgkim</groupId>
-  <artifactId>verify</artifactId>
+  <artifactId>simple-springboot</artifactId>
   <version>0.1</version>
-  <packaging>war</packaging>
   
   <properties>
     <m2eclipse.wtp.contextRoot>/</m2eclipse.wtp.contextRoot>
@@ -15,23 +14,8 @@
     <maven.compiler.source>17</maven.compiler.source>
   </properties>
   
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>spring.framework.modules</groupId>
-        <artifactId>modules-bom</artifactId>
-        <version>0.1-SNAPSHOT</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   
   <dependencies>
-    <dependency>
-      <groupId>org.bgee.log4jdbc-log4j2</groupId>
-      <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
-    </dependency>
     <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
@@ -40,6 +24,7 @@
     </dependency>
   </dependencies>
   
+  <!--
   <repositories>
     <repository>
       <id>maven-public</id>
@@ -53,4 +38,5 @@
       </releases>
     </repository>
   </repositories>
+  -->
 </project>
