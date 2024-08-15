@@ -12,33 +12,33 @@ public enum SOAP_CLIENT_TYPE {
   HTTP_CLIENT("20", "spring webservice 모듈"),
   ;
   
-  SOAP_CLIENT_TYPE(String value, String desc) {
-    this.value = value;
+  SOAP_CLIENT_TYPE(String code, String desc) {
+    this.code = code;
     this.desc = desc;
   }
   
-  private final String value;
+  private final String code;
   
   private final String desc;
   
   @Override
   public String toString() {
-      return this.value;
+      return this.code;
   }
   
   @JsonValue
-  public String getValue() {
-      return this.value;
+  public String getCode() {
+      return this.code;
   }
   
   public String getDesc() {
       return this.desc;
   }
   
-  public static SOAP_CLIENT_TYPE valueOf(String value, RuntimeException e) {
+  public static SOAP_CLIENT_TYPE fromCode(String code) {
       return Arrays.stream(SOAP_CLIENT_TYPE.values())
-          .filter(item -> StringUtils.equals(value, item.getValue()))
+          .filter(item -> StringUtils.equals(code, item.getCode()))
           .findFirst()
-          .orElseThrow(() -> e);
+          .orElseThrow(() -> new IllegalArgumentException(String.format("code '%s'는 존재하지 않습니다.", code)));
   }
 }

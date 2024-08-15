@@ -15,6 +15,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,22 +26,26 @@ import lombok.extern.slf4j.Slf4j;
 import net.mgkim.ws.hello.GetHelloRequest;
 import net.mgkim.ws.hello.GetHelloResponse;
 import spring.sample.code.SOAP_CLIENT_TYPE;
+import spring.sample.config.validator.EnumValidator;
 
 @RestController
+@Validated
 @Slf4j
 @AllArgsConstructor
 public class InternalEgressController {
   
   private WebServiceTemplate webServiceTemplate;
   
-  @GetMapping("/v1/internal/egress/soap/{soapClientType}")
-  public String soap(@PathVariable SOAP_CLIENT_TYPE soapType) {
+  @GetMapping("/v1/internal/egress/soap/{clientType}")
+  public String soap(
+      @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
     String result = null;
-    GetHelloRequest request = new GetHelloRequest();
-    request.setName("myeonggu.kim");
-    GetHelloResponse res = (GetHelloResponse) webServiceTemplate.marshalSendAndReceive("http://ws.mgkim.net/ws", request);
-    result = res.getMessage();
-    log.info("result={}", result);
+    System.out.println(clientType);
+//    GetHelloRequest request = new GetHelloRequest();
+//    request.setName("myeonggu.kim");
+//    GetHelloResponse res = (GetHelloResponse) webServiceTemplate.marshalSendAndReceive("http://ws.mgkim.net/ws", request);
+//    result = res.getMessage();
+//    log.info("result={}", result);
     return result;
   }
   
