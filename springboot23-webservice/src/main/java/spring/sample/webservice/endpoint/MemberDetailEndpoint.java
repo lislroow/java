@@ -17,18 +17,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.mgkim.ws.member.GetHelloRequest;
-import net.mgkim.ws.member.GetHelloResponse;
+import net.mgkim.webservice.soap.memberdetail.types.GetMemberDetailResponse;
+import net.mgkim.webservice.soap.memberdetail.types.GetMemberInfo;
+import spring.sample.config.WebMvcConfig;
 
 @Endpoint
 @Slf4j
-public class MemberEndpoint {
+public class MemberDetailEndpoint {
   
-  private static final String MEMBER_NS_URI = "http://ws.mgkim.net/member";
-  
-  @PayloadRoot(namespace = MEMBER_NS_URI, localPart = "getHelloRequest")
+  @PayloadRoot(namespace = WebMvcConfig.NS_MEMBER_DETAIL, localPart = "getMemberInfo")
   @ResponsePayload
-  public GetHelloResponse getMember(@RequestPayload GetHelloRequest request,
+  public GetMemberDetailResponse getMemberDetail(@RequestPayload GetMemberInfo request,
       MessageContext messageContext,
       @SoapHeader(value = "serviceName") SoapHeaderElement serviceName,
       @SoapHeader(value = "useSystemCode") SoapHeaderElement useSystemCode) {
@@ -42,11 +41,9 @@ public class MemberEndpoint {
       .useSystemCode("testSystemCode")
       .build();
     
-    GetHelloResponse response = new GetHelloResponse();
-    String message = "Hello, " + request.getName() + "!";
-    log.info("serviceName:{}, useSystemCode:{}, message:{}",
-        serviceName.getText(), useSystemCode.getText(), message);
-    response.setMessage(message);
+    GetMemberDetailResponse response = new GetMemberDetailResponse();
+    response.setId("id");
+    response.setName("name");
     
     JAXBContext jaxbContext;
     try {

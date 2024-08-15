@@ -12,7 +12,7 @@ public class WebServiceConfig {
   @Bean
   Jaxb2Marshaller marshaller() {
     Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-    marshaller.setContextPath("net.mgkim.ws.hello");
+    marshaller.setPackagesToScan("net.mgkim.webservice");
     return marshaller;
   }
   

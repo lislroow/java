@@ -1,6 +1,6 @@
 package spring.sample.app.controller;
 
-import javax.validation.Valid;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.sample.app.dto.DummyDTO;
 import spring.sample.app.feign.EgressFeign;
-import spring.sample.app.feign.dto.WebServiceDTO;
 import spring.sample.code.SOAP_CLIENT_TYPE;
 import spring.sample.config.validator.EnumValidator;
 
@@ -34,10 +33,9 @@ public class AppController {
   }
   
   @GetMapping("/v1/app/soap/{clientType}")
-  public ResponseEntity<WebServiceDTO.MemberVO> soap(
+  public ResponseEntity<Map<String, Object>> soap(
       @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
-    ResponseEntity<WebServiceDTO.MemberVO> result = null;
-    result = egressFeign.soap(clientType);
+    ResponseEntity<Map<String, Object>> result = egressFeign.soap(clientType);
     System.out.println(clientType);
     return result;
   }

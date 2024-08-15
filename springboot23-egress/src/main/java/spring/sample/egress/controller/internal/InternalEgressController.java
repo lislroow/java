@@ -2,6 +2,8 @@ package spring.sample.egress.controller.internal;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -23,8 +25,8 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.mgkim.ws.hello.GetHelloRequest;
-import net.mgkim.ws.hello.GetHelloResponse;
+import net.mgkim.webservice.soap.sayhello.types.GetNameRequest;
+import net.mgkim.webservice.soap.sayhello.types.GetSayHelloResponse;
 import spring.sample.code.SOAP_CLIENT_TYPE;
 import spring.sample.config.validator.EnumValidator;
 
@@ -37,14 +39,16 @@ public class InternalEgressController {
   private WebServiceTemplate webServiceTemplate;
   
   @GetMapping("/v1/internal/egress/soap/{clientType}")
-  public String soap(
+  public Map<String, Object> soap(
       @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
-    String result = null;
     System.out.println(clientType);
-    GetHelloRequest request = new GetHelloRequest();
+    GetNameRequest request = new GetNameRequest();
     request.setName("myeonggu.kim");
-    GetHelloResponse res = (GetHelloResponse) webServiceTemplate.marshalSendAndReceive("http://172.28.200.1:9091/webservice/hello", request);
-    result = res.getMessage();
+    GetSayHelloResponse res = (GetSayHelloResponse) webServiceTemplate.marshalSendAndReceive("http://172.28.200.1:9091/soap/SayHello/types", request);
+    
+    Map<String, Object> result = new HashMap<String, Object>();
+    result.put("korean", res.getKorean());
+    result.put("english", res.getEnglish());
     log.info("result={}", result);
     return result;
   }

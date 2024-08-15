@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-       targetNamespace="http://ws.mgkim.net/hello"
-       xmlns:tns="http://ws.mgkim.net/hello"
+       targetNamespace="http://webservice.mgkim.net/soap/SayHello/types"
+       xmlns:tns="http://webservice.mgkim.net/soap/SayHello/types"
        elementFormDefault="qualified">
 
-  <xs:element name="getHelloRequest">
+  <xs:element name="getNameRequest">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="name" type="xs:string"/>
@@ -12,10 +12,11 @@
     </xs:complexType>
   </xs:element>
   
-  <xs:element name="getHelloResponse">
+  <xs:element name="getSayHelloResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="message" type="xs:string"/>
+        <xs:element name="korean" type="xs:string"/>
+        <xs:element name="english" type="xs:string"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
