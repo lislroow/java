@@ -1,4 +1,4 @@
-package spring.sample.extlink.config;
+package spring.sample.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

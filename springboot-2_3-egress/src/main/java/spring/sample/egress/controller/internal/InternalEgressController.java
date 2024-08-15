@@ -1,4 +1,4 @@
-package spring.sample.extlink.api;
+package spring.sample.egress.controller.internal;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -14,9 +14,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
-import org.apache.http.impl.entity.LaxContentLengthStrategy;
 import org.apache.http.util.EntityUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
@@ -24,26 +24,17 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mgkim.ws.hello.GetHelloRequest;
 import net.mgkim.ws.hello.GetHelloResponse;
+import spring.sample.code.SOAP_CLIENT_TYPE;
 
 @RestController
 @Slf4j
 @AllArgsConstructor
-public class ExternalController {
+public class InternalEgressController {
   
   private WebServiceTemplate webServiceTemplate;
   
-  @GetMapping("/api/v1/external")
-  public ExternalDto.ExternalInfoVo getExternalInfo() {
-    ExternalDto.ExternalInfoVo result = ExternalDto.ExternalInfoVo.builder()
-        .id("abc")
-        .name("smith")
-        .build();
-    log.info("{}", result);
-    return result;
-  }
-  
-  @GetMapping("/api/v1/external/hello")
-  public String wsHello() {
+  @GetMapping("/v1/internal/egress/soap/{soapClientType}")
+  public String soap(@PathVariable SOAP_CLIENT_TYPE soapType) {
     String result = null;
     GetHelloRequest request = new GetHelloRequest();
     request.setName("myeonggu.kim");

@@ -1,4 +1,4 @@
-package spring.sample.app.feign.dto;
+package spring.sample.egress.dto;
 
 import lombok.Builder;
 import lombok.Data;
