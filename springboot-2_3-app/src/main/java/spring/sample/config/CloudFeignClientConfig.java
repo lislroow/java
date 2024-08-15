@@ -1,4 +1,4 @@
-package spring.sample.member.config;
+package spring.sample.config;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;

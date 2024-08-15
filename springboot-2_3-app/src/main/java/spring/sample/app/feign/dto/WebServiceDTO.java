@@ -1,17 +1,17 @@
-package spring.sample.member.feign;
+package spring.sample.app.feign.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-public class ExternalDto {
+public class WebServiceDTO {
 
   @Data
   @Builder
   @AllArgsConstructor
   @NoArgsConstructor
-  public static class ExternalInfoVo {
+  public static class MemberVO {
     private String id;
     private String name;
   }
