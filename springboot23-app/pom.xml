@@ -63,10 +63,10 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-openfeign</artifactId>
     </dependency>
-    <!--<dependency>
+    <dependency>
       <groupId>io.github.openfeign</groupId>
       <artifactId>feign-okhttp</artifactId>
-    </dependency>-->
+    </dependency>
     
     <!-- for web -->
     <dependency>

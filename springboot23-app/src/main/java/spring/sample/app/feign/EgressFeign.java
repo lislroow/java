@@ -10,8 +10,8 @@ import spring.sample.code.SOAP_CLIENT_TYPE;
 import spring.sample.config.FeignConfig;
 
 //@FeignClient(name = "springboot23-egress", url = "/", configuration = {FeignConfig.class})
-//@FeignClient(name = "springboot23-egress", configuration = {FeignConfig.class})
-@FeignClient(name = "springboot23-egress")
+@FeignClient(name = "springboot23-egress", configuration = {FeignConfig.class})
+//@FeignClient(name = "springboot23-egress")
 public interface EgressFeign {
 
   @GetMapping("/v1/internal/egress/soap/{clientType}")

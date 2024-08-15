@@ -12,11 +12,10 @@ import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.cloud.openfeign.support.FeignHttpClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import feign.Client;
+
 import feign.Feign;
 import feign.Retryer;
-//import feign.okhttp.OkHttpClient;
-//import okhttp3.ConnectionPool;
+import okhttp3.ConnectionPool;
 import spring.sample.config.feign.FeignInterceptor;
 
 @Configuration
@@ -25,27 +24,21 @@ import spring.sample.config.feign.FeignInterceptor;
 @EnableFeignClients(basePackages = {"spring"})
 public class FeignConfig {
 
-//  @Bean
-//  @ConditionalOnMissingBean({Client.class})
-//  Client feignClient(okhttp3.OkHttpClient okHttpClient) {
-//    return new OkHttpClient(okHttpClient);
-//  }
-//
-//  @Bean
-//  @ConditionalOnMissingBean({ConnectionPool.class})
-//  ConnectionPool httpClientConnectionPool(FeignHttpClientProperties httpClientProperties, OkHttpClientConnectionPoolFactory okHttpClientConnectionPoolFactory) {
-//    return okHttpClientConnectionPoolFactory.create(httpClientProperties.getMaxConnections(), httpClientProperties.getTimeToLive(), httpClientProperties.getTimeToLiveUnit());
-//  }
-//
-//  @Bean
-//  okhttp3.OkHttpClient okHttpClient(OkHttpClientFactory okHttpClientFactory, ConnectionPool connectionPool, FeignHttpClientProperties feignHttpClientProperties) {
-//    return okHttpClientFactory.createBuilder(feignHttpClientProperties.isDisableSslValidation())
-//        .connectTimeout(55, TimeUnit.SECONDS)
-//        .followRedirects(feignHttpClientProperties.isFollowRedirects())
-//        .connectionPool(connectionPool)
-//        .addInterceptor(new FeignInterceptor())
-//        .build();
-//  }
+  @Bean
+  @ConditionalOnMissingBean({ConnectionPool.class})
+  ConnectionPool httpClientConnectionPool(FeignHttpClientProperties httpClientProperties, OkHttpClientConnectionPoolFactory okHttpClientConnectionPoolFactory) {
+    return okHttpClientConnectionPoolFactory.create(httpClientProperties.getMaxConnections(), httpClientProperties.getTimeToLive(), httpClientProperties.getTimeToLiveUnit());
+  }
+
+  @Bean
+  okhttp3.OkHttpClient okHttpClient(OkHttpClientFactory okHttpClientFactory, ConnectionPool connectionPool, FeignHttpClientProperties feignHttpClientProperties) {
+    return okHttpClientFactory.createBuilder(feignHttpClientProperties.isDisableSslValidation())
+        .connectTimeout(55, TimeUnit.SECONDS)
+        .followRedirects(feignHttpClientProperties.isFollowRedirects())
+        .connectionPool(connectionPool)
+        .addInterceptor(new FeignInterceptor())
+        .build();
+  }
   
   @Bean
   Retryer retryer() {
