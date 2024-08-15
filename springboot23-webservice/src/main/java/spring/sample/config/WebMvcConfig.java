@@ -1,4 +1,4 @@
-package spring.sample.webservice.config;
+package spring.sample.config;
 
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -22,15 +22,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     MessageDispatcherServlet servlet = new MessageDispatcherServlet();
     servlet.setApplicationContext(applicationContext);
     servlet.setTransformWsdlLocations(true);
-    return new ServletRegistrationBean<>(servlet, "/ws/*");
+    return new ServletRegistrationBean<>(servlet, "/webservice/*");
   }
   
   @Bean(name = "hello")
   DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema helloSchema) {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("HelloPort");
-    wsdl11Definition.setLocationUri("/ws");
-    wsdl11Definition.setTargetNamespace("http://localhost:8083/hello");
+    wsdl11Definition.setLocationUri("/webservice/hello");
+    wsdl11Definition.setTargetNamespace("http://ws.mgkim.net/hello");
     wsdl11Definition.setSchema(helloSchema);
     return wsdl11Definition;
   }
@@ -39,8 +39,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
   DefaultWsdl11Definition defaultWsdl11Definition_member(XsdSchema memberSchema) {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("MemberPort");
-    wsdl11Definition.setLocationUri("/ws");
-    wsdl11Definition.setTargetNamespace("http://localhost:8083/member");
+    wsdl11Definition.setLocationUri("/webservice/member");
+    wsdl11Definition.setTargetNamespace("http://ws.mgkim.net/member");
     wsdl11Definition.setSchema(memberSchema);
     return wsdl11Definition;
   }

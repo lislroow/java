@@ -41,11 +41,11 @@ public class InternalEgressController {
       @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
     String result = null;
     System.out.println(clientType);
-//    GetHelloRequest request = new GetHelloRequest();
-//    request.setName("myeonggu.kim");
-//    GetHelloResponse res = (GetHelloResponse) webServiceTemplate.marshalSendAndReceive("http://ws.mgkim.net/ws", request);
-//    result = res.getMessage();
-//    log.info("result={}", result);
+    GetHelloRequest request = new GetHelloRequest();
+    request.setName("myeonggu.kim");
+    GetHelloResponse res = (GetHelloResponse) webServiceTemplate.marshalSendAndReceive("http://172.28.200.1:9091/webservice/hello", request);
+    result = res.getMessage();
+    log.info("result={}", result);
     return result;
   }
   
@@ -55,7 +55,7 @@ public class InternalEgressController {
     
     // 
     try (CloseableHttpClient client = HttpClients.createDefault()) {
-      HttpPost post = new HttpPost("http://172.28.200.1:8083/ws");
+      HttpPost post = new HttpPost("http://172.28.200.1:9091/webservice/hello");
       post.setHeader("Content-Type", "text/xml");
       post.setHeader("Connection", "close");
       

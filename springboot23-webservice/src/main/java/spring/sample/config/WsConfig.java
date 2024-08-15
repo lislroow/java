@@ -1,4 +1,4 @@
-package spring.sample.webservice.config;
+package spring.sample.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ws.config.annotation.EnableWs;
