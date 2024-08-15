@@ -1,20 +1,15 @@
 package spring.sample.mybatis.config.mybatis;
 
+import lombok.Data;
+
+@Data
 public class Pageable {
   
   protected Integer page;
   protected Integer pageSize;
   
-  public Integer getPage() {
-    return page;
-  }
-  public void setPage(Integer page) {
-    this.page = page;
-  }
-  public Integer getPageSize() {
-    return pageSize;
-  }
-  public void setPageSize(Integer pageSize) {
-    this.pageSize = pageSize;
+  public void setPageable(Pageable pageable) {
+    this.page = pageable.page == null ? 1 : pageable.page;
+    this.pageSize = pageable.pageSize == null ? 10 : pageable.pageSize;
   }
 }

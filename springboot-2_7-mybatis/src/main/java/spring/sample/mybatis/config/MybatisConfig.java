@@ -50,7 +50,7 @@ public class MybatisConfig {
     if (!ObjectUtils.isEmpty(typeAliasesPackage)) {
       sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
     }
-    sqlSessionFactoryBean.setConfigurationProperties(mybatisProperties.getConfigurationProperties());
+    sqlSessionFactoryBean.setConfiguration(mybatisProperties.getConfiguration());
     // 페이징 처리를 위한 mybatis-plugin 추가
     sqlSessionFactoryBean.setPlugins(new spring.sample.mybatis.config.mybatis.PagingInterceptor());
     return sqlSessionFactoryBean;

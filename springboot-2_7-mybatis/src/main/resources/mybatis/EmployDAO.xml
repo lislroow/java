@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="spring.sample.mybatis.api.employ.EmployMapper">
+<mapper namespace="spring.sample.mybatis.dao.EmployDAO">
   
   <select id="selectAll" resultType="EmployVO">
     SELECT *
@@ -9,22 +9,13 @@
     ORDER BY id DESC
   </select>
   
-  <select id="selectList" resultType="EmployVO">
+  <select id="selectById" resultType="EmployVO">
     SELECT *
     FROM   employ
-    ORDER BY id DESC
+    WHERE  id = #{id}
   </select>
   
-  <select id="selectListByName" parameterType="EmployPageREQ" resultType="EmployVO">
-    SELECT *
-    FROM   employ
-    <if test="name != null and !''.equals(name)">
-      WHERE name LIKE '%'||#{name}||'%'
-    </if>
-    ORDER BY id DESC
-  </select>
-  
-  <insert id="insert" parameterType="EmployVO">
+  <insert id="insert">
     INSERT INTO employ (
         id,
         name,
@@ -42,13 +33,22 @@
       )
   </insert>
   
-  <select id="select" parameterType="java.lang.String" resultType="EmployVO">
+  <select id="selectList">
     SELECT *
     FROM   employ
-    WHERE  id = #{id}
+    ORDER BY id DESC
   </select>
   
-  <update id="update" parameterType="EmployVO">
+  <select id="selectListByName" resultType="EmployVO">
+    SELECT *
+    FROM   employ
+    <if test="name != null and !''.equals(name)">
+      WHERE name LIKE '%'||#{name}||'%'
+    </if>
+    ORDER BY id DESC
+  </select>
+  
+  <update id="updateNameById">
     UPDATE employ
        SET name = #{name},
            modify_date = now(),
@@ -56,7 +56,7 @@
      WHERE id = #{id}
   </update>
   
-  <delete id="delete" parameterType="EmployVO">
+  <delete id="deleteById">
     DELETE
       FROM employ
      WHERE id = #{id}
