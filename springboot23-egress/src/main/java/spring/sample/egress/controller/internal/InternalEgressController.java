@@ -37,7 +37,7 @@ import spring.sample.config.validator.EnumValidator;
 @RequiredArgsConstructor
 public class InternalEgressController {
   
-  private WebServiceTemplate webServiceTemplate;
+  private final WebServiceTemplate webServiceTemplate;
   
   @Value("${egress.webservice.url}")
   private String egressWebserviceUrl;
@@ -49,6 +49,7 @@ public class InternalEgressController {
     GetNameRequest request = new GetNameRequest();
     request.setName("myeonggu.kim");
     String url = String.format("%s%s", egressWebserviceUrl, "/soap/SayHello/types");
+    log.info("url: {}", url);
     GetSayHelloResponse res = (GetSayHelloResponse) webServiceTemplate.marshalSendAndReceive(url, request);
     
     Map<String, Object> result = new HashMap<String, Object>();
