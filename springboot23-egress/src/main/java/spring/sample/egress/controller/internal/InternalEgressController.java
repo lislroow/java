@@ -17,13 +17,14 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mgkim.webservice.soap.sayhello.types.GetNameRequest;
 import net.mgkim.webservice.soap.sayhello.types.GetSayHelloResponse;
@@ -33,10 +34,13 @@ import spring.sample.config.validator.EnumValidator;
 @RestController
 @Validated
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class InternalEgressController {
   
   private WebServiceTemplate webServiceTemplate;
+  
+  @Value("${egress.webservice.url}")
+  private String egressWebserviceUrl;
   
   @GetMapping("/v1/internal/egress/soap/{clientType}")
   public Map<String, Object> soap(
@@ -44,7 +48,8 @@ public class InternalEgressController {
     System.out.println(clientType);
     GetNameRequest request = new GetNameRequest();
     request.setName("myeonggu.kim");
-    GetSayHelloResponse res = (GetSayHelloResponse) webServiceTemplate.marshalSendAndReceive("http://172.28.200.1:9091/soap/SayHello/types", request);
+    String url = String.format("%s%s", egressWebserviceUrl, "/soap/SayHello/types");
+    GetSayHelloResponse res = (GetSayHelloResponse) webServiceTemplate.marshalSendAndReceive(url, request);
     
     Map<String, Object> result = new HashMap<String, Object>();
     result.put("korean", res.getKorean());

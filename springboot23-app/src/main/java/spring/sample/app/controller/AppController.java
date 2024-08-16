@@ -36,7 +36,6 @@ public class AppController {
   public ResponseEntity<Map<String, Object>> soap(
       @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
     ResponseEntity<Map<String, Object>> result = egressFeign.soap(clientType);
-    System.out.println(clientType);
     return result;
   }
   
