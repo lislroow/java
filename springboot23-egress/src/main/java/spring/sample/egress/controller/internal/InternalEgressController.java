@@ -45,17 +45,75 @@ public class InternalEgressController {
   @GetMapping("/v1/internal/egress/soap/{clientType}")
   public Map<String, Object> soap(
       @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
-    System.out.println(clientType);
-    GetNameRequest request = new GetNameRequest();
-    request.setName("myeonggu.kim");
+    Map<String, Object> result = new HashMap<String, Object>();
     String url = String.format("%s%s", egressWebserviceUrl, "/soap/SayHello/types");
     log.info("url: {}", url);
-    GetSayHelloResponse res = (GetSayHelloResponse) webServiceTemplate.marshalSendAndReceive(url, request);
+    String name = "myeonggu.kim";
     
-    Map<String, Object> result = new HashMap<String, Object>();
-    result.put("korean", res.getKorean());
-    result.put("english", res.getEnglish());
-    log.info("result={}", result);
+    switch (SOAP_CLIENT_TYPE.fromCode(clientType)) {
+    case SPRING_WEBSERVICE:
+      GetNameRequest request = new GetNameRequest();
+      request.setName(name);
+      GetSayHelloResponse res = (GetSayHelloResponse) webServiceTemplate.marshalSendAndReceive(url, request);
+      
+      result.put("korean", res.getKorean());
+      result.put("english", res.getEnglish());
+      log.info("result={}", result);
+      break;
+    case HTTP_CLIENT:
+      try (CloseableHttpClient client = HttpClients.createDefault()) {
+        HttpPost post = new HttpPost(url);
+        post.setHeader("Content-Type", "text/xml");
+        post.setHeader("Connection", "close");
+        
+        String xmlstr = "";
+        xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://webservice.mgkim.net/soap/SayHello/types\">";
+        //xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://ws.mgkim.net/hello\">";
+        xmlstr += "<soapenv:Header/>";
+        xmlstr += "  <soapenv:Body>";
+        xmlstr += "    <hel:getNameRequest>";
+        xmlstr += "      <hel:name>"+name+"</hel:name>";
+        xmlstr += "    </hel:getNameRequest>";
+        xmlstr += "  </soapenv:Body>";
+        xmlstr += "</soapenv:Envelope>";
+        
+        //xmlstr = "";
+        //xmlstr += "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">";
+        //xmlstr += "<Header />";
+        //xmlstr += "<Body xmlns=\"http://ws.mgkim.net/hello/\">";
+        //xmlstr += "  <getHelloRequest>";
+        //xmlstr += "    <name>Smith</name>";
+        //xmlstr += "  </getHelloRequest>";
+        //xmlstr += "</Body>";
+        //xmlstr += "</Envelope>";
+        log.info("xmlstr={}", xmlstr);
+        try {
+          StringEntity entity = new StringEntity(xmlstr);
+          post.setEntity(entity);
+        } catch (UnsupportedEncodingException e) {
+          e.printStackTrace();
+        }
+        try (CloseableHttpResponse response = client.execute(post)) {
+          HttpEntity responseEntity = response.getEntity();
+          String resstr = EntityUtils.toString(responseEntity);
+          log.info("resstr:{}", resstr);
+          //result = resstr;
+        } catch (ClientProtocolException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      // --
+      
+      
+      // parsing
+      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      factory.setNamespaceAware(true);
+      break;
+    }
     return result;
   }
   
