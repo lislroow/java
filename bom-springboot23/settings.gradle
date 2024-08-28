@@ -9,4 +9,4 @@ pluginManagement {
   }
 }
 
-rootProject.name = 'springboot23-bom'
+rootProject.name = 'bom-springboot23'

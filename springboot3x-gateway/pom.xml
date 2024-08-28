@@ -4,7 +4,7 @@
   <artifactId>springboot3x-gateway</artifactId>
   <parent>
     <groupId>spring.experimental</groupId>
-    <artifactId>springboot3x-bom</artifactId>
+    <artifactId>bom-springboot3x</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
   

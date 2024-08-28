@@ -4,7 +4,7 @@
   <artifactId>springboot23-egress</artifactId>
   <parent>
     <groupId>spring.experimental</groupId>
-    <artifactId>springboot23-bom</artifactId>
+    <artifactId>bom-springboot23</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
   

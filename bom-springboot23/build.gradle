@@ -27,7 +27,7 @@ ext {
   
   publishingPom = {
     name = project.name
-    description = 'mgkim.net springboot3x-bom'
+    description = 'mgkim.net bom-springboot23'
     url = 'http://lislroow.github.io'
     licenses {
       license {
@@ -43,9 +43,9 @@ ext {
       }
     }
     scm {
-      connection = 'git@github.com:lislroow/springboot3x-bom.git'
-      developerConnection = 'git@github.com:lislroow/springboot3x-bom.git'
-      url = 'https://github.com/lislroow/springboot3x-bom'
+      connection = 'git@github.com:lislroow/bom-springboot23.git'
+      developerConnection = 'git@github.com:lislroow/bom-springboot23.git'
+      url = 'https://github.com/lislroow/bom-springboot23'
     }
   }
 }
