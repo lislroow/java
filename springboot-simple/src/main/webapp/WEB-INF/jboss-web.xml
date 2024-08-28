@@ -1,7 +1,0 @@
-<jboss-web>
-  <context-root>/</context-root>
-  <replication-config>
-    <replication-trigger>SET</replication-trigger>
-    <replication-granularity>SESSION</replication-granularity>
-  </replication-config>
-</jboss-web>
