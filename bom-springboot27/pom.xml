@@ -14,8 +14,9 @@
     <maven.compiler.target>8</maven.compiler.target>
     <maven.compiler.source>8</maven.compiler.source>
     
-    <spring-boot.version>2.3.8.RELEASE</spring-boot.version>
-    <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+    <spring-boot.version>2.7.18</spring-boot.version>
+    <spring-cloud.version>2021.0.9</spring-cloud.version>
+    <mybatis-spring-boot.version>2.3.2</mybatis-spring-boot.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <lombok.version>1.18.32</lombok.version>
   </properties>
@@ -39,7 +40,7 @@
       <dependency>
         <groupId>org.mybatis.spring.boot</groupId>
         <artifactId>mybatis-spring-boot</artifactId>
-        <version>2.3.2</version>
+        <version>${mybatis-spring-boot.version}</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
