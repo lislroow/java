@@ -4,13 +4,12 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.sample.app.dto.DummyDTO;
 import spring.sample.app.feign.EgressFeign;
 import spring.sample.code.SOAP_CLIENT_TYPE;
 import spring.sample.config.validator.EnumValidator;
@@ -19,20 +18,11 @@ import spring.sample.config.validator.EnumValidator;
 @Validated
 @AllArgsConstructor
 @Slf4j
-public class AppController {
+public class QualificationController {
   
   private EgressFeign egressFeign;
   
-  @GetMapping("/app/v1/dummy")
-  public ResponseEntity<DummyDTO.DummyVO> dummy() {
-    DummyDTO.DummyVO result = DummyDTO.DummyVO.builder()
-        .id("123")
-        .name("gildong.hong")
-        .build();
-    return ResponseEntity.ok(result);
-  }
-  
-  @GetMapping("/app/v1/soap/{clientType}")
+  @PostMapping("/app/v1/quali/{qualiId}")
   public ResponseEntity<Map<String, Object>> soap(
       @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
     ResponseEntity<Map<String, Object>> result = egressFeign.soap(clientType);

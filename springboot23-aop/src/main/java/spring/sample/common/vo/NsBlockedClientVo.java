@@ -4,8 +4,8 @@ import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 
-@Data
 @Alias("nsBlockedClientVo")
+@Data
 public class NsBlockedClientVo {
   
   private String remoteAddr;

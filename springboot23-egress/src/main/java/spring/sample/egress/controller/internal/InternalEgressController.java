@@ -42,7 +42,7 @@ public class InternalEgressController {
   @Value("${egress.webservice.url}")
   private String egressWebserviceUrl;
   
-  @GetMapping("/v1/internal/egress/soap/{clientType}")
+  @GetMapping("/egress/internal/v1/soap/{clientType}")
   public Map<String, Object> soap(
       @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
     Map<String, Object> result = new HashMap<String, Object>();

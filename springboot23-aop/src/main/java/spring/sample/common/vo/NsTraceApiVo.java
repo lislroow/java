@@ -4,8 +4,8 @@ import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 
-@Data
 @Alias("nsTraceApiVo")
+@Data
 public class NsTraceApiVo {
   
   private String id;
