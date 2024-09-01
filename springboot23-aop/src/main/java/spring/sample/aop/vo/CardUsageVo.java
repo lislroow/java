@@ -1,4 +1,4 @@
-package spring.sample.app.vo;
+package spring.sample.aop.vo;
 
 import java.sql.Timestamp;
 

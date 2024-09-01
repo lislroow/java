@@ -23,7 +23,7 @@ public class AppController {
   
   private EgressFeign egressFeign;
   
-  @GetMapping("/v1/app/dummy")
+  @GetMapping("/app/v1/dummy")
   public ResponseEntity<DummyDTO.DummyVO> dummy() {
     DummyDTO.DummyVO result = DummyDTO.DummyVO.builder()
         .id("123")
@@ -32,7 +32,7 @@ public class AppController {
     return ResponseEntity.ok(result);
   }
   
-  @GetMapping("/v1/app/soap/{clientType}")
+  @GetMapping("/app/v1/soap/{clientType}")
   public ResponseEntity<Map<String, Object>> soap(
       @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
     ResponseEntity<Map<String, Object>> result = egressFeign.soap(clientType);

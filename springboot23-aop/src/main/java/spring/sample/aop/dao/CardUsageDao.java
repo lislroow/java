@@ -1,11 +1,11 @@
-package spring.sample.app.dao;
+package spring.sample.aop.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import spring.sample.app.vo.CardUsageVo;
+import spring.sample.aop.vo.CardUsageVo;
 
 @Mapper
 public interface CardUsageDao {

@@ -1,4 +1,4 @@
-package spring.sample.app.service;
+package spring.sample.aop.service;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import com.github.pagehelper.PageHelper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.sample.app.dao.CardUsageDao;
-import spring.sample.app.dto.ReqCardDto;
-import spring.sample.app.vo.CardUsageVo;
+import spring.sample.aop.dao.CardUsageDao;
+import spring.sample.aop.dto.ReqCardDto;
+import spring.sample.aop.vo.CardUsageVo;
 
 @Slf4j
 @Service

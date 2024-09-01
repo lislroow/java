@@ -1,4 +1,4 @@
-package spring.sample.app.controller;
+package spring.sample.aop.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +13,7 @@ public class TestController {
   
   private final NsTraceApiDao dao;
   
-  @GetMapping("/card/v1/test")
+  @GetMapping("/aop/v1/card/test")
   public String test() {
     NsTraceApiVo vo = dao.selectTraceById("24c33c06-c0e4-4175-92f0-7f00bd7f0857");
     return vo.toString();

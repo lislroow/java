@@ -1,4 +1,4 @@
-package spring.sample.app.dto;
+package spring.sample.aop.dto;
 
 import javax.validation.constraints.NotNull;
 

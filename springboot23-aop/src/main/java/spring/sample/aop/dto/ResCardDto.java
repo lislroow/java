@@ -1,4 +1,4 @@
-package spring.sample.app.dto;
+package spring.sample.aop.dto;
 
 import java.util.List;
 

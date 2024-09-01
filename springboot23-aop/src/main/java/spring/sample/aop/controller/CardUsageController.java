@@ -1,4 +1,4 @@
-package spring.sample.app.controller;
+package spring.sample.aop.controller;
 
 import java.util.stream.Collectors;
 
@@ -18,17 +18,17 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.sample.app.dto.ReqCardDto;
-import spring.sample.app.dto.ResCardDto;
-import spring.sample.app.service.CardUsageService;
-import spring.sample.app.vo.CardUsageVo;
+import spring.sample.aop.dto.ReqCardDto;
+import spring.sample.aop.dto.ResCardDto;
+import spring.sample.aop.service.CardUsageService;
+import spring.sample.aop.vo.CardUsageVo;
 import spring.sample.common.annotation.NonSecure;
 
 @Slf4j
 @Api(tags = { "Card API" })
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/card/v1")
+@RequestMapping("/aop/v1/card")
 public class CardUsageController {
 
   private final ModelMapper modelMapper;

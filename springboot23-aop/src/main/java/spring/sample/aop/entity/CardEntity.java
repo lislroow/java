@@ -1,4 +1,4 @@
-package spring.sample.app.entity;
+package spring.sample.aop.entity;
 
 import java.sql.Timestamp;
 
@@ -22,10 +22,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "card_payment")
+@Table(name = "card")
 @EqualsAndHashCode(callSuper=false)
-public class CardPaymentEntity {
-  
+public class CardEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -33,10 +33,6 @@ public class CardPaymentEntity {
   @Column(columnDefinition = "varchar(16)")
   private String cardNumber;
   
-  @Column(columnDefinition = "varchar(100)")
-  private String storeName;
-  
-  private Timestamp paymentTime;
-  
-  private Long paymentAmount;
+  @Column(columnDefinition = "varchar(16)")
+  private String cardholderName;
 }
