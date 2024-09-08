@@ -12,6 +12,12 @@
 */.externalToolBuilders
 
 
+# [vscode]
+.vscode
+
+*/.vscode
+
+
 # [maven]
 target
 .mvn
