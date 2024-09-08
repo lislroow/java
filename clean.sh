@@ -25,5 +25,5 @@ EOF
 
 read -r rows <<< ${LIST[*]}
 for item in ${LIST[*]}; do
-  rm -rf ${BASEDIR}/${item}
+  rm -rf ${BASEDIR}/*/${item}
 done
