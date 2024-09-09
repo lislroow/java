@@ -16,24 +16,22 @@ import nl.captcha.text.renderer.DefaultWordRenderer;
 public class SampleCaptcha {
 
   public static String generateCaptcha() {
-    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    try {
+    try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
       List<Color> colorList = Arrays.asList(Color.BLACK);
       List<Font> fontList = Arrays.asList(new Font("", Font.HANGING_BASELINE, 22));
       Captcha captcha = new Captcha.Builder(85, 25)
           .addText(new NumbersAnswerProducer(6), new DefaultWordRenderer(colorList, fontList))
+          .addNoise()
           .addBackground()
-          .addNoise().addBorder()
+          .addBorder()
           .build();
       ImageIO.write(captcha.getImage(), "png", bos);
       byte[] imageBytes = bos.toByteArray();
       String imgstr = Base64.getEncoder().encodeToString(imageBytes);
-      imgstr = String.format("data:image/png;base64,%s", imgstr);
-      return imgstr;
+      return String.format("data:image/png;base64,%s", imgstr);
     } catch (Exception e) {
-      e.printStackTrace();
+      return null;
     }
-    return null;
   }
   
   
