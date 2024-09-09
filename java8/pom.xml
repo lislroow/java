@@ -32,6 +32,18 @@
   
   <dependencies>
     <dependency>
+      <groupId>nl.captcha</groupId>
+      <artifactId>simplecaptcha</artifactId>
+      <version>1.2.1</version>
+      <scope>system</scope>
+      <!--
+      <systemPath>${project.basedir}/libs/simplecaptcha-1.2.1.jar</systemPath>
+      Maven requires an absolute path for systemPath.
+      mvn install:install-file -Dfile=<path-to-file> -DgroupId=nl.captcha -DartifactId=simplecaptcha -Dversion=1.2.1 -Dpackaging=jar
+      -->
+      <systemPath>C:\project\experimental\java8\libs\simplecaptcha-1.2.1.jar</systemPath>
+    </dependency>
+    <dependency>
       <groupId>org.apache.kafka</groupId>
       <artifactId>kafka-clients</artifactId>
     </dependency>
