@@ -11,3 +11,7 @@ target
 .gradle
 build
 bin
+
+
+# [etc]
+crlf.txt
