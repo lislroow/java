@@ -10,7 +10,7 @@ import java.util.Random;
 import org.junit.Test;
 
 import samples.kafka.TopicProducer;
-import samples.util.Uuid;
+import samples.uuid.Uuid;
 
 public class MyTopicProducer {
   

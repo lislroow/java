@@ -25,6 +25,7 @@ public class SampleCaptcha {
           .addBackground()
           .addBorder()
           .build();
+      System.out.println("Answer: "+captcha.getAnswer());
       ImageIO.write(captcha.getImage(), "png", bos);
       byte[] imageBytes = bos.toByteArray();
       String imgstr = Base64.getEncoder().encodeToString(imageBytes);
