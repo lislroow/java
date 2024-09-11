@@ -11,8 +11,6 @@
     <downloadSources>true</downloadSources>
     <downloadJavadocs>true</downloadJavadocs>
     <java.version>17</java.version>
-    <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.source>17</maven.compiler.source>
     
     <!--
     <spring-boot.version>3.2.5</spring-boot.version>
@@ -24,9 +22,12 @@
     <spring-boot.version>3.3.3</spring-boot.version>
     <spring-cloud.version>2023.0.3</spring-cloud.version>
     <mybatis-spring-boot.version>3.0.3</mybatis-spring-boot.version>
+    
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <modelmapper.version>3.2.0</modelmapper.version>
     <lombok.version>1.18.32</lombok.version>
+    
+    <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
   </properties>
   
   <dependencyManagement>
@@ -172,10 +173,10 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.11.0</version>
+          <version>${maven-compiler-plugin.version}</version>
           <configuration>
-            <source>17</source>
-            <target>17</target>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
             <encoding>${project.build.sourceEncoding}</encoding>
             <debug>true</debug>
             <compilerArgs>
