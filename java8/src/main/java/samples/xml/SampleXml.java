@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,15 +18,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import samples.xml.SampleXml.FieldVo;
 
-@Slf4j
 public class SampleXml {
 
   @Data
@@ -256,123 +249,111 @@ public class SampleXml {
     }
   }
   
-  public static void convertToMap(TestXmlString xml) throws Exception {
-    String xmlstr = xml.getXmlStr();
-    String pathstr = null;
-    String serviceName = null;
-    
-    Map<String, Object> resultMap = new HashMap<>();
-    pathstr = "/Envelope/Header/commonHeader/serviceName";
-    Optional<String> val = getValueByPath(xmlstr, pathstr);
-    if (!val.isPresent()) {
-      log.error("'%s' not found", pathstr);
-      return;
-    }
-    
-    serviceName = val.get();
-    serviceName = serviceName.substring(0, serviceName.lastIndexOf("Service"));
-    pathstr = "/Envelope/Header/commonHeader";
-    resultMap.put("header", getMapByPath(xmlstr, pathstr));
-    pathstr = "/Envelope/Body/get"+serviceName+"Response";
-    resultMap.put("body", getMapByPath(xmlstr, pathstr));
-    
-    //log.debug("map: {}", resultMap);
-    ObjectMapper objectMapper = new ObjectMapper();
-    try {
-      String jsonstr = objectMapper.writeValueAsString(resultMap);
-      //log.info("{}", jsonstr);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-    }
-  }
-  
-  public static Map<String, Object> getMapByPath(String xmlstr, String pathstr) {
-    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    factory.setNamespaceAware(false);
-    DocumentBuilder builder = null;
-    Document document = null;
-    try {
-      builder = factory.newDocumentBuilder();
-      document = builder.parse(new java.io.ByteArrayInputStream(xmlstr.getBytes("UTF-8")));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    
-    Map<String, Object> map = new HashMap<>();
-    XPathFactory xpathFactory = XPathFactory.newInstance();
-    XPath xpath = xpathFactory.newXPath();
-    Node node = null;
-    try {
-      node = (Node) xpath.compile(pathstr).evaluate(document, XPathConstants.NODE);
-    } catch (XPathExpressionException e) {
-      e.printStackTrace();
-    }
-    toMap(node, map);
-    return map;
-  }
-  
-  public static Optional<String> getValueByPath(String xmlstr, String pathstr) {
-    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    factory.setNamespaceAware(false);
-    DocumentBuilder builder = null;
-    Document document = null;
-    try {
-      builder = factory.newDocumentBuilder();
-      document = builder.parse(new java.io.ByteArrayInputStream(xmlstr.getBytes("UTF-8")));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    
-    String value = null;
-    XPathFactory xpathFactory = XPathFactory.newInstance();
-    XPath xpath = xpathFactory.newXPath();
-    Node node = null;
-    try {
-      node = (Node) xpath.compile(pathstr).evaluate(document, XPathConstants.NODE);
-    } catch (XPathExpressionException e) {
-      e.printStackTrace();
-    }
-    NodeList children = node.getChildNodes();
-    if (children.getLength() == 1 && children.item(0).getNodeType() == Node.TEXT_NODE) {
-      value = children.item(0).getTextContent().trim();
-    }
-    return Optional.ofNullable(value);
-  }
-  
-  private static void toMap(Node node, Map<String, Object> map) {
-    NodeList children = node.getChildNodes();
-    for (int i=0; i<children.getLength(); i++) {
-      Node childNode = children.item(i);
-      if (childNode.getNodeType() == Node.ELEMENT_NODE) {
-        String childName = childNode.getNodeName();
-        if (map.containsKey(childName)) {
-          Object existingValue = map.get(childName);
-          if (existingValue instanceof List) {
-            ((List<Object>)existingValue).add(getText(childNode));
+  public static Map<String, Object> toMap(Node node, List<SampleXml.FieldVo> fields) {
+    Map<String, Object> level1Map = new HashMap<>();
+    {
+      NodeList level0 = node.getChildNodes();
+      for (int i=0; i<level0.getLength(); i++) {
+        Node level1 = level0.item(i);
+        if (level1.getNodeType() == Node.ELEMENT_NODE) {
+          String level1Name = level1.getNodeName();
+          // debug
+          //System.out.println(">> "+level1Name + ", " + level1.getChildNodes().getLength());
+          if (level1.getChildNodes().getLength() > 1) {
+            // list 일 경우 length > 1
+            List<Map<String, Object>> level1List = (ArrayList) level1Map.getOrDefault(level1Name, new ArrayList<>());
+            if (level1List.size() == 0) {
+              level1Map.put(level1Name, level1List);
+            }
+            Map<String, Object> level2Map = new HashMap<>();
+            for (int j=0; j<level1.getChildNodes().getLength(); j++) {
+              Node level2 = level1.getChildNodes().item(j);
+              if (level2.getNodeType() != Node.ELEMENT_NODE) {
+                continue;
+              }
+              String level2Name = level2.getNodeName();
+              fields.stream()
+                .filter(item -> (item.getIterName()+"/"+item.getName()).equals(level1Name+"/"+level2Name))
+                .findFirst()
+                .ifPresent(item -> level2Map.put(level2Name, level2.getTextContent()));
+            }
+            level1List.add(level2Map);
           } else {
-            List<Object> newList = new ArrayList<>();
-            newList.add(existingValue);
-            newList.add(getText(childNode));
-            map.put(childName, newList);
+            // item 일 경우 length == 1
+            fields.stream()
+              .filter(item -> item.getName().equals(level1Name))
+              .findFirst()
+              .ifPresent(item -> level1Map.put(level1Name, level1.getTextContent()));
           }
-        } else {
-          map.put(childName, getText(childNode));
         }
       }
     }
+    //System.out.println(level1Map);
+    return level1Map;
   }
   
-  private static Object getText(Node node) {
-    NodeList children = node.getChildNodes();
-    if (children.getLength() == 1 && children.item(0).getNodeType() == Node.TEXT_NODE) {
-      return children.item(0).getTextContent().trim();
-    } else {
-      Map<String, Object> childMap = new HashMap<>();
-      toMap(node, childMap);
-      return childMap;
+  public static Map<String, Object> parseXml(SampleXml.TestXmlString xml) {
+    Map<String, Object> resultMap = new HashMap<>();
+    String xmlstr = xml.getXmlStr();
+    String serviceName = null;
+    {
+      serviceName = "ReductionFarmMngYn";
+      String pathstr = "/Envelope/Header/commonHeader";
+      Node node = null;
+      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      factory.setNamespaceAware(false);
+      DocumentBuilder builder = null;
+      Document document = null;
+      try {
+        builder = factory.newDocumentBuilder();
+        document = builder.parse(new java.io.ByteArrayInputStream(xmlstr.getBytes("UTF-8")));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      
+      Map<String, Object> map = new HashMap<>();
+      XPathFactory xpathFactory = XPathFactory.newInstance();
+      XPath xpath = xpathFactory.newXPath();
+      try {
+        node = (Node) xpath.compile(pathstr).evaluate(document, XPathConstants.NODE);
+      } catch (XPathExpressionException e) {
+        e.printStackTrace();
+      }
+      map = toMap(node, xml.getHeaderFields());
+      serviceName = map.get("serviceName").toString().replace("Service", "");
+      resultMap.put("header", map);
     }
+    
+    {
+      String pathstr = "/Envelope/Body/get"+serviceName+"Response";
+      Node node = null;
+      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      factory.setNamespaceAware(false);
+      DocumentBuilder builder = null;
+      Document document = null;
+      try {
+        builder = factory.newDocumentBuilder();
+        document = builder.parse(new java.io.ByteArrayInputStream(xmlstr.getBytes("UTF-8")));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
+      Map<String, Object> map = new HashMap<>();
+      XPathFactory xpathFactory = XPathFactory.newInstance();
+      XPath xpath = xpathFactory.newXPath();
+      try {
+        node = (Node) xpath.compile(pathstr).evaluate(document, XPathConstants.NODE);
+      } catch (XPathExpressionException e) {
+        e.printStackTrace();
+      }
+      map = toMap(node, xml.getBodyFields());
+      resultMap.put("body", map);
+    }
+    
+    return resultMap;
   }
   
+  // -XX:+PrintCompilation
   public static void main(String[] args) throws Exception {
     // performance
     ConcurrentHashMap<Integer, Integer> map = new ConcurrentHashMap<>();
@@ -385,7 +366,8 @@ public class SampleXml {
     for (int i=0; i<=100000; i++) {
       int time = (int) ((System.currentTimeMillis() - start) / 1000);
       SampleXml.TestXmlString xml = SampleXml.TestXmlString.values()[i%SampleXml.TestXmlString.values().length];
-      convertToMap(xml);
+      Map<String, Object> resultMap = parseXml(xml);
+      //System.out.println(resultMap);
       map.merge(time, 1, Integer::sum);
       if (map.size() > phase + 1) {
         System.out.println("Phase: " + phase + ", Throughput: " + map.get(phase));
