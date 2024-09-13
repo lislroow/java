@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,24 +22,45 @@ import org.w3c.dom.NodeList;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import samples.xml.SampleXml.FieldVo;
 
 @Slf4j
 public class SampleXml {
+
+  @Data
+  @AllArgsConstructor
+  static class FieldVo {
+    private String name;
+    private String iterName;
+  }
   
-  public enum TestXmlString {
+  public static enum TestXmlString {
     XML_STR1,
     XML_STR2,
     XML_STR3,
     XML_STR4;
     
     String xmlstr;
+    List<FieldVo> headerFields;
+    List<FieldVo> bodyFields;
     
     TestXmlString() {
       String xmlstr = "";
+      headerFields = Arrays.asList(
+          new FieldVo("serviceName", null)
+          , new FieldVo("useSystemCode", null)
+          , new FieldVo("certServerId", null)
+          , new FieldVo("transactionUniqueId", null)
+          , new FieldVo("userDeptCode", null)
+          , new FieldVo("userName", null)
+          );
+      
       int idx = this.ordinal()+1;
       String name = this.name();
-      log.trace(String.format("[%d] %s", idx, name));
+      //log.trace(String.format("[%d] %s", idx, name));
       switch (idx) {
       case 1:
         xmlstr = "";
@@ -69,6 +91,17 @@ public class SampleXml {
         xmlstr += "    </getNaManMeritFamInfoResponse>";
         xmlstr += "  </soap:Body>";
         xmlstr += "</soap:Envelope>";
+        this.bodyFields = Arrays.asList(
+            new FieldVo("cnt", null)
+            , new FieldVo("resName", "meritFamInfoBody")
+            , new FieldVo("resSecrNum", "meritFamInfoBody")
+            , new FieldVo("relCd", "meritFamInfoBody")
+            , new FieldVo("authoriPsnYn", "meritFamInfoBody")
+            , new FieldVo("subjKbnCd", "meritFamInfoBody")
+            , new FieldVo("wondClassCd", "meritFamInfoBody")
+            , new FieldVo("inquRsltCd", "meritFamInfoBody")
+            , new FieldVo("validDate", "meritFamInfoBody")
+            );
         break;
       case 2:
         xmlstr = "";
@@ -91,6 +124,11 @@ public class SampleXml {
         xmlstr += "    </getNtsGoodTaxpayInfoResponse>";
         xmlstr += "  </soap:Body>";
         xmlstr += "</soap:Envelope>";
+        this.bodyFields = Arrays.asList(
+            new FieldVo("trtRsltCd", null)
+            , new FieldVo("trtRsltCntn", null)
+            , new FieldVo("mdlTxprYn", null)
+            );
         break;
       case 3:
         xmlstr = "";
@@ -118,6 +156,15 @@ public class SampleXml {
         xmlstr += "    </getReductionBscLivYnResponse>";
         xmlstr += "  </soap:Body>";
         xmlstr += "</soap:Envelope>";
+        this.bodyFields = Arrays.asList(
+            new FieldVo("TGTR_NM", null)
+            , new FieldVo("TGTR_RRN", null)
+            , new FieldVo("FCT_YN", null)
+            , new FieldVo("BSLF01_YN", null)
+            , new FieldVo("BSLF02_YN", null)
+            , new FieldVo("BSLF03_YN", null)
+            , new FieldVo("BSLF04_YN", null)
+            );
         break;
       case 4:
         xmlstr = "";
@@ -155,6 +202,15 @@ public class SampleXml {
         xmlstr += "    </getReductionFarmMngYnResponse>";
         xmlstr += "  </soap:Body>";
         xmlstr += "</soap:Envelope>";
+        this.bodyFields = Arrays.asList(
+            new FieldVo("AGRM_NM", null)
+            , new FieldVo("BZM_REL_DVCD", null)
+            , new FieldVo("USE_YN", null)
+            , new FieldVo("REG_DT", null)
+            , new FieldVo("ADDR", null)
+            , new FieldVo("AGRM_NM", "DataList")
+            , new FieldVo("BZM_REL_DVCD", "DataList")
+            );
         break;
       }
       this.xmlstr = xmlstr;
@@ -162,6 +218,14 @@ public class SampleXml {
     
     public String getXmlStr() {
       return this.xmlstr;
+    }
+    
+    public List<FieldVo> getHeaderFields() {
+      return this.headerFields;
+    }
+    
+    public List<FieldVo> getBodyFields() {
+      return this.bodyFields;
     }
   }
   
@@ -212,11 +276,11 @@ public class SampleXml {
     pathstr = "/Envelope/Body/get"+serviceName+"Response";
     resultMap.put("body", getMapByPath(xmlstr, pathstr));
     
-    log.debug("map: {}", resultMap);
+    //log.debug("map: {}", resultMap);
     ObjectMapper objectMapper = new ObjectMapper();
     try {
       String jsonstr = objectMapper.writeValueAsString(resultMap);
-      log.info("{}", jsonstr);
+      //log.info("{}", jsonstr);
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }
@@ -310,12 +374,23 @@ public class SampleXml {
   }
   
   public static void main(String[] args) throws Exception {
-    Arrays.asList(TestXmlString.values()).stream().forEach(item -> {
-      try {
-        SampleXml.convertToMap(item);
-      } catch (Exception e) {
-        e.printStackTrace();
+    // performance
+    ConcurrentHashMap<Integer, Integer> map = new ConcurrentHashMap<>();
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+      System.out.println("--- summary ---");
+      map.forEach((k, v) -> System.out.println("Phase: " + k + ", Throughput: " + v));
+    }));
+    int phase = 0;
+    long start = System.currentTimeMillis();
+    for (int i=0; i<=100000; i++) {
+      int time = (int) ((System.currentTimeMillis() - start) / 1000);
+      SampleXml.TestXmlString xml = SampleXml.TestXmlString.values()[i%SampleXml.TestXmlString.values().length];
+      convertToMap(xml);
+      map.merge(time, 1, Integer::sum);
+      if (map.size() > phase + 1) {
+        System.out.println("Phase: " + phase + ", Throughput: " + map.get(phase));
+        phase++;
       }
-    });
+    }
   }
 }
