@@ -87,6 +87,13 @@
       <artifactId>jackson-databind</artifactId>
     </dependency>
     
+    
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-jdbc</artifactId>
+      <version>8.5.93</version>
+    </dependency>
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
