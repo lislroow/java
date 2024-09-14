@@ -3,7 +3,7 @@ plugins {
   id 'maven-publish'
   //id 'org.springframework.boot' version '3.3.3'
   //id 'org.jetbrains.kotlin.jvm' version '1.9.25'
-  id 'org.jetbrains.kotlin.jvm' version '1.8.22'
+  //id 'org.jetbrains.kotlin.jvm' version '1.8.22'
 }
 
 ext {
@@ -12,7 +12,8 @@ ext {
     mavenLocal()
   }
   
-  java_version = 17
+  //java_version = 17
+  java_version = 8
   //kotlin_version = '1.9.25'
   kotlin_version = '1.8.22'
   
@@ -39,16 +40,16 @@ java {
   targetCompatibility = java_version.toString()
 }
 
-sourceSets {
-  main {
-    java {
-      srcDir 'src/main/java'
-    }
-    kotlin {
-      srcDir 'src/main/kotlin'
-    }
-  }
-}
+//sourceSets {
+//  main {
+//    java {
+//      srcDir 'src/main/java'
+//    }
+//    kotlin {
+//      srcDir 'src/main/kotlin'
+//    }
+//  }
+//}
 
 dependencies {
   constraints {
@@ -71,15 +72,15 @@ tasks.withType(JavaCompile) {
   options.encoding = 'utf-8'
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-  kotlinOptions {
-    jvmTarget = "17"
-  }
-}
+//tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+//  kotlinOptions {
+//    jvmTarget = java_version.toString()
+//  }
+//}
 
-tasks.named("compileJava") {
-  dependsOn tasks.named("compileKotlin")
-}
+//tasks.named("compileJava") {
+//  dependsOn tasks.named("compileKotlin")
+//}
 
 dependencies {
   //implementation platform("org.springframework.boot:spring-boot-dependencies:${spring_boot_version}")
@@ -88,8 +89,8 @@ dependencies {
   //compileOnly "org.projectlombok:lombok:${lombok_version}"
   //annotationProcessor "org.projectlombok:lombok:${lombok_version}"
   
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
-  implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}"
+  //implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+  //implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}"
   //implementation "org.slf4j:slf4j-api"
   //implementation "ch.qos.logback:logback-classic"
   //implementation "org.mapstruct:mapstruct:${mapstruct_version}"

@@ -5,7 +5,7 @@ public class HelloWorld {
   
   public static void main(String[] args) {
     System.out.println("Hello, World");
-    MyKotlinClass myKotlinClass = new MyKotlinClass();
+//    MyKotlinClass myKotlinClass = new MyKotlinClass();
     
   }
 }
