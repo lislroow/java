@@ -7,7 +7,6 @@ if [ "${BASEDIR}" == '/usr/bin' ]; then
 fi
 
 LIST=($(cat <<- EOF
-
 .project
 .settings
 .classpath
@@ -19,6 +18,12 @@ target
 .gradle
 build
 bin
+
+.gitlab-ci.yml
+mvnw
+mvnw.cmd
+gradle
+.mvn
 
 EOF
 ))
