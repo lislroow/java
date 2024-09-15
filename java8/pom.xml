@@ -40,7 +40,7 @@
       Maven requires an absolute path for systemPath.
       mvn install:install-file -Dfile=<path-to-file> -DgroupId=nl.captcha -DartifactId=simplecaptcha -Dversion=1.2.1 -Dpackaging=jar
       -->
-      <systemPath>C:\project\experimental\java8\libs\simplecaptcha-1.2.1.jar</systemPath>
+      <systemPath>C:\project\java\java8\libs\simplecaptcha-1.2.1.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.apache.kafka</groupId>
