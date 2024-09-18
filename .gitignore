@@ -18,6 +18,12 @@
 */.vscode
 
 
+# [idea]
+.idea
+
+*/.idea
+
+
 # [maven]
 target
 .mvn
