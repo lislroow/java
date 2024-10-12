@@ -40,3 +40,6 @@ bin
 */.gradle
 */build
 */bin
+
+# [project]
+gpki
