@@ -43,3 +43,9 @@ bin
 
 # [project]
 gpki
+
+# [sonarqube]
+.scannerwork
+.sonarlint
+*/.scannerwork
+*/.sonarlint
