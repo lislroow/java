@@ -2,11 +2,11 @@
 <!DOCTYPE mapper
 		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="spring.sample.common.aspectj.dao.NsBlockedClientDao">
+<mapper namespace="spring.sample.app.dao.BlockedClientDao">
 
   <insert id="insertBlock">
     INSERT /* IP 차단 저장 insertBlock */
-    INTO ns_blocked_client (
+    INTO blocked_client (
       remote_addr,
       unblock_time
     ) VALUES (
@@ -15,11 +15,11 @@
     )
   </insert>
   
-  <select id="selectBlockedListByIpAndTime" resultType="nsBlockedClientVo">
+  <select id="selectBlockedListByIpAndTime" resultType="BlockedClientVo">
     SELECT /* IP 차단 조회 selectBlockedListByIpAndTime */
            remote_addr,
            unblock_time
-      FROM ns_blocked_client
+      FROM blocked_client
      WHERE 1=1
        <![CDATA[
        AND remote_addr = #{remoteAddr}

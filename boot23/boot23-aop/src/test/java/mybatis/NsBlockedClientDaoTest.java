@@ -12,8 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 
 import spring.sample.Boot23AopMain;
-import spring.sample.common.aspectj.dao.NsBlockedClientDao;
-import spring.sample.common.vo.NsBlockedClientVo;
+import spring.sample.app.dao.BlockedClientDao;
+import spring.sample.app.vo.BlockedClientVo;
 
 @MybatisTest
 @ContextConfiguration(classes = {Boot23AopMain.class})
@@ -21,7 +21,7 @@ import spring.sample.common.vo.NsBlockedClientVo;
 public class NsBlockedClientDaoTest {
   
   @Autowired
-  private NsBlockedClientDao dao;
+  private BlockedClientDao dao;
   
   @Test
   @Sql("/test-sql/NsBlockedClientDaoTest.sql")
@@ -31,7 +31,7 @@ public class NsBlockedClientDaoTest {
     Long currentTime = 1725126820848L;
 
     // when
-    List<NsBlockedClientVo> vo = dao.selectBlockedListByIpAndTime(remoteAddr, currentTime);
+    List<BlockedClientVo> vo = dao.selectBlockedListByIpAndTime(remoteAddr, currentTime);
 
     // then
     assertThat(vo).isNotNull();

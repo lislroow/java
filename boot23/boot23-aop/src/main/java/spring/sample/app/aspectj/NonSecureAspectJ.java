@@ -1,10 +1,8 @@
-package spring.sample.common.aspectj;
+package spring.sample.app.aspectj;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,24 +18,20 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.sample.common.aspectj.dao.NsBlockedClientDao;
-import spring.sample.common.aspectj.dao.NsTraceApiDao;
-import spring.sample.common.vo.NsBlockedClientVo;
-import spring.sample.common.vo.NsTraceApiVo;
-
-/**
- * 공통 Aspectj
- */
+import spring.sample.app.dao.BlockedClientDao;
+import spring.sample.app.dao.TraceApiDao;
+import spring.sample.app.vo.BlockedClientVo;
+import spring.sample.app.vo.TraceApiVo;
 
 @Aspect
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class NonSecureAspect {
+public class NonSecureAspectJ {
 
   static List<String> cardList = Arrays.asList("1234-1234-1234-1234", "5678-5678-5678-5678");
-  final NsTraceApiDao nsTraceApiDao;
-  final NsBlockedClientDao nsBlockedClientDao;
+  final TraceApiDao traceApiDao;
+  final BlockedClientDao blockedClientDao;
   
   @Around("@annotation(spring.sample.common.annotation.NonSecure)")
   public Object aroundPpcToken(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -70,11 +64,11 @@ public class NonSecureAspect {
     {
       // IP 차단 체크 > blocked 일 경우 unblockTime 증가
       {
-        List<NsBlockedClientVo> blockList = nsBlockedClientDao.selectBlockedListByIpAndTime(remoteAddr, currentTime);
+        List<BlockedClientVo> blockList = blockedClientDao.selectBlockedListByIpAndTime(remoteAddr, currentTime);
         long blockCount = blockList.stream().count();
         if (!(blockCount > 0)) {
           long unblockTime = currentTime + ((long)Math.pow(BLOCKTIME_UNIT, blockCount) * MILL);
-          nsBlockedClientDao.insertBlock(remoteAddr, unblockTime);
+          blockedClientDao.insertBlock(remoteAddr, unblockTime);
           Assert.isTrue((blockCount > 0), String.format("%s is blocked. try again in %d seconds", remoteAddr, ((long)Math.pow(BLOCKTIME_UNIT, blockCount))));
         }
       }
@@ -92,7 +86,7 @@ public class NonSecureAspect {
       //   - 유효 여부: 3
       {
         long criteriaTime = currentTime + ATTEMP_SAME_INTERVAL;
-        List<NsTraceApiVo> tokenList = nsTraceApiDao.selectTraceListByIpAndTime(remoteAddr, criteriaTime);
+        List<TraceApiVo> tokenList = traceApiDao.selectTraceListByIpAndTime(remoteAddr, criteriaTime);
         long attempCount = tokenList.stream()
             .filter(token -> {
               return remoteAddr.equals(token.getRemoteAddr()) && 
@@ -101,22 +95,22 @@ public class NonSecureAspect {
             .count();
         if (!(ATTEMP_ALLOW_COUNT > attempCount)) {
           long unblockTime = currentTime + ((long)Math.pow(BLOCKTIME_UNIT, 1) * MILL);
-          nsBlockedClientDao.insertBlock(remoteAddr, unblockTime);
+          blockedClientDao.insertBlock(remoteAddr, unblockTime);
           Assert.isTrue((ATTEMP_ALLOW_COUNT > attempCount), String.format("%s is blocked. exceeded maximum number of attemps. try again in %d seconds", remoteAddr, ((long)Math.pow(BLOCKTIME_UNIT, 1))));
         }
       }
       
       // 토큰 생성 혹은 조회
-      NsTraceApiVo tokenVo = null;
+      TraceApiVo tokenVo = null;
       if (StringUtils.isBlank(tokenId)) { // 'CARD-TOKEN' 이 없을 경우
         tokenId = UUID.randomUUID().toString();
-        nsTraceApiDao.saveTrace(tokenId, remoteAddr, currentTime);
-        tokenVo = nsTraceApiDao.selectTraceById(tokenId);
+        traceApiDao.saveTrace(tokenId, remoteAddr, currentTime);
+        tokenVo = traceApiDao.selectTraceById(tokenId);
       } else { // 'CARD-TOKEN' 이 있을 경우
-        tokenVo = nsTraceApiDao.selectTraceById(tokenId);
+        tokenVo = traceApiDao.selectTraceById(tokenId);
         if (tokenVo == null) {
           tokenId = UUID.randomUUID().toString();
-          nsTraceApiDao.saveTrace(tokenId, remoteAddr, currentTime);
+          traceApiDao.saveTrace(tokenId, remoteAddr, currentTime);
         }
       }
     }

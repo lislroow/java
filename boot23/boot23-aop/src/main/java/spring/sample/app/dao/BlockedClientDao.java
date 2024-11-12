@@ -1,4 +1,4 @@
-package spring.sample.common.aspectj.dao;
+package spring.sample.app.dao;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import spring.sample.common.vo.NsBlockedClientVo;
+import spring.sample.app.vo.BlockedClientVo;
 
 /**
  * 카드 비회원 인증
@@ -18,7 +18,7 @@ import spring.sample.common.vo.NsBlockedClientVo;
  */
 @Mapper
 @Repository
-public interface NsBlockedClientDao {
+public interface BlockedClientDao {
 
   /**
    * IP 차단 저장
@@ -36,5 +36,5 @@ public interface NsBlockedClientDao {
    * @return List&lt;NsBlockedClientVo&gt;
    * @date 2024-08-30
    */
-  List<NsBlockedClientVo> selectBlockedListByIpAndTime(@Param("remoteAddr") String remoteAddr, @Param("currentTime") Long currentTime);
+  List<BlockedClientVo> selectBlockedListByIpAndTime(@Param("remoteAddr") String remoteAddr, @Param("currentTime") Long currentTime);
 }

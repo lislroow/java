@@ -1,11 +1,8 @@
-package spring.sample.common.aspectj.entity;
-
-import java.util.UUID;
+package spring.sample.app.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -23,9 +20,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "ns_trace_api")
+@Table(name = "trace_api")
 @EqualsAndHashCode(callSuper=false)
-public class NsTraceApiEntity {
+public class TraceApiEntity {
   
   /*
   @PrePersist

@@ -13,8 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import spring.sample.Boot23AopMain;
-import spring.sample.common.aspectj.entity.NsBlockedClientEntity;
-import spring.sample.common.aspectj.repository.NsBlockedClientRepository;
+import spring.sample.app.entity.BlockedClientEntity;
+import spring.sample.app.repository.BlockedClientRepository;
 
 @DataJpaTest
 @ContextConfiguration(classes = {Boot23AopMain.class})
@@ -22,12 +22,12 @@ import spring.sample.common.aspectj.repository.NsBlockedClientRepository;
 public class NsBlockedClientRepositoryTest {
   
   @Autowired
-  private NsBlockedClientRepository repository;
+  private BlockedClientRepository repository;
   
   @BeforeEach
   void setup() {
     long currTime = System.currentTimeMillis();
-    NsBlockedClientEntity entity = NsBlockedClientEntity.builder()
+    BlockedClientEntity entity = BlockedClientEntity.builder()
         .id(UUID.randomUUID().toString())
         .remoteAddr("127.0.0.1")
         .unblockTime(currTime + 100_000L)
@@ -41,7 +41,7 @@ public class NsBlockedClientRepositoryTest {
     String remoteAddr = "127.0.0.1";
     
     // when
-    Optional<NsBlockedClientEntity> found = repository.findByRemoteAddr(remoteAddr);
+    Optional<BlockedClientEntity> found = repository.findByRemoteAddr(remoteAddr);
     
     assertThat(found.isPresent()).isTrue();
   }

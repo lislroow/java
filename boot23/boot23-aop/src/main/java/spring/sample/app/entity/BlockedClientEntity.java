@@ -1,4 +1,4 @@
-package spring.sample.common.aspectj.entity;
+package spring.sample.app.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,9 +18,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "ns_blocked_client")
+@Table(name = "blocked_client")
 @EqualsAndHashCode(callSuper=false)
-public class NsBlockedClientEntity {
+public class BlockedClientEntity {
   
   @Id
   @Column(columnDefinition = "varchar(36)")

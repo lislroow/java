@@ -1,4 +1,4 @@
-package spring.sample.common.aspectj.dao;
+package spring.sample.app.dao;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import spring.sample.common.vo.NsTraceApiVo;
+import spring.sample.app.vo.TraceApiVo;
 
 /**
  * 카드 비회원 인증
@@ -18,7 +18,7 @@ import spring.sample.common.vo.NsTraceApiVo;
  */
 @Mapper
 @Repository
-public interface NsTraceApiDao {
+public interface TraceApiDao {
 
   /**
    * 추적정보 조회  
@@ -26,7 +26,7 @@ public interface NsTraceApiDao {
    * @return NsTraceApiVo
    * @date 2024-08-30
    */
-  NsTraceApiVo selectTraceById(@Param("id") String id);
+  TraceApiVo selectTraceById(@Param("id") String id);
   
   /**
    * 추적정보 목록 조회
@@ -35,7 +35,7 @@ public interface NsTraceApiDao {
    * @return List&lt;NsTraceApiVo&gt;
    * @date 2024-08-30
    */
-  List<NsTraceApiVo> selectTraceListByIpAndTime(@Param("remoteAddr") String remoteAddr, @Param("criteriaTime") Long criteriaTime);
+  List<TraceApiVo> selectTraceListByIpAndTime(@Param("remoteAddr") String remoteAddr, @Param("criteriaTime") Long criteriaTime);
   
   /**
    * 추적정보 저장

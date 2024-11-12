@@ -13,8 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import spring.sample.Boot23AopMain;
-import spring.sample.common.aspectj.entity.NsTraceApiEntity;
-import spring.sample.common.aspectj.repository.NsTraceApiRepository;
+import spring.sample.app.entity.TraceApiEntity;
+import spring.sample.app.repository.TraceApiRepository;
 
 @DataJpaTest
 @ContextConfiguration(classes = {Boot23AopMain.class})
@@ -22,12 +22,12 @@ import spring.sample.common.aspectj.repository.NsTraceApiRepository;
 public class NsTraceApiRepositoryTest {
   
   @Autowired
-  private NsTraceApiRepository repository;
+  private TraceApiRepository repository;
   
   @BeforeEach
   void setup() {
     long currTime = System.currentTimeMillis();
-    NsTraceApiEntity entity = NsTraceApiEntity.builder()
+    TraceApiEntity entity = TraceApiEntity.builder()
         .id(UUID.randomUUID().toString())
         .remoteAddr("127.0.0.1")
         .param("1234")
@@ -45,7 +45,7 @@ public class NsTraceApiRepositoryTest {
     String param = "1234";
     
     // when
-    Optional<NsTraceApiEntity> found = repository.findByRemoteAddr(remoteAddr);
+    Optional<TraceApiEntity> found = repository.findByRemoteAddr(remoteAddr);
     
     assertThat(found.isPresent()).isTrue();
     assertThat(found.get().getParam()).isEqualTo(param);

@@ -10,8 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 
 import spring.sample.Boot23AopMain;
-import spring.sample.common.aspectj.dao.NsTraceApiDao;
-import spring.sample.common.vo.NsTraceApiVo;
+import spring.sample.app.dao.TraceApiDao;
+import spring.sample.app.vo.TraceApiVo;
 
 @MybatisTest
 @ContextConfiguration(classes = {Boot23AopMain.class})
@@ -19,7 +19,7 @@ import spring.sample.common.vo.NsTraceApiVo;
 public class NsTraceApiDaoTest {
   
   @Autowired
-  private NsTraceApiDao dao;
+  private TraceApiDao dao;
   
   @Test
   @Sql("/test-sql/NsTraceApiDaoTest.sql")
@@ -28,7 +28,7 @@ public class NsTraceApiDaoTest {
     String id = "24c33c06-c0e4-4175-92f0-7f00bd7f0857";
 
     // when
-    NsTraceApiVo vo = dao.selectTraceById(id);
+    TraceApiVo vo = dao.selectTraceById(id);
 
     // then
     assertThat(vo).isNotNull();
