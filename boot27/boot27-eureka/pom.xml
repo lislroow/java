@@ -4,7 +4,7 @@
   <artifactId>boot27-eureka</artifactId>
   <parent>
     <groupId>spring.sample</groupId>
-    <artifactId>boot23</artifactId>
+    <artifactId>boot27</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
   
