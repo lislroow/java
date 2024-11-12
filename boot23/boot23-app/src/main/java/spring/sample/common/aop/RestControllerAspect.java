@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.sample.common.aop.annotation.Login;
-import spring.sample.common.aop.annotation.UserInfo;
+import spring.sample.common.annotation.Login;
+import spring.sample.common.annotation.UserInfo;
 import spring.sample.common.constant.Constant;
 
 @Aspect
