@@ -1,3 +1,9 @@
+### 99. snippets
+
+
+#### 1) 반복 테스트용 스크립트
+
+```shell
 #!/bin/bash
 
 # VAR
@@ -104,3 +110,4 @@ main
 # //main
 
 exit 0
+```

@@ -1,12 +1,13 @@
+### 1. vertica 설치
 
-### 1) 다운로드
+#### 1) download
 
 - https://www.vertica.com/ 로그인 후 `Support & Services` > `Downloads` 에서 다운로드 합니다.
 - 다운로드 시 email 인증이 필요합니다.
 - rocky 8 에 설치할 rpm 파일 다운로드 (vertica-23.4.0-0.x86_64.RHEL6.rpm)
 
 
-### 2) 설치 준비
+#### 2) prepare
 
 - 의존성: yum install gdb mcelog sysstat openssh which dialog chrony
 - 커널 파라미터: /etc/sysctl.conf (vm.swappiness = 1)
@@ -49,7 +50,7 @@ chown dbadmin:verticadba /data
 chown dbadmin:verticadba /catalog
 ```
 
-### 3) 설치
+#### 3) installation
 
 - cluster 구성으로 설치 (3개의 host 가 모두 booting 상태에서 설치 진행)
 
@@ -82,4 +83,5 @@ admintools \
 ------------+------+-------
  cluster_db | ALL  | UP    
 
-[dbadmin@rocky8-vertica-node1 ~]$ ```
+[dbadmin@rocky8-vertica-node1 ~]$ 
+```
