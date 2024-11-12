@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import spring.sample.constant.Contant;
 
@@ -15,7 +14,6 @@ import spring.sample.constant.Contant;
 @MapperScan(
     basePackages = {Contant.BASE_PACKAGE},
     annotationClass = org.apache.ibatis.annotations.Mapper.class)
-@EnableWebMvc
 public class Boot23AopMain {
   
   public static void main(String[] args) {
