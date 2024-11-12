@@ -1,15 +1,13 @@
-package spring.sample.config;
+package spring.sample.config.properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = SecurityConfigProperties.PREFIX)
+@ConfigurationProperties(prefix = "spring.sample.security")
 public class SecurityConfigProperties {
   
   Logger log = LoggerFactory.getLogger(SecurityConfigProperties.class);
-  
-  public static final String PREFIX = "sample.security";
   
   private String tokenSignkey;
   private String loginUri;

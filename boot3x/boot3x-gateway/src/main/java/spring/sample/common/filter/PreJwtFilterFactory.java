@@ -1,23 +1,12 @@
-package spring.sample.filter;
-
-import java.util.Base64;
-
-import javax.crypto.SecretKey;
+package spring.sample.common.filter;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import reactor.core.publisher.Mono;
-import spring.sample.config.SecurityConfigProperties;
+import spring.sample.config.properties.SecurityConfigProperties;
 
 public class PreJwtFilterFactory extends AbstractGatewayFilterFactory<PreJwtFilterFactory.Config> {
 
@@ -27,15 +16,18 @@ public class PreJwtFilterFactory extends AbstractGatewayFilterFactory<PreJwtFilt
     super(Config.class);
     SECRET_KEY = properties.getTokenSignkey();
   }
-  
+
+  /*
   private SecretKey getSigningKey() {
     byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
     return Keys.hmacShaKeyFor(keyBytes);
   }
-  
+  */
   @Override
   public GatewayFilter apply(Config config) {
     return (exchange, chain) -> {
+      return chain.filter(exchange);
+      /*
       String authorizationHeader = exchange.getRequest().getHeaders().getFirst(config.headerName);
       if (StringUtils.hasText(authorizationHeader) &&
           authorizationHeader.startsWith(config.granted)) {
@@ -56,9 +48,11 @@ public class PreJwtFilterFactory extends AbstractGatewayFilterFactory<PreJwtFilt
         }
       }
       return unauthorizedResponse(exchange);
+      */
     };
   }
-  
+
+  /*
   private Jws<Claims> isValidToken(String token) {
     Jws<Claims> jws = null;
     try {
@@ -71,7 +65,7 @@ public class PreJwtFilterFactory extends AbstractGatewayFilterFactory<PreJwtFilt
     }
     return jws;
   }
-  
+  */
   private Mono<Void> unauthorizedResponse(ServerWebExchange exchange) {
     exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
     return exchange.getResponse().setComplete();
