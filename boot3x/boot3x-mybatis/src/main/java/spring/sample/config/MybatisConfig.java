@@ -5,7 +5,6 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.ExecutorType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +19,6 @@ import org.springframework.util.ObjectUtils;
 import spring.sample.config.mybatis.DaoSupport;
 
 @Configuration
-@MapperScan(basePackages = MybatisConfig.BASE_PACKAGES,
-            annotationClass = org.apache.ibatis.annotations.Mapper.class
-)
 public class MybatisConfig {
   
   Logger log = LoggerFactory.getLogger(MybatisConfig.class);

@@ -4,7 +4,6 @@ import javax.sql.DataSource;
 
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,6 @@ import org.springframework.util.ObjectUtils;
 @Configuration
 @Conditional(MybatisProperties.class)
 @EnableConfigurationProperties({MybatisProperties.class})
-@MapperScan(basePackages = MybatisConfig.BASE_PACKAGES,
-            annotationClass = org.apache.ibatis.annotations.Mapper.class
-)
 public class MybatisConfig {
   
   Logger log = LoggerFactory.getLogger(MybatisConfig.class);
