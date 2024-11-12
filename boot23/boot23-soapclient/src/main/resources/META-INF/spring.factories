@@ -1,0 +1,2 @@
+org.springframework.context.ApplicationContextInitializer=\
+spring.sample.initial.BootApplicationContextInitializer

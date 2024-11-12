@@ -1,4 +1,4 @@
-package spring.sample.config;
+package spring.sample.initial;
 
 import org.springframework.boot.BootstrapRegistry;
 
