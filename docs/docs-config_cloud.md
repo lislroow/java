@@ -26,6 +26,8 @@ eureka.instance.lease-expiration-duration-in-seconds=3
 
 # '임대 갱신' 클라이언트가 eureka 서버에 정상 상태임을 알리는 주기
 eureka.instance.lease-renewal-interval-in-seconds=3
+
+eureka.instance.instance-id=${spring.application.name}:${spring.application.instance_id:${random.value}}
 ```
 
 #### eureka.server
