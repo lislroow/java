@@ -1,4 +1,4 @@
-package spring.sample.security;
+package spring.sample.common.security;
 
 import java.io.IOException;
 
@@ -18,7 +18,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import spring.sample.config.SecurityConfigProperties;
+import spring.sample.common.vo.UserVo;
+import spring.sample.config.properties.SecurityConfigProperties;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
   
@@ -30,6 +31,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
   public LoginFilter(
       AuthenticationManager authenticationManager,
       SecurityConfigProperties properties) {
+    
     super(authenticationManager);
     this.authenticationManager = authenticationManager;
     LOGIN_URI = properties.getLoginUri();
@@ -44,13 +46,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     return Keys.hmacShaKeyFor(keyBytes);
   }
 
-/*
-curl -I -X POST --location 'http://localhost:8888/api/user/login?email=hi@mgkim.net&password=123'
-*/
   @Override
   public Authentication attemptAuthentication(
       HttpServletRequest request,
       HttpServletResponse response) throws AuthenticationException {
+    
     String email = request.getParameter("email");
     String password = request.getParameter("password");
     Authentication authentication = authenticationManager.authenticate(
@@ -65,18 +65,21 @@ curl -I -X POST --location 'http://localhost:8888/api/user/login?email=hi@mgkim.
       FilterChain chain,
       Authentication authResult
       ) throws IOException, ServletException {
-    User user = (User) authResult.getPrincipal();
+    
+    UserVo userVo = (UserVo) authResult.getPrincipal();
     String token = Jwts.builder()
-        .claim("id", user.getId())
-        .claim("email", user.getEmail())
+        .claim("id", userVo.getId())
+        .claim("email", userVo.getEmail())
         .signWith(getSigningKey())
         .compact();
     response.addHeader("x-token", token);
   }
   
   @Override
-  protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+  protected void unsuccessfulAuthentication(
+      HttpServletRequest request, HttpServletResponse response,
       AuthenticationException failed) throws IOException, ServletException {
+    
     super.unsuccessfulAuthentication(request, response, failed);
     System.err.println(failed);
   }

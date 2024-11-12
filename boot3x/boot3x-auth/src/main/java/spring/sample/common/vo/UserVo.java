@@ -1,4 +1,4 @@
-package spring.sample.security;
+package spring.sample.common.vo;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class User implements UserDetails {
+public class UserVo implements UserDetails {
   
   private static final long serialVersionUID = -3598946512034036123L;
   

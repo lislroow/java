@@ -24,8 +24,6 @@ public class MybatisConfig {
   
   public static final String BASE_PACKAGES = "spring";
 
-  //@Autowired
-  //LazyConnectionDataSourceProxy dataSource;
   @Autowired
   DataSource dataSource;
   

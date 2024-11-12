@@ -8,17 +8,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import spring.sample.security.LoginFilter;
-import spring.sample.security.UserDetailsServiceImpl;
+import spring.sample.common.security.LoginFilter;
+import spring.sample.common.security.UserDetailsServiceImpl;
+import spring.sample.config.properties.SecurityConfigProperties;
 
 @Configuration
-@EnableWebSecurity
 @EnableConfigurationProperties({SecurityConfigProperties.class})
 public class SecurityConfig {
   
@@ -43,6 +42,7 @@ public class SecurityConfig {
       .authorizeHttpRequests((authorizeHttpRequests) -> {
         authorizeHttpRequests.requestMatchers("/actuator/**").permitAll();
         authorizeHttpRequests.requestMatchers("/health-check/**").permitAll();
+        authorizeHttpRequests.requestMatchers("/mybatis/**").permitAll();
         authorizeHttpRequests.requestMatchers("/**").authenticated();
       })
       .addFilterAt(new LoginFilter(authenticationManager, properties),
