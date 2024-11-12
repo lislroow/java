@@ -18,7 +18,7 @@ public class SecurityConfig {
       .authorizeHttpRequests((authorizeHttpRequests) -> {
         authorizeHttpRequests.requestMatchers("/actuator/**").permitAll();
         authorizeHttpRequests.requestMatchers("/health-check/**").permitAll();
-        //authorizeHttpRequests.requestMatchers("/mybatis/**").permitAll();
+        authorizeHttpRequests.requestMatchers("/mybatis/**").permitAll();
         authorizeHttpRequests.requestMatchers("/**").authenticated();
       });
     SecurityFilterChain securityFilterChain = http.build();
