@@ -35,5 +35,6 @@ eureka.server.enable-self-preservation=false
 
 eureka.server.response-cache-update-interval-ms=3000
 
-eureka.server.eviction-interval-timer-in-ms=1000
+# 등록된 인스턴스 중 만료된 인스턴스를 제거하는 주기
+eureka.server.eviction-interval-timer-in-ms=10000
 ```
