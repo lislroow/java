@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import spring.sample.common.audit.AuditVo;
-import spring.sample.config.mybatis.Pageable;
+import spring.sample.common.mybatis.Pageable;
 
 @Data
 @EqualsAndHashCode(callSuper=false)

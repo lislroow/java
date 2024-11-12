@@ -1,4 +1,4 @@
-package spring.sample.config.validator;
+package spring.sample.common.validator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

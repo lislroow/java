@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.Data;
 import spring.sample.app.vo.EmployVo;
-import spring.sample.config.mybatis.Paged;
+import spring.sample.common.mybatis.Paged;
 
 @Data
 public class EmployResDto {

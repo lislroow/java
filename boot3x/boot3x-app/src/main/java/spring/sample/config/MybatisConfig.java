@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.util.ObjectUtils;
 
-import spring.sample.config.mybatis.DaoSupport;
+import spring.sample.common.mybatis.DaoSupport;
 
 @Configuration
 public class MybatisConfig {
@@ -52,7 +52,7 @@ public class MybatisConfig {
     // ---
     
     // 페이징 처리를 위한 mybatis-plugin 추가
-    sqlSessionFactoryBean.setPlugins(new spring.sample.config.mybatis.PagingInterceptor());
+    sqlSessionFactoryBean.setPlugins(new spring.sample.common.mybatis.PagingInterceptor());
     return sqlSessionFactoryBean;
   }
   

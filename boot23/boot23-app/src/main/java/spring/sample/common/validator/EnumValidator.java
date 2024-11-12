@@ -1,4 +1,4 @@
-package spring.sample.config.validator;
+package spring.sample.common.validator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

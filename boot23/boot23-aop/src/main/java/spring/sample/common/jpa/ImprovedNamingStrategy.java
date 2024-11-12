@@ -1,4 +1,4 @@
-package spring.sample.config.jpa;
+package spring.sample.common.jpa;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;

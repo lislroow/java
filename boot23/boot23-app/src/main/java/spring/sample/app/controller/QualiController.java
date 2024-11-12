@@ -12,7 +12,7 @@ import spring.sample.app.enumcode.SOAP_CLIENT_TYPE;
 import spring.sample.app.feign.FeignInternalSoapclientController;
 import spring.sample.common.dto.ResponseDto;
 import spring.sample.common.enumcode.RESPONSE_CODE;
-import spring.sample.config.validator.EnumValidator;
+import spring.sample.common.validator.EnumValidator;
 
 @RestController
 @Validated

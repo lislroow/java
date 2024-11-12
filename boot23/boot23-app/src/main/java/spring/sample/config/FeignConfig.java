@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import feign.Feign;
 import feign.Retryer;
 import okhttp3.ConnectionPool;
-import spring.sample.config.feign.FeignInterceptor;
+import spring.sample.common.feign.FeignInterceptor;
 
 @Configuration
 @ConditionalOnClass(Feign.class)

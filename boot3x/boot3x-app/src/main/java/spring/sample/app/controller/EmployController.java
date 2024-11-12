@@ -19,9 +19,9 @@ import spring.sample.app.dto.EmployResDto;
 import spring.sample.app.service.EmployService;
 import spring.sample.app.vo.EmployVo;
 import spring.sample.common.dto.ResponseDto;
-import spring.sample.config.mybatis.Pageable;
-import spring.sample.config.mybatis.Paged;
-import spring.sample.config.mybatis.PagedList;
+import spring.sample.common.mybatis.Pageable;
+import spring.sample.common.mybatis.Paged;
+import spring.sample.common.mybatis.PagedList;
 
 @RestController
 @RequiredArgsConstructor

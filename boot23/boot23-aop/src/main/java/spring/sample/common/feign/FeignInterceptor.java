@@ -1,4 +1,4 @@
-package spring.sample.config.feign;
+package spring.sample.common.feign;
 
 import java.io.IOException;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package spring.sample.config.mybatis;
+package spring.sample.common.mybatis;
 
 import java.util.List;
 
