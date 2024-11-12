@@ -4,9 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -36,8 +33,8 @@ public class NonSecureAspectJ {
   @Around("@annotation(spring.sample.common.annotation.NonSecure)")
   public Object aroundPpcToken(ProceedingJoinPoint joinPoint) throws Throwable {
     long startTime = System.currentTimeMillis();
-    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-    HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+    javax.servlet.http.HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+    javax.servlet.http.HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
     
     String reqUri = request.getRequestURI();
     String method = request.getMethod();
