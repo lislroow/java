@@ -13,27 +13,24 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import spring.sample.Boot23AopMain;
-import spring.sample.app.entity.TraceApiEntity;
-import spring.sample.app.repository.TraceApiRepository;
+import spring.sample.app.entity.BlockedClientEntity;
+import spring.sample.app.repository.BlockedClientRepository;
 
 @DataJpaTest
 @ContextConfiguration(classes = {Boot23AopMain.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class NsTraceApiRepositoryTest {
+public class BlockedClientRepositoryTest {
   
   @Autowired
-  private TraceApiRepository repository;
+  private BlockedClientRepository repository;
   
   @BeforeEach
   void setup() {
     long currTime = System.currentTimeMillis();
-    TraceApiEntity entity = TraceApiEntity.builder()
+    BlockedClientEntity entity = BlockedClientEntity.builder()
         .id(UUID.randomUUID().toString())
         .remoteAddr("127.0.0.1")
-        .param("1234")
-        .expireTime(currTime + 60_000L)
-        .accessTime(currTime)
-        .failYn(false)
+        .unblockTime(currTime + 100_000L)
         .build();
     repository.save(entity);
   }
@@ -42,13 +39,11 @@ public class NsTraceApiRepositoryTest {
   void whenFindByRemoteAddr_thenSuccess() {
     // given
     String remoteAddr = "127.0.0.1";
-    String param = "1234";
     
     // when
-    Optional<TraceApiEntity> found = repository.findByRemoteAddr(remoteAddr);
+    Optional<BlockedClientEntity> found = repository.findByRemoteAddr(remoteAddr);
     
     assertThat(found.isPresent()).isTrue();
-    assertThat(found.get().getParam()).isEqualTo(param);
   }
   
 }

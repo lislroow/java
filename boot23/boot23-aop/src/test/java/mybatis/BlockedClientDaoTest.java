@@ -18,13 +18,13 @@ import spring.sample.app.vo.BlockedClientVo;
 @MybatisTest
 @ContextConfiguration(classes = {Boot23AopMain.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class NsBlockedClientDaoTest {
+public class BlockedClientDaoTest {
   
   @Autowired
   private BlockedClientDao dao;
   
   @Test
-  @Sql("/test-sql/NsBlockedClientDaoTest.sql")
+  @Sql("/test-sql/BlockedClientDaoTest.sql")
   void whenFindByIpAndTime_thenSuccess() {
     // given
     String remoteAddr = "127.0.0.1";

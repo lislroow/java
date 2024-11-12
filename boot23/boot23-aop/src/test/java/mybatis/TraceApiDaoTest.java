@@ -16,13 +16,13 @@ import spring.sample.app.vo.TraceApiVo;
 @MybatisTest
 @ContextConfiguration(classes = {Boot23AopMain.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class NsTraceApiDaoTest {
+public class TraceApiDaoTest {
   
   @Autowired
   private TraceApiDao dao;
   
   @Test
-  @Sql("/test-sql/NsTraceApiDaoTest.sql")
+  @Sql("/test-sql/TraceApiDaoTest.sql")
   void whenFindById_thenSuccess() {
     // given
     String id = "24c33c06-c0e4-4175-92f0-7f00bd7f0857";
