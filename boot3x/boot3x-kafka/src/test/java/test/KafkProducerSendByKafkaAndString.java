@@ -18,9 +18,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
-import spring.sample.constant.Constant;
-import spring.sample.kafka.mytopic.dto.MyTopicVO;
-import spring.sample.util.Uuid;
+import spring.sample.app.vo.MyTopicVo;
+import spring.sample.common.constant.Constant;
+import spring.sample.common.util.Uuid;
 
 public class KafkProducerSendByKafkaAndString {
 
@@ -55,7 +55,7 @@ public class KafkProducerSendByKafkaAndString {
 //        new org.apache.kafka.clients.producer.KafkaProducer<>(config);
         new org.apache.kafka.clients.producer.KafkaProducer<>(config, keySerializer, valueSerializer);
     
-    MyTopicVO data = new MyTopicVO();
+    MyTopicVo data = new MyTopicVo();
     {
       String id = Uuid.create();
       data.setId(id);

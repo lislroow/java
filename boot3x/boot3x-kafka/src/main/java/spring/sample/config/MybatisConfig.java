@@ -1,6 +1,9 @@
 package spring.sample.config;
 
+import javax.sql.DataSource;
+
 import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
@@ -11,20 +14,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.util.ObjectUtils;
 
-import spring.sample.config.mybatis.DaoSupport;
+import spring.sample.common.mybatis.DaoSupport;
 
 @Configuration
 public class MybatisConfig {
   
   Logger log = LoggerFactory.getLogger(MybatisConfig.class);
   
-  public static final String BASE_PACKAGES = "spring";
-
   @Autowired
-  LazyConnectionDataSourceProxy dataSource;
+  DataSource dataSource;
   
   @Autowired
   MybatisProperties mybatisProperties;
@@ -43,9 +43,16 @@ public class MybatisConfig {
     if (!ObjectUtils.isEmpty(typeAliasesPackage)) {
       sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
     }
-    sqlSessionFactoryBean.setConfigurationProperties(mybatisProperties.getConfigurationProperties());
+    
+    // ---
+    org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+    configuration.setJdbcTypeForNull(JdbcType.NULL);
+    configuration.setMapUnderscoreToCamelCase(true);
+    sqlSessionFactoryBean.setConfiguration(configuration);
+    // ---
+    
     // 페이징 처리를 위한 mybatis-plugin 추가
-    sqlSessionFactoryBean.setPlugins(new spring.sample.config.mybatis.PagingInterceptor());
+    sqlSessionFactoryBean.setPlugins(new spring.sample.common.mybatis.PagingInterceptor());
     return sqlSessionFactoryBean;
   }
   

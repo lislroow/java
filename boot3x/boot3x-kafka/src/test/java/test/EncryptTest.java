@@ -5,8 +5,8 @@ import java.util.stream.IntStream;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.jupiter.api.Test;
 
+import spring.sample.common.util.Uuid;
 import spring.sample.config.EncryptConfig;
-import spring.sample.util.Uuid;
 
 public class EncryptTest extends EncryptConfig {
   

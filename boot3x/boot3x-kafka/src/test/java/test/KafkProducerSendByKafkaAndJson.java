@@ -15,8 +15,8 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import spring.sample.kafka.mytopic.dto.MyTopicVO;
-import spring.sample.util.Uuid;
+import spring.sample.app.vo.MyTopicVo;
+import spring.sample.common.util.Uuid;
 
 public class KafkProducerSendByKafkaAndJson {
   
@@ -34,7 +34,7 @@ public class KafkProducerSendByKafkaAndJson {
     //config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, org.springframework.kafka.support.serializer.JsonSerializer.class);
     //config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, com.fasterxml.jackson.databind.JsonSerializer.class);
     
-    MyTopicVO data = new MyTopicVO();
+    MyTopicVo data = new MyTopicVo();
     {
       String id = Uuid.create();
       data.setId(id);
