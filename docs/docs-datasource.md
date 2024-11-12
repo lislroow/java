@@ -51,3 +51,10 @@ public class DataSourceConfig {
   }
 }
 ```
+
+#### 2) jdbc-url
+
+```
+# mssql
+jdbc:sqlserver://IP주소:1433;DatabaseName=데이터베이스명
+```
