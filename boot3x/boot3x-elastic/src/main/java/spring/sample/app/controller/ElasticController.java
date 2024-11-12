@@ -23,10 +23,8 @@ import spring.sample.app.vo.FibonacciVo;
 @RequiredArgsConstructor
 public class ElasticController {
   
-  @NonNull
-  private ElasticService elasticService;
-  @NonNull
-  private RestHighLevelClient client;
+  final ElasticService elasticService;
+  final RestHighLevelClient client;
   
   @GetMapping("/api/es/fibonacci")
   public List<FibonacciVo> findListByDays(@RequestParam("fromDays") Integer fromDays,
