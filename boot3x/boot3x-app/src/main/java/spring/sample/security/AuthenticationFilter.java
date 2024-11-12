@@ -1,4 +1,4 @@
-package spring.sample.filter;
+package spring.sample.security;
 
 import java.io.IOException;
 import java.util.Map;
@@ -21,8 +21,8 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import spring.sample.security.Role;
-import spring.sample.security.User;
+import spring.sample.common.enumcode.SECURITY_ROLE_CD;
+import spring.sample.common.vo.UserVo;
 
 public class AuthenticationFilter extends GenericFilterBean {
   
@@ -46,12 +46,12 @@ public class AuthenticationFilter extends GenericFilterBean {
       return;
     }
     
-    User user = new User();
-    user.setId(xUserId);
-    user.setRole(Role.ROLE_USER);
+    UserVo userVo = new UserVo();
+    userVo.setId(xUserId);
+    userVo.setRole(SECURITY_ROLE_CD.ROLE_USER);
     
     Authentication authentication = null;
-    authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+    authentication = new UsernamePasswordAuthenticationToken(userVo, null, userVo.getAuthorities());
     SecurityContext context = this.securityContextHolderStrategy.createEmptyContext();
     context.setAuthentication(authentication);
     this.securityContextHolderStrategy.setContext(context);

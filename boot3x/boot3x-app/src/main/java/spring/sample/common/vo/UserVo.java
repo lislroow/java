@@ -1,4 +1,4 @@
-package spring.sample.security;
+package spring.sample.common.vo;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,13 +7,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class User implements UserDetails {
+import spring.sample.common.enumcode.SECURITY_ROLE_CD;
+
+public class UserVo implements UserDetails {
   
   private static final long serialVersionUID = -3598946512034036123L;
   
   private String id;
   private String email;
-  private Role role;
+  private SECURITY_ROLE_CD securityRoleCd;
   
   // [UserDetails]
   @Override
@@ -27,7 +29,7 @@ public class User implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     Collection<? extends GrantedAuthority> authorities = 
-        Collections.singleton(new SimpleGrantedAuthority(this.role.name()));
+        Collections.singleton(new SimpleGrantedAuthority(this.securityRoleCd.code()));
     return authorities;
   }
   @Override
@@ -63,10 +65,10 @@ public class User implements UserDetails {
   public void setEmail(String email) {
     this.email = email;
   }
-  public Role getRole() {
-    return role;
+  public SECURITY_ROLE_CD getRole() {
+    return securityRoleCd;
   }
-  public void setRole(Role role) {
-    this.role = role;
+  public void setRole(SECURITY_ROLE_CD securityRoleCd) {
+    this.securityRoleCd = securityRoleCd;
   }
 }
