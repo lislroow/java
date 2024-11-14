@@ -1,131 +1,98 @@
 package spring.sample.config;
 
-import javax.sql.DataSource;
-
-import org.apache.ibatis.session.ExecutorType;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
-import org.springframework.util.ObjectUtils;
 
-import spring.sample.config.mybatis.DaoSupport;
+import lombok.extern.slf4j.Slf4j;
+import spring.sample.common.annotation.MapperH2;
+import spring.sample.common.annotation.MapperMaria;
+import spring.sample.common.annotation.MapperOracle;
+import spring.sample.common.bean.BeanNameGenerator;
+import spring.sample.common.constant.Constant;
+import spring.sample.common.enumcode.DBMS_CODE;
+import spring.sample.config.properties.MybatisMultipleProperties;
 
 @Configuration
+@EnableConfigurationProperties(MybatisMultipleProperties.class)
+@Slf4j
 public class MybatisConfig {
-  
-  Logger log = LoggerFactory.getLogger(MybatisConfig.class);
-  
-  public static final String BASE_PACKAGES = "spring";
-  
-  @Autowired
-  MybatisProperties mybatisProperties;
-  
-  @Autowired
-  @Qualifier("lazyConnectionDataSourceProxy")
-  LazyConnectionDataSourceProxy lazyConnectionDataSourceProxy;
-  
-  @Autowired
-  @Qualifier("mssql")
-  DataSource dataSource_mssql;
-  
-  @Autowired
-  @Qualifier("oracle")
-  DataSource dataSource_oracle;
-  
-  // mssql
-  @Bean(name = "sqlSessionFactoryBean_mssql")
-  @Primary
-  SqlSessionFactoryBean sqlSessionFactoryBean_mssql() throws Exception {
-    String typeAliasesPackage = mybatisProperties.getTypeAliasesPackage();
-    log.info("[mssql] typeAliasesPackage: " + typeAliasesPackage);
-    
-    SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-    // RoutingDataSource 로 runtime 시 datasource 를 결정해야 할 경우 아래 코드 사용
-    // sqlSessionFactoryBean.setDataSource(lazyConnectionDataSourceProxy);
-    sqlSessionFactoryBean.setDataSource(dataSource_mssql);
-    
-    // mybatis.xml 을 사용할 경우
-    sqlSessionFactoryBean.setMapperLocations(mybatisProperties.resolveMapperLocations());
-    // parameterType, resultType 에 java package 생략 가능
-    // 단, BASE_PACKAGES 하위 package 에 동일한 클래스명이 2개 이상일 경우 어플리케이션 booting 시 오류가 발생함
-    if (!ObjectUtils.isEmpty(typeAliasesPackage)) {
-      sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
-    }
-    sqlSessionFactoryBean.setConfigurationProperties(mybatisProperties.getConfigurationProperties());
-    // 페이징 처리를 위한 mybatis-plugin 추가
-    sqlSessionFactoryBean.setPlugins(new spring.sample.config.mybatis.PagingInterceptor());
-    return sqlSessionFactoryBean;
+
+  @Bean(name = Constant.DBMS.H2 + "MapperScannerConfigurer")
+  MapperScannerConfigurer h2MapperScannerConfigurer() {
+    MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
+    scannerConfigurer.setBasePackage(Constant.BASE_PACKAGE);
+    scannerConfigurer.setSqlSessionFactoryBeanName(Constant.DBMS.H2 + MybatisMultipleProperties.SQL_SESSION_FACTORY_BEAN);
+    scannerConfigurer.setNameGenerator(new BeanNameGenerator() {
+      @Override
+      public String generateBeanName(
+          org.springframework.beans.factory.config.BeanDefinition definition,
+          org.springframework.beans.factory.support.BeanDefinitionRegistry registry) {
+        
+        String daoName = definition.getBeanClassName();
+        if (daoName.lastIndexOf(MybatisMultipleProperties.DAO) > -1) {
+          daoName = daoName.substring(daoName.lastIndexOf('.') + 1);
+          daoName = daoName.substring(0, 1).toLowerCase() + daoName.substring(1);
+          daoName = daoName.substring(0, daoName.lastIndexOf(MybatisMultipleProperties.DAO)) + DBMS_CODE.H2.capital() + MybatisMultipleProperties.DAO;
+        }
+        definition.setPrimary(true);
+        log.info("[mybatis][mapper-scanner][{}] {}", DBMS_CODE.H2.code(), daoName);
+        return daoName;
+      }
+    });
+    scannerConfigurer.setAnnotationClass(MapperH2.class);
+    return scannerConfigurer;
+  }
+
+  @Bean(Constant.DBMS.MARIA + "MapperScannerConfigurer")
+  MapperScannerConfigurer mariaMapperScannerConfigurer() {
+    MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
+    scannerConfigurer.setBasePackage(Constant.BASE_PACKAGE);
+    scannerConfigurer.setSqlSessionFactoryBeanName(Constant.DBMS.MARIA + MybatisMultipleProperties.SQL_SESSION_FACTORY_BEAN);
+    scannerConfigurer.setNameGenerator(new BeanNameGenerator() {
+      @Override
+      public String generateBeanName(
+          org.springframework.beans.factory.config.BeanDefinition definition,
+          org.springframework.beans.factory.support.BeanDefinitionRegistry registry) {
+        
+        String daoName = definition.getBeanClassName();
+        if (daoName.lastIndexOf(MybatisMultipleProperties.DAO) > -1) {
+          daoName = daoName.substring(daoName.lastIndexOf('.') + 1);
+          daoName = daoName.substring(0, 1).toLowerCase() + daoName.substring(1);
+          daoName = daoName.substring(0, daoName.lastIndexOf(MybatisMultipleProperties.DAO)) + DBMS_CODE.MARIA.capital() + MybatisMultipleProperties.DAO;
+        }
+        log.info("[mybatis][mapper-scanner][{}] {}", DBMS_CODE.MARIA.code(), daoName);
+        return daoName;
+      }
+    });
+    scannerConfigurer.setAnnotationClass(MapperMaria.class);
+    return scannerConfigurer;
   }
   
-  @Bean
-  @Primary
-  DaoSupport daoSupport_mssql(
-      @Qualifier("sqlSessionTemplate_mssql") SqlSessionTemplate sqlSessionTemplate) throws Exception {
-    return new DaoSupport(sqlSessionTemplate);
+  @Bean(Constant.DBMS.ORACLE + "MapperScannerConfigurer")
+  MapperScannerConfigurer oracleMapperScannerConfigurer() {
+    MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
+    scannerConfigurer.setBasePackage(Constant.BASE_PACKAGE);
+    scannerConfigurer.setSqlSessionFactoryBeanName(Constant.DBMS.ORACLE + MybatisMultipleProperties.SQL_SESSION_FACTORY_BEAN);
+    scannerConfigurer.setNameGenerator(new BeanNameGenerator() {
+      @Override
+      public String generateBeanName(
+          org.springframework.beans.factory.config.BeanDefinition definition,
+          org.springframework.beans.factory.support.BeanDefinitionRegistry registry) {
+        
+        String daoName = definition.getBeanClassName();
+        if (daoName.lastIndexOf(MybatisMultipleProperties.DAO) > -1) {
+          daoName = daoName.substring(daoName.lastIndexOf('.') + 1);
+          daoName = daoName.substring(0, 1).toLowerCase() + daoName.substring(1);
+          daoName = daoName.substring(0, daoName.lastIndexOf(MybatisMultipleProperties.DAO)) + DBMS_CODE.ORACLE.capital() + MybatisMultipleProperties.DAO;
+        }
+        log.info("[mybatis][mapper-scanner][{}] {}", DBMS_CODE.ORACLE.code(), daoName);
+        return daoName;
+      }
+    });
+    scannerConfigurer.setAnnotationClass(MapperOracle.class);
+    return scannerConfigurer;
   }
   
-  @Bean(name = "sqlSessionTemplate_mssql")
-  @Primary
-  SqlSessionTemplate sqlSessionTemplate_mssql(
-      @Qualifier("sqlSessionFactoryBean_mssql") SqlSessionFactoryBean sqlSessionFactoryBean) throws Exception {
-     return new SqlSessionTemplate(sqlSessionFactoryBean.getObject());
-  }
-  
-  @Bean(name = "sqlSessionTemplateForBatchExecutor_mssql")
-  SqlSessionTemplate sqlSessionTemplateForBatchExecutor_mssql(
-      @Qualifier("sqlSessionFactoryBean_mssql") SqlSessionFactoryBean sqlSessionFactoryBean) throws Exception {
-    return new SqlSessionTemplate(sqlSessionFactoryBean.getObject(), ExecutorType.BATCH);
-  }
-  
-  
-  
-  // oracle
-  @Bean(name = "sqlSessionFactoryBean_oracle")
-  SqlSessionFactoryBean sqlSessionFactoryBean_oracle() throws Exception {
-    String typeAliasesPackage = mybatisProperties.getTypeAliasesPackage();
-    log.info("[oracle] typeAliasesPackage: " + typeAliasesPackage);
-    
-    SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-    // RoutingDataSource 로 runtime 시 datasource 를 결정해야 할 경우 아래 코드 사용
-    // sqlSessionFactoryBean.setDataSource(routingDataSource);
-    sqlSessionFactoryBean.setDataSource(dataSource_oracle);
-    
-    // mybatis.xml 을 사용할 경우
-    sqlSessionFactoryBean.setMapperLocations(mybatisProperties.resolveMapperLocations());
-    // parameterType, resultType 에 java package 생략 가능
-    // 단, BASE_PACKAGES 하위 package 에 동일한 클래스명이 2개 이상일 경우 어플리케이션 booting 시 오류가 발생함
-    if (!ObjectUtils.isEmpty(typeAliasesPackage)) {
-      sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
-    }
-    sqlSessionFactoryBean.setConfigurationProperties(mybatisProperties.getConfigurationProperties());
-    // 페이징 처리를 위한 mybatis-plugin 추가
-    sqlSessionFactoryBean.setPlugins(new spring.sample.config.mybatis.PagingInterceptor());
-    return sqlSessionFactoryBean;
-  }
-  
-  @Bean
-  DaoSupport daoSupport_oracle(
-      @Qualifier("sqlSessionTemplate_oracle") SqlSessionTemplate sqlSessionTemplate) throws Exception {
-    return new DaoSupport(sqlSessionTemplate);
-  }
-  
-  @Bean(name = "sqlSessionTemplate_oracle")
-  SqlSessionTemplate sqlSessionTemplate_oracle(
-      @Qualifier("sqlSessionFactoryBean_oracle") SqlSessionFactoryBean sqlSessionFactoryBean) throws Exception {
-    return new SqlSessionTemplate(sqlSessionFactoryBean.getObject());
-  }
-  
-  @Bean(name = "sqlSessionTemplateForBatchExecutor_oracle")
-  SqlSessionTemplate sqlSessionTemplateForBatchExecutor_oracle(
-      @Qualifier("sqlSessionFactoryBean_oracle") SqlSessionFactoryBean sqlSessionFactoryBean) throws Exception {
-    return new SqlSessionTemplate(sqlSessionFactoryBean.getObject(), ExecutorType.BATCH);
-  }
 }

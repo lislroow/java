@@ -5,13 +5,34 @@
 ```java
 @Configuration
 public class DataSourceConfig {
+
+  @Primary
+  @Bean(name = "mssql")
+  @ConfigurationProperties(prefix = "sample.jdbc.datasource.mssql")
+  DataSource dataSource_mssql() throws SQLException {
+    return DataSourceBuilder.create()
+        .type(HikariDataSource.class)
+        .build();
+  }
+  
+  @Bean(name = "oracle")
+  @ConfigurationProperties(prefix = "sample.jdbc.datasource.oracle")
+  DataSource dataSource_oracle() throws SQLException {
+    return DataSourceBuilder.create()
+        .type(HikariDataSource.class)
+        .build();
+  }
+  
   @Bean
   RoutingDataSource routingDataSource(
-      @Qualifier("h2") DataSource h2Datasource) {
+      @Qualifier("mssql") DataSource mssqlDatasource,
+      @Qualifier("oracle") DataSource oracleDatasource) {
     RoutingDataSource routingDataSource = new RoutingDataSource();
     Map<Object, Object> dataSources = new HashMap<Object, Object>();
-    dataSources.put("h2", h2Datasource);
+    dataSources.put("mssql", mssqlDatasource);
+    dataSources.put("oracle", oracleDatasource);
     routingDataSource.setTargetDataSources(dataSources);
+    routingDataSource.setDefaultTargetDataSource(mssqlDatasource);
     return routingDataSource;
   }
   
@@ -31,15 +52,16 @@ public class DataSourceConfig {
       }
       return dataSource;
     }
+    
     void setFallbackTargetDataSource(DataSource datasource) {
       this.datasource = datasource;
     }
     
     @Override
     protected Object determineCurrentLookupKey() {
-      // 특정 사용자, 특정 서비스 등에 따라 datasource 가 결정되도록 할 수 있습니다.
-      // h2 datasource 를 기본값으로 설정했습니다.
-      String routingKey = "h2";
+      // 특정 사용자, 특정 서비스 등에 따라 datasource 가 결정되도록 할 수 있습니다. 
+      // mssql datasource 를 기본값으로 설정했습니다.
+      String routingKey = "mssql";
       return routingKey;
     }
     
@@ -48,6 +70,12 @@ public class DataSourceConfig {
       Connection conn = determineTargetDataSource().getConnection();
       return conn;
     }
+  }
+  
+  @Bean(name = "lazyConnectionDataSourceProxy")
+  LazyConnectionDataSourceProxy lazyConnectionDataSourceProxy(
+      RoutingDataSource routingDataSource) {
+    return new LazyConnectionDataSourceProxy(routingDataSource);
   }
 }
 ```
