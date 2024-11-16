@@ -20,6 +20,7 @@
     <modelmapper.version>3.2.0</modelmapper.version>
     <lombok.version>1.18.32</lombok.version>
     
+    <vertica.version>24.1.0-2</vertica.version>
     <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
   </properties>
   
@@ -81,6 +82,11 @@
         <groupId>com.github.ulisesbocchio</groupId>
         <artifactId>jasypt-spring-boot-starter</artifactId>
         <version>3.0.5</version>
+      </dependency>
+      <dependency>
+        <groupId>com.vertica.jdbc</groupId>
+        <artifactId>vertica-jdbc</artifactId>
+        <version>${vertica.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

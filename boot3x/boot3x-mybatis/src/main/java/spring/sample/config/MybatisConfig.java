@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import spring.sample.common.annotation.MapperH2;
 import spring.sample.common.annotation.MapperMaria;
 import spring.sample.common.annotation.MapperOracle;
+import spring.sample.common.annotation.MapperVertica;
 import spring.sample.common.bean.MybatisMapperNameGenerator;
 import spring.sample.common.constant.Constant;
 import spring.sample.common.enumcode.DBMS_TYPE;
@@ -79,6 +80,17 @@ public class MybatisConfig {
     scannerConfigurer.setSqlSessionFactoryBeanName(dbmsType.sqlSessionFactoryBeanName());
     scannerConfigurer.setNameGenerator(new MybatisMapperNameGenerator(dbmsType));
     scannerConfigurer.setAnnotationClass(MapperOracle.class);
+    return scannerConfigurer;
+  }
+  
+  @Bean(Constant.DBMS.VERTICA + "MapperScannerConfigurer")
+  MapperScannerConfigurer verticaMapperScannerConfigurer() {
+    DBMS_TYPE dbmsType = DBMS_TYPE.VERTICA;
+    MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
+    scannerConfigurer.setBasePackage(Constant.BASE_PACKAGE);
+    scannerConfigurer.setSqlSessionFactoryBeanName(dbmsType.sqlSessionFactoryBeanName());
+    scannerConfigurer.setNameGenerator(new MybatisMapperNameGenerator(dbmsType));
+    scannerConfigurer.setAnnotationClass(MapperVertica.class);
     return scannerConfigurer;
   }
   

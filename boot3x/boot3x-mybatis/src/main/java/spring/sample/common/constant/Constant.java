@@ -15,5 +15,6 @@ public class Constant {
     public static final String H2 = "h2";
     public static final String MARIA = "maria";
     public static final String ORACLE = "oracle";
+    public static final String VERTICA = "vertica";
   }
 }

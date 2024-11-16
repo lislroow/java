@@ -79,6 +79,30 @@
       "defaultValue": false
     },
     {
+      "name": "spring.sample.datasource.vertica.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "com.vertica.jdbc.Driver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "jdbc:vertica://[host]:[port:5433]/[database]",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "description": "SELECT 1 FROM DUAL",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.init",
+      "type": "java.lang.Boolean",
+      "description": "[true, false] init-vertica.sql",
+      "defaultValue": false
+    },
+    {
       "name": "spring.sample.mybatis.h2.enabled",
       "type": "java.lang.Boolean",
       "description": "enable",
@@ -200,6 +224,48 @@
     },
     {
       "name": "spring.sample.mybatis.oracle.cache-enabled",
+      "type": "java.lang.Boolean",
+      "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.mapper-locations",
+      "type": "java.lang.String[]",
+      "description": "Locations of MyBatis mapper files.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.type-aliases-package",
+      "type": "java.lang.String",
+      "description": "Packages to search type aliases. (Package delimiters are \",; \\t\\n\")",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.map-underscore-to-camel-case",
+      "type": "java.lang.Boolean",
+      "description": "Enables automatic mapping from classic database column names A_COLUMN to camel case classic Java property names aColumn. Default is false.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.jdbc-type-for-null",
+      "type": "org.apache.ibatis.type.JdbcType",
+      "description": "Specifies the JDBC type for null values when no specific JDBC type was provided for the parameter. Some drivers require specifying the column JDBC type but others work with generic values like NULL, VARCHAR or OTHER. Default is OTHER.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.default-statement-timeout",
+      "type": "java.lang.Integer",
+      "description": "Sets the number of seconds the driver will wait for a response from the database.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.cache-enabled",
       "type": "java.lang.Boolean",
       "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
       "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
@@ -1134,6 +1200,329 @@
     },
     {
       "name": "spring.sample.datasource.oracle.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "vertica.jdbc.verticaDriver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "jdbc:vertica:thin:@//<host>:<port:1521>/<service_name>",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "description": "SELECT 1 FROM DUAL",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.validation-timeout",
       "type": "java.lang.Long",
       "sourceType": "com.zaxxer.hikari.HikariDataSource"
     },

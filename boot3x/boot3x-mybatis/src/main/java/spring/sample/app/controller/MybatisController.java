@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.sample.app.dao.EmployDao;
+import spring.sample.app.dao.EmployVerticaDao;
 import spring.sample.app.dto.EmployResDto;
+import spring.sample.app.vo.EmployVerticaVo;
 import spring.sample.app.vo.EmployVo;
 import spring.sample.common.dto.ResponseDto;
 
@@ -36,6 +38,9 @@ public class MybatisController {
   @Autowired
   @Qualifier(value = "employOracleDao")
   private EmployDao employOracleDao;
+  
+  @Autowired
+  private EmployVerticaDao employVerticaDao;
   
   @GetMapping("/mybatis/v1/multiple")
   public ResponseDto<EmployResDto.EmployList> findAll() {
@@ -63,6 +68,17 @@ public class MybatisController {
   @GetMapping("/mybatis/v1/primary")
   public ResponseDto<EmployResDto.EmployList> primary() {
     List<EmployVo> result = employDao.findAll();
+    List<EmployResDto.Employ> list = result.stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList());
+    EmployResDto.EmployList resDto = new EmployResDto.EmployList();
+    resDto.setList(list);
+    return ResponseDto.body(resDto);
+  }
+  
+  @GetMapping("/mybatis/v1/vertica")
+  public ResponseDto<EmployResDto.EmployList> vertica() {
+    List<EmployVerticaVo> result = employVerticaDao.findAll();
     List<EmployResDto.Employ> list = result.stream()
         .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
         .collect(Collectors.toList());

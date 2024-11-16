@@ -15,6 +15,7 @@ public enum DBMS_TYPE {
   H2(Constant.DBMS.H2),
   MARIA(Constant.DBMS.MARIA),
   ORACLE(Constant.DBMS.ORACLE),
+  VERTICA(Constant.DBMS.VERTICA),
   ;
   
   private String code;

@@ -24,6 +24,7 @@ public class MybatisProperties {
   private Configure h2;
   private Configure maria;
   private Configure oracle;
+  private Configure vertica;
   
   @Data
   public static class Configure {

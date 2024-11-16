@@ -77,6 +77,10 @@
       <groupId>com.oracle.database.jdbc</groupId>
       <artifactId>ojdbc8</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.vertica.jdbc</groupId>
+      <artifactId>vertica-jdbc</artifactId>
+    </dependency>
   </dependencies>
   
   <build>
