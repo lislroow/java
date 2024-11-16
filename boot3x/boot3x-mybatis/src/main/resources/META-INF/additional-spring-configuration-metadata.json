@@ -1,12 +1,21 @@
 {
   "properties": [
     {
+      "name": "spring.datasource.hikari.enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "mybatis.enabled",
+      "type": "java.lang.Boolean"
+    },
+    
+    
+    {
       "name": "spring.sample.mybatis.primary",
       "type": "spring.sample.common.enumcode.DBMS_CODE",
       "description": "primary database name",
       "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
-    
     
     {
       "name": "spring.sample.datasource.h2.hikari.driver-class-name",

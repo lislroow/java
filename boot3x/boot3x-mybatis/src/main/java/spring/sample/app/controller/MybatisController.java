@@ -24,8 +24,12 @@ public class MybatisController {
 
   final ModelMapper modelMapper;
   
-  @Autowired
+  @Autowired(required = false)
+  @Qualifier(value = "employDao")
   private EmployDao employDao;
+  
+  @Autowired
+  private EmployDao employPrimaryDao;
 
   @Autowired
   @Qualifier(value = "employH2Dao")
@@ -69,9 +73,20 @@ public class MybatisController {
     return ResponseDto.body(resDto);
   }
   
+  @GetMapping("/mybatis/v1/standard")
+  public ResponseDto<EmployResDto.EmployList> standard() {
+    List<EmployVo> result = employDao.findAll();
+    List<EmployResDto.Employ> list = result.stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList());
+    EmployResDto.EmployList resDto = new EmployResDto.EmployList();
+    resDto.setList(list);
+    return ResponseDto.body(resDto);
+  }
+  
   @GetMapping("/mybatis/v1/primary")
   public ResponseDto<EmployResDto.EmployList> primary() {
-    List<EmployVo> result = employDao.findAll();
+    List<EmployVo> result = employPrimaryDao.findAll();
     List<EmployResDto.Employ> list = result.stream()
         .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
         .collect(Collectors.toList());

@@ -2,6 +2,7 @@ package spring.sample.app.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import spring.sample.app.vo.EmployVo;
@@ -16,6 +17,7 @@ import spring.sample.common.mybatis.PagedList;
 @MapperMaria
 @MapperOracle
 @MapperPostgres
+@Mapper
 public interface EmployDao {
   
   List<EmployVo> findAll();
