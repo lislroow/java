@@ -14,6 +14,7 @@ import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.sample.common.constant.Constant;
+import spring.sample.common.enumcode.DBMS_TYPE;
 import spring.sample.common.mybatis.DaoSupport;
 import spring.sample.config.properties.MybatisProperties;
 
@@ -34,7 +35,7 @@ public class MybatisH2Config {
   
   @Bean(name = Constant.DBMS.H2 + MybatisProperties.SQL_SESSION_FACTORY_BEAN)
   SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception {
-    MybatisProperties.Configure config = mybatisProperties.getH2();
+    MybatisProperties.Configure config = mybatisProperties.getConfigure(DBMS_TYPE.H2);
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
     

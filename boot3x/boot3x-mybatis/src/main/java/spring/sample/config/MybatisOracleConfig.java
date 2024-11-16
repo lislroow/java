@@ -14,6 +14,7 @@ import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.sample.common.constant.Constant;
+import spring.sample.common.enumcode.DBMS_TYPE;
 import spring.sample.common.mybatis.DaoSupport;
 import spring.sample.config.properties.MybatisProperties;
 
@@ -34,7 +35,7 @@ public class MybatisOracleConfig {
   
   @Bean(name = Constant.DBMS.ORACLE + MybatisProperties.SQL_SESSION_FACTORY_BEAN)
   SqlSessionFactoryBean sqlSessionFactoryBean() {
-    MybatisProperties.Configure config = mybatisProperties.getOracle();
+    MybatisProperties.Configure config = mybatisProperties.getConfigure(DBMS_TYPE.ORACLE);
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
     

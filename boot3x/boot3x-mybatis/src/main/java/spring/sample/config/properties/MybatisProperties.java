@@ -26,6 +26,20 @@ public class MybatisProperties {
   private Configure oracle;
   private Configure vertica;
   
+  public Configure getConfigure(DBMS_TYPE dbmsType) {
+    switch (dbmsType) {
+    case H2:
+      return h2;
+    case MARIA:
+      return maria;
+    case ORACLE:
+      return oracle;
+    case VERTICA:
+      return vertica;
+    }
+    return null;
+  }
+  
   @Data
   public static class Configure {
     private Boolean enabled;
