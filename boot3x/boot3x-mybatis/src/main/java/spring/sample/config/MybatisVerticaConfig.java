@@ -33,7 +33,7 @@ public class MybatisVerticaConfig {
   @Qualifier(value = Constant.DBMS.VERTICA + "DataSource")
   DataSource dataSource;
   
-  @Bean(name = Constant.DBMS.VERTICA + MybatisProperties.SQL_SESSION_FACTORY_BEAN)
+  @Bean(name = Constant.DBMS.VERTICA + Constant.SQL_SESSION_FACTORY_BEAN)
   SqlSessionFactoryBean sqlSessionFactoryBean() {
     MybatisProperties.Configure config = mybatisProperties.getConfigure(DBMS_TYPE.VERTICA);
     String typeAliasesPackage = config.getTypeAliasesPackage();
@@ -46,14 +46,11 @@ public class MybatisVerticaConfig {
       sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
     }
     
-    // ---
     org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
     configuration.setJdbcTypeForNull(config.getJdbcTypeForNull());
     configuration.setMapUnderscoreToCamelCase(config.getMapUnderscoreToCamelCase());
     sqlSessionFactoryBean.setConfiguration(configuration);
-    // ---
     
-    // 페이징 처리를 위한 mybatis-plugin 추가
     sqlSessionFactoryBean.setPlugins(new spring.sample.common.mybatis.PagingInterceptor());
     return sqlSessionFactoryBean;
   }

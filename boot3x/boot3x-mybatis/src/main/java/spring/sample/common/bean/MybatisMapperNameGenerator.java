@@ -4,8 +4,8 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 
 import lombok.extern.slf4j.Slf4j;
+import spring.sample.common.constant.Constant;
 import spring.sample.common.enumcode.DBMS_TYPE;
-import spring.sample.config.properties.MybatisProperties;
 
 @Slf4j
 public class MybatisMapperNameGenerator extends AnnotationBeanNameGenerator {
@@ -23,11 +23,11 @@ public class MybatisMapperNameGenerator extends AnnotationBeanNameGenerator {
     
     String beanClassName = definition.getBeanClassName();
     String daoName = beanClassName;
-    if (daoName.lastIndexOf(MybatisProperties.DAO) > -1) {
+    if (daoName.lastIndexOf(Constant.DAO) > -1) {
       daoName = daoName.substring(daoName.lastIndexOf('.') + 1);
       daoName = daoName.substring(0, 1).toLowerCase() + daoName.substring(1);
-      String entityName = daoName.substring(0, daoName.lastIndexOf(MybatisProperties.DAO));
-      daoName = entityName + dbmsType.capital() + MybatisProperties.DAO;
+      String entityName = daoName.substring(0, daoName.lastIndexOf(Constant.DAO));
+      daoName = entityName + dbmsType.capital() + Constant.DAO;
     }
     definition.setPrimary(dbmsType.isPrimary());
     log.info("[mybatis-mapper-scanner][primary: {}][{}] {}", dbmsType.isPrimary(), dbmsType.code(), daoName);

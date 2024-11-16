@@ -18,4 +18,8 @@ public class Constant {
     public static final String VERTICA = "vertica";
     public static final String POSTGRES = "postgres";
   }
+  
+  public static final String SQL_SESSION_FACTORY_BEAN = "SqlSessionFactoryBean";
+  public static final String DAO = "Dao";
+  
 }

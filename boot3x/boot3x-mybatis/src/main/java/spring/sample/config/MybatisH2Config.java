@@ -33,7 +33,7 @@ public class MybatisH2Config {
   @Qualifier(value = Constant.DBMS.H2 + "DataSource")
   DataSource dataSource;
   
-  @Bean(name = Constant.DBMS.H2 + MybatisProperties.SQL_SESSION_FACTORY_BEAN)
+  @Bean(name = Constant.DBMS.H2 + Constant.SQL_SESSION_FACTORY_BEAN)
   SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception {
     MybatisProperties.Configure config = mybatisProperties.getConfigure(DBMS_TYPE.H2);
     String typeAliasesPackage = config.getTypeAliasesPackage();
@@ -46,14 +46,11 @@ public class MybatisH2Config {
       sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
     }
     
-    // ---
     org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
     configuration.setJdbcTypeForNull(config.getJdbcTypeForNull());
     configuration.setMapUnderscoreToCamelCase(config.getMapUnderscoreToCamelCase());
     sqlSessionFactoryBean.setConfiguration(configuration);
-    // ---
     
-    // 페이징 처리를 위한 mybatis-plugin 추가
     sqlSessionFactoryBean.setPlugins(new spring.sample.common.mybatis.PagingInterceptor());
     return sqlSessionFactoryBean;
   }

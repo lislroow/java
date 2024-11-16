@@ -3,11 +3,8 @@ package spring.sample.common.enumcode;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.apache.commons.lang.StringUtils;
-
 import lombok.extern.slf4j.Slf4j;
 import spring.sample.common.constant.Constant;
-import spring.sample.config.properties.MybatisProperties;
 
 @Slf4j
 public enum DBMS_TYPE {
@@ -45,12 +42,12 @@ public enum DBMS_TYPE {
   }
   
   public String sqlSessionFactoryBeanName() {
-    return this.code + MybatisProperties.SQL_SESSION_FACTORY_BEAN;
+    return this.code + Constant.SQL_SESSION_FACTORY_BEAN;
   }
   
   public static DBMS_TYPE fromCode(String code) {
       return Arrays.stream(DBMS_TYPE.values())
-          .filter(item -> StringUtils.equals(code, item.code()))
+          .filter(item -> item.code().equals(code))
           .findFirst()
           .orElseThrow(() -> new IllegalArgumentException(String.format("'%s' not exist.", code)));
   }

@@ -17,9 +17,6 @@ import spring.sample.common.enumcode.DBMS_TYPE;
 @Data
 public class MybatisProperties {
   
-  public static final String SQL_SESSION_FACTORY_BEAN = "SqlSessionFactoryBean";
-  public static final String DAO = "Dao";
-  
   private DBMS_TYPE primary;
   private Configure h2;
   private Configure maria;
