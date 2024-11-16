@@ -6,6 +6,8 @@
       "description": "primary database name",
       "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
+    
+    
     {
       "name": "spring.sample.datasource.h2.hikari.driver-class-name",
       "type": "java.lang.String",
@@ -30,6 +32,8 @@
       "description": "[true, false] init-h2.sql",
       "defaultValue": false
     },
+    
+    
     {
       "name": "spring.sample.datasource.maria.hikari.driver-class-name",
       "type": "java.lang.String",
@@ -54,6 +58,8 @@
       "description": "[true, false] init-maria.sql",
       "defaultValue": false
     },
+    
+    
     {
       "name": "spring.sample.datasource.oracle.hikari.driver-class-name",
       "type": "java.lang.String",
@@ -78,6 +84,8 @@
       "description": "[true, false] init-oracle.sql",
       "defaultValue": false
     },
+    
+    
     {
       "name": "spring.sample.datasource.vertica.hikari.driver-class-name",
       "type": "java.lang.String",
@@ -102,6 +110,8 @@
       "description": "[true, false] init-vertica.sql",
       "defaultValue": false
     },
+    
+    
     {
       "name": "spring.sample.mybatis.h2.enabled",
       "type": "java.lang.Boolean",
@@ -144,6 +154,8 @@
       "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
       "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
+    
+    
     {
       "name": "spring.sample.mybatis.maria.enabled",
       "type": "java.lang.Boolean",
@@ -186,6 +198,8 @@
       "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
       "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
+    
+    
     {
       "name": "spring.sample.mybatis.oracle.enabled",
       "type": "java.lang.Boolean",
@@ -228,6 +242,8 @@
       "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
       "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
+    
+    
     {
       "name": "spring.sample.mybatis.vertica.enabled",
       "type": "java.lang.Boolean",
@@ -1203,6 +1219,8 @@
       "type": "java.lang.Long",
       "sourceType": "com.zaxxer.hikari.HikariDataSource"
     },
+    
+    
     {
       "name": "spring.sample.datasource.vertica.hikari.driver-class-name",
       "type": "java.lang.String",
@@ -1526,6 +1544,8 @@
       "type": "java.lang.Long",
       "sourceType": "com.zaxxer.hikari.HikariDataSource"
     },
+    
+    
     {
       "name": "spring.sample.mybatis.h2.enabled",
       "type": "java.lang.String",
