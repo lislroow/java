@@ -15,7 +15,7 @@ import org.springframework.util.ObjectUtils;
 import lombok.extern.slf4j.Slf4j;
 import spring.sample.common.constant.Constant;
 import spring.sample.common.mybatis.DaoSupport;
-import spring.sample.config.properties.MybatisMultipleProperties;
+import spring.sample.config.properties.MybatisProperties;
 
 @Configuration
 @ConditionalOnProperty(
@@ -26,15 +26,15 @@ import spring.sample.config.properties.MybatisMultipleProperties;
 public class MybatisOracleConfig {
   
   @Autowired
-  MybatisMultipleProperties mybatisMultipleProperties;
+  spring.sample.config.properties.MybatisProperties mybatisProperties;
   
   @Autowired
   @Qualifier(Constant.DBMS.ORACLE + "DataSource")
   DataSource dataSource;
   
-  @Bean(name = Constant.DBMS.ORACLE + MybatisMultipleProperties.SQL_SESSION_FACTORY_BEAN)
+  @Bean(name = Constant.DBMS.ORACLE + MybatisProperties.SQL_SESSION_FACTORY_BEAN)
   SqlSessionFactoryBean sqlSessionFactoryBeanOracle() throws Exception {
-    MybatisMultipleProperties.CustomConig config = mybatisMultipleProperties.getOracle();
+    MybatisProperties.Configure config = mybatisProperties.getOracle();
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
     

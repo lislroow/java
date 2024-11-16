@@ -2,8 +2,8 @@
   "groups": [
     {
       "name": "spring.sample.mybatis",
-      "type": "spring.sample.config.properties.MybatisMultipleProperties",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties"
+      "type": "spring.sample.config.properties.MybatisProperties",
+      "sourceType": "spring.sample.config.properties.MybatisProperties"
     }
   ],
   "properties": [

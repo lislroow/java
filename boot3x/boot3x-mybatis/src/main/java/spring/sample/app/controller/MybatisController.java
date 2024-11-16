@@ -18,9 +18,12 @@ import spring.sample.common.dto.ResponseDto;
 
 @RestController
 @RequiredArgsConstructor
-public class MybatisMultipleController {
+public class MybatisController {
 
   final ModelMapper modelMapper;
+  
+  @Autowired
+  private EmployDao employDao;
 
   @Autowired
   @Qualifier(value = "employH2Dao")
@@ -54,6 +57,17 @@ public class MybatisMultipleController {
     listAll.addAll(list2);
     listAll.addAll(list3);
     resDto.setList(listAll);
+    return ResponseDto.body(resDto);
+  }
+  
+  @GetMapping("/mybatis/v1/primary")
+  public ResponseDto<EmployResDto.EmployList> primary() {
+    List<EmployVo> result = employDao.findAll();
+    List<EmployResDto.Employ> list = result.stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList());
+    EmployResDto.EmployList resDto = new EmployResDto.EmployList();
+    resDto.setList(list);
     return ResponseDto.body(resDto);
   }
 }

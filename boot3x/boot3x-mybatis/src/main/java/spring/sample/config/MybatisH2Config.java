@@ -15,7 +15,7 @@ import org.springframework.util.ObjectUtils;
 import lombok.extern.slf4j.Slf4j;
 import spring.sample.common.constant.Constant;
 import spring.sample.common.mybatis.DaoSupport;
-import spring.sample.config.properties.MybatisMultipleProperties;
+import spring.sample.config.properties.MybatisProperties;
 
 @Configuration
 @ConditionalOnProperty(
@@ -26,15 +26,15 @@ import spring.sample.config.properties.MybatisMultipleProperties;
 public class MybatisH2Config {
   
   @Autowired
-  MybatisMultipleProperties mybatisMultipleProperties;
+  spring.sample.config.properties.MybatisProperties mybatisProperties;
   
   @Autowired
   @Qualifier(value = Constant.DBMS.H2 + "DataSource")
   DataSource dataSource;
   
-  @Bean(name = Constant.DBMS.H2 + MybatisMultipleProperties.SQL_SESSION_FACTORY_BEAN)
+  @Bean(name = Constant.DBMS.H2 + MybatisProperties.SQL_SESSION_FACTORY_BEAN)
   SqlSessionFactoryBean h2SqlSessionFactoryBean() throws Exception {
-    MybatisMultipleProperties.CustomConig config = mybatisMultipleProperties.getH2();
+    MybatisProperties.Configure config = mybatisProperties.getH2();
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
     

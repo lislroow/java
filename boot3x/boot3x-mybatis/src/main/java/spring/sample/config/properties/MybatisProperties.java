@@ -11,22 +11,22 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import lombok.Data;
-import spring.sample.common.enumcode.DBMS_CODE;
+import spring.sample.common.enumcode.DBMS_TYPE;
 
 @ConfigurationProperties(prefix = "spring.sample.mybatis", ignoreUnknownFields = true)
 @Data
-public class MybatisMultipleProperties {
+public class MybatisProperties {
   
   public static final String SQL_SESSION_FACTORY_BEAN = "SqlSessionFactoryBean";
   public static final String DAO = "Dao";
   
-  private DBMS_CODE primary;
-  private CustomConig h2;
-  private CustomConig maria;
-  private CustomConig oracle;
+  private DBMS_TYPE primary;
+  private Configure h2;
+  private Configure maria;
+  private Configure oracle;
   
   @Data
-  public static class CustomConig {
+  public static class Configure {
     private Boolean enabled;
     private String mapperLocations;
     private String typeAliasesPackage;
