@@ -6,6 +6,21 @@
 (?<=@)\w+ → @ 뒤에 오는 단어를 추출
 ```
 
+```java
+{
+  String urlPath = "jar:nested:/C:/project/java/boot3x/boot3x-mybatis/target/boot3x-mybatis-0.1-SNAPSHOT.jar/!BOOT-INF/classes/!/";
+  String regex = "(?<=nested:)(.*)/!BOOT-INF/classes/!/";
+  Pattern pattern = Pattern.compile(regex);
+  Matcher matcher = pattern.matcher(urlPath);
+  if (matcher.find()) {
+    String path = matcher.group(1);
+    System.err.println(path);
+  } else {
+    System.out.println("not matched");
+  }
+}
+```
+
 #### 2) 비캡처 그룹(Non-capturing Group)
 
 ```
