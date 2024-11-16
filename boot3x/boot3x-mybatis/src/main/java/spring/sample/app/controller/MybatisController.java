@@ -42,6 +42,10 @@ public class MybatisController {
   @Autowired
   private EmployVerticaDao employVerticaDao;
   
+  @Autowired
+  @Qualifier(value = "employPostgresDao")
+  private EmployDao employPostgresDao;
+  
   @GetMapping("/mybatis/v1/all")
   public ResponseDto<EmployResDto.EmployList> all() {
     EmployResDto.EmployList resDto = new EmployResDto.EmployList();
@@ -56,6 +60,9 @@ public class MybatisController {
         .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
         .collect(Collectors.toList()));
     listAll.addAll(employVerticaDao.findAll().stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList()));
+    listAll.addAll(employPostgresDao.findAll().stream()
         .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
         .collect(Collectors.toList()));
     resDto.setList(listAll);
@@ -109,6 +116,17 @@ public class MybatisController {
   @GetMapping("/mybatis/v1/vertica")
   public ResponseDto<EmployResDto.EmployList> vertica() {
     List<EmployVerticaVo> result = employVerticaDao.findAll();
+    List<EmployResDto.Employ> list = result.stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList());
+    EmployResDto.EmployList resDto = new EmployResDto.EmployList();
+    resDto.setList(list);
+    return ResponseDto.body(resDto);
+  }
+  
+  @GetMapping("/mybatis/v1/postgres")
+  public ResponseDto<EmployResDto.EmployList> postgres() {
+    List<EmployVo> result = employPostgresDao.findAll();
     List<EmployResDto.Employ> list = result.stream()
         .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
         .collect(Collectors.toList());

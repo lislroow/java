@@ -8,12 +8,14 @@ import spring.sample.app.vo.EmployVo;
 import spring.sample.common.annotation.MapperH2;
 import spring.sample.common.annotation.MapperMaria;
 import spring.sample.common.annotation.MapperOracle;
+import spring.sample.common.annotation.MapperPostgres;
 import spring.sample.common.mybatis.Pageable;
 import spring.sample.common.mybatis.PagedList;
 
 @MapperH2
 @MapperMaria
 @MapperOracle
+@MapperPostgres
 public interface EmployDao {
   
   List<EmployVo> findAll();

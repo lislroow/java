@@ -25,6 +25,7 @@ public class MybatisProperties {
   private Configure maria;
   private Configure oracle;
   private Configure vertica;
+  private Configure postgres;
   
   public Configure getConfigure(DBMS_TYPE dbmsType) {
     switch (dbmsType) {
@@ -36,6 +37,8 @@ public class MybatisProperties {
       return oracle;
     case VERTICA:
       return vertica;
+    case POSTGRES:
+      return postgres;
     }
     return null;
   }

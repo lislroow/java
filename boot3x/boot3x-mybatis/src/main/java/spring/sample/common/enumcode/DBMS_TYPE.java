@@ -16,6 +16,7 @@ public enum DBMS_TYPE {
   MARIA(Constant.DBMS.MARIA),
   ORACLE(Constant.DBMS.ORACLE),
   VERTICA(Constant.DBMS.VERTICA),
+  POSTGRES(Constant.DBMS.POSTGRES),
   ;
   
   private String code;

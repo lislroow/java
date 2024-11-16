@@ -16,5 +16,6 @@ public class Constant {
     public static final String MARIA = "maria";
     public static final String ORACLE = "oracle";
     public static final String VERTICA = "vertica";
+    public static final String POSTGRES = "postgres";
   }
 }
