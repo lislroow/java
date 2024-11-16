@@ -33,7 +33,7 @@ public class MybatisOracleConfig {
   DataSource dataSource;
   
   @Bean(name = Constant.DBMS.ORACLE + MybatisProperties.SQL_SESSION_FACTORY_BEAN)
-  SqlSessionFactoryBean sqlSessionFactoryBeanOracle() throws Exception {
+  SqlSessionFactoryBean sqlSessionFactoryBean() {
     MybatisProperties.Configure config = mybatisProperties.getOracle();
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
@@ -58,17 +58,17 @@ public class MybatisOracleConfig {
   }
   
   @Bean(name = Constant.DBMS.ORACLE + "SqlSessionTemplate")
-  SqlSessionTemplate sqlSessionTemplateOracle() throws Exception {
-     return new SqlSessionTemplate(sqlSessionFactoryBeanOracle().getObject());
+  SqlSessionTemplate sqlSessionTemplate() throws Exception {
+     return new SqlSessionTemplate(sqlSessionFactoryBean().getObject());
   }
   
   @Bean(name = Constant.DBMS.ORACLE + "SqlSessionTemplateForBatchExecutor")
-  SqlSessionTemplate sqlSessionTemplateForBatchExecutorOracle() throws Exception {
-    return new SqlSessionTemplate(sqlSessionFactoryBeanOracle().getObject(), ExecutorType.BATCH);
+  SqlSessionTemplate sqlSessionTemplateForBatchExecutor() throws Exception {
+    return new SqlSessionTemplate(sqlSessionFactoryBean().getObject(), ExecutorType.BATCH);
   }
   
   @Bean(name = Constant.DBMS.ORACLE + "DaoSupport")
-  DaoSupport daoSupportOracle() throws Exception {
-    return new DaoSupport(sqlSessionTemplateOracle());
+  DaoSupport daoSupport() throws Exception {
+    return new DaoSupport(sqlSessionTemplate());
   }
 }

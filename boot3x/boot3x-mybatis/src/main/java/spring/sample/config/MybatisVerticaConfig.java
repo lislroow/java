@@ -33,7 +33,7 @@ public class MybatisVerticaConfig {
   DataSource dataSource;
   
   @Bean(name = Constant.DBMS.VERTICA + MybatisProperties.SQL_SESSION_FACTORY_BEAN)
-  SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception {
+  SqlSessionFactoryBean sqlSessionFactoryBean() {
     MybatisProperties.Configure config = mybatisProperties.getVertica();
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
@@ -68,7 +68,7 @@ public class MybatisVerticaConfig {
   }
   
   @Bean(name = Constant.DBMS.VERTICA + "DaoSupport")
-  DaoSupport daoSupportH2() throws Exception {
+  DaoSupport daoSupport() throws Exception {
     return new DaoSupport(sqlSessionTemplate());
   }
 }

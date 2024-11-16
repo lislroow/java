@@ -33,7 +33,7 @@ public class MybatisH2Config {
   DataSource dataSource;
   
   @Bean(name = Constant.DBMS.H2 + MybatisProperties.SQL_SESSION_FACTORY_BEAN)
-  SqlSessionFactoryBean h2SqlSessionFactoryBean() throws Exception {
+  SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception {
     MybatisProperties.Configure config = mybatisProperties.getH2();
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
@@ -58,17 +58,17 @@ public class MybatisH2Config {
   }
   
   @Bean(name = Constant.DBMS.H2 + "SqlSessionTemplate")
-  SqlSessionTemplate h2SqlSessionTemplate() throws Exception {
-     return new SqlSessionTemplate(h2SqlSessionFactoryBean().getObject());
+  SqlSessionTemplate sqlSessionTemplate() throws Exception {
+     return new SqlSessionTemplate(sqlSessionFactoryBean().getObject());
   }
   
   @Bean(name = Constant.DBMS.H2 + "SqlSessionTemplateForBatchExecutor")
-  SqlSessionTemplate h2SqlSessionTemplateForBatchExecutor() throws Exception {
-    return new SqlSessionTemplate(h2SqlSessionFactoryBean().getObject(), ExecutorType.BATCH);
+  SqlSessionTemplate sqlSessionTemplateForBatchExecutor() throws Exception {
+    return new SqlSessionTemplate(sqlSessionFactoryBean().getObject(), ExecutorType.BATCH);
   }
   
   @Bean(name = Constant.DBMS.H2 + "DaoSupport")
-  DaoSupport daoSupportH2() throws Exception {
-    return new DaoSupport(h2SqlSessionTemplate());
+  DaoSupport daoSupport() throws Exception {
+    return new DaoSupport(sqlSessionTemplate());
   }
 }

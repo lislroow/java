@@ -33,8 +33,8 @@ public class MybatisMariaConfig {
   DataSource dataSource;
   
   @Bean(name = Constant.DBMS.MARIA + MybatisProperties.SQL_SESSION_FACTORY_BEAN)
-  SqlSessionFactoryBean sqlSessionFactoryBeanOracle() throws Exception {
-    MybatisProperties.Configure config = mybatisProperties.getOracle();
+  SqlSessionFactoryBean sqlSessionFactoryBean() {
+    MybatisProperties.Configure config = mybatisProperties.getMaria();
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
     
@@ -58,17 +58,17 @@ public class MybatisMariaConfig {
   }
   
   @Bean(name = Constant.DBMS.MARIA + "SqlSessionTemplate")
-  SqlSessionTemplate sqlSessionTemplateOracle() throws Exception {
-     return new SqlSessionTemplate(sqlSessionFactoryBeanOracle().getObject());
+  SqlSessionTemplate sqlSessionTemplate() throws Exception {
+     return new SqlSessionTemplate(sqlSessionFactoryBean().getObject());
   }
   
   @Bean(name = Constant.DBMS.MARIA + "SqlSessionTemplateForBatchExecutor")
-  SqlSessionTemplate sqlSessionTemplateForBatchExecutorOracle() throws Exception {
-    return new SqlSessionTemplate(sqlSessionFactoryBeanOracle().getObject(), ExecutorType.BATCH);
+  SqlSessionTemplate sqlSessionTemplateForBatchExecutor() throws Exception {
+    return new SqlSessionTemplate(sqlSessionFactoryBean().getObject(), ExecutorType.BATCH);
   }
   
   @Bean(name = Constant.DBMS.MARIA + "DaoSupport")
-  DaoSupport daoSupportOracle() throws Exception {
-    return new DaoSupport(sqlSessionTemplateOracle());
+  DaoSupport daoSupport() throws Exception {
+    return new DaoSupport(sqlSessionTemplate());
   }
 }
