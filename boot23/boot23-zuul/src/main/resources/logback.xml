@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="1 seconds">
+<configuration scan="true" scanPeriod="3 seconds">
   <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
@@ -7,6 +7,7 @@
     </encoder>
   </appender>
   
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
   
   <root level="info">
     <appender-ref ref="STDOUT"/>
@@ -19,5 +20,31 @@
   <logger name="org.apache.http" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
   </logger>
+  <logger name="org.apache.hc" level="info" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
   
+  <!-- 필수 -->
+  <logger name="org.springframework.core.log.LogFormatUtils" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="org.springframework.web.servlet.handler.AbstractHandlerMapping" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="org.springframework.web.method.support.InvocableHandlerMethod" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="org.springframework.web.servlet.FrameworkServlet" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <!-- //필수 -->
 </configuration>
