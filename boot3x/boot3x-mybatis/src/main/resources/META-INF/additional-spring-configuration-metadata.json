@@ -1,11 +1,4 @@
 {
-  "groups": [
-    {
-      "name": "spring.sample.mybatis",
-      "type": "spring.sample.config.properties.MybatisProperties",
-      "sourceType": "spring.sample.config.properties.MybatisProperties"
-    }
-  ],
   "properties": [
     {
       "name": "spring.sample.mybatis.primary",
@@ -32,6 +25,12 @@
       "sourceType": "com.zaxxer.hikari.HikariDataSource"
     },
     {
+      "name": "spring.sample.datasource.h2.init",
+      "type": "java.lang.Boolean",
+      "description": "[true, false] init-h2.sql",
+      "defaultValue": false
+    },
+    {
       "name": "spring.sample.datasource.maria.hikari.driver-class-name",
       "type": "java.lang.String",
       "description": "org.mariadb.jdbc.Driver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
@@ -50,6 +49,12 @@
       "sourceType": "com.zaxxer.hikari.HikariDataSource"
     },
     {
+      "name": "spring.sample.datasource.maria.init",
+      "type": "java.lang.Boolean",
+      "description": "[true, false] init-maria.sql",
+      "defaultValue": false
+    },
+    {
       "name": "spring.sample.datasource.oracle.hikari.driver-class-name",
       "type": "java.lang.String",
       "description": "oracle.jdbc.OracleDriver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
@@ -66,6 +71,12 @@
       "type": "java.lang.String",
       "description": "SELECT 1 FROM DUAL",
       "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.init",
+      "type": "java.lang.Boolean",
+      "description": "[true, false] init-oracle.sql",
+      "defaultValue": false
     },
     {
       "name": "spring.sample.mybatis.h2.enabled",
