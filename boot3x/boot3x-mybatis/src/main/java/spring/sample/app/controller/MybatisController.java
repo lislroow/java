@@ -42,25 +42,22 @@ public class MybatisController {
   @Autowired
   private EmployVerticaDao employVerticaDao;
   
-  @GetMapping("/mybatis/v1/multiple")
-  public ResponseDto<EmployResDto.EmployList> findAll() {
-    List<EmployVo> result1 = employH2Dao.findAll();
-    List<EmployVo> result2 = employMariaDao.findAll();
-    List<EmployVo> result3 = employOracleDao.findAll();
+  @GetMapping("/mybatis/v1/all")
+  public ResponseDto<EmployResDto.EmployList> all() {
     EmployResDto.EmployList resDto = new EmployResDto.EmployList();
-    List<EmployResDto.Employ> list1 = result1.stream()
-        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
-        .collect(Collectors.toList());
-    List<EmployResDto.Employ> list2 = result2.stream()
-        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
-        .collect(Collectors.toList());
-    List<EmployResDto.Employ> list3 = result3.stream()
-        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
-        .collect(Collectors.toList());
     List<EmployResDto.Employ> listAll = new ArrayList<EmployResDto.Employ>();
-    listAll.addAll(list1);
-    listAll.addAll(list2);
-    listAll.addAll(list3);
+    listAll.addAll(employH2Dao.findAll().stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList()));
+    listAll.addAll(employMariaDao.findAll().stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList()));
+    listAll.addAll(employOracleDao.findAll().stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList()));
+    listAll.addAll(employVerticaDao.findAll().stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList()));
     resDto.setList(listAll);
     return ResponseDto.body(resDto);
   }
@@ -68,6 +65,39 @@ public class MybatisController {
   @GetMapping("/mybatis/v1/primary")
   public ResponseDto<EmployResDto.EmployList> primary() {
     List<EmployVo> result = employDao.findAll();
+    List<EmployResDto.Employ> list = result.stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList());
+    EmployResDto.EmployList resDto = new EmployResDto.EmployList();
+    resDto.setList(list);
+    return ResponseDto.body(resDto);
+  }
+  
+  @GetMapping("/mybatis/v1/h2")
+  public ResponseDto<EmployResDto.EmployList> h2() {
+    List<EmployVo> result = employH2Dao.findAll();
+    List<EmployResDto.Employ> list = result.stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList());
+    EmployResDto.EmployList resDto = new EmployResDto.EmployList();
+    resDto.setList(list);
+    return ResponseDto.body(resDto);
+  }
+  
+  @GetMapping("/mybatis/v1/maria")
+  public ResponseDto<EmployResDto.EmployList> maria() {
+    List<EmployVo> result = employMariaDao.findAll();
+    List<EmployResDto.Employ> list = result.stream()
+        .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
+        .collect(Collectors.toList());
+    EmployResDto.EmployList resDto = new EmployResDto.EmployList();
+    resDto.setList(list);
+    return ResponseDto.body(resDto);
+  }
+  
+  @GetMapping("/mybatis/v1/oracle")
+  public ResponseDto<EmployResDto.EmployList> oracle() {
+    List<EmployVo> result = employOracleDao.findAll();
     List<EmployResDto.Employ> list = result.stream()
         .map(item -> modelMapper.map(item, EmployResDto.Employ.class))
         .collect(Collectors.toList());
