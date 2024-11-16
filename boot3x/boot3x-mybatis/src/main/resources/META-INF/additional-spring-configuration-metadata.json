@@ -2,8 +2,8 @@
   "groups": [
     {
       "name": "spring.sample.mybatis",
-      "type": "spring.sample.config.properties.MybatisMultipleProperties",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties"
+      "type": "spring.sample.config.properties.MybatisProperties",
+      "sourceType": "spring.sample.config.properties.MybatisProperties"
     }
   ],
   "properties": [
@@ -11,7 +11,7 @@
       "name": "spring.sample.mybatis.primary",
       "type": "spring.sample.common.enumcode.DBMS_CODE",
       "description": "primary database name",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.datasource.h2.hikari.driver-class-name",
@@ -71,127 +71,127 @@
       "name": "spring.sample.mybatis.h2.enabled",
       "type": "java.lang.Boolean",
       "description": "enable",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.h2.mapper-locations",
       "type": "java.lang.String[]",
       "description": "Locations of MyBatis mapper files.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.h2.type-aliases-package",
       "type": "java.lang.String",
       "description": "Packages to search type aliases. (Package delimiters are \",; \\t\\n\")",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.h2.map-underscore-to-camel-case",
       "type": "java.lang.Boolean",
       "description": "Enables automatic mapping from classic database column names A_COLUMN to camel case classic Java property names aColumn. Default is false.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.h2.jdbc-type-for-null",
       "type": "org.apache.ibatis.type.JdbcType",
       "description": "Specifies the JDBC type for null values when no specific JDBC type was provided for the parameter. Some drivers require specifying the column JDBC type but others work with generic values like NULL, VARCHAR or OTHER. Default is OTHER.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.h2.default-statement-timeout",
       "type": "java.lang.Integer",
       "description": "Sets the number of seconds the driver will wait for a response from the database.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.h2.cache-enabled",
       "type": "java.lang.Boolean",
       "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.maria.enabled",
       "type": "java.lang.Boolean",
       "description": "enable",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.maria.mapper-locations",
       "type": "java.lang.String[]",
       "description": "Locations of MyBatis mapper files.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.maria.type-aliases-package",
       "type": "java.lang.String",
       "description": "Packages to search type aliases. (Package delimiters are \",; \\t\\n\")",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.maria.map-underscore-to-camel-case",
       "type": "java.lang.Boolean",
       "description": "Enables automatic mapping from classic database column names A_COLUMN to camel case classic Java property names aColumn. Default is false.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.maria.jdbc-type-for-null",
       "type": "org.apache.ibatis.type.JdbcType",
       "description": "Specifies the JDBC type for null values when no specific JDBC type was provided for the parameter. Some drivers require specifying the column JDBC type but others work with generic values like NULL, VARCHAR or OTHER. Default is OTHER.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.maria.default-statement-timeout",
       "type": "java.lang.Integer",
       "description": "Sets the number of seconds the driver will wait for a response from the database.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.maria.cache-enabled",
       "type": "java.lang.Boolean",
       "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.oracle.enabled",
       "type": "java.lang.Boolean",
       "description": "enable",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.oracle.mapper-locations",
       "type": "java.lang.String[]",
       "description": "Locations of MyBatis mapper files.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.oracle.type-aliases-package",
       "type": "java.lang.String",
       "description": "Packages to search type aliases. (Package delimiters are \",; \\t\\n\")",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.oracle.map-underscore-to-camel-case",
       "type": "java.lang.Boolean",
       "description": "Enables automatic mapping from classic database column names A_COLUMN to camel case classic Java property names aColumn. Default is false.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.oracle.jdbc-type-for-null",
       "type": "org.apache.ibatis.type.JdbcType",
       "description": "Specifies the JDBC type for null values when no specific JDBC type was provided for the parameter. Some drivers require specifying the column JDBC type but others work with generic values like NULL, VARCHAR or OTHER. Default is OTHER.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.oracle.default-statement-timeout",
       "type": "java.lang.Integer",
       "description": "Sets the number of seconds the driver will wait for a response from the database.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.mybatis.oracle.cache-enabled",
       "type": "java.lang.Boolean",
       "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
-      "sourceType": "spring.sample.config.properties.MybatisMultipleProperties$CustomConig"
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     {
       "name": "spring.sample.datasource.h2.hikari.allow-pool-suspension",
