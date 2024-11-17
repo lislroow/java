@@ -29,6 +29,7 @@ LocalDateTime createDate;
 #### @EnableWebMvc 선언 + MessageConverter 정의
 
 - @EnableWebMvc 은 MessageConverter 를 재정의하므로 문자열로 직렬화 되지 않음
+- MessageConverter 에서 LocalDateTime 을 ISO-8601 형식의 문자열로 직렬화하도록 설정
 
 ```java
 // 방법1
@@ -38,16 +39,15 @@ public class WebConfig {
   MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.registerModule(new JavaTimeModule());
-    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS); // ISO-8601 형식 사용
+    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     return new MappingJackson2HttpMessageConverter(objectMapper);
   }
   
   @Bean
-  HttpMessageConverters customConverters() {
+  HttpMessageConverters httpMessageConverters() {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.registerModule(new JavaTimeModule());
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-  
     HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(objectMapper);
     return new HttpMessageConverters(false, Collections.singletonList(converter));
   }
