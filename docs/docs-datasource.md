@@ -86,3 +86,27 @@ public class DataSourceConfig {
 # mssql
 jdbc:sqlserver://IP주소:1433;DatabaseName=데이터베이스명
 ```
+
+
+#### 3) DataSourceInitializer
+
+
+```java
+@Configuration
+@Slf4j
+public class DataSourceConfig {
+  @Value("classpath:init-h2.sql")
+  private org.springframework.core.io.Resource initScript;
+  
+  @Bean("dataSourceInitializer")
+  @ConditionalOnProperty(name = "spring.sample.datasource.h2.init", havingValue = "true", matchIfMissing = false)
+  DataSourceInitializer dataSourceInitializer() {
+    DataSourceInitializer initializer = new DataSourceInitializer();
+    initializer.setDataSource(dataSource());
+    ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+    populator.addScript(initScript);
+    initializer.setDatabasePopulator(populator);
+    return initializer;
+  }
+}
+```
