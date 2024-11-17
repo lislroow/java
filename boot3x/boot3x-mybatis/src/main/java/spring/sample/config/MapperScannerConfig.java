@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ObjectUtils;
@@ -19,10 +18,8 @@ import spring.sample.common.annotation.MapperVertica;
 import spring.sample.common.bean.MybatisMapperNameGenerator;
 import spring.sample.common.constant.Constant;
 import spring.sample.common.enumcode.DBMS_TYPE;
-import spring.sample.config.properties.MybatisProperties;
 
 @Configuration
-@EnableConfigurationProperties(MybatisProperties.class)
 @Slf4j
 public class MapperScannerConfig {
   

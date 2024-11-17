@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ObjectUtils;
@@ -23,6 +24,7 @@ import spring.sample.config.properties.MybatisProperties;
     prefix = "spring.sample.mybatis."+Constant.DBMS.VERTICA, name = Constant.ENABLED,
     havingValue = "true",
     matchIfMissing = false)
+@EnableConfigurationProperties(spring.sample.config.properties.MybatisProperties.class)
 @Slf4j
 public class MybatisVerticaConfig {
   
