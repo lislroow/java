@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import spring.sample.app.enumcode.SOAP_CLIENT_TYPE;
-import spring.sample.app.feign.FeignInternalSoapclientController;
+import spring.sample.app.feign.InternalSoapclientFeign;
 import spring.sample.common.dto.ResponseDto;
 import spring.sample.common.enumcode.RESPONSE_CODE;
 import spring.sample.common.validator.EnumValidator;
@@ -19,12 +19,12 @@ import spring.sample.common.validator.EnumValidator;
 @AllArgsConstructor
 public class QualiController {
   
-  private FeignInternalSoapclientController feignInternalSoapclientController;
+  private InternalSoapclientFeign internalSoapclientFeign;
   
   @PostMapping("/app/v1/quali/{clientType}")
   public ResponseDto<Map<String, Object>> soap(
       @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
-    ResponseDto<Map<String, Object>> result = feignInternalSoapclientController.soap(clientType);
+    ResponseDto<Map<String, Object>> result = internalSoapclientFeign.soap(clientType);
     Map<String, Object> body = null;
     
     if (RESPONSE_CODE.S000.name().equals(result.getHeader())) {
