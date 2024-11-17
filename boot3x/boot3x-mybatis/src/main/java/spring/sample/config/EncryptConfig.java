@@ -10,17 +10,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EncryptConfig {
   
-  @Value("${jasypt.encryptor.password:123}") // :(콜론)은 기본값을 정의할 때 사용함
-  private String PASSWORD_KEY;
+  @Value("${jasypt.encryptor.password:123}")
+  private String passwordKey;
   
   @Bean("jasyptStringEncryptor")
-  public StringEncryptor stringEncryptor(){
-    if (PASSWORD_KEY == null) {
-      PASSWORD_KEY = "123";  // junit 테스트 시 -Djasypt.encryptor.password=123 옵션이 추가되어야 하지만 편의상 "123" 하드코딩
-    }
+  protected StringEncryptor stringEncryptor(){
     PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
     SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-    config.setPassword(PASSWORD_KEY);
+    config.setPassword(passwordKey == null ? System.getProperty("jasypt.encryptor.password") : passwordKey);
     config.setPoolSize("1");
     config.setAlgorithm("PBEWithMD5AndDES");
     config.setStringOutputType("base64");
