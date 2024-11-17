@@ -1,5 +1,20 @@
 ### 99. snippets
 
+#### 2) isUseJdbc4Validation
+
+- JDBC 4 유효성 검사(isUseJdbc4Validation = true): 간단하고 효율적이지만, 드라이버 지원 여부 확인 필요.
+- validationQuery(isUseJdbc4Validation = false): 드라이버 지원 문제가 있을 때 유효성을 검사하는 대안.
+
+```java
+package com.zaxxer.hikari;
+public class HikariConfig implements HikariConfigMXBean {
+  PoolBase(final HikariConfig config) {
+    this.config = config;
+    // spring.datasource.hikari.connection-test-query 설정이 없으면 jdbc4 validation 을 사용함
+    this.isUseJdbc4Validation = config.getConnectionTestQuery() == null;
+```
+
+
 #### 1) RoutingDataSource
 
 ```java
