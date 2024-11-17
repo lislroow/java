@@ -22,7 +22,7 @@ import spring.sample.common.mybatis.PagingInterceptor;
 
 @Configuration
 @ConditionalOnProperty(
-    prefix = "mybatis.enabled", name = Constant.ENABLED,
+    prefix = "mybatis", name = Constant.ENABLED,
     havingValue = "true",
     matchIfMissing = false)
 @EnableConfigurationProperties(org.mybatis.spring.boot.autoconfigure.MybatisProperties.class)

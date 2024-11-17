@@ -17,7 +17,7 @@ import spring.sample.common.constant.Constant;
 
 @Configuration
 @ConditionalOnProperty(
-    prefix = "spring.datasource.hikari.enabled", name = Constant.ENABLED,
+    prefix = "spring.datasource.hikari", name = Constant.ENABLED,
     havingValue = "true",
     matchIfMissing = false)
 @Slf4j
