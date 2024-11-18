@@ -28,25 +28,25 @@ public class MybatisController {
   @Qualifier(value = "employDao")
   private EmployDao employDao;
   
-  @Autowired
+  @Autowired(required = false)
   private EmployDao employPrimaryDao;
 
-  @Autowired
+  @Autowired(required = false)
   @Qualifier(value = "employH2Dao")
   private EmployDao employH2Dao;
   
-  @Autowired
+  @Autowired(required = false)
   @Qualifier(value = "employMariaDao")
   private EmployDao employMariaDao;
   
-  @Autowired
+  @Autowired(required = false)
   @Qualifier(value = "employOracleDao")
   private EmployDao employOracleDao;
   
-  @Autowired
+  @Autowired(required = false)
   private EmployVerticaDao employVerticaDao;
   
-  @Autowired
+  @Autowired(required = false)
   @Qualifier(value = "employPostgresDao")
   private EmployDao employPostgresDao;
   

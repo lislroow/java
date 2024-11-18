@@ -23,6 +23,12 @@
       "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
     },
     
+    
+    {
+      "name": "spring.sample.datasource.h2.hikari.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable"
+    },
     {
       "name": "spring.sample.datasource.h2.hikari.driver-class-name",
       "type": "java.lang.String",
@@ -50,6 +56,11 @@
     
     
     {
+      "name": "spring.sample.datasource.maria.hikari.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable"
+    },
+    {
       "name": "spring.sample.datasource.maria.hikari.driver-class-name",
       "type": "java.lang.String",
       "description": "org.mariadb.jdbc.Driver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
@@ -75,6 +86,11 @@
     },
     
     
+    {
+      "name": "spring.sample.datasource.oracle.hikari.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable"
+    },
     {
       "name": "spring.sample.datasource.oracle.hikari.driver-class-name",
       "type": "java.lang.String",
@@ -102,6 +118,11 @@
     
     
     {
+      "name": "spring.sample.datasource.vertica.hikari.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable"
+    },
+    {
       "name": "spring.sample.datasource.vertica.hikari.driver-class-name",
       "type": "java.lang.String",
       "description": "com.vertica.jdbc.Driver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
@@ -127,6 +148,11 @@
     },
     
     
+    {
+      "name": "spring.sample.datasource.postgres.hikari.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable"
+    },
     {
       "name": "spring.sample.datasource.postgres.hikari.driver-class-name",
       "type": "java.lang.String",
