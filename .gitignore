@@ -49,3 +49,6 @@ gpki
 .sonarlint
 */.scannerwork
 */.sonarlint
+
+# [draw.io]
+**/.$*.bkp
