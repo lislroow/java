@@ -1,9 +1,7 @@
 package spring.sample.initial;
 
 import java.util.Arrays;
-import java.util.Formatter;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -18,33 +16,36 @@ import spring.sample.common.vo.BootJarVo;
 @Slf4j
 public class ApplicationReadyHandler {
   
+  public static final List<String> CORE_LIST = Arrays.asList(
+      "spring-boot",
+      "spring-cloud-starter",
+      "mybatis",
+      "lombok-mapstruct-binding",
+      "mapstruct",
+      "modelmapper",
+      "jasypt-spring-boot-starter",
+      "log4jdbc-log4j2-jdbc4.1"
+      );
+  
+  public static final List<String> JDBC_LIST = Arrays.asList(
+      "h2",
+      "mariadb-java-client",
+      "ojdbc8",
+      "vertica-jdbc",
+      "postgresql"
+      );
+  
   @EventListener
   public void applicationReady(ApplicationReadyEvent event) {
-    printJars();
-  }
-  
-  private void printJars() {
-    List<AsciiTable.Column> columns = Arrays.asList(
-        new AsciiTable.Column("jar", 35),
-        new AsciiTable.Column("version", 12)
-        );
-    Formatter fmt = AsciiTable.header(columns);
     List<BootJarVo> list = ClasspathLibs.getBootJars();
-    IntStream.range(0, list.size()-1)
-      .forEach(i -> {
-        if (list.get(i) == null || list.get(i).getJar() == null) {
-          return;
-        }
-        if (!list.get(i).getJar().equals("spring-boot") && 
-            !list.get(i).getJar().equals("spring-cloud-starter")) {
-          return; 
-        }
-        AsciiTable.body(columns, new Object[] {
-            list.get(i).getJar(),
-            list.get(i).getVersion()
-          }, fmt);
-        });
-    AsciiTable.space(columns, fmt);
-    log.info("Application Info \n### Core Libraries\n{}", fmt);
+    List<BootJarVo> coreList = list.stream()
+        .filter(item -> CORE_LIST.contains(item.getJar()))
+        .toList();
+    log.info("Application Info # Core Libraries\n{}", AsciiTable.getTable(coreList, "jar", "ver"));
+    
+    List<BootJarVo> jdbcList = list.stream()
+        .filter(item -> JDBC_LIST.contains(item.getJar()))
+        .toList();
+    log.info("Application Info # JDBC Libraries\n{}", AsciiTable.getTable(jdbcList, "jar", "ver"));
   }
 }
