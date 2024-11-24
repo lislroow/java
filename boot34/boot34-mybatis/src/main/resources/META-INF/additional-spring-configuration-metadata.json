@@ -1,0 +1,1995 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.init",
+      "type": "java.lang.Boolean"
+    },
+    
+    
+    {
+      "name": "spring.datasource.hikari.enabled",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "mybatis.enabled",
+      "type": "java.lang.Boolean"
+    },
+    
+    
+    {
+      "name": "spring.sample.mybatis.primary",
+      "type": "spring.sample.common.enumcode.DBMS_CODE",
+      "description": "primary database name",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    
+    
+    {
+      "name": "spring.sample.datasource.h2.hikari.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "org.h2.Driver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "jdbc:h2:mem:~/[db_filename];init=runscript from 'classpath:[sql_filename]';db_close_delay=-1;",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "description": "SELECT 1 FROM DUAL",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.init",
+      "type": "java.lang.Boolean",
+      "description": "[true, false] init-h2.sql",
+      "defaultValue": false
+    },
+    
+    
+    {
+      "name": "spring.sample.datasource.maria.hikari.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "org.mariadb.jdbc.Driver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "jdbc:mariadb://[host]:[port:3306]/[database]?[parameters]",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "description": "SELECT 1 FROM DUAL",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.init",
+      "type": "java.lang.Boolean",
+      "description": "[true, false] init-maria.sql",
+      "defaultValue": false
+    },
+    
+    
+    {
+      "name": "spring.sample.datasource.oracle.hikari.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "oracle.jdbc.OracleDriver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "jdbc:oracle:thin:@//[host]:[port:1521]/[service_name]",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "description": "SELECT 1 FROM DUAL",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.init",
+      "type": "java.lang.Boolean",
+      "description": "[true, false] init-oracle.sql",
+      "defaultValue": false
+    },
+    
+    
+    {
+      "name": "spring.sample.datasource.vertica.hikari.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "com.vertica.jdbc.Driver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "jdbc:vertica://[host]:[port:5433]/[database]",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "description": "SELECT 1 FROM DUAL",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.init",
+      "type": "java.lang.Boolean",
+      "description": "[true, false] init-vertica.sql",
+      "defaultValue": false
+    },
+    
+    
+    {
+      "name": "spring.sample.datasource.postgres.hikari.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "org.postgresql.Driver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "jdbc:postgresql://[host]:[port:5432]/[database]",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "description": "SELECT 1",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.init",
+      "type": "java.lang.Boolean",
+      "description": "[true, false] init-postgres.sql",
+      "defaultValue": false
+    },
+    
+    
+    {
+      "name": "spring.sample.mybatis.h2.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.h2.mapper-locations",
+      "type": "java.lang.String[]",
+      "description": "Locations of MyBatis mapper files.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.h2.type-aliases-package",
+      "type": "java.lang.String",
+      "description": "Packages to search type aliases. (Package delimiters are \",; \\t\\n\")",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.h2.map-underscore-to-camel-case",
+      "type": "java.lang.Boolean",
+      "description": "Enables automatic mapping from classic database column names A_COLUMN to camel case classic Java property names aColumn. Default is false.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.h2.jdbc-type-for-null",
+      "type": "org.apache.ibatis.type.JdbcType",
+      "description": "Specifies the JDBC type for null values when no specific JDBC type was provided for the parameter. Some drivers require specifying the column JDBC type but others work with generic values like NULL, VARCHAR or OTHER. Default is OTHER.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.h2.default-statement-timeout",
+      "type": "java.lang.Integer",
+      "description": "Sets the number of seconds the driver will wait for a response from the database.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.h2.cache-enabled",
+      "type": "java.lang.Boolean",
+      "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    
+    
+    {
+      "name": "spring.sample.mybatis.maria.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.maria.mapper-locations",
+      "type": "java.lang.String[]",
+      "description": "Locations of MyBatis mapper files.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.maria.type-aliases-package",
+      "type": "java.lang.String",
+      "description": "Packages to search type aliases. (Package delimiters are \",; \\t\\n\")",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.maria.map-underscore-to-camel-case",
+      "type": "java.lang.Boolean",
+      "description": "Enables automatic mapping from classic database column names A_COLUMN to camel case classic Java property names aColumn. Default is false.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.maria.jdbc-type-for-null",
+      "type": "org.apache.ibatis.type.JdbcType",
+      "description": "Specifies the JDBC type for null values when no specific JDBC type was provided for the parameter. Some drivers require specifying the column JDBC type but others work with generic values like NULL, VARCHAR or OTHER. Default is OTHER.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.maria.default-statement-timeout",
+      "type": "java.lang.Integer",
+      "description": "Sets the number of seconds the driver will wait for a response from the database.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.maria.cache-enabled",
+      "type": "java.lang.Boolean",
+      "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    
+    
+    {
+      "name": "spring.sample.mybatis.oracle.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.oracle.mapper-locations",
+      "type": "java.lang.String[]",
+      "description": "Locations of MyBatis mapper files.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.oracle.type-aliases-package",
+      "type": "java.lang.String",
+      "description": "Packages to search type aliases. (Package delimiters are \",; \\t\\n\")",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.oracle.map-underscore-to-camel-case",
+      "type": "java.lang.Boolean",
+      "description": "Enables automatic mapping from classic database column names A_COLUMN to camel case classic Java property names aColumn. Default is false.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.oracle.jdbc-type-for-null",
+      "type": "org.apache.ibatis.type.JdbcType",
+      "description": "Specifies the JDBC type for null values when no specific JDBC type was provided for the parameter. Some drivers require specifying the column JDBC type but others work with generic values like NULL, VARCHAR or OTHER. Default is OTHER.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.oracle.default-statement-timeout",
+      "type": "java.lang.Integer",
+      "description": "Sets the number of seconds the driver will wait for a response from the database.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.oracle.cache-enabled",
+      "type": "java.lang.Boolean",
+      "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    
+    
+    {
+      "name": "spring.sample.mybatis.vertica.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.mapper-locations",
+      "type": "java.lang.String[]",
+      "description": "Locations of MyBatis mapper files.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.type-aliases-package",
+      "type": "java.lang.String",
+      "description": "Packages to search type aliases. (Package delimiters are \",; \\t\\n\")",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.map-underscore-to-camel-case",
+      "type": "java.lang.Boolean",
+      "description": "Enables automatic mapping from classic database column names A_COLUMN to camel case classic Java property names aColumn. Default is false.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.jdbc-type-for-null",
+      "type": "org.apache.ibatis.type.JdbcType",
+      "description": "Specifies the JDBC type for null values when no specific JDBC type was provided for the parameter. Some drivers require specifying the column JDBC type but others work with generic values like NULL, VARCHAR or OTHER. Default is OTHER.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.default-statement-timeout",
+      "type": "java.lang.Integer",
+      "description": "Sets the number of seconds the driver will wait for a response from the database.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.vertica.cache-enabled",
+      "type": "java.lang.Boolean",
+      "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    
+    
+    {
+      "name": "spring.sample.mybatis.postgres.enabled",
+      "type": "java.lang.Boolean",
+      "description": "enable",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.postgres.mapper-locations",
+      "type": "java.lang.String[]",
+      "description": "Locations of MyBatis mapper files.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.postgres.type-aliases-package",
+      "type": "java.lang.String",
+      "description": "Packages to search type aliases. (Package delimiters are \",; \\t\\n\")",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.postgres.map-underscore-to-camel-case",
+      "type": "java.lang.Boolean",
+      "description": "Enables automatic mapping from classic database column names A_COLUMN to camel case classic Java property names aColumn. Default is false.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.postgres.jdbc-type-for-null",
+      "type": "org.apache.ibatis.type.JdbcType",
+      "description": "Specifies the JDBC type for null values when no specific JDBC type was provided for the parameter. Some drivers require specifying the column JDBC type but others work with generic values like NULL, VARCHAR or OTHER. Default is OTHER.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.postgres.default-statement-timeout",
+      "type": "java.lang.Integer",
+      "description": "Sets the number of seconds the driver will wait for a response from the database.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    {
+      "name": "spring.sample.mybatis.postgres.cache-enabled",
+      "type": "java.lang.Boolean",
+      "description": "Globally enables or disables any caches configured in any mapper under this configuration. Default is true.",
+      "sourceType": "spring.sample.config.properties.MybatisProperties$Configure"
+    },
+    
+    
+    {
+      "name": "spring.sample.datasource.h2.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.h2.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    
+    
+    {
+      "name": "spring.sample.datasource.maria.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.maria.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "oracle.jdbc.OracleDriver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "jdbc:oracle:thin:@//<host>:<port:1521>/<service_name>",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "description": "SELECT 1 FROM DUAL",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.oracle.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    
+    
+    {
+      "name": "spring.sample.datasource.vertica.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "vertica.jdbc.verticaDriver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "jdbc:vertica:thin:@//<host>:<port:1521>/<service_name>",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "description": "SELECT 1 FROM DUAL",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.vertica.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    
+    
+    {
+      "name": "spring.sample.datasource.postgres.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "postgres.jdbc.postgresDriver (net.sf.log4jdbc.sql.jdbcapi.DriverSpy)",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "jdbc:postgres:thin:@//<host>:<port:1521>/<service_name>",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "description": "SELECT 1 FROM DUAL",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.allow-pool-suspension",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.auto-commit",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.catalog",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.connection-init-sql",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.connection-test-query",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.connection-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.data-source-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.data-source-j-n-d-i",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.data-source-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.exception-override-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.health-check-properties",
+      "type": "java.util.Properties",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.idle-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.initialization-fail-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.isolate-internal-queries",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.keepalive-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.leak-detection-threshold",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.login-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.max-lifetime",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.metrics-tracker-factory",
+      "type": "com.zaxxer.hikari.metrics.MetricsTrackerFactory",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.minimum-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.password",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.pool-name",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.read-only",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.register-mbeans",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.scheduled-executor",
+      "type": "java.util.concurrent.ScheduledExecutorService",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.schema",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.transaction-isolation",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.username",
+      "type": "java.lang.String",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    {
+      "name": "spring.sample.datasource.postgres.hikari.validation-timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.zaxxer.hikari.HikariDataSource"
+    },
+    
+    
+    {
+      "name": "spring.sample.mybatis.h2.enabled",
+      "type": "java.lang.String",
+      "description": "A description for 'spring.sample.mybatis.h2.enabled'"
+    }
+  ]
+}
