@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import spring.sample.common.audit.AuditVo;
 
 @Data
-public class EmployReqDto {
+public class ScientistReqDto {
 
   @Data
   @EqualsAndHashCode(callSuper=false)

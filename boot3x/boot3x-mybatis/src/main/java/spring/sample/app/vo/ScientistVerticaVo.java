@@ -10,7 +10,7 @@ import spring.sample.common.mybatis.Pageable;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class EmployVerticaVo extends AuditVerticaVo {
+public class ScientistVerticaVo extends AuditVerticaVo {
   
   private String id;
   private String name;

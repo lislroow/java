@@ -1,25 +1,29 @@
 /*
 */
-drop table employ;
+DROP TABLE scientist;
 
-create table employ 
+DROP SEQUENCE scientist_seq;
+CREATE SEQUENCE scientist_seq START 1 INCREMENT 1;
+
+CREATE TABLE scientist 
 (
- id varchar(14),
- name varchar(255),
- create_date timestamp,
- modify_date timestamp,
- create_id varchar(14),
- modify_id varchar(14),
- primary key (id)
+  id INT DEFAULT NEXTVAL('scientist_seq') PRIMARY KEY,
+  name VARCHAR(255),
+  create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modify_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  create_id INT DEFAULT 1,
+  modify_id INT DEFAULT 1
 );
 
-insert into employ (id, name, create_date, modify_date, create_id, modify_id) values('V1hrggys4b3hh4', 'scott', NOW(), NOW(), 1, 1);
-insert into employ (id, name, create_date, modify_date, create_id, modify_id) values('V0qdyu0v35h5k6', 'tiger', NOW(), NOW(), 1, 1);
-insert into employ (id, name, create_date, modify_date, create_id, modify_id) values('V0s0xbssk4qvz9', 'ecycle', NOW(), NOW(), 1, 1);
-insert into employ (id, name, create_date, modify_date, create_id, modify_id) values('V0urv6uvvmd084', 'yslee', NOW(), NOW(), 1, 1);
-insert into employ (id, name, create_date, modify_date, create_id, modify_id) values('V0t8cf2ynjdw6q', 'sckim', NOW(), NOW(), 1, 1);
-insert into employ (id, name, create_date, modify_date, create_id, modify_id) values('V0rhofdnmqjs52', 'dhkim', NOW(), NOW(), 1, 1);
-insert into employ (id, name, create_date, modify_date, create_id, modify_id) values('V0qhkkc07160c2', 'jkpark', NOW(), NOW(), 1, 1);
-insert into employ (id, name, create_date, modify_date, create_id, modify_id) values('V0qeeyfij2z885', 'yhlee', NOW(), NOW(), 1, 1);
-insert into employ (id, name, create_date, modify_date, create_id, modify_id) values('V0qxyvj1lwgldj', 'jckim', NOW(), NOW(), 1, 1);
-insert into employ (id, name, create_date, modify_date, create_id, modify_id) values('V0sl3e2kacak4i', 'mgkim', NOW(), NOW(), 1, 1);
+INSERT INTO scientist (name) VALUES('Galileo Galilei');
+INSERT INTO scientist (name) VALUES('Johannes Kepler');
+INSERT INTO scientist (name) VALUES('Isaac Newton');
+INSERT INTO scientist (name) VALUES('Dmitri Mendeleev');
+INSERT INTO scientist (name) VALUES('Albert Einstein');
+INSERT INTO scientist (name) VALUES('Stephen Hawking');
+INSERT INTO scientist (name) VALUES('Nikola Tesla');
+INSERT INTO scientist (name) VALUES('Niels Bohr');
+INSERT INTO scientist (name) VALUES('Michael Faraday');
+INSERT INTO scientist (name) VALUES('James Clerk Maxwell');
+INSERT INTO scientist (name) VALUES('Alan Turing');
+INSERT INTO scientist (name) VALUES('Richard Feynman');

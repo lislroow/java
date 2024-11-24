@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import spring.sample.app.vo.EmployVo;
+import spring.sample.app.vo.ScientistVo;
 import spring.sample.common.annotation.MapperH2;
 import spring.sample.common.annotation.MapperMaria;
 import spring.sample.common.annotation.MapperOracle;
@@ -18,20 +18,20 @@ import spring.sample.common.mybatis.PagedList;
 @MapperOracle
 @MapperPostgres
 @Mapper
-public interface EmployDao {
+public interface ScientistDao {
   
-  List<EmployVo> findAll();
+  List<ScientistVo> findAll();
   
-  EmployVo findById(@Param("id") String id);
+  ScientistVo findById(@Param("id") String id);
   
-  PagedList<EmployVo> findList(Pageable param);
+  PagedList<ScientistVo> findList(Pageable param);
   
-  PagedList<EmployVo> findListByName(@Param("vo") EmployVo.FindVo vo);
+  PagedList<ScientistVo> findListByName(@Param("vo") ScientistVo.FindVo vo);
   
-  int add(@Param("vo") EmployVo.AddVo vo);
+  int add(@Param("vo") ScientistVo.AddVo vo);
   
-  int modifyNameById(@Param("vo") EmployVo.ModifyVo vo);
+  int modifyNameById(@Param("vo") ScientistVo.ModifyVo vo);
   
-  int removeById(@Param("vo") EmployVo.RemoveVo vo);
+  int removeById(@Param("vo") ScientistVo.RemoveVo vo);
   
 }

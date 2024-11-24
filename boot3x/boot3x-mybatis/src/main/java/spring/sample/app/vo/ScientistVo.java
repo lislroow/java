@@ -12,7 +12,7 @@ import spring.sample.common.mybatis.Pageable;
 @EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployVo extends AuditVo {
+public class ScientistVo extends AuditVo {
   
   private String id;
   private String name;
