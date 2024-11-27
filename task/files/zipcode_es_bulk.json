@@ -1,0 +1,208 @@
+{"index": {"_index": "zipcode_es", "_id": 1}}
+{"sido": "경기도", "sigungu": "고양시 덕양구"}
+{"index": {"_index": "zipcode_es", "_id": 2}}
+{"sido": "경기도", "sigungu": "고양시 일산동구"}
+{"index": {"_index": "zipcode_es", "_id": 3}}
+{"sido": "경기도", "sigungu": "고양시 일산서구"}
+{"index": {"_index": "zipcode_es", "_id": 4}}
+{"sido": "경기도", "sigungu": "부천시 소사구"}
+{"index": {"_index": "zipcode_es", "_id": 5}}
+{"sido": "경기도", "sigungu": "부천시 오정구"}
+{"index": {"_index": "zipcode_es", "_id": 6}}
+{"sido": "경기도", "sigungu": "부천시 원미구"}
+{"index": {"_index": "zipcode_es", "_id": 7}}
+{"sido": "경기도", "sigungu": "성남시 분당구"}
+{"index": {"_index": "zipcode_es", "_id": 8}}
+{"sido": "경기도", "sigungu": "성남시 수정구"}
+{"index": {"_index": "zipcode_es", "_id": 9}}
+{"sido": "경기도", "sigungu": "성남시 중원구"}
+{"index": {"_index": "zipcode_es", "_id": 10}}
+{"sido": "경기도", "sigungu": "수원시 권선구"}
+{"index": {"_index": "zipcode_es", "_id": 11}}
+{"sido": "경기도", "sigungu": "수원시 영통구"}
+{"index": {"_index": "zipcode_es", "_id": 12}}
+{"sido": "경기도", "sigungu": "수원시 장안구"}
+{"index": {"_index": "zipcode_es", "_id": 13}}
+{"sido": "경기도", "sigungu": "수원시 팔달구"}
+{"index": {"_index": "zipcode_es", "_id": 14}}
+{"sido": "경기도", "sigungu": "안산시 단원구"}
+{"index": {"_index": "zipcode_es", "_id": 15}}
+{"sido": "경기도", "sigungu": "안산시 상록구"}
+{"index": {"_index": "zipcode_es", "_id": 16}}
+{"sido": "경기도", "sigungu": "안양시 동안구"}
+{"index": {"_index": "zipcode_es", "_id": 17}}
+{"sido": "경기도", "sigungu": "안양시 만안구"}
+{"index": {"_index": "zipcode_es", "_id": 18}}
+{"sido": "경기도", "sigungu": "용인시 기흥구"}
+{"index": {"_index": "zipcode_es", "_id": 19}}
+{"sido": "경기도", "sigungu": "용인시 수지구"}
+{"index": {"_index": "zipcode_es", "_id": 20}}
+{"sido": "경기도", "sigungu": "용인시 처인구"}
+{"index": {"_index": "zipcode_es", "_id": 21}}
+{"sido": "경상남도", "sigungu": "창원시 마산합포구"}
+{"index": {"_index": "zipcode_es", "_id": 22}}
+{"sido": "경상남도", "sigungu": "창원시 마산회원구"}
+{"index": {"_index": "zipcode_es", "_id": 23}}
+{"sido": "경상남도", "sigungu": "창원시 성산구"}
+{"index": {"_index": "zipcode_es", "_id": 24}}
+{"sido": "경상남도", "sigungu": "창원시 의창구"}
+{"index": {"_index": "zipcode_es", "_id": 25}}
+{"sido": "경상남도", "sigungu": "창원시 진해구"}
+{"index": {"_index": "zipcode_es", "_id": 26}}
+{"sido": "경상북도", "sigungu": "포항시 남구"}
+{"index": {"_index": "zipcode_es", "_id": 27}}
+{"sido": "경상북도", "sigungu": "포항시 북구"}
+{"index": {"_index": "zipcode_es", "_id": 28}}
+{"sido": "광주광역시", "sigungu": "광산구"}
+{"index": {"_index": "zipcode_es", "_id": 29}}
+{"sido": "광주광역시", "sigungu": "남구"}
+{"index": {"_index": "zipcode_es", "_id": 30}}
+{"sido": "광주광역시", "sigungu": "동구"}
+{"index": {"_index": "zipcode_es", "_id": 31}}
+{"sido": "광주광역시", "sigungu": "북구"}
+{"index": {"_index": "zipcode_es", "_id": 32}}
+{"sido": "광주광역시", "sigungu": "서구"}
+{"index": {"_index": "zipcode_es", "_id": 33}}
+{"sido": "대구광역시", "sigungu": "남구"}
+{"index": {"_index": "zipcode_es", "_id": 34}}
+{"sido": "대구광역시", "sigungu": "달서구"}
+{"index": {"_index": "zipcode_es", "_id": 35}}
+{"sido": "대구광역시", "sigungu": "동구"}
+{"index": {"_index": "zipcode_es", "_id": 36}}
+{"sido": "대구광역시", "sigungu": "북구"}
+{"index": {"_index": "zipcode_es", "_id": 37}}
+{"sido": "대구광역시", "sigungu": "서구"}
+{"index": {"_index": "zipcode_es", "_id": 38}}
+{"sido": "대구광역시", "sigungu": "수성구"}
+{"index": {"_index": "zipcode_es", "_id": 39}}
+{"sido": "대구광역시", "sigungu": "중구"}
+{"index": {"_index": "zipcode_es", "_id": 40}}
+{"sido": "대전광역시", "sigungu": "대덕구"}
+{"index": {"_index": "zipcode_es", "_id": 41}}
+{"sido": "대전광역시", "sigungu": "동구"}
+{"index": {"_index": "zipcode_es", "_id": 42}}
+{"sido": "대전광역시", "sigungu": "서구"}
+{"index": {"_index": "zipcode_es", "_id": 43}}
+{"sido": "대전광역시", "sigungu": "유성구"}
+{"index": {"_index": "zipcode_es", "_id": 44}}
+{"sido": "대전광역시", "sigungu": "중구"}
+{"index": {"_index": "zipcode_es", "_id": 45}}
+{"sido": "부산광역시", "sigungu": "강서구"}
+{"index": {"_index": "zipcode_es", "_id": 46}}
+{"sido": "부산광역시", "sigungu": "금정구"}
+{"index": {"_index": "zipcode_es", "_id": 47}}
+{"sido": "부산광역시", "sigungu": "남구"}
+{"index": {"_index": "zipcode_es", "_id": 48}}
+{"sido": "부산광역시", "sigungu": "동구"}
+{"index": {"_index": "zipcode_es", "_id": 49}}
+{"sido": "부산광역시", "sigungu": "동래구"}
+{"index": {"_index": "zipcode_es", "_id": 50}}
+{"sido": "부산광역시", "sigungu": "부산진구"}
+{"index": {"_index": "zipcode_es", "_id": 51}}
+{"sido": "부산광역시", "sigungu": "북구"}
+{"index": {"_index": "zipcode_es", "_id": 52}}
+{"sido": "부산광역시", "sigungu": "사상구"}
+{"index": {"_index": "zipcode_es", "_id": 53}}
+{"sido": "부산광역시", "sigungu": "사하구"}
+{"index": {"_index": "zipcode_es", "_id": 54}}
+{"sido": "부산광역시", "sigungu": "서구"}
+{"index": {"_index": "zipcode_es", "_id": 55}}
+{"sido": "부산광역시", "sigungu": "수영구"}
+{"index": {"_index": "zipcode_es", "_id": 56}}
+{"sido": "부산광역시", "sigungu": "연제구"}
+{"index": {"_index": "zipcode_es", "_id": 57}}
+{"sido": "부산광역시", "sigungu": "영도구"}
+{"index": {"_index": "zipcode_es", "_id": 58}}
+{"sido": "부산광역시", "sigungu": "중구"}
+{"index": {"_index": "zipcode_es", "_id": 59}}
+{"sido": "부산광역시", "sigungu": "해운대구"}
+{"index": {"_index": "zipcode_es", "_id": 60}}
+{"sido": "서울특별시", "sigungu": "강남구"}
+{"index": {"_index": "zipcode_es", "_id": 61}}
+{"sido": "서울특별시", "sigungu": "강동구"}
+{"index": {"_index": "zipcode_es", "_id": 62}}
+{"sido": "서울특별시", "sigungu": "강북구"}
+{"index": {"_index": "zipcode_es", "_id": 63}}
+{"sido": "서울특별시", "sigungu": "강서구"}
+{"index": {"_index": "zipcode_es", "_id": 64}}
+{"sido": "서울특별시", "sigungu": "관악구"}
+{"index": {"_index": "zipcode_es", "_id": 65}}
+{"sido": "서울특별시", "sigungu": "광진구"}
+{"index": {"_index": "zipcode_es", "_id": 66}}
+{"sido": "서울특별시", "sigungu": "구로구"}
+{"index": {"_index": "zipcode_es", "_id": 67}}
+{"sido": "서울특별시", "sigungu": "금천구"}
+{"index": {"_index": "zipcode_es", "_id": 68}}
+{"sido": "서울특별시", "sigungu": "노원구"}
+{"index": {"_index": "zipcode_es", "_id": 69}}
+{"sido": "서울특별시", "sigungu": "도봉구"}
+{"index": {"_index": "zipcode_es", "_id": 70}}
+{"sido": "서울특별시", "sigungu": "동대문구"}
+{"index": {"_index": "zipcode_es", "_id": 71}}
+{"sido": "서울특별시", "sigungu": "동작구"}
+{"index": {"_index": "zipcode_es", "_id": 72}}
+{"sido": "서울특별시", "sigungu": "마포구"}
+{"index": {"_index": "zipcode_es", "_id": 73}}
+{"sido": "서울특별시", "sigungu": "서대문구"}
+{"index": {"_index": "zipcode_es", "_id": 74}}
+{"sido": "서울특별시", "sigungu": "서초구"}
+{"index": {"_index": "zipcode_es", "_id": 75}}
+{"sido": "서울특별시", "sigungu": "성동구"}
+{"index": {"_index": "zipcode_es", "_id": 76}}
+{"sido": "서울특별시", "sigungu": "성북구"}
+{"index": {"_index": "zipcode_es", "_id": 77}}
+{"sido": "서울특별시", "sigungu": "송파구"}
+{"index": {"_index": "zipcode_es", "_id": 78}}
+{"sido": "서울특별시", "sigungu": "양천구"}
+{"index": {"_index": "zipcode_es", "_id": 79}}
+{"sido": "서울특별시", "sigungu": "영등포구"}
+{"index": {"_index": "zipcode_es", "_id": 80}}
+{"sido": "서울특별시", "sigungu": "용산구"}
+{"index": {"_index": "zipcode_es", "_id": 81}}
+{"sido": "서울특별시", "sigungu": "은평구"}
+{"index": {"_index": "zipcode_es", "_id": 82}}
+{"sido": "서울특별시", "sigungu": "종로구"}
+{"index": {"_index": "zipcode_es", "_id": 83}}
+{"sido": "서울특별시", "sigungu": "중구"}
+{"index": {"_index": "zipcode_es", "_id": 84}}
+{"sido": "서울특별시", "sigungu": "중랑구"}
+{"index": {"_index": "zipcode_es", "_id": 85}}
+{"sido": "울산광역시", "sigungu": "남구"}
+{"index": {"_index": "zipcode_es", "_id": 86}}
+{"sido": "울산광역시", "sigungu": "동구"}
+{"index": {"_index": "zipcode_es", "_id": 87}}
+{"sido": "울산광역시", "sigungu": "북구"}
+{"index": {"_index": "zipcode_es", "_id": 88}}
+{"sido": "울산광역시", "sigungu": "중구"}
+{"index": {"_index": "zipcode_es", "_id": 89}}
+{"sido": "인천광역시", "sigungu": "계양구"}
+{"index": {"_index": "zipcode_es", "_id": 90}}
+{"sido": "인천광역시", "sigungu": "남동구"}
+{"index": {"_index": "zipcode_es", "_id": 91}}
+{"sido": "인천광역시", "sigungu": "동구"}
+{"index": {"_index": "zipcode_es", "_id": 92}}
+{"sido": "인천광역시", "sigungu": "미추홀구"}
+{"index": {"_index": "zipcode_es", "_id": 93}}
+{"sido": "인천광역시", "sigungu": "부평구"}
+{"index": {"_index": "zipcode_es", "_id": 94}}
+{"sido": "인천광역시", "sigungu": "서구"}
+{"index": {"_index": "zipcode_es", "_id": 95}}
+{"sido": "인천광역시", "sigungu": "연수구"}
+{"index": {"_index": "zipcode_es", "_id": 96}}
+{"sido": "인천광역시", "sigungu": "중구"}
+{"index": {"_index": "zipcode_es", "_id": 97}}
+{"sido": "전북특별자치도", "sigungu": "전주시 덕진구"}
+{"index": {"_index": "zipcode_es", "_id": 98}}
+{"sido": "전북특별자치도", "sigungu": "전주시 완산구"}
+{"index": {"_index": "zipcode_es", "_id": 99}}
+{"sido": "충청남도", "sigungu": "천안시 동남구"}
+{"index": {"_index": "zipcode_es", "_id": 100}}
+{"sido": "충청남도", "sigungu": "천안시 서북구"}
+{"index": {"_index": "zipcode_es", "_id": 101}}
+{"sido": "충청북도", "sigungu": "청주시 상당구"}
+{"index": {"_index": "zipcode_es", "_id": 102}}
+{"sido": "충청북도", "sigungu": "청주시 서원구"}
+{"index": {"_index": "zipcode_es", "_id": 103}}
+{"sido": "충청북도", "sigungu": "청주시 청원구"}
+{"index": {"_index": "zipcode_es", "_id": 104}}
+{"sido": "충청북도", "sigungu": "청주시 흥덕구"}
