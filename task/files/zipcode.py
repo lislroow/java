@@ -12,7 +12,6 @@ def fetch_data_from_mariadb():
     query = """
     SELECT sido, sigungu
     FROM zipcode
-    WHERE sigungu LIKE '%구'
     GROUP BY sido, sigungu
     """
     cursor.execute(query)
