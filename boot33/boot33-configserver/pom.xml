@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>cloud-eureka</artifactId>
+  <artifactId>boot33-configserver</artifactId>
   <parent>
     <groupId>spring.sample</groupId>
     <artifactId>boot33</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
-
+  
   <properties>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
     <downloadSources>true</downloadSources>
@@ -18,7 +18,7 @@
   <dependencies>
     <dependency>
       <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+      <artifactId>spring-cloud-config-server</artifactId>
     </dependency>
   </dependencies>
   
