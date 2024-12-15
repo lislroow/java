@@ -12,6 +12,8 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
+import spring.sample.common.constant.Constant;
+
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
   
@@ -22,18 +24,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
     MessageDispatcherServlet servlet = new MessageDispatcherServlet();
     servlet.setApplicationContext(applicationContext);
     servlet.setTransformWsdlLocations(true);
-    return new ServletRegistrationBean<>(servlet, "/soap/*");
+    return new ServletRegistrationBean<>(servlet, Constant.APP.BASE_URI+"/*");
   }
   
-  public static final String NS_SAY_HELLO = "http://webservice.mgkim.net/soap/SayHello/types";
-  public static final String NS_MEMBER_DETAIL = "http://webservice.mgkim.net/soap/MemberDetail/types";
+  public static final String NS_SAY_HELLO = "http://soap.mgkim.net"+Constant.APP.BASE_URI+"/SayHello/types";
+  public static final String NS_MEMBER_DETAIL = "http://soap.mgkim.net"+Constant.APP.BASE_URI+"/MemberDetail/types";
   
   @Bean(name = "hello")
   DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema helloSchema) {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("HelloPort");
-    wsdl11Definition.setLocationUri("/soap/SayHello/types");
-    wsdl11Definition.setTargetNamespace("http://webservice.mgkim.net/soap/SayHello/types");
+    wsdl11Definition.setLocationUri(Constant.APP.BASE_URI+"/SayHello/types");
+    wsdl11Definition.setTargetNamespace("http://soap.mgkim.net"+Constant.APP.BASE_URI+"/SayHello/types");
     wsdl11Definition.setSchema(helloSchema);
     return wsdl11Definition;
   }
@@ -42,8 +44,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
   DefaultWsdl11Definition defaultWsdl11Definition_member(XsdSchema memberSchema) {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("MemberPort");
-    wsdl11Definition.setLocationUri("/soap/MemberDetail/types");
-    wsdl11Definition.setTargetNamespace("http://webservice.mgkim.net/soap/MemberDetail/types");
+    wsdl11Definition.setLocationUri(Constant.APP.BASE_URI+"/MemberDetail/types");
+    wsdl11Definition.setTargetNamespace("http://soap.mgkim.net"+Constant.APP.BASE_URI+"/MemberDetail/types");
     wsdl11Definition.setSchema(memberSchema);
     return wsdl11Definition;
   }

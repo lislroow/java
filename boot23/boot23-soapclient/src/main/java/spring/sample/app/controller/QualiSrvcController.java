@@ -1,7 +1,6 @@
 package spring.sample.app.controller;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -39,13 +38,13 @@ public class QualiSrvcController {
   private final QualiSrvcDao dao;
   private final QualiSrvcService service;
   
-  @PutMapping("/soapclient/v1/quali/srvc")
+  @PutMapping("/v1/quali/srvc")
   public void saveSrvc(@RequestBody ReqQualiSrvcDto.Srvc request) {
     QualiSrvcVo result = modelMapper.map(request, QualiSrvcVo.class);
     service.saveSrvc(result);
   }
   
-  @GetMapping("/soapclient/v1/quali/srvc/{id}")
+  @GetMapping("/v1/quali/srvc/{id}")
   public ResponseDto<ResQualiSrvcDto.Srvc> searchSrvcList(@PathVariable String id) {
     ResQualiSrvcDto.Srvc resDto = dao.selectById(id)
         .map(result -> modelMapper.map(result, ResQualiSrvcDto.Srvc.class))
@@ -53,7 +52,7 @@ public class QualiSrvcController {
     return ResponseDto.body(resDto);
   }
   
-  @PostMapping("/soapclient/v1/quali/srvc")
+  @PostMapping("/v1/quali/srvc")
   public ResponseDto<ResQualiSrvcDto.SrvcList> searchSrvcList(
       @RequestBody ReqQualiSrvcDto.SrvcSearch request) {
     
@@ -71,13 +70,13 @@ public class QualiSrvcController {
     return ResponseDto.body(resDto);
   }
   
-  @PutMapping("/soapclient/v1/quali/srvc/data")
+  @PutMapping("/v1/quali/srvc/data")
   public void saveSrvcData(@RequestBody ReqQualiSrvcDto.SrvcData request) {
     QualiSrvcDataVo vo = modelMapper.map(request, QualiSrvcDataVo.class);
     service.saveSrvcData(vo);
   }
   
-  @GetMapping("/soapclient/v1/quali/srvc/data/{qvServiceId}")
+  @GetMapping("/v1/quali/srvc/data/{qvServiceId}")
   public ResponseDto<ResQualiSrvcDto.SrvcDataList> selectSrvc(
       @PathVariable String qvServiceId) {
     

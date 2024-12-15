@@ -17,8 +17,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.mgkim.webservice.soap.memberdetail.types.GetMemberDetailResponse;
-import net.mgkim.webservice.soap.memberdetail.types.GetMemberInfo;
+import net.mgkim.soap.boot23_soap.memberdetail.types.GetMemberDetailResponse;
+import net.mgkim.soap.boot23_soap.memberdetail.types.GetMemberInfo;
 import spring.sample.config.WebMvcConfig;
 
 @Endpoint

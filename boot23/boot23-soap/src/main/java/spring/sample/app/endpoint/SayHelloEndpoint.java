@@ -6,8 +6,8 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import lombok.extern.slf4j.Slf4j;
-import net.mgkim.webservice.soap.sayhello.types.GetNameRequest;
-import net.mgkim.webservice.soap.sayhello.types.GetSayHelloResponse;
+import net.mgkim.soap.boot23_soap.sayhello.types.GetNameRequest;
+import net.mgkim.soap.boot23_soap.sayhello.types.GetSayHelloResponse;
 import spring.sample.config.WebMvcConfig;
 
 @Endpoint

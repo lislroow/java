@@ -27,8 +27,8 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.mgkim.webservice.soap.sayhello.types.GetNameRequest;
-import net.mgkim.webservice.soap.sayhello.types.GetSayHelloResponse;
+import net.mgkim.soap.boot23_soap.sayhello.types.GetNameRequest;
+import net.mgkim.soap.boot23_soap.sayhello.types.GetSayHelloResponse;
 import spring.sample.app.code.SOAP_CLIENT_TYPE;
 import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
@@ -46,11 +46,11 @@ public class InternalSoapclientController {
   @Value("${boot23-soap.url}")
   private String boot23SoapUrl;
   
-  @GetMapping("/internal/soapclient/v1/{clientType}")
+  @GetMapping("/internal/v1/{clientType}")
   public ResponseDto<Map<String, Object>> soap(
       @PathVariable @EnumValidator(enumClazz = SOAP_CLIENT_TYPE.class) String clientType) {
     Map<String, Object> result = new HashMap<String, Object>();
-    String url = String.format("%s%s", boot23SoapUrl, "/soap/SayHello/types");
+    String url = String.format("%s%s", boot23SoapUrl, "/boot23-soap/SayHello/types");
     log.info("url: {}", url);
     String name = "myeonggu.kim";
     
@@ -71,8 +71,7 @@ public class InternalSoapclientController {
         post.setHeader("Connection", "close");
         
         String xmlstr = "";
-        xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://webservice.mgkim.net/soap/SayHello/types\">";
-        //xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://ws.mgkim.net/hello\">";
+        xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://soap.mgkim.net/boot23-soap/SayHello/types\">";
         xmlstr += "<soapenv:Header/>";
         xmlstr += "  <soapenv:Body>";
         xmlstr += "    <hel:getNameRequest>";
@@ -84,7 +83,7 @@ public class InternalSoapclientController {
         //xmlstr = "";
         //xmlstr += "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">";
         //xmlstr += "<Header />";
-        //xmlstr += "<Body xmlns=\"http://ws.mgkim.net/hello/\">";
+        //xmlstr += "<Body xmlns=\"http://soap.mgkim.net/hello/\">";
         //xmlstr += "  <getHelloRequest>";
         //xmlstr += "    <name>Smith</name>";
         //xmlstr += "  </getHelloRequest>";
@@ -121,7 +120,7 @@ public class InternalSoapclientController {
     return ResponseDto.body(result);
   }
   
-  @GetMapping("/internal/soapclient/v2")
+  @GetMapping("/internal/v2")
   public String wsHelloHttpclient() {
     String result = null;
     
@@ -132,7 +131,7 @@ public class InternalSoapclientController {
       post.setHeader("Connection", "close");
       
       String xmlstr = "";
-      xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://ws.mgkim.net/hello\">";
+      xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://soap.mgkim.net/hello\">";
       xmlstr += "<soapenv:Header/>";
       xmlstr += "<soapenv:Body>";
       xmlstr += "    <hel:getHelloRequest>";
@@ -144,7 +143,7 @@ public class InternalSoapclientController {
       //xmlstr = "";
       //xmlstr += "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">";
       //xmlstr += "<Header />";
-      //xmlstr += "<Body xmlns=\"http://ws.mgkim.net/hello/\">";
+      //xmlstr += "<Body xmlns=\"http://soap.mgkim.net/hello/\">";
       //xmlstr += "  <getHelloRequest>";
       //xmlstr += "    <name>Smith</name>";
       //xmlstr += "  </getHelloRequest>";
@@ -183,12 +182,12 @@ public class InternalSoapclientController {
       Document document = builder.parse(new ByteArrayInputStream(result.getBytes(StandardCharsets.UTF_8)));
       Element root = document.getDocumentElement();
       log.info("root={}", root);
-      NodeList nodeList = document.getElementsByTagNameNS("http://ws.mgkim.net/hello", "getHelloResponse");
+      NodeList nodeList = document.getElementsByTagNameNS("http://soap.mgkim.net/hello", "getHelloResponse");
       for (int i=0; i<nodeList.getLength(); i++) {
         Node node = nodeList.item(i);
         if (node.getNodeType() == Node.ELEMENT_NODE) {
           Element element = (Element) node;
-          String message = element.getElementsByTagNameNS("http://ws.mgkim.net/hello", "message")
+          String message = element.getElementsByTagNameNS("http://soap.mgkim.net/hello", "message")
               .item(0).getTextContent();
           log.info("message={}", message);
         }
@@ -204,7 +203,7 @@ public class InternalSoapclientController {
     return result;
   }
   
-  @GetMapping("/internal/soapclient/v3")
+  @GetMapping("/internal/v3")
   public String wsHelloViaZuul() {
     String result = null;
     
@@ -215,7 +214,7 @@ public class InternalSoapclientController {
       post.setHeader("Connection", "close");
       
       String xmlstr = "";
-      xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://ws.mgkim.net/hello\">";
+      xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://soap.mgkim.net/hello\">";
       xmlstr += "<soapenv:Header/>";
       xmlstr += "<soapenv:Body>";
       xmlstr += "    <hel:getHelloRequest>";
@@ -223,16 +222,6 @@ public class InternalSoapclientController {
       xmlstr += "    </hel:getHelloRequest>";
       xmlstr += "</soapenv:Body>";
       xmlstr += "</soapenv:Envelope>";
-      
-      //xmlstr = "";
-      //xmlstr += "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">";
-      //xmlstr += "<Header />";
-      //xmlstr += "<Body xmlns=\"http://ws.mgkim.net/hello/\">";
-      //xmlstr += "  <getHelloRequest>";
-      //xmlstr += "    <name>Smith</name>";
-      //xmlstr += "  </getHelloRequest>";
-      //xmlstr += "</Body>";
-      //xmlstr += "</Envelope>";
       log.info("xmlstr={}", xmlstr);
       try {
         StringEntity entity = new StringEntity(xmlstr);
@@ -267,12 +256,12 @@ public class InternalSoapclientController {
       Document document = builder.parse(new ByteArrayInputStream(result.getBytes(StandardCharsets.UTF_8)));
       Element root = document.getDocumentElement();
       log.info("root={}", root);
-      NodeList nodeList = document.getElementsByTagNameNS("http://ws.mgkim.net/hello", "getHelloResponse");
+      NodeList nodeList = document.getElementsByTagNameNS("http://soap.mgkim.net/hello", "getHelloResponse");
       for (int i=0; i<nodeList.getLength(); i++) {
         Node node = nodeList.item(i);
         if (node.getNodeType() == Node.ELEMENT_NODE) {
           Element element = (Element) node;
-          String message = element.getElementsByTagNameNS("http://ws.mgkim.net/hello", "message")
+          String message = element.getElementsByTagNameNS("http://soap.mgkim.net/hello", "message")
               .item(0).getTextContent();
           log.info("message={}", message);
         }
@@ -289,7 +278,7 @@ public class InternalSoapclientController {
   }
   
   
-  @GetMapping("/internal/soapclient/v4")
+  @GetMapping("/internal/v4")
   public String wsHelloViaZuulProxy() {
     String result = null;
     HttpHost proxyHost = new HttpHost("localhost", 8080, "http");
@@ -304,7 +293,7 @@ public class InternalSoapclientController {
         post.setHeader("Connection", "close");
         
         String xmlstr = "";
-        xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://ws.mgkim.net/hello\">";
+        xmlstr += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hel=\"http://soap.mgkim.net/hello\">";
         xmlstr += "<soapenv:Header/>";
         xmlstr += "<soapenv:Body>";
         xmlstr += "    <hel:getHelloRequest>";
@@ -316,7 +305,7 @@ public class InternalSoapclientController {
         //xmlstr = "";
         //xmlstr += "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">";
         //xmlstr += "<Header />";
-        //xmlstr += "<Body xmlns=\"http://ws.mgkim.net/hello/\">";
+        //xmlstr += "<Body xmlns=\"http://soap.mgkim.net/hello/\">";
         //xmlstr += "  <getHelloRequest>";
         //xmlstr += "    <name>Smith</name>";
         //xmlstr += "  </getHelloRequest>";
