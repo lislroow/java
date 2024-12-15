@@ -11,7 +11,7 @@ public class Constant {
   public static final String X_TOKEN_ID = "X-TOKEN-ID";
   
   public static class APP {
-    public static final String BASE_URI = "/boot33-validate";
+    public static final String BASE_URI = "/boot33-configapp";
   }
   
 }

@@ -9,36 +9,39 @@ import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.listener.MessageListenerContainer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 import spring.sample.app.producer.TopicProducer;
 import spring.sample.app.service.MyTopicService;
 import spring.sample.app.vo.MyTopicVo;
+import spring.sample.common.constant.Constant;
 import spring.sample.common.mybatis.Pageable;
 import spring.sample.common.mybatis.PagedList;
 import spring.sample.common.util.Uuid;
 
 //@RestController
 @RequiredArgsConstructor
+@RequestMapping(value = Constant.APP.BASE_URI)
 public class MyTopicController {
 
   final MyTopicService service;
   final KafkaListenerEndpointRegistry registry;
   final TopicProducer<MyTopicVo> producer;
   
-  @GetMapping("/api/mytopic/all")
+  @GetMapping("/v1/mytopic/all")
   public List<MyTopicVo> selectAll() {
     List<MyTopicVo> res = service.selectAll();
     return res;
   }
 
-  @GetMapping("/api/mytopic/list")
+  @GetMapping("/v1/mytopic/list")
   public PagedList<MyTopicVo> selectList(Pageable param) {
     PagedList<MyTopicVo> res = service.selectList(param);
     return res;
   }
   
-  @PostMapping("/api/mytopic/test-publish")
+  @PostMapping("/v1/mytopic/test-publish")
   public void testPublish() {
     List<String> names = Arrays.asList("scott", "tiger", "ecycle", "yslee", "yslee", "sckim", "dhkim", "jkpark", "yhlee", "jckim", "mgkim");
     MyTopicVo data = new MyTopicVo();
@@ -54,13 +57,13 @@ public class MyTopicController {
     producer.send("mytopic1", data);
   }
   
-  @PostMapping("/api/mytopic/start")
+  @PostMapping("/v1/mytopic/start")
   public void start() {
     MessageListenerContainer listener = this.registry.getListenerContainer("mytopic1Listener");
     listener.start();
   }
   
-  @PostMapping("/api/mytopic/stop")
+  @PostMapping("/v1/mytopic/stop")
   public void stop() {
     MessageListenerContainer listener = this.registry.getListenerContainer("mytopic1Listener");
     listener.stop();

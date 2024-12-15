@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
-@ConfigurationProperties(prefix = TestConfigProperties.PREFIX)
+@ConfigurationProperties(prefix = ConfigProperties.PREFIX)
 // curl -X POST http://localhost:8888/actuator/refresh
 @RefreshScope
-public class TestConfigProperties {
+public class ConfigProperties {
 
   public static final String PREFIX = "sample.test";
   

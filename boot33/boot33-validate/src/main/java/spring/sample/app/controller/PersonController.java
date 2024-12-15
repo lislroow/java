@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,16 +18,18 @@ import lombok.extern.slf4j.Slf4j;
 import spring.sample.app.dto.PersonReqDto;
 import spring.sample.app.dto.PersonResDto;
 import spring.sample.app.service.PersonService;
+import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping(value = Constant.APP.BASE_URI)
 public class PersonController {
   
   final ModelMapper modelMapper;
 
-  @GetMapping("/person/v1/model-attribute")
+  @GetMapping("/v1/person/model-attribute")
   public ResponseDto<PersonResDto.PersonInfo> modelAttribute(
       @Valid @ModelAttribute PersonReqDto.PersonModel param) {
     
@@ -34,7 +37,7 @@ public class PersonController {
     return ResponseDto.body(resDto);
   }
   
-  @PostMapping("/person/v1/request-body")
+  @PostMapping("/v1/person/request-body")
   public ResponseDto<PersonResDto.PersonInfo> requestBody(
       @Valid @RequestBody PersonReqDto.RegistPerson param) {
     
@@ -42,7 +45,7 @@ public class PersonController {
     return ResponseDto.body(resDto);
   }
   
-  @GetMapping("/person/v1/request-param")
+  @GetMapping("/v1/person/request-param")
   public Integer requestParam(
       @RequestParam @Min(value = 0) Integer number) {
     Integer result = null;
@@ -54,7 +57,7 @@ public class PersonController {
     return result;
   }
   
-  @GetMapping("/person/v1/path-variable/{number}")
+  @GetMapping("/v1/person/path-variable/{number}")
   public Integer pathVariable(
       @PathVariable @Min(value = 0) Integer number) {
     Integer result = null;
@@ -69,7 +72,7 @@ public class PersonController {
   @Autowired
   private PersonService personService;
   
-  @PostMapping("/person/v1/service/aop")
+  @PostMapping("/v1/person/service/aop")
   public ResponseDto<PersonResDto.PersonInfo> serviceAop(@RequestBody PersonReqDto.RegistPerson param) {
     log.info("param: {}", param);
     PersonReqDto.RegistPerson result = personService.aop(param);

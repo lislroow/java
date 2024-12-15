@@ -9,6 +9,10 @@ public class Constant {
   public static final String ENCODING_UTF8 = "utf-8";
   public static final String ENABLED = "enabled";
   
+  public static class APP {
+    public static final String BASE_URI = "/boot33-mybatis";
+  }
+  
   public static class DBMS {
     public static final String H2 = "h2";
     public static final String MARIA = "maria";

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import spring.sample.app.dto.ScientistReqDto;
 import spring.sample.app.dto.ScientistResDto;
 import spring.sample.app.service.ScientistService;
 import spring.sample.app.vo.ScientistVo;
+import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
 import spring.sample.common.mybatis.Pageable;
 import spring.sample.common.mybatis.Paged;
@@ -25,13 +27,14 @@ import spring.sample.common.mybatis.PagedList;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(value = Constant.APP.BASE_URI)
 public class ScientistController {
 
   final ModelMapper modelMapper;
   final ScientistService scientistService;
   final ScientistDao scientistDao;
   
-  @GetMapping("/mybatis/v1/scientists")
+  @GetMapping("/v1/scientists")
   public ResponseDto<ScientistResDto.ScientistList> findAll() {
     
     List<ScientistVo> result = scientistDao.findAll();
@@ -43,7 +46,7 @@ public class ScientistController {
     return ResponseDto.body(resDto);
   }
   
-  @GetMapping("/mybatis/v1/scientist/{id}")
+  @GetMapping("/v1/scientist/{id}")
   public ResponseDto<ScientistResDto.Scientist> findById(
       @PathVariable String id) {
     
@@ -52,7 +55,7 @@ public class ScientistController {
     return ResponseDto.body(resDto);
   }
   
-  @GetMapping("/mybatis/v1/scientist")
+  @GetMapping("/v1/scientist")
   public ResponseDto<ScientistResDto.PagedScientistList> findList(
       Pageable pageable) {
     
@@ -67,7 +70,7 @@ public class ScientistController {
     return ResponseDto.body(resDto);
   }
   
-  @GetMapping("/mybatis/v1/scientist/list/{name}")
+  @GetMapping("/v1/scientist/list/{name}")
   public PagedList<ScientistVo> findListByName(
       @PathVariable String name, Pageable pageable) {
     
@@ -79,7 +82,7 @@ public class ScientistController {
     return result;
   }
   
-  @PostMapping("/mybatis/v1/scientist")
+  @PostMapping("/v1/scientist")
   public ResponseDto<ScientistResDto.Scientist> add(
       @RequestBody ScientistReqDto.AddDto reqDto) {
     
@@ -89,7 +92,7 @@ public class ScientistController {
     return ResponseDto.body(resDto);
   }
   
-  @PutMapping("/mybatis/v1/scientist")
+  @PutMapping("/v1/scientist")
   public ResponseDto<?> modifyNameById(
       @RequestBody ScientistReqDto.ModifyDto reqDto) {
     
@@ -98,7 +101,7 @@ public class ScientistController {
     return ResponseDto.body();
   }
   
-  @DeleteMapping("/mybatis/v1/scientist/{id}")
+  @DeleteMapping("/v1/scientist/{id}")
   public ResponseDto<?> removeById(
       @PathVariable String id) {
     
