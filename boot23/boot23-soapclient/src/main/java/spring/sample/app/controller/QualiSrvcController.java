@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
@@ -23,12 +24,14 @@ import spring.sample.app.dto.ResQualiSrvcDto;
 import spring.sample.app.service.QualiSrvcService;
 import spring.sample.app.vo.QualiSrvcDataVo;
 import spring.sample.app.vo.QualiSrvcVo;
+import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
 
 @RestController
 @Validated
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping(value = Constant.APP.BASE_URI)
 public class QualiSrvcController {
   
   private final ModelMapper modelMapper;

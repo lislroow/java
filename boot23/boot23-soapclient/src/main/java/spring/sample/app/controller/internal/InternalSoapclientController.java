@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.mgkim.webservice.soap.sayhello.types.GetNameRequest;
 import net.mgkim.webservice.soap.sayhello.types.GetSayHelloResponse;
 import spring.sample.app.code.SOAP_CLIENT_TYPE;
+import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
 import spring.sample.config.validator.EnumValidator;
 
@@ -36,6 +38,7 @@ import spring.sample.config.validator.EnumValidator;
 @Validated
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping(value = Constant.APP.BASE_URI)
 public class InternalSoapclientController {
   
   private final WebServiceTemplate webServiceTemplate;

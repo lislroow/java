@@ -23,12 +23,13 @@ import spring.sample.app.dto.ResCardDto;
 import spring.sample.app.service.CardUsageService;
 import spring.sample.app.vo.CardUsageVo;
 import spring.sample.common.annotation.NonSecure;
+import spring.sample.common.constant.Constant;
 
 @Slf4j
 @Api(tags = { "Card API" })
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/aop/v1/card")
+@RequestMapping(value = Constant.APP.BASE_URI)
 public class CardUsageController {
 
   private final ModelMapper modelMapper;
