@@ -20,6 +20,13 @@ public class SampleDateTime {
     return str;
   }
   
+  public void parse() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss"); // 오류
+    LocalDateTime dateTime = formatter.parse("2024-05-23T02:27:27", LocalDateTime::from);
+    System.out.println(dateTime);
+  }
+  
   public static void main(String[] args) {
     System.out.println(toStr(1717052518));
   }
