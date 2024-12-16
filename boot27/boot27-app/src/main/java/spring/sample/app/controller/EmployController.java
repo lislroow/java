@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,6 @@ import spring.sample.app.dto.EmployReqDto;
 import spring.sample.app.dto.EmployResDto;
 import spring.sample.app.service.EmployService;
 import spring.sample.app.vo.EmployVo;
-import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
 import spring.sample.common.mybatis.Pageable;
 import spring.sample.common.mybatis.Paged;
@@ -27,7 +25,6 @@ import spring.sample.common.mybatis.PagedList;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(Constant.APP.BASE_URI)
 public class EmployController {
 
   final ModelMapper modelMapper;

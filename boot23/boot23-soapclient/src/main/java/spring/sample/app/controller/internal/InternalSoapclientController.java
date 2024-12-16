@@ -30,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.mgkim.soap.boot23_soap.sayhello.types.GetNameRequest;
 import net.mgkim.soap.boot23_soap.sayhello.types.GetSayHelloResponse;
 import spring.sample.app.code.SOAP_CLIENT_TYPE;
-import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
 import spring.sample.config.validator.EnumValidator;
 
@@ -38,7 +37,6 @@ import spring.sample.config.validator.EnumValidator;
 @Validated
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping(value = Constant.APP.BASE_URI)
 public class InternalSoapclientController {
   
   private final WebServiceTemplate webServiceTemplate;

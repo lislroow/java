@@ -15,14 +15,12 @@ import lombok.RequiredArgsConstructor;
 import spring.sample.app.producer.TopicProducer;
 import spring.sample.app.service.MyTopicService;
 import spring.sample.app.vo.MyTopicVo;
-import spring.sample.common.constant.Constant;
 import spring.sample.common.mybatis.Pageable;
 import spring.sample.common.mybatis.PagedList;
 import spring.sample.common.util.Uuid;
 
 //@RestController
 @RequiredArgsConstructor
-@RequestMapping(value = Constant.APP.BASE_URI)
 public class MyTopicController {
 
   final MyTopicService service;

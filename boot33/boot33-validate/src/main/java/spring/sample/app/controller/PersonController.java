@@ -18,13 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 import spring.sample.app.dto.PersonReqDto;
 import spring.sample.app.dto.PersonResDto;
 import spring.sample.app.service.PersonService;
-import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping(value = Constant.APP.BASE_URI)
 public class PersonController {
   
   final ModelMapper modelMapper;

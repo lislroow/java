@@ -23,14 +23,12 @@ import spring.sample.app.dto.ResQualiSrvcDto;
 import spring.sample.app.service.QualiSrvcService;
 import spring.sample.app.vo.QualiSrvcDataVo;
 import spring.sample.app.vo.QualiSrvcVo;
-import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
 
 @RestController
 @Validated
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping(value = Constant.APP.BASE_URI)
 public class QualiSrvcController {
   
   private final ModelMapper modelMapper;

@@ -17,12 +17,10 @@ import spring.sample.app.dao.ScientistVerticaDao;
 import spring.sample.app.dto.ScientistResDto;
 import spring.sample.app.vo.ScientistVerticaVo;
 import spring.sample.app.vo.ScientistVo;
-import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = Constant.APP.BASE_URI)
 public class MybatisController {
 
   final ModelMapper modelMapper;

@@ -15,7 +15,6 @@ import spring.sample.constant.Constant;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = Constant.APP.BASE_URI)
 public class ElasticController {
   
   final ElasticService elasticService;

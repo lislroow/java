@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 import spring.sample.app.enumcode.SOAP_CLIENT_TYPE;
 import spring.sample.app.feign.InternalSoapclientFeign;
-import spring.sample.common.constant.Constant;
 import spring.sample.common.dto.ResponseDto;
 import spring.sample.common.enumcode.RESPONSE_CODE;
 import spring.sample.common.validator.EnumValidator;
@@ -19,7 +18,6 @@ import spring.sample.common.validator.EnumValidator;
 @RestController
 @Validated
 @AllArgsConstructor
-@RequestMapping(value = Constant.APP.BASE_URI)
 public class QualiController {
   
   private InternalSoapclientFeign internalSoapclientFeign;
