@@ -1,21 +1,18 @@
 package spring.sample.app.consumer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.listener.ConsumerSeekAware;
 import org.springframework.kafka.support.Acknowledgment;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.sample.app.dao.MyTopicDao;
-import spring.sample.app.vo.MyTopicVo;
+import spring.sample.app.vo.EmployVo;
 
 //@Service
 @Slf4j
-public class MyTopicConsumer implements ConsumerSeekAware {
+public class KafkaConsumer implements ConsumerSeekAware {
   
   @Autowired
   private MyTopicDao myTopicDao;
@@ -40,7 +37,7 @@ public class MyTopicConsumer implements ConsumerSeekAware {
   //      실제 start 가 호출되는 코드는 ConcurrentMessageListenerContainer.doStart() 메소드 입니다.
   @KafkaListener(id = "mytopicListener", topics = "mytopic", containerFactory = "kafkaListener", autoStartup = "false")
   @Transactional
-  public void mytopicListener(MyTopicVo data, Acknowledgment ack) {
+  public void mytopicListener(EmployVo data, Acknowledgment ack) {
     try {
       myTopicDao.insert(data);
 //      int i = 1/0;

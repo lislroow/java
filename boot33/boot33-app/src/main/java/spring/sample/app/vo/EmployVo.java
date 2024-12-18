@@ -2,7 +2,7 @@ package spring.sample.app.vo;
 
 import spring.sample.common.audit.AuditVo;
 
-public class MyTopicVo extends AuditVo {
+public class EmployVo extends AuditVo {
 
   private String id;
   private String name;

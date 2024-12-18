@@ -9,40 +9,39 @@ import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.listener.MessageListenerContainer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
-import spring.sample.app.producer.TopicProducer;
-import spring.sample.app.service.MyTopicService;
-import spring.sample.app.vo.MyTopicVo;
+import spring.sample.app.service.KafkaService;
+import spring.sample.app.vo.EmployVo;
+import spring.sample.common.kafka.TopicProducer;
 import spring.sample.common.mybatis.Pageable;
 import spring.sample.common.mybatis.PagedList;
 import spring.sample.common.util.Uuid;
 
 //@RestController
 @RequiredArgsConstructor
-public class MyTopicController {
+public class KafkaController {
 
-  final MyTopicService service;
+  final KafkaService service;
   final KafkaListenerEndpointRegistry registry;
-  final TopicProducer<MyTopicVo> producer;
+  final TopicProducer<EmployVo> producer;
   
-  @GetMapping("/v1/mytopic/all")
-  public List<MyTopicVo> selectAll() {
-    List<MyTopicVo> res = service.selectAll();
+  @GetMapping("/v1/kafka/mytopic/all")
+  public List<EmployVo> selectAll() {
+    List<EmployVo> res = service.selectAll();
     return res;
   }
 
-  @GetMapping("/v1/mytopic/list")
-  public PagedList<MyTopicVo> selectList(Pageable param) {
-    PagedList<MyTopicVo> res = service.selectList(param);
+  @GetMapping("/v1/kafka/mytopic/list")
+  public PagedList<EmployVo> selectList(Pageable param) {
+    PagedList<EmployVo> res = service.selectList(param);
     return res;
   }
   
-  @PostMapping("/v1/mytopic/test-publish")
+  @PostMapping("/v1/kafka/mytopic/publish")
   public void testPublish() {
     List<String> names = Arrays.asList("scott", "tiger", "ecycle", "yslee", "yslee", "sckim", "dhkim", "jkpark", "yhlee", "jckim", "mgkim");
-    MyTopicVo data = new MyTopicVo();
+    EmployVo data = new EmployVo();
     {
       String id = Uuid.create();
       data.setId(id);
@@ -55,13 +54,13 @@ public class MyTopicController {
     producer.send("mytopic1", data);
   }
   
-  @PostMapping("/v1/mytopic/start")
+  @PostMapping("/v1/kafka/mytopic/start")
   public void start() {
     MessageListenerContainer listener = this.registry.getListenerContainer("mytopic1Listener");
     listener.start();
   }
   
-  @PostMapping("/v1/mytopic/stop")
+  @PostMapping("/v1/kafka/mytopic/stop")
   public void stop() {
     MessageListenerContainer listener = this.registry.getListenerContainer("mytopic1Listener");
     listener.stop();
