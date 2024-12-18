@@ -10,7 +10,7 @@ import spring.sample.common.mybatis.Pageable;
 import spring.sample.common.mybatis.PagedList;
 
 @Mapper
-public interface ScientistDao {
+public interface MybatisCrudDao {
   
   List<ScientistVo> findAll();
   

@@ -10,16 +10,16 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import spring.sample.app.dto.PersonReqDto;
+import spring.sample.app.dto.ValidateReqDto;
 
 @Service
 @Validated
 @Slf4j
-public class PersonService {
+public class ValidateService {
   
   // class-level 에 '@Validated' 선언 필요
   // parameter-level 에 '@Valid' 선언 필요 
-  public PersonReqDto.RegistPerson aop(@Valid PersonReqDto.RegistPerson param) {
+  public ValidateReqDto.RegistPerson aop(@Valid ValidateReqDto.RegistPerson param) {
     log.info("param: {}", param);
     return param;
   }
@@ -27,10 +27,10 @@ public class PersonService {
   // 'jakarta.validation.Validator' bean 을 사용한 validate
   @Autowired
   private jakarta.validation.Validator jakartaValidator;
-  public PersonReqDto.RegistPerson jakarta(PersonReqDto.RegistPerson param) {
+  public ValidateReqDto.RegistPerson jakarta(ValidateReqDto.RegistPerson param) {
     log.info("param: {}", param);
     jakartaValidator.validate(param);
-    Set<ConstraintViolation<PersonReqDto.RegistPerson>> violations = jakartaValidator.validate(param);
+    Set<ConstraintViolation<ValidateReqDto.RegistPerson>> violations = jakartaValidator.validate(param);
     if (!violations.isEmpty()) {
       throw new ConstraintViolationException(violations);
     }
@@ -43,7 +43,7 @@ public class PersonService {
   //   MethodValidationException 예외 타입은 적합하지 않음
   @Autowired
   private org.springframework.validation.Validator springValidator;
-  public PersonReqDto.RegistPerson spring(PersonReqDto.RegistPerson param) throws Exception {
+  public ValidateReqDto.RegistPerson spring(ValidateReqDto.RegistPerson param) throws Exception {
     log.info("param: {}", param);
     org.springframework.validation.Errors errors = 
         new org.springframework.validation.BeanPropertyBindingResult(param, "PersonReqDto.Regist");

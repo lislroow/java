@@ -4,16 +4,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
-import spring.sample.app.dao.ScientistDao;
+import spring.sample.app.dao.MybatisCrudDao;
 import spring.sample.app.vo.ScientistVo;
 import spring.sample.common.util.Uuid;
 
 @Service
 @Transactional(readOnly = true)
 @AllArgsConstructor
-public class ScientistService {
+public class MybatisCrudService {
   
-  private ScientistDao scientistDao;
+  private MybatisCrudDao scientistDao;
   
   @Transactional
   public ScientistVo add(ScientistVo.AddVo vo) {

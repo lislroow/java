@@ -17,11 +17,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import spring.sample.common.mybatis.Pageable;
-import spring.sample.common.validator.ValidStartDate;
+import spring.sample.common.validate.StartDate;
 
-public class PersonReqDto {
+public class ValidateReqDto {
   
-  private PersonReqDto() { }
+  private ValidateReqDto() { }
   
   @Data
   @AllArgsConstructor
@@ -80,7 +80,7 @@ public class PersonReqDto {
         , message = "@Pattern 오류 입니다.")
     private String allowedIp;
     
-    @ValidStartDate
+    @StartDate
     private LocalDateTime startDate;
     // 파라미터 문자열이 표준 형식(yyyy-MM-dd'T'hh:mm:ss)이 아닐 경우,
     // 문자열 타입의 setter 를 추가해서 LocalDateTime 를 생성하는 방식을 사용할 수 있습니다.

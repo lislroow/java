@@ -2,9 +2,9 @@ package spring.sample.app.dto;
 
 import lombok.Data;
 
-public class PersonResDto {
+public class ValidateResDto {
   
-  private PersonResDto() {}
+  private ValidateResDto() {}
 
   @Data
   public static class PersonInfo {

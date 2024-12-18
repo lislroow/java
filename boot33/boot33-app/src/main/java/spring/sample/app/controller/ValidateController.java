@@ -1,0 +1,97 @@
+package spring.sample.app.controller;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import spring.sample.app.dto.ValidateReqDto;
+import spring.sample.app.dto.ValidateResDto;
+import spring.sample.app.service.ValidateService;
+import spring.sample.common.dto.ResponseDto;
+
+@RestController
+@Slf4j
+@RequiredArgsConstructor
+public class ValidateController {
+  
+  final ModelMapper modelMapper;
+
+  @GetMapping("/v1/validate/person/model-attribute")
+  public ResponseDto<ValidateResDto.PersonInfo> modelAttribute(
+      @Valid @ModelAttribute ValidateReqDto.PersonModel param) {
+    
+    ValidateResDto.PersonInfo resDto = modelMapper.map(param, ValidateResDto.PersonInfo.class);
+    return ResponseDto.body(resDto);
+  }
+  
+  @PostMapping("/v1/validate/person/request-body")
+  public ResponseDto<ValidateResDto.PersonInfo> requestBody(
+      @Valid @RequestBody ValidateReqDto.RegistPerson param) {
+    
+    ValidateResDto.PersonInfo resDto = modelMapper.map(param, ValidateResDto.PersonInfo.class);
+    return ResponseDto.body(resDto);
+  }
+  
+  @GetMapping("/v1/validate/person/request-param")
+  public Integer requestParam(
+      @RequestParam @Min(value = 0) Integer number) {
+    Integer result = null;
+    try {
+      result = 10 / number;
+    } catch (ArithmeticException e) {
+      throw e;
+    }
+    return result;
+  }
+  
+  @GetMapping("/v1/validate/person/path-variable/{number}")
+  public Integer pathVariable(
+      @PathVariable @Min(value = 0) Integer number) {
+    Integer result = null;
+    try {
+      result = 10 / number;
+    } catch (ArithmeticException e) {
+      throw e;
+    }
+    return result;
+  }
+  
+  @Autowired
+  private ValidateService personService;
+  
+  @PostMapping("/v1/validate/person/service-aop")
+  public ResponseDto<ValidateResDto.PersonInfo> serviceAop(@RequestBody ValidateReqDto.RegistPerson param) {
+    log.info("param: {}", param);
+    ValidateReqDto.RegistPerson result = personService.aop(param);
+    ValidateResDto.PersonInfo resDto = modelMapper.map(result, ValidateResDto.PersonInfo.class);
+    return ResponseDto.body(resDto);
+  }
+  
+  @PostMapping("/api/validate/service-jakarta")
+  public ResponseDto<ValidateResDto.PersonInfo> serviceJakarta(@RequestBody ValidateReqDto.RegistPerson param) {
+    log.info("param: {}", param);
+    ValidateReqDto.RegistPerson result = personService.jakarta(param);
+    ValidateResDto.PersonInfo resDto = modelMapper.map(result, ValidateResDto.PersonInfo.class);
+    return ResponseDto.body(resDto);
+  }
+  
+  @PostMapping("/api/validate/service-spring")
+  public ResponseDto<ValidateResDto.PersonInfo> serviceSpring(
+      @RequestBody ValidateReqDto.RegistPerson param) throws Exception {
+    
+    log.info("param: {}", param);
+    ValidateReqDto.RegistPerson result = personService.spring(param);
+    ValidateResDto.PersonInfo resDto = modelMapper.map(result, ValidateResDto.PersonInfo.class);
+    return ResponseDto.body(resDto);
+  }
+}

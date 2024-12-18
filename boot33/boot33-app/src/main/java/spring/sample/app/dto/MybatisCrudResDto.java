@@ -7,7 +7,7 @@ import spring.sample.app.vo.ScientistVo;
 import spring.sample.common.mybatis.Paged;
 
 @Data
-public class ScientistResDto {
+public class MybatisCrudResDto {
 
   public static class Scientist extends ScientistVo { }
   

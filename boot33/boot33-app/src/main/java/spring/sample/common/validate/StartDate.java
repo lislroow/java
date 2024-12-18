@@ -1,4 +1,4 @@
-package spring.sample.common.validator;
+package spring.sample.common.validate;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = StartDateValidator.class)
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidStartDate {
+public @interface StartDate {
   
   String message() default "startDate 는 반드시 2000-01-01 이후가 되어야 합니다.";
   
