@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableTransactionManagement
-public class Boot27MybatisMain {
+public class Boot27AppMain {
   
   public static void main(String[] args) {
-    SpringApplication.run(Boot27MybatisMain.class, args);
+    SpringApplication.run(Boot27AppMain.class, args);
   }
   
 }
