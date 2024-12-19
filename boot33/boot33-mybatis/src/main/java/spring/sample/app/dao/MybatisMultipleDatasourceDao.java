@@ -18,7 +18,7 @@ import spring.sample.common.mybatis.PagedList;
 @MapperOracle
 @MapperPostgres
 @Mapper
-public interface ScientistDao {
+public interface MybatisMultipleDatasourceDao {
   
   List<ScientistVo> findAll();
   

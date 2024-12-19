@@ -1,7 +1,5 @@
 package spring.sample.config;
 
-import java.sql.SQLException;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,11 +15,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import lombok.extern.slf4j.Slf4j;
 import spring.sample.common.constant.Constant;
 
 @Configuration
-@Slf4j
 public class DataSourceMariaConfig {
   
   @Bean(name = Constant.DBMS.MARIA + "DataSource")

@@ -15,7 +15,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import lombok.extern.slf4j.Slf4j;
 import spring.sample.common.constant.Constant;
 
 @Configuration
@@ -23,7 +22,6 @@ import spring.sample.common.constant.Constant;
     prefix = "spring.datasource.hikari", name = Constant.ENABLED,
     havingValue = "true",
     matchIfMissing = false)
-@Slf4j
 public class DataSourceConfig {
 
   @Bean(name = "dataSource")

@@ -10,7 +10,7 @@ import spring.sample.common.mybatis.Pageable;
 import spring.sample.common.mybatis.PagedList;
 
 @MapperVertica
-public interface ScientistVerticaDao {
+public interface MybatisMultipleDatasourceVerticaDao {
   
   List<ScientistVerticaVo> findAll();
   
