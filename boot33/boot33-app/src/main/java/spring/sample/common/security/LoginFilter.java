@@ -18,7 +18,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import spring.sample.common.vo.UserVo;
 import spring.sample.config.properties.SecurityConfigProperties;
 
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
@@ -36,8 +35,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     this.authenticationManager = authenticationManager;
     LOGIN_URI = properties.getLoginUri();
     SECRET_KEY = properties.getTokenSignkey();
-    Assert.notNull(LOGIN_URI, "LOGIN_URI cannot be null");
     Assert.notNull(SECRET_KEY, "SECRET_KEY cannot be null");
+    Assert.notNull(LOGIN_URI, "LOGIN_URI cannot be null");
     super.setFilterProcessesUrl(LOGIN_URI);
   }
   
@@ -66,7 +65,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
       Authentication authResult
       ) throws IOException, ServletException {
     
-    UserVo userVo = (UserVo) authResult.getPrincipal();
+    LoginVo userVo = (LoginVo) authResult.getPrincipal();
     String token = Jwts.builder()
         .claim("id", userVo.getId())
         .claim("email", userVo.getEmail())

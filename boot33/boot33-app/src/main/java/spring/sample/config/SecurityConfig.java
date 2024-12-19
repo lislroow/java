@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import spring.sample.common.security.LoginFilter;
-import spring.sample.common.security.UserDetailsServiceImpl;
+import spring.sample.common.security.LoginService;
 import spring.sample.config.properties.SecurityConfigProperties;
 
 @Configuration
@@ -40,10 +40,8 @@ public class SecurityConfig {
       .formLogin(AbstractHttpConfigurer::disable)
       .headers((headers) -> headers.disable())
       .authorizeHttpRequests((authorizeHttpRequests) -> {
-        authorizeHttpRequests.requestMatchers("/actuator/**").permitAll();
-        authorizeHttpRequests.requestMatchers("/health-check/**").permitAll();
-        authorizeHttpRequests.requestMatchers("/mybatis/**").permitAll();
-        authorizeHttpRequests.requestMatchers("/**").authenticated();
+        authorizeHttpRequests.requestMatchers("/**").permitAll();
+        authorizeHttpRequests.requestMatchers("/v1/security/**").authenticated();
       })
       .addFilterAt(new LoginFilter(authenticationManager, properties),
           UsernamePasswordAuthenticationFilter.class)
@@ -54,7 +52,7 @@ public class SecurityConfig {
   }
   
   @Autowired
-  private UserDetailsServiceImpl userDetailsServiceImpl;
+  private LoginService userDetailsServiceImpl;
   
   @Bean
   DaoAuthenticationProvider daoAuthenticationProvider() {
@@ -63,4 +61,10 @@ public class SecurityConfig {
     provider.setPasswordEncoder(new BCryptPasswordEncoder());
     return provider;
   }
+
+  @Bean("bcryptPasswordEncoder")
+  BCryptPasswordEncoder bcryptPasswordEncoder(){
+    return new BCryptPasswordEncoder();
+  }
+
 }

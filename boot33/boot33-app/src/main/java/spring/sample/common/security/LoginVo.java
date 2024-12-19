@@ -1,4 +1,4 @@
-package spring.sample.common.vo;
+package spring.sample.common.security;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,12 +7,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserVo implements UserDetails {
+public class LoginVo implements UserDetails {
   
   private static final long serialVersionUID = -3598946512034036123L;
   
-  private String id;
-  private String password;
+  private Integer id;
+  private String passwd;
   private String email;
   
   // [UserDetails]
@@ -23,7 +23,7 @@ public class UserVo implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     Collection<? extends GrantedAuthority> authorities = 
-        Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+        Collections.singleton(new SimpleGrantedAuthority("ROLE_MANAGER"));
     return authorities;
   }
   @Override
@@ -45,19 +45,23 @@ public class UserVo implements UserDetails {
         && isCredentialsNonExpired();
     return isEnabled;
   }
+  @Override
+  public String getPassword() {
+    return this.passwd;
+  }
   // --[UserDetails]
   
-  public String getId() {
+  public Integer getId() {
     return id;
   }
-  public void setId(String id) {
+  public void setId(Integer id) {
     this.id = id;
   }
-  public String getPassword() {
-    return password;
+  public String getPasswd() {
+    return passwd;
   }
-  public void setPassword(String password) {
-    this.password = password;
+  public void setPasswd(String passwd) {
+    this.passwd = passwd;
   }
   public String getEmail() {
     return email;
