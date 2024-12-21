@@ -21,13 +21,13 @@ import spring.sample.common.feign.FeignInterceptor;
 @ConditionalOnClass(Feign.class)
 @AutoConfigureAfter(FeignAutoConfiguration.class)
 public class FeignConfig {
-
+  
   @Bean
   @ConditionalOnMissingBean({ConnectionPool.class})
   ConnectionPool httpClientConnectionPool(FeignHttpClientProperties httpClientProperties, OkHttpClientConnectionPoolFactory okHttpClientConnectionPoolFactory) {
     return okHttpClientConnectionPoolFactory.create(httpClientProperties.getMaxConnections(), httpClientProperties.getTimeToLive(), httpClientProperties.getTimeToLiveUnit());
   }
-
+  
   @Bean
   okhttp3.OkHttpClient okHttpClient(OkHttpClientFactory okHttpClientFactory, ConnectionPool connectionPool, FeignHttpClientProperties feignHttpClientProperties) {
     return okHttpClientFactory.createBuilder(feignHttpClientProperties.isDisableSslValidation())
@@ -48,5 +48,5 @@ public class FeignConfig {
     // this(100, SECONDS.toMillis(1), 5);
     return new Retryer.Default(1000, 2000, 3);
   }
-
+  
 }

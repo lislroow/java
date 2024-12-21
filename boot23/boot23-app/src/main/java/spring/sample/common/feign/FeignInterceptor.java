@@ -73,6 +73,7 @@ public class FeignInterceptor implements Interceptor {
       */
     }
 
+    log.info("[Feign] ResponseData  : [{}]", responseBody);
     log.info("[Feign] ResponseData  : [{}]", resMap);
 
     ResponseBody body = null;

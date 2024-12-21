@@ -27,37 +27,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
     return new ServletRegistrationBean<>(servlet, Constant.APP.BASE_URI+"/*");
   }
   
-  public static final String NS_SAY_HELLO = "http://soap.mgkim.net"+Constant.APP.BASE_URI+"/SayHello/types";
-  public static final String NS_MEMBER_DETAIL = "http://soap.mgkim.net"+Constant.APP.BASE_URI+"/MemberDetail/types";
+  public static final String NS_QUALIFICATION = "http://localhost:15200"+Constant.APP.BASE_URI+"/qualification/types";
   
-  @Bean(name = "hello")
+  @Bean(name = "qualification")
   DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema helloSchema) {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-    wsdl11Definition.setPortTypeName("HelloPort");
-    wsdl11Definition.setLocationUri(Constant.APP.BASE_URI+"/SayHello/types");
-    wsdl11Definition.setTargetNamespace("http://soap.mgkim.net"+Constant.APP.BASE_URI+"/SayHello/types");
+    wsdl11Definition.setPortTypeName("QualificationPort");
+    wsdl11Definition.setLocationUri(Constant.APP.BASE_URI+"/qualification/types");
+    wsdl11Definition.setTargetNamespace("http://localhost:15200"+Constant.APP.BASE_URI+"/qualification/types");
     wsdl11Definition.setSchema(helloSchema);
-    return wsdl11Definition;
-  }
-  
-  @Bean(name = "member")
-  DefaultWsdl11Definition defaultWsdl11Definition_member(XsdSchema memberSchema) {
-    DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-    wsdl11Definition.setPortTypeName("MemberPort");
-    wsdl11Definition.setLocationUri(Constant.APP.BASE_URI+"/MemberDetail/types");
-    wsdl11Definition.setTargetNamespace("http://soap.mgkim.net"+Constant.APP.BASE_URI+"/MemberDetail/types");
-    wsdl11Definition.setSchema(memberSchema);
     return wsdl11Definition;
   }
   
   @Bean
   XsdSchema helloSchema() {
-    return new SimpleXsdSchema(new ClassPathResource("/xsd/SayHello.xsd"));
-  }
-  
-  @Bean
-  XsdSchema memberSchema() {
-    return new SimpleXsdSchema(new ClassPathResource("/xsd/MemberDetail.xsd"));
+    return new SimpleXsdSchema(new ClassPathResource("/xsd/qualification.xsd"));
   }
   // --for web-services
   
