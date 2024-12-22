@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-import localhost._15200.boot23_soap.qualification.types.GetQualificationRequest;
-import localhost._15200.boot23_soap.qualification.types.GetQualificationResponse;
+import https.soap_mgkim_net.v1.qualification.types.GetQualificationRequest;
+import https.soap_mgkim_net.v1.qualification.types.GetQualificationResponse;
 import lombok.AllArgsConstructor;
 import spring.sample.app.dto.QualificationResDto;
 import spring.sample.common.dto.ResponseDto;
@@ -19,12 +19,14 @@ import spring.sample.common.dto.ResponseDto;
 @AllArgsConstructor
 public class InternalQualificationController {
 
+  private static final String SOAP_GATEWAY_NAME = "boot23-soap";
+  
   final ModelMapper modelMapper;
   final WebServiceTemplate webServiceTemplate;
   
   @PostMapping("/v1/internal/qualification/verify-using-webservice")
   public ResponseDto<QualificationResDto.SoapRes> verifyUsingWebservice() {
-    String url = "http://localhost:10100/boot23-soap/qualification/types";
+    String url = "http://localhost:10100/"+SOAP_GATEWAY_NAME+"/v1/qualification/types";
     GetQualificationRequest request = new GetQualificationRequest();
     request.setId("1");
     GetQualificationResponse response = 
@@ -35,7 +37,7 @@ public class InternalQualificationController {
   
   @PostMapping("/v1/internal/qualification/verify-using-httpclient")
   public ResponseDto<Map<String, Object>> verifyUsingHttpclient() {
-    String url = "http://localhost:15200/boot23-soap/qualification/types";
+    String url = "http://localhost:10100/"+SOAP_GATEWAY_NAME+"/v1/qualification/types";
     return ResponseDto.body();
   }
 }

@@ -12,7 +12,7 @@ public class WebserviceConfig {
   @Bean
   Jaxb2Marshaller marshaller() {
     Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-    marshaller.setPackagesToScan("localhost");
+    marshaller.setPackagesToScan("https.soap_mgkim_net"); // to scan: 'target/generated-sources/jaxb/https.soap_mgkim_net.*'
     return marshaller;
   }
   

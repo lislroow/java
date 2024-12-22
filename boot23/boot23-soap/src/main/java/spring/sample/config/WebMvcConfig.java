@@ -12,8 +12,6 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
-import spring.sample.common.constant.Constant;
-
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
   
@@ -24,30 +22,32 @@ public class WebMvcConfig implements WebMvcConfigurer {
     MessageDispatcherServlet servlet = new MessageDispatcherServlet();
     servlet.setApplicationContext(applicationContext);
     servlet.setTransformWsdlLocations(true);
-    return new ServletRegistrationBean<>(servlet, Constant.APP.BASE_URI+"/*");
+    return new ServletRegistrationBean<>(servlet, "/v1/*"); // uri pattern
   }
   
-  public static final String NS_QUALIFICATION = "http://localhost:15200"+Constant.APP.BASE_URI+"/qualification/types";
+  public static final class NAMESPACES {
+    public static final String QUALIFICATION = "https://soap.mgkim.net/v1/qualification/types";
+  }
   
   @Bean(name = "qualification")
   DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema helloSchema) {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("QualificationPort");
-    wsdl11Definition.setLocationUri(Constant.APP.BASE_URI+"/qualification/types");
-    wsdl11Definition.setTargetNamespace("http://localhost:15200"+Constant.APP.BASE_URI+"/qualification/types");
+    wsdl11Definition.setLocationUri("/v1/qualification/types");
+    wsdl11Definition.setTargetNamespace(NAMESPACES.QUALIFICATION);
     wsdl11Definition.setSchema(helloSchema);
     return wsdl11Definition;
   }
   
   @Bean
   XsdSchema helloSchema() {
-    return new SimpleXsdSchema(new ClassPathResource("/xsd/qualification.xsd"));
+    return new SimpleXsdSchema(new ClassPathResource("/soap/qualification.xsd"));
   }
   // --for web-services
   
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/xsd/**")
-      .addResourceLocations("classpath:/xsd/");
+    registry.addResourceHandler("/soap/**")
+      .addResourceLocations("classpath:/soap/");
   }
 }

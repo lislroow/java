@@ -1,19 +1,15 @@
 package spring.sample.app.endpoint;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-
 import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.soap.SoapHeaderElement;
-import org.springframework.ws.soap.saaj.SaajSoapMessage;
 import org.springframework.ws.soap.server.endpoint.annotation.SoapHeader;
 
-import localhost._15200.boot23_soap.qualification.types.GetQualificationRequest;
-import localhost._15200.boot23_soap.qualification.types.GetQualificationResponse;
+import https.soap_mgkim_net.v1.qualification.types.GetQualificationRequest;
+import https.soap_mgkim_net.v1.qualification.types.GetQualificationResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +21,7 @@ import spring.sample.config.WebMvcConfig;
 @Slf4j
 public class QualificationEndpoint {
   
-  @PayloadRoot(namespace = WebMvcConfig.NS_QUALIFICATION, localPart = "GetQualificationRequest")
+  @PayloadRoot(namespace = WebMvcConfig.NAMESPACES.QUALIFICATION, localPart = "GetQualificationRequest")
   @ResponsePayload
   public GetQualificationResponse getGetQualificationRequest(@RequestPayload GetQualificationRequest request,
       MessageContext messageContext,

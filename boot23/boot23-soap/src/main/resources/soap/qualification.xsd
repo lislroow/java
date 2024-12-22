@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-       targetNamespace="http://localhost:15200/boot23-soap/qualification/types"
-       xmlns:tns="http://localhost:15200/boot23-soap/qualification/types"
+       targetNamespace="https://soap.mgkim.net/v1/qualification/types"
+       xmlns:tns="https://soap.mgkim.net/v1/qualification/types"
        elementFormDefault="qualified">
 
   <xs:element name="GetQualificationRequest">
