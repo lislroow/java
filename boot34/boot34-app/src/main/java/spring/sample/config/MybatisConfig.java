@@ -2,76 +2,76 @@ package spring.sample.config;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.util.ObjectUtils;
 
+import lombok.extern.slf4j.Slf4j;
+import spring.sample.common.constant.Constant;
 import spring.sample.common.mybatis.DaoSupport;
+import spring.sample.common.mybatis.PagingInterceptor;
 
 @Configuration
+@ConditionalOnProperty(
+    prefix = "mybatis", name = Constant.ENABLED,
+    havingValue = "true",
+    matchIfMissing = false)
+@EnableConfigurationProperties(org.mybatis.spring.boot.autoconfigure.MybatisProperties.class)
+@Slf4j
+@MapperScan(basePackages = {"spring"}, annotationClass = Mapper.class, sqlSessionFactoryRef = "sqlSessionFactoryBean")
 public class MybatisConfig {
   
-  Logger log = LoggerFactory.getLogger(MybatisConfig.class);
+  @Autowired
+  org.mybatis.spring.boot.autoconfigure.MybatisProperties mybatisProperties;
   
   @Autowired
+  @Qualifier(value = "dataSource")
   DataSource dataSource;
   
-  @Autowired
-  MybatisProperties mybatisProperties;
-  
-  @Bean
+  @Bean(name = "sqlSessionFactoryBean")
   SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception {
+    org.mybatis.spring.boot.autoconfigure.MybatisProperties.CoreConfiguration config = 
+        mybatisProperties.getConfiguration();
     String typeAliasesPackage = mybatisProperties.getTypeAliasesPackage();
-    log.info("typeAliasesPackage: " + typeAliasesPackage);
+    log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
     
     SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
     sqlSessionFactoryBean.setDataSource(dataSource);
-    // mybatis.xml 을 사용할 경우
     sqlSessionFactoryBean.setMapperLocations(mybatisProperties.resolveMapperLocations());
-    // parameterType, resultType 에 java package 생략 가능
-    // 단, BASE_PACKAGES 하위 package 에 동일한 클래스명이 2개 이상일 경우 어플리케이션 booting 시 오류가 발생함
     if (!ObjectUtils.isEmpty(typeAliasesPackage)) {
       sqlSessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
     }
     
-    // ---
     org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
-    configuration.setJdbcTypeForNull(JdbcType.NULL);
-    configuration.setMapUnderscoreToCamelCase(true);
+    configuration.setJdbcTypeForNull(config.getJdbcTypeForNull());
+    configuration.setMapUnderscoreToCamelCase(config.getMapUnderscoreToCamelCase());
     sqlSessionFactoryBean.setConfiguration(configuration);
-    // ---
     
-    // 페이징 처리를 위한 mybatis-plugin 추가
-    sqlSessionFactoryBean.setPlugins(new spring.sample.common.mybatis.PagingInterceptor());
+    sqlSessionFactoryBean.setPlugins(new PagingInterceptor());
     return sqlSessionFactoryBean;
   }
   
-  @Bean
-  DaoSupport daoSupport(
-      @Qualifier("sqlSessionTemplate") SqlSessionTemplate sqlSessionTemplate) throws Exception {
-    return new DaoSupport(sqlSessionTemplate);
-  }
-  
-  @Primary
   @Bean(name = "sqlSessionTemplate")
-  SqlSessionTemplate sqlSessionTemplate(
-      SqlSessionFactoryBean sqlSessionFactoryBean) throws Exception {
-     return new SqlSessionTemplate(sqlSessionFactoryBean.getObject());
+  SqlSessionTemplate sqlSessionTemplate() throws Exception {
+     return new SqlSessionTemplate(sqlSessionFactoryBean().getObject());
   }
   
   @Bean(name = "sqlSessionTemplateForBatchExecutor")
-  SqlSessionTemplate sqlSessionTemplateForBatchExecutor(
-      SqlSessionFactoryBean sqlSessionFactoryBean) throws Exception {
-    return new SqlSessionTemplate(sqlSessionFactoryBean.getObject(), ExecutorType.BATCH);
+  SqlSessionTemplate sqlSessionTemplateForBatchExecutor() throws Exception {
+    return new SqlSessionTemplate(sqlSessionFactoryBean().getObject(), ExecutorType.BATCH);
+  }
+  
+  @Bean(name = "daoSupport")
+  DaoSupport daoSupport() throws Exception {
+    return new DaoSupport(sqlSessionTemplate());
   }
 }

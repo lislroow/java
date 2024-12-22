@@ -33,8 +33,12 @@ public enum DBMS_TYPE {
   
   public static void setPrimary(String code) {
     DBMS_TYPE type = DBMS_TYPE.fromCode(code);
-    type.primary = true;
-    log.warn("setting up mybatis primary: {}", type.code());
+    if (type != null) {
+      type.primary = true;
+      log.warn("setting up mybatis primary: {}", type.code());
+    } else {
+      log.warn("setting up mybatis primary: {}", type);
+    }
   }
   
   public String capital() {
@@ -48,7 +52,6 @@ public enum DBMS_TYPE {
   public static DBMS_TYPE fromCode(String code) {
       return Arrays.stream(DBMS_TYPE.values())
           .filter(item -> item.code().equals(code))
-          .findFirst()
-          .orElseThrow(() -> new IllegalArgumentException(String.format("'%s' not exist.", code)));
+          .findFirst().orElse(H2); // default: 'H2'
   }
 }

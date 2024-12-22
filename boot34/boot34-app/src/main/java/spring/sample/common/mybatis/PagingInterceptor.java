@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 public class PagingInterceptor implements Interceptor {
   
   Logger log = LoggerFactory.getLogger(PagingInterceptor.class);
-
+  
   @Override
   public Object plugin(Object target) {
     return Plugin.wrap(target, this);

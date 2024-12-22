@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import spring.sample.app.dao.MybatisMultipleDatasourceDao;
 import spring.sample.app.dao.MybatisMultipleDatasourceVerticaDao;
 import spring.sample.app.dto.MybatisMultipleDatasourceResDto;
@@ -20,56 +21,77 @@ import spring.sample.common.dto.ResponseDto;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class MybatisMultipleDatasourceController {
 
   final ModelMapper modelMapper;
   
   @Autowired(required = false)
-  @Qualifier(value = "scientistDao")
+  @Qualifier(value = "mybatisMultipleDatasourceDao")
   private MybatisMultipleDatasourceDao dao;
   
   @Autowired(required = false)
   private MybatisMultipleDatasourceDao primaryDao;
 
   @Autowired(required = false)
-  @Qualifier(value = "scientistH2Dao")
+  @Qualifier(value = "mybatisMultipleDatasourceH2Dao")
   private MybatisMultipleDatasourceDao h2Dao;
   
   @Autowired(required = false)
-  @Qualifier(value = "scientistMariaDao")
+  @Qualifier(value = "mybatisMultipleDatasourceMariaDao")
   private MybatisMultipleDatasourceDao mariaDao;
   
   @Autowired(required = false)
-  @Qualifier(value = "scientistOracleDao")
+  @Qualifier(value = "mybatisMultipleDatasourceOracleDao")
   private MybatisMultipleDatasourceDao oracleDao;
   
   @Autowired(required = false)
   private MybatisMultipleDatasourceVerticaDao verticaDao;
   
   @Autowired(required = false)
-  @Qualifier(value = "scientistPostgresDao")
+  @Qualifier(value = "mybatisMultipleDatasourcePostgresDao")
   private MybatisMultipleDatasourceDao postgresDao;
   
   @GetMapping("/v1/mybatis-multiple-datasource/all")
   public ResponseDto<MybatisMultipleDatasourceResDto.ScientistList> all() {
     MybatisMultipleDatasourceResDto.ScientistList resDto = new MybatisMultipleDatasourceResDto.ScientistList();
     List<MybatisMultipleDatasourceResDto.Scientist> listAll = new ArrayList<MybatisMultipleDatasourceResDto.Scientist>();
-    listAll.addAll(h2Dao.findAll().stream()
-        .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
-        .collect(Collectors.toList()));
-    listAll.addAll(mariaDao.findAll().stream()
-        .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
-        .collect(Collectors.toList()));
-    listAll.addAll(oracleDao.findAll().stream()
-        .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
-        .collect(Collectors.toList()));
-    listAll.addAll(verticaDao.findAll().stream()
-        .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
-        .collect(Collectors.toList()));
-    listAll.addAll(postgresDao.findAll().stream()
-        .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
-        .collect(Collectors.toList()));
-    resDto.setList(listAll);
+    if (h2Dao != null)
+      listAll.addAll(h2Dao.findAll().stream()
+          .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
+          .collect(Collectors.toList()));
+    else
+      log.warn("h2Dao is null");
+    
+    if (mariaDao != null)
+      listAll.addAll(mariaDao.findAll().stream()
+          .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
+          .collect(Collectors.toList()));
+    else
+      log.warn("mariaDao is null");
+    
+    if (oracleDao != null)
+      listAll.addAll(oracleDao.findAll().stream()
+          .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
+          .collect(Collectors.toList()));
+    else
+      log.warn("oracleDao is null");
+    
+    if (verticaDao != null)
+      listAll.addAll(verticaDao.findAll().stream()
+          .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
+          .collect(Collectors.toList()));
+    else
+      log.warn("verticaDao is null");
+    
+    if (postgresDao != null)
+      listAll.addAll(postgresDao.findAll().stream()
+          .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
+          .collect(Collectors.toList()));
+    else
+      log.warn("postgresDao is null");
+    
+      resDto.setList(listAll);
     return ResponseDto.body(resDto);
   }
   
