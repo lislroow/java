@@ -25,6 +25,9 @@
   </logger>
   
   <!-- 필수 -->
+  <logger name="org.springframework.web.servlet.DispatcherServlet" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
   <logger name="org.springframework.core.log.LogFormatUtils" level="debug" additivity="false">
     <appender-ref ref="STDOUT"/>
   </logger>
