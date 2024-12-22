@@ -10,7 +10,7 @@ public class Constant {
   public static final String ENABLED = "enabled";
   
   public static class APP {
-    public static final String BASE_URI = "/boot34-mybatis";
+    public static final String BASE_URI = "/boot34-app";
   }
   
   public static class DBMS {
