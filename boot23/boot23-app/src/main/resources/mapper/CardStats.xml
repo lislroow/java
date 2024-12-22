@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.sample.app.dao.CardStatsDao">
+  
+  <select id="selectIssueDateByCardNo" resultType="CardVo">
+    SELECT /*  */
+           id,
+           card_no,
+           issue_date,
+           holder_name
+      FROM card
+     WHERE 1=1
+       <![CDATA[
+       AND card_no = #{cardNo}
+       ]]>
+  </select>
+  
+  <select id="selectPaymentsByCardNo" resultType="CardPaymentVo">
+    SELECT /*  */
+           id,
+           card_no,
+           paid_time,
+           paid_amount,
+           store_name
+      FROM card_payment
+     WHERE 1=1
+       <![CDATA[
+       AND card_no = #{cardNo}
+       ]]>
+  </select>
+
+</mapper>

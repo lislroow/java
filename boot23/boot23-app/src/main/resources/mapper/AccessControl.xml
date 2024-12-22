@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.sample.app.dao.AccessControlDao">
+
+  <insert id="insert">
+    INSERT /*  */
+    INTO access_control (
+      remote_addr,
+      delay_time
+    ) VALUES (
+      #{remoteAddr},
+      #{delayTime}
+    )
+  </insert>
+  
+  <select id="selectByIp" resultType="AccessControlVo">
+    SELECT /*  */
+           ip_addr,
+           delay_time
+      FROM access_control
+     WHERE 1=1
+       <![CDATA[
+       AND ip_addr = #{ipAddr}
+       AND delay_time > now()
+       ]]>
+  </select>
+
+</mapper>

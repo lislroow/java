@@ -37,16 +37,16 @@ public class RestControllerAspect {
   public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
     javax.servlet.http.HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     javax.servlet.http.HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+    
     String reqUri = request.getRequestURI();
     String method = request.getMethod();
     String contentType = request.getHeader("Content-Type");
-    String remoteAddr = request.getRemoteAddr();
-    
-    log.debug("*Class        : {}", joinPoint.getTarget());
-    log.debug("*Method       : {}", method);
-    log.info( "*RequestURI   : {}", reqUri);
-    log.debug("*ContentType  : {}", contentType);
-    log.debug("*RemoteAddr   : {}", remoteAddr);
+    String ipAddr = request.getRemoteAddr();
+    log.info("[COM] Class       : {}", joinPoint.getTarget());
+    log.info("[COM] RequestURI  : {}", reqUri);
+    log.info("[COM] Method      : {}", method);
+    log.info("[COM] ContentType : {}", contentType);
+    log.info("[COM] ipAddr      : {}", ipAddr);
     
     MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
     Method refMethod = methodSignature.getMethod();
@@ -85,4 +85,5 @@ public class RestControllerAspect {
     
     return result;
   }
+  
 }
