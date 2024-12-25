@@ -18,6 +18,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import spring.sample.common.constant.Constant;
 
 @Configuration
+@ConditionalOnProperty(name = "spring.sample.datasource."+Constant.DBMS.H2+".enabled", havingValue = "true", matchIfMissing = false)
 public class DataSourceH2Config {
   
   @Bean(name = Constant.DBMS.H2 + "DataSource")

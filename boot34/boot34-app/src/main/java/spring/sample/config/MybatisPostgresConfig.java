@@ -20,10 +20,7 @@ import spring.sample.common.mybatis.DaoSupport;
 import spring.sample.config.properties.MybatisProperties;
 
 @Configuration
-@ConditionalOnProperty(
-    prefix = "spring.sample.mybatis."+Constant.DBMS.POSTGRES, name = Constant.ENABLED,
-    havingValue = "true",
-    matchIfMissing = false)
+@ConditionalOnProperty(prefix = "spring.sample.mybatis."+Constant.DBMS.POSTGRES, name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(spring.sample.config.properties.MybatisProperties.class)
 @Slf4j
 public class MybatisPostgresConfig {

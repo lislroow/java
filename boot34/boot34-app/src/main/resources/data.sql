@@ -1,15 +1,3 @@
-DROP TABLE IF EXISTS scientist;
-
-CREATE TABLE IF NOT EXISTS scientist 
-(
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255),
-  create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  modify_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  create_id INT DEFAULT 1,
-  modify_id INT DEFAULT 1
-);
-
 INSERT INTO scientist (name) VALUES('Galileo Galilei');
 INSERT INTO scientist (name) VALUES('Johannes Kepler');
 INSERT INTO scientist (name) VALUES('Isaac Newton');
@@ -23,18 +11,4 @@ INSERT INTO scientist (name) VALUES('James Clerk Maxwell');
 INSERT INTO scientist (name) VALUES('Alan Turing');
 INSERT INTO scientist (name) VALUES('Richard Feynman');
 
-
-CREATE TABLE IF NOT EXISTS manager
-(
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(255),
-  passwd VARCHAR(1024),
-  create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  modify_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  create_id INT DEFAULT 1,
-  modify_id INT DEFAULT 1
-);
-
 INSERT INTO manager (email, passwd) VALUES('myeonggu.kim@kakao.com', '{bcrypt}$2a$10$vY/FCPvzZXkQ8ygnbU5DNuO0kS8FOG/RXw7ZTEtZA4DZSv9xTp2EC');
-
-

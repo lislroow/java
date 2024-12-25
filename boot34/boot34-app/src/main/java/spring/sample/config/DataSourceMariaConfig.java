@@ -18,6 +18,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import spring.sample.common.constant.Constant;
 
 @Configuration
+@ConditionalOnProperty(name = "spring.sample.datasource."+Constant.DBMS.MARIA+".enabled", havingValue = "true", matchIfMissing = false)
 public class DataSourceMariaConfig {
   
   @Bean(name = Constant.DBMS.MARIA + "DataSource")

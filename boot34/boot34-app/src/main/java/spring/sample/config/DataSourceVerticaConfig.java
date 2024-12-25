@@ -18,6 +18,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import spring.sample.common.constant.Constant;
 
 @Configuration
+@ConditionalOnProperty(name = "spring.sample.datasource."+Constant.DBMS.VERTICA+".enabled", havingValue = "true", matchIfMissing = false)
 public class DataSourceVerticaConfig {
   
   @Bean(name = Constant.DBMS.VERTICA + "DataSource")
