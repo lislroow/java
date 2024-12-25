@@ -23,6 +23,11 @@
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
   </properties>
   
+  <modules>
+    <module>boot23-app</module>
+    <module>boot23-soap</module>
+  </modules>
+  
   <dependencyManagement>
     <dependencies>
       <dependency>

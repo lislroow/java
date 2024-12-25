@@ -24,6 +24,11 @@
     <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
   </properties>
   
+  <modules>
+    <module>boot34-app</module>
+    <module>boot34-config</module>
+  </modules>
+  
   <dependencyManagement>
     <dependencies>
       <dependency>
