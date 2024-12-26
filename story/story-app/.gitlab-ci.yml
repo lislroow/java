@@ -1,0 +1,48 @@
+.build_story-app:
+  stage: build
+  tags:
+    - java17
+  cache:
+    - key: "CI_PROJECT_NAME-gradle-cache"
+      paths:
+        - "CI_PROJECT_DIR/.gradle/cache"
+        - "CI_PROJECT_DIR/.gradle/wrapper"
+    - key: "CI_PROJECT_NAME-maven-cache"
+      paths:
+        - "$CI_PROJECT_DIR/.m2/repository"
+  script:
+    - echo $PWD
+    - java -version
+    - ./mvnw "$MAVEN_OPTS" -f $APP_NAME/pom.xml package
+    - >
+      docker build \
+        --build-arg APP_NAME=$APP_NAME \
+        -t $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_ID.$CI_COMMIT_SHORT_SHA .
+    #- docker push $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_ID.$CI_COMMIT_SHORT_SHA
+    #- docker rmi $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_ID.$CI_COMMIT_SHORT_SHA
+
+.deploy_story-app:
+  stage: deploy
+  tags:
+    - deploy
+  script:
+    - echo "APP_NAME=$APP_NAME"
+    - echo "SPRING_PROFILE=$SPRING_PROFILE"
+    - echo "SERVER_PORT=$SERVER_PORT"
+    - echo "image=$DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_ID.$CI_COMMIT_SHORT_SHA"
+    - >
+      ssh $DEPLOY_USER@$DEPLOY_SERVER <<EOF
+        #docker pull $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_ID.$CI_COMMIT_SHORT_SHA
+        docker stop $APP_NAME || true
+        docker rm $APP_NAME || true
+        docker run \
+          --detach \
+          --name $APP_NAME \
+          --restart unless-stopped \
+          --publish $SERVER_PORT:$SERVER_PORT \
+          --volume $VOLUME_LOGBASE/$APP_NAME:/app/logs \
+          --network local-default \
+          --env "APP_NAME=$APP_NAME" \
+          --env "SPRING_PROFILE=$SPRING_PROFILE" \
+          $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_ID.$CI_COMMIT_SHORT_SHA
+      EOF

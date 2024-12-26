@@ -3,8 +3,8 @@ package spring.sample.app.dto;
 import java.util.List;
 
 import lombok.Data;
-import spring.sample.app.vo.ScientistVo;
-import spring.sample.common.mybatis.Paged;
+import spring.component.app.vo.ScientistVo;
+import spring.component.common.mybatis.Paged;
 
 @Data
 public class MybatisMultipleDatasourceResDto {

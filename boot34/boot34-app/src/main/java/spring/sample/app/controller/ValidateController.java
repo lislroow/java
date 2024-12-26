@@ -14,10 +14,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import spring.component.common.dto.ResponseDto;
 import spring.sample.app.dto.ValidateReqDto;
 import spring.sample.app.dto.ValidateResDto;
 import spring.sample.app.service.ValidateService;
-import spring.sample.common.dto.ResponseDto;
 
 @RestController
 @Slf4j

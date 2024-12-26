@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import spring.component.app.vo.ScientistVo;
+import spring.component.common.dto.ResponseDto;
 import spring.sample.app.dao.MybatisMultipleDatasourceDao;
 import spring.sample.app.dao.MybatisMultipleDatasourceVerticaDao;
 import spring.sample.app.dto.MybatisMultipleDatasourceResDto;
 import spring.sample.app.vo.ScientistVerticaVo;
-import spring.sample.app.vo.ScientistVo;
-import spring.sample.common.dto.ResponseDto;
 
 @RestController
 @RequiredArgsConstructor

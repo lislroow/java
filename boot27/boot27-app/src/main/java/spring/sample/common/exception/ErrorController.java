@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
-import spring.sample.common.dto.ResponseDto;
-import spring.sample.common.enumcode.RESPONSE_CODE;
+import spring.component.common.dto.ResponseDto;
+import spring.component.common.enumcode.RESPONSE_CODE;
 
 @RestController
 @Slf4j

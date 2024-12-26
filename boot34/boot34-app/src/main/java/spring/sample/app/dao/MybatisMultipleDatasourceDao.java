@@ -5,13 +5,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import spring.sample.app.vo.ScientistVo;
+import spring.component.app.vo.ScientistVo;
 import spring.sample.common.annotation.MapperH2;
 import spring.sample.common.annotation.MapperMaria;
 import spring.sample.common.annotation.MapperOracle;
 import spring.sample.common.annotation.MapperPostgres;
-import spring.sample.common.mybatis.Pageable;
-import spring.sample.common.mybatis.PagedList;
+import spring.component.common.mybatis.Pageable;
+import spring.component.common.mybatis.PagedList;
 
 @MapperH2
 @MapperMaria

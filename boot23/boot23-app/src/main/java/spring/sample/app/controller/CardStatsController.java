@@ -16,7 +16,7 @@ import spring.sample.app.dto.CardStatsResDto;
 import spring.sample.app.vo.CardPaymentVo;
 import spring.sample.app.vo.CardVo;
 import spring.sample.common.annotation.AccessControl;
-import spring.sample.common.dto.ResponseDto;
+import spring.component.common.dto.ResponseDto;
 
 @RestController
 @RequiredArgsConstructor

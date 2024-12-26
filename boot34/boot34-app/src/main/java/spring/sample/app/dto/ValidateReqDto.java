@@ -16,8 +16,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import spring.sample.common.mybatis.Pageable;
-import spring.sample.common.validate.StartDate;
+import spring.component.common.mybatis.Pageable;
+import spring.component.common.validator.StartDate;
 
 public class ValidateReqDto {
   

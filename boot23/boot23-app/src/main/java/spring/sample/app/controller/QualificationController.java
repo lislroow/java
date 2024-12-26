@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 import spring.sample.app.dto.QualificationResDto;
 import spring.sample.app.feign.FeignQualificationController;
-import spring.sample.common.dto.ResponseDto;
-import spring.sample.common.enumcode.RESPONSE_CODE;
+import spring.component.common.dto.ResponseDto;
+import spring.component.common.enumcode.RESPONSE_CODE;
 
 @RestController
 @Validated

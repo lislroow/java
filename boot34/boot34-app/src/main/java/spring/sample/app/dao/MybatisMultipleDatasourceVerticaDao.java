@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import spring.sample.app.vo.ScientistVerticaVo;
 import spring.sample.common.annotation.MapperVertica;
-import spring.sample.common.mybatis.Pageable;
-import spring.sample.common.mybatis.PagedList;
+import spring.component.common.mybatis.Pageable;
+import spring.component.common.mybatis.PagedList;
 
 @MapperVertica
 public interface MybatisMultipleDatasourceVerticaDao {

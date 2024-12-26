@@ -1,6 +1,6 @@
 package spring.sample.app.vo;
 
-import spring.sample.common.audit.AuditVo;
+import spring.component.common.audit.AuditVo;
 
 public class EmployVo extends AuditVo {
 

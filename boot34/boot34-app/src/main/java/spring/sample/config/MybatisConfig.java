@@ -17,7 +17,6 @@ import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.sample.common.constant.Constant;
-import spring.sample.common.mybatis.DaoSupport;
 import spring.sample.common.mybatis.PagingInterceptor;
 
 @Configuration
@@ -68,10 +67,5 @@ public class MybatisConfig {
   @Bean(name = "sqlSessionTemplateForBatchExecutor")
   SqlSessionTemplate sqlSessionTemplateForBatchExecutor() throws Exception {
     return new SqlSessionTemplate(sqlSessionFactoryBean().getObject(), ExecutorType.BATCH);
-  }
-  
-  @Bean(name = "daoSupport")
-  DaoSupport daoSupport() throws Exception {
-    return new DaoSupport(sqlSessionTemplate());
   }
 }

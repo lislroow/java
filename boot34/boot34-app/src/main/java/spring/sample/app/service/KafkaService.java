@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import spring.sample.app.dao.MyTopicDao;
 import spring.sample.app.vo.EmployVo;
-import spring.sample.common.mybatis.Pageable;
-import spring.sample.common.mybatis.PagedList;
+import spring.component.common.mybatis.Pageable;
+import spring.component.common.mybatis.PagedList;
 
 @Service
 @Transactional(readOnly = true)

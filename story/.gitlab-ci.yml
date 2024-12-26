@@ -1,0 +1,38 @@
+stages:
+  - build
+  - deploy
+  
+variables:
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  DOCKER_REGISTRY: docker.mgkim.net:5000
+  VOLUME_LOGBASE: "/root/logs"
+
+include:
+  - local: "story/story-app/.gitlab-ci.yml"
+
+build_story-app:
+  extends: .build_story-app
+  variables:
+    APP_NAME: "story-app"
+  rules:
+    - if: $CI_COMMIT_BRANCH !~ /^(develop|staging|prod|main)/
+      when: never
+    - changes:
+        paths:
+          - story/story-app/**/*
+
+deploy_prod_story-app:
+  extends: .deploy_story-app
+  variables:
+    APP_NAME: "story-app"
+    SPRING_PROFILE: "prod"
+    SERVER_PORT: "8080"
+    DEPLOY_USER: root
+    DEPLOY_SERVER: rocky8-market
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      changes:
+        paths:
+          - story/story-app/**/*
+  needs: ["build_story-app"]

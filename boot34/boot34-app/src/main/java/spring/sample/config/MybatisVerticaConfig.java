@@ -16,7 +16,6 @@ import org.springframework.util.ObjectUtils;
 import lombok.extern.slf4j.Slf4j;
 import spring.sample.common.constant.Constant;
 import spring.sample.common.enumcode.DBMS_TYPE;
-import spring.sample.common.mybatis.DaoSupport;
 import spring.sample.config.properties.MybatisProperties;
 
 @Configuration
@@ -62,10 +61,5 @@ public class MybatisVerticaConfig {
   @Bean(name = Constant.DBMS.VERTICA + "SqlSessionTemplateForBatchExecutor")
   SqlSessionTemplate sqlSessionTemplateForBatchExecutor() throws Exception {
     return new SqlSessionTemplate(sqlSessionFactoryBean().getObject(), ExecutorType.BATCH);
-  }
-  
-  @Bean(name = Constant.DBMS.VERTICA + "DaoSupport")
-  DaoSupport daoSupport() throws Exception {
-    return new DaoSupport(sqlSessionTemplate());
   }
 }

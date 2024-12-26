@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import spring.sample.app.vo.EmployVo;
-import spring.sample.common.mybatis.Pageable;
-import spring.sample.common.mybatis.PagedList;
+import spring.component.common.mybatis.Pageable;
+import spring.component.common.mybatis.PagedList;
 
 @Mapper
 public interface MyTopicDao {

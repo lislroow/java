@@ -12,7 +12,7 @@ import https.soap_mgkim_net.v1.qualification.types.GetQualificationRequest;
 import https.soap_mgkim_net.v1.qualification.types.GetQualificationResponse;
 import lombok.AllArgsConstructor;
 import spring.sample.app.dto.QualificationResDto;
-import spring.sample.common.dto.ResponseDto;
+import spring.component.common.dto.ResponseDto;
 
 @RestController
 @Validated

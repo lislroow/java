@@ -1,0 +1,88 @@
+plugins {
+  id 'java-platform'
+  id 'maven-publish'
+}
+
+ext {
+  dependencyRepos = {
+    mavenCentral()
+    mavenLocal()
+  }
+  
+  java_version = 17
+  
+  spring_boot_version = '3.4.0'
+  spring_cloud_version = '2024.0.0'
+  mybatis_version = '3.0.3'
+  
+  lombok_version = '1.18.32'
+  lombok_mapstruct_binding_version = '0.2.0'
+  mapstruct_version = '1.5.5.Final'
+  jasypt_spring_boot_starter_version = '3.0.5'
+  
+  modelmapper_version = '3.2.0'
+  
+  log4jdbc_version = '1.16'
+  postgresql_version = '42.7.4'
+}
+
+group = 'spring'
+version = '0.1-SNAPSHOT'
+
+repositories dependencyRepos
+
+dependencies {
+  constraints {
+    platform "org.springframework.boot:spring-boot-dependencies:${spring_boot_version}"
+  }
+}
+
+javaPlatform {
+  allowDependencies()
+}
+
+subprojects {
+  apply plugin: 'java'
+  
+  java {
+    sourceCompatibility = java_version.toString()
+    targetCompatibility = java_version.toString()
+  }
+  
+  repositories dependencyRepos
+  
+  dependencies {
+    implementation platform("org.springframework.boot:spring-boot-dependencies:${spring_boot_version}")
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${spring_cloud_version}")
+    implementation platform("org.mybatis.spring.boot:mybatis-spring-boot:${mybatis_version}")
+    
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-aop"
+    
+    implementation "org.mapstruct:mapstruct:${mapstruct_version}"
+    implementation "org.modelmapper:modelmapper:${modelmapper_version}"
+    implementation "org.slf4j:slf4j-api"
+    implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "jakarta.validation:jakarta.validation-api"
+    implementation "org.springframework.boot:spring-boot-configuration-processor"
+    implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:${jasypt_spring_boot_starter_version}"
+    
+    compileOnly "org.projectlombok:lombok:${lombok_version}"
+    annotationProcessor "org.projectlombok:lombok:${lombok_version}"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombok_mapstruct_binding_version}"
+  }
+  
+  task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+  }
+  
+  tasks.withType(Javadoc) {
+    options.encoding = 'utf-8'
+  }
+  
+  tasks.withType(JavaCompile) {
+    options.encoding = 'utf-8'
+    options.compilerArgs << '-parameters'
+  }
+}

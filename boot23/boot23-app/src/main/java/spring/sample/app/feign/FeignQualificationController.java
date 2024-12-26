@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import spring.sample.app.dto.QualificationResDto;
-import spring.sample.common.dto.ResponseDto;
+import spring.component.common.dto.ResponseDto;
 import spring.sample.config.FeignConfig;
 
 @FeignClient(name = "boot23-app", configuration = {FeignConfig.class})
