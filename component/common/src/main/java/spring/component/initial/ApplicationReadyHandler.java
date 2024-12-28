@@ -1,7 +1,8 @@
-package spring.market.initial;
+package spring.component.initial;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -9,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.component.common.runtime.ClasspathLibs;
+import spring.component.common.util.AsciiTable;
 import spring.component.common.vo.BootJarVo;
-import spring.market.common.util.AsciiTable;
 
 @Component
 @Slf4j
@@ -40,12 +41,12 @@ public class ApplicationReadyHandler {
     List<BootJarVo> list = ClasspathLibs.getBootJars();
     List<BootJarVo> coreList = list.stream()
         .filter(item -> CORE_LIST.contains(item.getJar()))
-        .toList();
+        .collect(Collectors.toList());
     log.info("Application Info # Core Libraries\n{}", AsciiTable.getTable(coreList, "jar", "ver"));
     
     List<BootJarVo> jdbcList = list.stream()
         .filter(item -> JDBC_LIST.contains(item.getJar()))
-        .toList();
+        .collect(Collectors.toList());
     log.info("Application Info # JDBC Libraries\n{}", AsciiTable.getTable(jdbcList, "jar", "ver"));
   }
 }

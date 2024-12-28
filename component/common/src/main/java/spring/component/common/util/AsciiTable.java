@@ -150,7 +150,7 @@ public class AsciiTable {
     f.append("+%n");
     Object[] space = Arrays.stream(maxWidth)
         //.map(width -> SPACE.repeat(width)) // java 11+
-        .map(width -> new String(new char[width]).replace("\0", " "))  // java 8
+        .map(width -> new String(new char[width]).replace("\0", SPACE))  // java 8
         .toArray(String[]::new);
     fmt.format(f.toString(), space);
   }
