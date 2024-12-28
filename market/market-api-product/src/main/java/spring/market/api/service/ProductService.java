@@ -14,12 +14,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import spring.custom.common.enumcode.RESPONSE_CODE;
 import spring.market.api.dto.ProductReqDto;
 import spring.market.api.dto.ProductResDto;
 import spring.market.api.entity.Product;
 import spring.market.api.repository.ProductRepository;
 import spring.market.common.constant.Constant;
-import spring.component.common.enumcode.RESPONSE_CODE;
 import spring.market.common.exception.MarketException;
 import spring.market.common.util.Uuid;
 

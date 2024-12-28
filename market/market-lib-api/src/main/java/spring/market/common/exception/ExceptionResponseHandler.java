@@ -13,8 +13,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.component.common.dto.ResponseDto;
-import spring.component.common.enumcode.RESPONSE_CODE;
+import spring.custom.common.dto.ResponseDto;
+import spring.custom.common.enumcode.RESPONSE_CODE;
 import spring.market.common.exception.MarketException;
 
 @ControllerAdvice

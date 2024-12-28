@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
+import spring.custom.common.dto.ResponseDto;
+import spring.custom.common.enumcode.RESPONSE_CODE;
 import spring.market.api.dto.ProductReqDto;
 import spring.market.api.dto.ProductResDto;
 import spring.market.api.service.ProductService;
 import spring.market.common.aop.annotation.Login;
 import spring.market.common.aop.annotation.UserInfo;
-import spring.component.common.dto.ResponseDto;
-import spring.component.common.enumcode.RESPONSE_CODE;
 import spring.market.common.exception.MarketException;
 import spring.market.common.vo.UserVo;
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.component.common.dto.ResponseDto;
+import spring.custom.common.dto.ResponseDto;
 import spring.market.api.dto.MyInfoReqDto;
 import spring.market.api.dto.MyInfoResDto;
 import spring.market.api.service.MyInfoService;

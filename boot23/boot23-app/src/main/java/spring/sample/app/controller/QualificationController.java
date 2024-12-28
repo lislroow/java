@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
+import spring.custom.common.dto.ResponseDto;
+import spring.custom.common.enumcode.RESPONSE_CODE;
 import spring.sample.app.dto.QualificationResDto;
 import spring.sample.app.feign.FeignQualificationController;
-import spring.component.common.dto.ResponseDto;
-import spring.component.common.enumcode.RESPONSE_CODE;
 
 @RestController
 @Validated

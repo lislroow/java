@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import spring.custom.common.mybatis.Pageable;
+import spring.custom.common.mybatis.PagedList;
 import spring.sample.app.dao.MyTopicDao;
 import spring.sample.app.vo.EmployVo;
-import spring.component.common.mybatis.Pageable;
-import spring.component.common.mybatis.PagedList;
 
 @Service
 @Transactional(readOnly = true)

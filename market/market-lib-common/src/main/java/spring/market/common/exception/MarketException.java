@@ -1,6 +1,6 @@
 package spring.market.common.exception;
 
-import spring.component.common.enumcode.RESPONSE_CODE;
+import spring.custom.common.enumcode.RESPONSE_CODE;
 
 public class MarketException extends RuntimeException {
   

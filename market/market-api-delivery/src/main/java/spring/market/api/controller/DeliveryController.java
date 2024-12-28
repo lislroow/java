@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.component.common.dto.ResponseDto;
+import spring.custom.common.dto.ResponseDto;
 import spring.market.api.dto.DeliveryResDto;
 import spring.market.api.service.DeliveryService;
 

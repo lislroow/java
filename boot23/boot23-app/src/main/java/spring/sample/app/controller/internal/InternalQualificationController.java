@@ -11,8 +11,8 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import https.soap_mgkim_net.v1.qualification.types.GetQualificationRequest;
 import https.soap_mgkim_net.v1.qualification.types.GetQualificationResponse;
 import lombok.AllArgsConstructor;
+import spring.custom.common.dto.ResponseDto;
 import spring.sample.app.dto.QualificationResDto;
-import spring.component.common.dto.ResponseDto;
 
 @RestController
 @Validated

@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.RequiredArgsConstructor;
-import spring.component.common.mybatis.Pageable;
-import spring.component.common.mybatis.PagedList;
-import spring.component.common.util.Uuid;
+import spring.custom.common.mybatis.Pageable;
+import spring.custom.common.mybatis.PagedList;
+import spring.custom.common.util.Uuid;
 import spring.sample.app.service.KafkaService;
 import spring.sample.app.vo.EmployVo;
 import spring.sample.common.kafka.TopicProducer;

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import spring.component.common.dto.ResponseDto;
-import spring.component.common.enumcode.RESPONSE_CODE;
+import spring.custom.common.dto.ResponseDto;
+import spring.custom.common.enumcode.RESPONSE_CODE;
 
 @RestController
 @Slf4j

@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
-import spring.component.common.mybatis.PagingInterceptor;
+import spring.custom.common.mybatis.PagingInterceptor;
 import spring.market.common.constant.Constant;
 
 @Configuration

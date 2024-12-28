@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import spring.custom.common.dto.ResponseDto;
 import spring.sample.app.dao.CardStatsDao;
 import spring.sample.app.dto.CardStatsReqDto;
 import spring.sample.app.dto.CardStatsResDto;
 import spring.sample.app.vo.CardPaymentVo;
 import spring.sample.app.vo.CardVo;
 import spring.sample.common.annotation.AccessControl;
-import spring.component.common.dto.ResponseDto;
 
 @RestController
 @RequiredArgsConstructor

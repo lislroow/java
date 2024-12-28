@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.component.common.util.AsciiTable;
+import spring.custom.common.util.AsciiTable;
 import spring.market.common.aop.annotation.Login;
 import spring.market.common.constant.Constant;
 

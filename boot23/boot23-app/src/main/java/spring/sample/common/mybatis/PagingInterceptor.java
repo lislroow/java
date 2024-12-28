@@ -16,8 +16,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import spring.component.common.mybatis.Pageable;
-import spring.component.common.mybatis.PagedList;
+import spring.custom.common.mybatis.Pageable;
+import spring.custom.common.mybatis.PagedList;
 
 @Intercepts({
     @Signature(type = Executor.class, method = "query", 
