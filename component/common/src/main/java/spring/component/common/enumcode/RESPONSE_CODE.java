@@ -6,6 +6,17 @@ public enum RESPONSE_CODE {
   S000("Success"),
   E001("openfeign error"),
   E999("unknown error"),
+  G001("api gateway error"),
+  G002("server status 503"),
+  G998("ResponseDto creation error"),
+  G999("unknown gateway error"),
+  A001("token creation error"),
+  A002("token verification error"),
+  A003("token is empty"),
+  AL01("login required, userId is null"),
+  C001("illegal access"),
+  C002("fail to save")
+  ;
   ;
   
   private String message;

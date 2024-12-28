@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -18,12 +19,10 @@ import com.zaxxer.hikari.HikariDataSource;
 import spring.sample.common.constant.Constant;
 
 @Configuration
-@ConditionalOnProperty(
-    prefix = "spring.datasource.hikari", name = Constant.ENABLED,
-    havingValue = "true",
-    matchIfMissing = false)
+@ConditionalOnProperty(prefix = "spring.datasource.hikari", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
 public class DataSourceConfig {
 
+  @Primary
   @Bean(name = "dataSource")
   @ConfigurationProperties(prefix = "spring.datasource.hikari")
   DataSource dataSource() {

@@ -24,6 +24,8 @@ ext {
   
   log4jdbc_version = '1.16'
   postgresql_version = '42.7.4'
+  
+  spring_custom-component = '0.1-SNAPSHOT'
 }
 
 group = 'spring'

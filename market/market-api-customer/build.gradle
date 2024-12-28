@@ -1,0 +1,28 @@
+plugins {
+  id 'java'
+  id 'maven-publish'
+  id 'org.springframework.boot' version "${spring_boot_version}"
+}
+
+ext {
+  logback_ecs_encoder_version = '1.6.0'
+}
+
+dependencies {
+  implementation enforcedPlatform(project(":"))
+  
+  implementation project(":market-lib-api")
+  
+  implementation 'org.codehaus.janino:janino'
+  implementation "org.mariadb.jdbc:mariadb-java-client"
+}
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      from(components.java)
+      artifact tasks.bootJar
+      artifact tasks.sourceJar
+    }
+  }
+}

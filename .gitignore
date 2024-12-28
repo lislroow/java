@@ -41,6 +41,9 @@ bin
 */build
 */bin
 
+# [application]
+**/logs
+
 # [project]
 gpki
 

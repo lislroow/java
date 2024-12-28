@@ -7,6 +7,7 @@ import org.apache.ibatis.session.ExecutorType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -16,17 +17,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
+import spring.component.common.mybatis.PagingInterceptor;
 import spring.sample.common.constant.Constant;
-import spring.sample.common.mybatis.PagingInterceptor;
 
 @Configuration
-@ConditionalOnProperty(
-    prefix = "mybatis", name = Constant.ENABLED,
-    havingValue = "true",
-    matchIfMissing = false)
+@ConditionalOnProperty(prefix = MybatisProperties.MYBATIS_PREFIX, name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(org.mybatis.spring.boot.autoconfigure.MybatisProperties.class)
 @Slf4j
-@MapperScan(basePackages = {"spring"}, annotationClass = Mapper.class, sqlSessionFactoryRef = "sqlSessionFactoryBean")
+@MapperScan(basePackages = {Constant.BASE_PACKAGE}, annotationClass = Mapper.class, sqlSessionFactoryRef = "sqlSessionFactoryBean")
 public class MybatisConfig {
   
   @Autowired

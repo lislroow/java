@@ -17,9 +17,16 @@
   
   <dependencies>
     <dependency>
-      <groupId>spring</groupId>
+      <groupId>spring.custom</groupId>
+      <artifactId>resource</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>spring.custom</groupId>
+      <artifactId>common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>spring.custom</groupId>
       <artifactId>prototype</artifactId>
-      <version>0.1-SNAPSHOT</version>
     </dependency>
     
     <dependency>
@@ -160,7 +167,7 @@
   <build>
     <defaultGoal>compile</defaultGoal>
     <directory>${basedir}/target</directory>
-    <finalName>${project.artifactId}-${project.version}</finalName>
+    <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

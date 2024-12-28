@@ -1,0 +1,28 @@
+plugins {
+  id 'java-library'
+  id 'maven-publish'
+}
+
+dependencies {
+  implementation enforcedPlatform(project(":"))
+  
+  implementation "org.springframework.boot:spring-boot"
+  implementation "com.fasterxml.jackson.core:jackson-annotations"
+  
+  implementation "org.springframework.boot:spring-boot-starter-data-redis"
+  implementation "org.modelmapper:modelmapper:${modelmapper_version}"
+  
+  implementation "spring.custom:resource:${spring_custom-component}"
+  implementation "spring.custom:common:${spring_custom-component}"
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+      pom {
+        packaging = 'jar'
+      }
+    }
+  }
+}

@@ -27,3 +27,17 @@ public class OnConsoleStatusListener extends OnPrintStreamStatusListenerBase {
   }
 }
 ```
+
+#### 2) async includeCallerData
+
+기본값 false, 성능 최적화로 인해 호출 stack 정보를 전달하지 않음
+
+```xml
+  <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="LOGFILE" />
+    <queueSize>4096</queueSize>
+    <discardingThreshold>20</discardingThreshold>
+    <includeCallerData>true</includeCallerData>
+    <neverBlock>false</neverBlock>
+  </appender>
+```

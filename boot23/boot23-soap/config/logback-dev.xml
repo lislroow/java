@@ -1,53 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="3 seconds">
-  <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} [%C{40}]:%L ## %msg%n</pattern>
-    </encoder>
-  </appender>
   
   <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
   
-  <root level="info">
-    <appender-ref ref="STDOUT"/>
-  </root>
+  <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+  
+  <property name="logs.path" value="./logs"/>
+  
+  <appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logs.path}/debug.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logs.path}/backup/%d{yyyyMM, aux}/debug.log-%d{yyyyMMdd_HH}.gz</fileNamePattern>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${LOG_LEVEL_PATTERN:-%5p}] %C{40}:%L ## %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="LOGFILE" />
+    <queueSize>4096</queueSize>
+    <discardingThreshold>20</discardingThreshold>
+    <includeCallerData>true</includeCallerData><!-- 기본값 false, 성능 최적화로 인해 호출 stack 정보를 전달하지 않음 -->
+    <neverBlock>false</neverBlock>
+  </appender>
+  
+  <appender name="LOGFILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${logs.path}/error.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${logs.path}/backup/%d{yyyyMM, aux}/error.log-%d{yyyyMMdd}.gz</FileNamePattern>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${LOG_LEVEL_PATTERN:-%5p}] %class{40}:%line ## %msg%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+  
+  <appender name="ASYNC_ERROR" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="LOGFILE_ERROR" />
+    <queueSize>4096</queueSize>
+    <discardingThreshold>20</discardingThreshold>
+    <includeCallerData>true</includeCallerData>
+    <neverBlock>false</neverBlock>
+  </appender>
+  
+  <logger name="log4jdbc.log4j2" level="OFF" />
+  <logger name="jdbc.sqlonly" level="OFF" />
+  <logger name="jdbc.audit" level="OFF" />
+  <logger name="jdbc.resultset" level="OFF" />
+  <logger name="jdbc.connection" level="OFF" />
+  <!--
+  <logger name="jdbc.resultsettable" level="DEBUG" />
+  <logger name="jdbc.sqltiming" level="DEBUG" />
+  -->
+  
+  <logger name="org.springframework.security" level="debug" additivity="false">
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
+  </logger>
+  
+  <logger name="org.springframework.data.repository.config.RepositoryConfigurationDelegate" level="error" additivity="false">
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
+  </logger>
+  <logger name="org.springframework.web.servlet.FrameworkServlet" level="debug" additivity="false">
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
+  </logger>
+  <logger name="org.springframework.security.web" level="info" additivity="false">
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
+  </logger>
+  <logger name="com.zaxxer.hikari.pool.HikariPool" level="info" additivity="false">
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
+  </logger>
+  <logger name="io.lettuce.core" level="info" additivity="false">
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
+  </logger>
+  <logger name="org.springframework.data.redis" level="info" additivity="false">
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
+  </logger>
+  <logger name="org.apache.kafka" level="error" additivity="false">
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
+  </logger>
   
   
   <logger name="com.netflix.discovery" level="info" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   <logger name="org.apache.http" level="info" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   <logger name="org.apache.hc" level="info" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   
   <!-- 필수 -->
   <logger name="org.springframework.web.servlet.DispatcherServlet" level="debug" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   <logger name="org.springframework.core.log.LogFormatUtils" level="debug" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.handler.AbstractHandlerMapping" level="debug" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   <logger name="org.springframework.web.method.support.InvocableHandlerMethod" level="debug" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="debug" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor" level="debug" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver" level="debug" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.FrameworkServlet" level="debug" additivity="false">
-    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC"/>
+    <appender-ref ref="ASYNC_ERROR"/>
   </logger>
   <!-- //필수 -->
+  
+  <root level="info">
+    <appender-ref ref="STDOUT"/>
+  </root>
 </configuration>

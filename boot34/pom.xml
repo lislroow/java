@@ -16,11 +16,14 @@
     <spring-cloud.version>2024.0.0</spring-cloud.version>
     <mybatis-spring-boot.version>3.0.3</mybatis-spring-boot.version>
     
+    <lombok.version>1.18.32</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <modelmapper.version>3.2.0</modelmapper.version>
-    <lombok.version>1.18.32</lombok.version>
     
     <vertica.version>24.1.0-2</vertica.version>
+    
+    <spring.custom-component.version>0.1-SNAPSHOT</spring.custom-component.version>
+    
     <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
   </properties>
   
@@ -93,16 +96,26 @@
         <artifactId>vertica-jdbc</artifactId>
         <version>${vertica.version}</version>
       </dependency>
+      
+      <dependency>
+        <groupId>spring.custom</groupId>
+        <artifactId>resource</artifactId>
+        <version>${spring.custom-component.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>spring.custom</groupId>
+        <artifactId>common</artifactId>
+        <version>${spring.custom-component.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>spring.custom</groupId>
+        <artifactId>prototype</artifactId>
+        <version>${spring.custom-component.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   
   <dependencies>
-    <dependency>
-      <groupId>spring</groupId>
-      <artifactId>common</artifactId>
-      <version>0.1-SNAPSHOT</version>
-    </dependency>
-    
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
@@ -180,7 +193,7 @@
   <build>
     <defaultGoal>compile</defaultGoal>
     <directory>${basedir}/target</directory>
-    <finalName>${project.artifactId}-${project.version}</finalName>
+    <finalName>${project.artifactId}</finalName>
     <pluginManagement>
       <plugins>
         <plugin>

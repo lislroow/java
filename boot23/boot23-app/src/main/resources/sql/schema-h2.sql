@@ -1,0 +1,58 @@
+/* scientist */
+DROP TABLE IF EXISTS scientist;
+CREATE TABLE IF NOT EXISTS scientist 
+(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255),
+  create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modify_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  create_id INT DEFAULT 1,
+  modify_id INT DEFAULT 1
+);
+
+
+/* manager */
+DROP TABLE IF EXISTS manager;
+CREATE TABLE IF NOT EXISTS manager
+(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255),
+  passwd VARCHAR(1024),
+  create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modify_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  create_id INT DEFAULT 1,
+  modify_id INT DEFAULT 1
+);
+
+
+/* access_control */
+DROP TABLE IF EXISTS access_control;
+CREATE TABLE IF NOT EXISTS access_control 
+(
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  ip_addr VARCHAR(15),
+  delay_time TIMESTAMP
+);
+
+
+/* card */
+DROP TABLE IF EXISTS card;
+CREATE TABLE IF NOT EXISTS card 
+(
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  card_no VARCHAR(16),
+  issue_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  holder_name VARCHAR(100)
+);
+
+
+/* card_payment */
+DROP TABLE IF EXISTS card_payment;
+CREATE TABLE IF NOT EXISTS card_payment 
+(
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  card_no VARCHAR(16),
+  paid_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  paid_amount INT,
+  store_name VARCHAR(100)
+);

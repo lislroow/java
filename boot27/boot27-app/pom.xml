@@ -17,9 +17,8 @@
   
   <dependencies>
     <dependency>
-      <groupId>spring</groupId>
+      <groupId>spring.custom</groupId>
       <artifactId>prototype</artifactId>
-      <version>0.1-SNAPSHOT</version>
     </dependency>
     
     <dependency>
@@ -76,22 +75,17 @@
       <artifactId>h2</artifactId>
     </dependency>
     
-    
-    
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-ui</artifactId>
       <version>1.8.0</version>
     </dependency>
-    
-    
-    
   </dependencies>
   
   <build>
     <defaultGoal>compile</defaultGoal>
     <directory>${basedir}/target</directory>
-    <finalName>${project.artifactId}-${project.version}</finalName>
+    <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

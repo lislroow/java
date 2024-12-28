@@ -20,6 +20,8 @@
     <modelmapper.version>3.2.0</modelmapper.version>
     <lombok.version>1.18.32</lombok.version>
     
+    <spring.custom-component.version>0.1-SNAPSHOT</spring.custom-component.version>
+    
     <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
   </properties>
   
@@ -86,16 +88,26 @@
         <artifactId>jasypt-spring-boot-starter</artifactId>
         <version>3.0.5</version>
       </dependency>
+      
+      <dependency>
+        <groupId>spring.custom</groupId>
+        <artifactId>resource</artifactId>
+        <version>${spring.custom-component.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>spring.custom</groupId>
+        <artifactId>common</artifactId>
+        <version>${spring.custom-component.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>spring.custom</groupId>
+        <artifactId>prototype</artifactId>
+        <version>${spring.custom-component.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   
   <dependencies>
-    <dependency>
-      <groupId>spring</groupId>
-      <artifactId>common</artifactId>
-      <version>0.1-SNAPSHOT</version>
-    </dependency>
-    
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
@@ -156,7 +168,7 @@
   <build>
     <defaultGoal>compile</defaultGoal>
     <directory>${basedir}/target</directory>
-    <finalName>${project.artifactId}-${project.version}</finalName>
+    <finalName>${project.artifactId}</finalName>
     <pluginManagement>
       <plugins>
         <plugin>

@@ -1,0 +1,11 @@
+
+
+server.servlet.context-path=/boot23-app
+
+- id: boot23-app
+  predicates:
+    - Path=/boot23-app/**
+  uri: lb://boot23-app
+  #filters:
+  #  - RewritePath=/boot23-app/(?<segment>.*), /boot23-app/${segment}
+

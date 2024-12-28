@@ -1,0 +1,140 @@
+server:
+  port: 10100
+
+logging.pattern.level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+
+spring:
+  application.name: cloud-gateway
+  profiles.active: local
+  config.location: currentdir/config
+  
+  data.redis.repositories.enabled: false
+  
+  reactor.context-propagation: AUTO
+  
+  cloud:
+    loadbalancer:
+      health-check:
+        interval: 3s
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        # boot23
+        - id: boot23-app
+          predicates:
+            - Path=/boot23-app/**
+          uri: lb://boot23-app
+          #filters:
+          #  - RewritePath=/boot23-app/(?<segment>.*), /boot23-app/${segment}
+        - id: boot23-soap
+          predicates:
+            - Path=/boot23-soap/**
+          uri: lb://boot23-soap
+        
+        # boot27
+        - id: boot27-app
+          predicates:
+            - Path=/boot27-app/**
+          uri: lb://boot27-app
+        
+        # boot34
+        - id: boot34-app
+          predicates:
+            - Path=/boot34-app/**
+          uri: lb://boot34-app
+        
+        # story
+        - id: story-app
+          predicates:
+            - Path=/story-app/**
+          uri: lb://story-app
+        
+        # market
+        - id: market-api-auth
+          predicates:
+            - Path=/auth/**
+            - Path=/oauth2/authorization/**
+            - Path=/login/oauth2/**
+          uri: lb://market-api-auth
+        - id: market-api-customer
+          predicates:
+            - Path=/customer/**
+          uri: lb://market-api-customer
+        - id: market-api-delivery
+          predicates:
+            - Path=/delivery/**
+          uri: lb://market-api-delivery
+        - id: market-api-inventory
+          predicates:
+            - Path=/inventory/**
+          uri: lb://market-api-inventory
+        - id: market-api-order
+          predicates:
+            - Path=/order/**
+          uri: lb://market-api-order
+        - id: market-api-product
+          predicates:
+            - Path=/product/**
+          uri: lb://market-api-product
+
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 3
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    disable-delta: false
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 3
+
+management:
+  endpoints.web.exposure.include: routes, filters
+  tracing.sampling.probability: 1.0
+  tracing.propagation.consume: B3
+  tracing.propagation.produce: B3_MULTI
+  zipkin.tracing.endpoint: http://mgkim.net:59411/api/v2/spans
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    use-root-path: true
+    urls:
+      - name: Spring Boot 2.3.x APP (boot23-app)
+        url: /boot23-app/v3/api-docs
+        
+      - name: Spring Boot 2.7.x APP (boot27-app)
+        url: /boot27-app/v3/api-docs
+        
+      - name: Spring Boot 3.4.x APP (boot34-app)
+        url: /boot34-app/v3/api-docs
+        
+      - name: Market Auth API (market-api-auth)
+        url: /market-api-auth/v3/api-docs
+        
+      - name: Market Customer API (market-api-customer)
+        url: /market-api-customer/v3/api-docs
+        
+      - name: Market Delivery API (market-api-delivery)
+        url: /market-api-delivery/v3/api-docs
+        
+      - name: Market Inventory API (market-api-inventory)
+        url: /market-api-inventory/v3/api-docs
+        
+      - name: Market Order API (market-api-order)
+        url: /market-api-order/v3/api-docs
+        
+      - name: Market Product API (market-api-product)
+        url: /market-api-product/v3/api-docs
+        
+      - name: Story APP (story-app)
+        url: /story-app/v3/api-docs
+

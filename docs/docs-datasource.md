@@ -114,7 +114,7 @@ public class DataSourceConfig {
   private org.springframework.core.io.Resource initScript;
   
   @Bean("dataSourceInitializer")
-  @ConditionalOnProperty(name = "spring.sample.datasource.h2.init", havingValue = "true", matchIfMissing = false)
+  @ConditionalOnProperty(name = "custom.datasource.h2.init", havingValue = "true", matchIfMissing = false)
   DataSourceInitializer dataSourceInitializer() {
     DataSourceInitializer initializer = new DataSourceInitializer();
     initializer.setDataSource(dataSource());

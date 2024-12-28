@@ -2,7 +2,7 @@
 
 ```
 # java
-@ConditionalOnProperty(name = "spring.sample.datasource.maria.init", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "custom.datasource.maria.init", havingValue = "true", matchIfMissing = false)
 
 # application.properties
 spring.sample.mybatis.maria.enabled=true
@@ -11,7 +11,7 @@ spring.sample.mybatis.maria.enabled=true
 {
   "properties": [
     {
-      "name": "spring.sample.datasource.maria.init",
+      "name": "custom.datasource.maria.init",
       "type": "java.lang.Boolean",
       "description": "[true, false] init-maria.sql",
       "defaultValue": false
