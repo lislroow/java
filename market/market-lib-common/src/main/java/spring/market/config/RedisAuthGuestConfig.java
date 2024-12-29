@@ -12,10 +12,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import lombok.extern.slf4j.Slf4j;
+import spring.custom.common.redis.RedisSupport;
 import spring.market.common.constant.Constant;
 import spring.market.common.enumcode.REDIS_TYPE;
-import spring.market.common.redis.RedisSupport;
 import spring.market.config.properties.RedisProperties;
 
 @Configuration

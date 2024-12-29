@@ -54,14 +54,14 @@ public class SecurityConfig {
       .authenticationProvider(daoAuthenticationProvider())
       .authorizeHttpRequests(authorizeRequests -> 
         authorizeRequests
-          .requestMatchers("/oauth2/authorization/**").permitAll()
-          .requestMatchers("/auth/v1/login/process").permitAll()
-          .requestMatchers("/auth/v1/session").permitAll()
-          .requestMatchers("/auth/v1/token/**").permitAll()
-          .requestMatchers("/internal/auth/v1/token/**").permitAll()
-          .requestMatchers("/actuator/**").permitAll()
-          .requestMatchers("/error").permitAll()
-          .requestMatchers("/v3/api-docs").permitAll()
+          //.requestMatchers("/oauth2/authorization/**").permitAll()
+          //.requestMatchers("/auth/v1/login/process").permitAll()
+          //.requestMatchers("/auth/v1/session").permitAll()
+          //.requestMatchers("/auth/v1/token/**").permitAll()
+          //.requestMatchers("/internal/auth/v1/token/**").permitAll()
+          //.requestMatchers("/actuator/**").permitAll()
+          //.requestMatchers("/error").permitAll()
+          //.requestMatchers("/v3/api-docs").permitAll()
           //.requestMatchers("/auth/v1/test").permitAll()
           .anyRequest().permitAll()
       )
@@ -81,7 +81,7 @@ public class SecurityConfig {
       )
       .sessionManagement(sessionManagement -> 
         // spring-security 에서 세션을 생성하지 않고 사용도 하지 않도록 함
-        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.NEVER)
       )
       .logout(logout ->
         logout.logoutUrl("/auth/v1/logout")

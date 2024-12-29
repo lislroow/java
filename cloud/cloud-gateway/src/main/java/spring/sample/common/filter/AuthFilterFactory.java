@@ -8,11 +8,11 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import spring.sample.config.properties.SecurityConfigProperties;
 
-public class PreJwtFilterFactory extends AbstractGatewayFilterFactory<PreJwtFilterFactory.Config> {
+public class AuthFilterFactory extends AbstractGatewayFilterFactory<AuthFilterFactory.Config> {
 
   private final String SECRET_KEY;
   
-  public PreJwtFilterFactory(SecurityConfigProperties properties) {
+  public AuthFilterFactory(SecurityConfigProperties properties) {
     super(Config.class);
     SECRET_KEY = properties.getTokenSignkey();
   }
@@ -87,4 +87,5 @@ public class PreJwtFilterFactory extends AbstractGatewayFilterFactory<PreJwtFilt
       this.granted = granted;
     }
   }
+  
 }

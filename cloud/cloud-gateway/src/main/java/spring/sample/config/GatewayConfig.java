@@ -4,15 +4,15 @@ import org.springframework.cloud.gateway.filter.factory.GatewayFilterFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import spring.sample.common.filter.PreJwtFilterFactory;
+import spring.sample.common.filter.AuthFilterFactory;
 import spring.sample.config.properties.SecurityConfigProperties;
 
 @Configuration
 public class GatewayConfig {
   
   @Bean
-  GatewayFilterFactory<PreJwtFilterFactory.Config> preJwtFilterFactory(
+  GatewayFilterFactory<AuthFilterFactory.Config> authFilterFactory(
       SecurityConfigProperties properties) {
-    return new PreJwtFilterFactory(properties);
+    return new AuthFilterFactory(properties);
   }
 }

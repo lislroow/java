@@ -1,9 +1,9 @@
-package spring.market.config;
+package spring.custom.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -12,26 +12,22 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import spring.custom.common.constant.Constant;
 import spring.custom.common.redis.RedisSupport;
-import spring.market.common.constant.Constant;
-import spring.market.common.enumcode.REDIS_TYPE;
-import spring.market.config.properties.RedisProperties;
 
 @Configuration
-@ConditionalOnProperty(prefix = "market.redis.auth-user", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
-@EnableConfigurationProperties(spring.market.config.properties.RedisProperties.class)
-public class RedisAuthUserConfig {
+@ConditionalOnProperty(prefix = "spring.data.redis", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
+public class RedisConfig {
 
   @Autowired
-  spring.market.config.properties.RedisProperties redisProperties;
+  RedisProperties redisProperties;
   
-  @Bean(name = Constant.REDIS.AUTH_USER + "RedisConnectionFactory")
+  @Bean
   RedisConnectionFactory redisConnectionFactory() {
-    RedisProperties.Configure configure = redisProperties.getConfigure(REDIS_TYPE.AUTH_USER);
-    return new LettuceConnectionFactory(configure.getHost(), configure.getPort());
+    return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
   }
   
-  @Bean(name = Constant.REDIS.AUTH_USER + "RedisTemplate")
+  @Bean
   RedisTemplate<String, Object> redisTemplate() {
     RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory());
@@ -42,7 +38,7 @@ public class RedisAuthUserConfig {
     return redisTemplate;
   }
   
-  @Bean(name = Constant.REDIS.AUTH_USER + "RedisSupport")
+  @Bean
   RedisSupport redisSupport(ModelMapper modelMapper) {
     return new RedisSupport(redisTemplate(), modelMapper);
   }

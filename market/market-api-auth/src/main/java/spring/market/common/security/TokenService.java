@@ -36,10 +36,10 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.RESPONSE_CODE;
+import spring.custom.common.redis.RedisSupport;
 import spring.market.common.constant.Constant;
 import spring.market.common.dto.TokenResDto;
 import spring.market.common.exception.MarketException;
-import spring.market.common.redis.RedisSupport;
 import spring.market.common.vo.SessionUser;
 import spring.market.config.properties.JwtProperties;
 

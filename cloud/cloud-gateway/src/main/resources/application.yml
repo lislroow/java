@@ -53,29 +53,33 @@ spring:
         # market
         - id: market-api-auth
           predicates:
-            - Path=/auth/**, /oauth2/authorization/**, /login/oauth2/**
+            - Path=/market-api-auth/**, /auth/**, /oauth2/authorization/**, /login/oauth2/**
           uri: lb://market-api-auth
+          
         - id: market-api-customer
           predicates:
             - Path=/customer/**
           uri: lb://market-api-customer
+          
         - id: market-api-delivery
           predicates:
             - Path=/delivery/**
           uri: lb://market-api-delivery
+          
         - id: market-api-inventory
           predicates:
             - Path=/inventory/**
           uri: lb://market-api-inventory
+          
         - id: market-api-order
           predicates:
             - Path=/order/**
           uri: lb://market-api-order
+          
         - id: market-api-product
           predicates:
             - Path=/product/**
           uri: lb://market-api-product
-
 
 eureka:
   client:

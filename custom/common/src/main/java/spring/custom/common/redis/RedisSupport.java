@@ -1,4 +1,4 @@
-package spring.market.common.redis;
+package spring.custom.common.redis;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -16,7 +16,29 @@ public class RedisSupport {
   private final RedisTemplate<String, Object> redisTemplate;
   private final ModelMapper modelMapper;
   
-  // hash
+  // key
+  public Set<String> keys() {
+    return this.redisTemplate.keys("*");
+  }
+  
+  public Set<String> key(String key) {
+    return this.redisTemplate.keys(key);
+  }
+  
+  // value: opsForValue()
+  public void setValue(String key, Object val) {
+    this.redisTemplate.opsForValue().set(key, val);
+  }
+  
+  public <T> T getValue(String key) {
+    return (T) this.redisTemplate.opsForValue().get(key);
+  }
+  
+  public void delValue(String key) {
+    this.redisTemplate.delete(key);
+  }
+  
+  // hash: opsForHash()
   public void setHash(String key, String hashKey, Object val) {
     this.redisTemplate.opsForHash().put(key, hashKey, val);
   }
