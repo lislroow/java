@@ -1,4 +1,4 @@
-package spring.component.app.controller;
+package spring.custom.api.controller;
 
 import java.util.Set;
 

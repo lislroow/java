@@ -1,4 +1,4 @@
-package spring.component.app.controller;
+package spring.custom.api.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.component.app.dao.MybatisMultipleDatasourceDao;
-import spring.component.app.dao.MybatisMultipleDatasourceVerticaDao;
-import spring.component.app.dto.MybatisMultipleDatasourceResDto;
-import spring.component.app.vo.ScientistVerticaVo;
-import spring.component.app.vo.ScientistVo;
+import spring.custom.api.dao.MybatisMultipleDatasourceDao;
+import spring.custom.api.dao.MybatisMultipleDatasourceVerticaDao;
+import spring.custom.api.dto.MybatisMultipleDatasourceResDto;
+import spring.custom.api.vo.ScientistVerticaVo;
+import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.dto.ResponseDto;
 
 @RestController

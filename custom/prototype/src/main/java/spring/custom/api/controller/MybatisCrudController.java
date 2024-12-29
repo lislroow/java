@@ -1,4 +1,4 @@
-package spring.component.app.controller;
+package spring.custom.api.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.component.app.dao.MybatisCrudDao;
-import spring.component.app.dto.MybatisCrudReqDto;
-import spring.component.app.dto.MybatisCrudResDto;
-import spring.component.app.service.MybatisCrudService;
-import spring.component.app.vo.ScientistVo;
+import spring.custom.api.dao.MybatisCrudDao;
+import spring.custom.api.dto.MybatisCrudReqDto;
+import spring.custom.api.dto.MybatisCrudResDto;
+import spring.custom.api.service.MybatisCrudService;
+import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.mybatis.Pageable;
 import spring.custom.common.mybatis.Paged;

@@ -1,10 +1,10 @@
-package spring.component.app.dao;
+package spring.custom.api.dao;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import spring.component.app.vo.ScientistVerticaVo;
+import spring.custom.api.vo.ScientistVerticaVo;
 import spring.custom.common.annotation.MapperVertica;
 import spring.custom.common.mybatis.Pageable;
 import spring.custom.common.mybatis.PagedList;

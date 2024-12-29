@@ -1,6 +1,7 @@
 package spring.market.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 import lombok.RequiredArgsConstructor;
+import spring.custom.common.enumcode.PROTOTYPE_URI;
 import spring.market.common.security.LogoutHandlerImpl;
 import spring.market.common.security.LogoutSuccessHandlerImpl;
 import spring.market.common.security.SocialOAuth2LoginSuccessHandler;
@@ -52,19 +54,25 @@ public class SecurityConfig {
           .successHandler(usernamePasswordAuthenticationSuccessHandler(tokenService))
       )
       .authenticationProvider(daoAuthenticationProvider())
-      .authorizeHttpRequests(authorizeRequests -> 
-        authorizeRequests
-          //.requestMatchers("/oauth2/authorization/**").permitAll()
-          //.requestMatchers("/auth/v1/login/process").permitAll()
-          //.requestMatchers("/auth/v1/session").permitAll()
-          //.requestMatchers("/auth/v1/token/**").permitAll()
-          //.requestMatchers("/internal/auth/v1/token/**").permitAll()
-          //.requestMatchers("/actuator/**").permitAll()
-          //.requestMatchers("/error").permitAll()
-          //.requestMatchers("/v3/api-docs").permitAll()
-          //.requestMatchers("/auth/v1/test").permitAll()
-          .anyRequest().permitAll()
-      )
+      .authorizeHttpRequests(authorizeRequests -> {
+        List<String> permitList = Arrays.asList(
+            "/oauth2/authorization/**",
+            "/auth/v1/login/process",
+            "/auth/v1/session",
+            "/auth/v1/token/**",
+            "/internal/auth/v1/token/**",
+            "/actuator/**",
+            "/error",
+            "/v3/api-docs",
+            "/auth/v1/test");
+        permitList.stream().forEach(item -> {
+          authorizeRequests.requestMatchers(item).permitAll();
+        });
+        Arrays.asList(PROTOTYPE_URI.values()).stream().forEach(item -> {
+          authorizeRequests.requestMatchers(item.getPattern()).permitAll();
+        });
+        authorizeRequests.anyRequest().authenticated();
+      })
       .exceptionHandling(exceptionHandlingCustomizer -> 
         exceptionHandlingCustomizer.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
       )

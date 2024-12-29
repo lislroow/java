@@ -1,11 +1,11 @@
-package spring.component.app.service;
+package spring.custom.api.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
-import spring.component.app.dao.MybatisCrudDao;
-import spring.component.app.vo.ScientistVo;
+import spring.custom.api.dao.MybatisCrudDao;
+import spring.custom.api.vo.ScientistVo;
 
 @Service
 @Transactional(readOnly = true)

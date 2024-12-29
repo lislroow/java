@@ -1,4 +1,4 @@
-package spring.component.app.dto;
+package spring.custom.api.dto;
 
 import lombok.Builder;
 import lombok.Data;

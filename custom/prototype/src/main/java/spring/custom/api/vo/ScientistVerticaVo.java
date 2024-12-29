@@ -1,4 +1,4 @@
-package spring.component.app.vo;
+package spring.custom.api.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
