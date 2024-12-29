@@ -64,12 +64,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     return new MappingJackson2HttpMessageConverter(objectMapper);
   }
   
-  @Bean
-  HttpMessageConverters httpMessageConverters() {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.registerModule(new JavaTimeModule());
-    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(objectMapper);
-    return new HttpMessageConverters(false, Collections.singletonList(converter));
-  }
+  // 2024.12.29 알 수 없는 현상: /v3/api-docs 응답이 base64 인코딩되어 응답
+  //@Bean
+  //HttpMessageConverters httpMessageConverters() {
+  //  ObjectMapper objectMapper = new ObjectMapper();
+  //  objectMapper.registerModule(new JavaTimeModule());
+  //  objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+  //  HttpMessageConverter<?> converter = new MappingJackson2HttpMessageConverter(objectMapper);
+  //  return new HttpMessageConverters(false, Collections.singletonList(converter));
+  //}
 }
