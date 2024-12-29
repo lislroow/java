@@ -104,8 +104,8 @@ springdoc:
   api-docs:
     enabled: true
   swagger-ui:
-    enabled: true
-    use-root-path: true
+    default-models-expand-depth: -1
+    #try-it-out-enabled: false
     urls:
       - name: Spring Boot 2.3.x APP (boot23-app)
         url: /boot23-app/v3/api-docs
