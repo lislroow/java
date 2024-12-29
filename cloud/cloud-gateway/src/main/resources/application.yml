@@ -25,8 +25,7 @@ spring:
           predicates:
             - Path=/boot23-app/**
           uri: lb://boot23-app
-          #filters:
-          #  - RewritePath=/boot23-app/(?<segment>.*), /boot23-app/${segment}
+          
         - id: boot23-soap
           predicates:
             - Path=/boot23-soap/**
