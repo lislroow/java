@@ -14,26 +14,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties("passwd")
-public class SnsUser implements Serializable {
+public class MemberVo implements Serializable {
   
   private static final long serialVersionUID = 4358471420033975600L;
   
-  private String snsId;
-  private String site;
+  private String id;
+  private String registrationId;
+  private String oauth2Id;
   private String email;
   private String nickname;
-  private String passwd;
-  private String picture;
-  
-  private String uid;
-  
-  @Builder
-  public SnsUser(String snsId, String site, String email, String nickname, String picture, String uid) {
-    this.snsId = snsId;
-    this.site = site;
-    this.email = email;
-    this.nickname = nickname;
-    this.picture = picture;
-    this.uid = uid;
-  }
 }

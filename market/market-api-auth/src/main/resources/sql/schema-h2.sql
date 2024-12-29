@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS member;
+CREATE TABLE IF NOT EXISTS member
+(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  registration_id VARCHAR(255),
+  oauth2_id VARCHAR(255),
+  email VARCHAR(255),
+  nickname VARCHAR(255),
+  create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modify_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  create_id INT DEFAULT 1,
+  modify_id INT DEFAULT 1
+);

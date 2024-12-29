@@ -27,7 +27,7 @@ public class DataSourceConfig {
     return hikariDataSource;
   }
   
-  @Bean(name = "platformTransactionManager")
+  @Bean
   PlatformTransactionManager transactionManager() {
     PlatformTransactionManager transactionManager = null;
     transactionManager = new DataSourceTransactionManager(dataSource());

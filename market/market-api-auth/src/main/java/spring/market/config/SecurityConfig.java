@@ -54,6 +54,7 @@ public class SecurityConfig {
       .authenticationProvider(daoAuthenticationProvider())
       .authorizeHttpRequests(authorizeRequests -> 
         authorizeRequests
+          .requestMatchers("/oauth2/authorization/**").permitAll()
           .requestMatchers("/auth/v1/login/process").permitAll()
           .requestMatchers("/auth/v1/session").permitAll()
           .requestMatchers("/auth/v1/token/**").permitAll()

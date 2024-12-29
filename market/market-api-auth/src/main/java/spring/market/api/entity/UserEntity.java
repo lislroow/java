@@ -18,13 +18,13 @@ import lombok.NoArgsConstructor;
 import spring.market.common.enumcode.Role;
 import spring.market.common.enumcode.YN;
 
-@Entity(name = "user")
-@DynamicInsert
-@DynamicUpdate
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+//@Entity(name = "user")
+//@DynamicInsert
+//@DynamicUpdate
+//@Data
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class UserEntity {
   
   @Id

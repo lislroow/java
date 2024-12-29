@@ -91,7 +91,7 @@ public class TokenService {
   }
   
   public String createToken(org.springframework.security.core.Authentication authentication) throws Exception {
-    String email = ((SessionUser)authentication.getPrincipal()).getEmail();
+    String username = ((SessionUser)authentication.getPrincipal()).getUsername();
     log.info("create token");
     String tokenId = null;
     try {
@@ -101,7 +101,7 @@ public class TokenService {
       String token;
       
       claimsSet = new JWTClaimsSet.Builder()
-          .subject(email)
+          .subject(username)
           .issuer(jwtProperties.getToken().getIssuer())
           .expirationTime(new Date(new Date().getTime() + refreshTokenExpTm * 1000))
           .claim("scope", "user")
@@ -116,7 +116,7 @@ public class TokenService {
       this.authUserRedisSupport.setHash(tokenId, Constant.Token.REFRESH_TOKEN, token, ttl); // refreshToken 의 expireTime 을 ttl 로 설정
       
       claimsSet = new JWTClaimsSet.Builder()
-          .subject(email)
+          .subject(username)
           .issuer(jwtProperties.getToken().getIssuer())
           .expirationTime(new Date(new Date().getTime() + accessTokenExpTm * 1000))
           .claim("scope", "user")

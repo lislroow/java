@@ -1,0 +1,1 @@
+--INSERT INTO member (email, nickname) VALUES('mgkim.net@gmail.com', '코딩맛집');

@@ -10,20 +10,20 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 import lombok.RequiredArgsConstructor;
-import spring.market.api.entity.UserEntity;
+import spring.market.api.dao.MemberDao;
 import spring.market.api.producer.UserProducer;
 import spring.market.api.repository.UserRepository;
+import spring.market.common.vo.MemberVo;
 import spring.market.common.vo.SessionUser;
-import spring.market.common.vo.User;
 
 @Service
 @RequiredArgsConstructor
 public class SocialOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
   
-  final UserRepository userRepository;
+  final MemberDao memberDao;
+  //final UserRepository userRepository;
   final UserProducer userProducer;
   final ModelMapper model;
   final BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -38,14 +38,13 @@ public class SocialOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     OAuth2User loadedUser = delegate.loadUser(userRequest);
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
     String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-    SocialOAuthAttributes attributes = SocialOAuthAttributes.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
-    UserEntity entity = userRepository.findByOauth2Id(attributes.getOauth2Id());
-    if (ObjectUtils.isEmpty(entity)) {
-      entity = attributes.toEntity();
-      entity.setPassword("{bcrypt}" + bcryptPasswordEncoder.encode(defaultPassword));
-      entity = userRepository.save(entity);
-      userProducer.send(model.map(entity, User.class));
+    SocialOauthAttribute attributes = SocialOauthAttribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
+    MemberVo memberVo = attributes.toVo();
+    MemberVo selVo = memberDao.selectByEmail(memberVo.getEmail());
+    if (selVo == null) {
+      memberDao.insert(memberVo);
+      selVo = memberDao.selectByEmail(memberVo.getEmail());
     }
-    return new SessionUser(model.map(entity, User.class), attributes.getAttributes());
+    return new SessionUser(selVo);
   }
 }
