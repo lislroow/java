@@ -10,9 +10,9 @@ import spring.sample.config.properties.SecurityConfigProperties;
 @Configuration
 public class GatewayConfig {
   
-  @Bean
-  GatewayFilterFactory<AuthFilterFactory.Config> authFilterFactory(
-      SecurityConfigProperties properties) {
-    return new AuthFilterFactory(properties);
-  }
+//  @Bean
+//  GatewayFilterFactory<AuthFilterFactory.Config> authFilterFactory(
+//      SecurityConfigProperties properties) {
+//    return new AuthFilterFactory(properties);
+//  }
 }
