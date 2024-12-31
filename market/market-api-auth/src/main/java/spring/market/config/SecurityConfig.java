@@ -49,7 +49,7 @@ public class SecurityConfig {
       .httpBasic(AbstractHttpConfigurer::disable)
       .formLogin(formLogin -> 
         formLogin
-          .loginProcessingUrl("/auth/v1/login/process")
+          .loginProcessingUrl("/v1/login/process")
           .failureHandler(usernamePasswordAuthenticationFailureHandler())
           .successHandler(usernamePasswordAuthenticationSuccessHandler(tokenService))
       )
@@ -57,14 +57,10 @@ public class SecurityConfig {
       .authorizeHttpRequests(authorizeRequests -> {
         List<String> permitList = Arrays.asList(
             "/oauth2/authorization/**",
-            "/auth/v1/login/process",
-            "/auth/v1/session",
-            "/auth/v1/token/**",
-            "/internal/auth/v1/token/**",
+            "/v1/login/process",
             "/actuator/**",
             "/error",
-            "/v3/api-docs",
-            "/auth/v1/test");
+            "/v3/api-docs");
         permitList.stream().forEach(item -> {
           authorizeRequests.requestMatchers(item).permitAll();
         });

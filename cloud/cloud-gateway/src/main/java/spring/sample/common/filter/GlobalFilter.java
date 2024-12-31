@@ -2,6 +2,7 @@ package spring.sample.common.filter;
 
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.core.Ordered;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
@@ -14,8 +15,11 @@ public class GlobalFilter implements org.springframework.cloud.gateway.filter.Gl
 
   @Override
   public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-    /* for debug */ log.debug("");
-    
+    if (log.isInfoEnabled()) {
+      ServerHttpRequest request = exchange.getRequest();
+      String uri = request.getURI().toString();
+      log.info(uri);
+    }
     return chain.filter(exchange);
   }
   

@@ -1,9 +1,8 @@
 package spring.sample.common.filter;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.core.Ordered;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
 import lombok.Data;
@@ -19,10 +18,14 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
   
   @Override
   public GatewayFilter apply(AuthFilter.Config config) {
-    return new OrderedGatewayFilter((exchange, chain) -> {
-      /* for debug */ log.debug("");
-        return chain.filter(exchange);
-      }, Ordered.LOWEST_PRECEDENCE);
+    return (exchange, chain) -> {
+      /* for debug */ if (log.isDebugEnabled()) {
+        ServerHttpRequest request = exchange.getRequest();
+        String uri = request.getURI().toString();
+        log.debug(uri);
+      }
+      return chain.filter(exchange);
+    };
   }
   
   @Data

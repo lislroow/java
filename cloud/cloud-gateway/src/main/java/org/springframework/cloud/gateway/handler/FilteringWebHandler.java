@@ -182,7 +182,7 @@ public class FilteringWebHandler implements WebHandler, ApplicationListener<Refr
 
 		@Override
 		public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-		  /* for debug */ log.debug("");
+		  /* for debug */ log.trace("");
 			return this.delegate.filter(exchange, chain);
 		}
 
