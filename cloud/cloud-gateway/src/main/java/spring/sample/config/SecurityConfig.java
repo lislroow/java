@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 import spring.sample.config.properties.SecurityConfigProperties;
 
-@Configuration
-@EnableConfigurationProperties({SecurityConfigProperties.class})
+//@Configuration
+//@EnableConfigurationProperties({SecurityConfigProperties.class})
 public class SecurityConfig {
   
 }

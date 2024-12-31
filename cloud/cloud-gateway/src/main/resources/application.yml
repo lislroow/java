@@ -1,6 +1,13 @@
 server:
   port: 10100
 
+logging:
+  level:
+    '[org.springframework.cloud.gateway]': debug
+    '[org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator]': info
+    '[org.springframework.cloud.gateway.route.RouteDefinitionMetrics]': info
+    '[org.springframework.cloud.gateway.filter.GatewayMetricsFilter]': info
+
 spring:
   application.name: cloud-gateway
   profiles.active: local
@@ -17,7 +24,7 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
+          enabled: false
           lower-case-service-id: true
       routes:
         # boot23
@@ -53,9 +60,13 @@ spring:
         - id: market-api-auth
           predicates:
             - Path=/market-api-auth/**, /auth/**, /oauth2/authorization/**, /login/oauth2/**
+            #- Path=/market-api-auth/**
+            #- Path=/auth/**
+            #- Path=/oauth2/authorization/**
+            #- Path=/login/oauth2/**
           uri: lb://market-api-auth
           filters:
-            - AuthFilter
+            - name: AuthFilter
           
         - id: market-api-customer
           predicates:
