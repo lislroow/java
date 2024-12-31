@@ -20,7 +20,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
   @Override
   public GatewayFilter apply(AuthFilter.Config config) {
     return new OrderedGatewayFilter((exchange, chain) -> {
-        log.info("");
+      /* for debug */ log.debug("");
         return chain.filter(exchange);
       }, Ordered.LOWEST_PRECEDENCE);
   }

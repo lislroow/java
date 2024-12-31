@@ -14,7 +14,8 @@ public class GlobalFilter implements org.springframework.cloud.gateway.filter.Gl
 
   @Override
   public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-    log.info("");
+    /* for debug */ log.debug("");
+    
     return chain.filter(exchange);
   }
   
