@@ -1,6 +1,3 @@
-server:
-  port: 10100
-
 logging:
   level:
     '[org.springframework.cloud.gateway]': info
@@ -8,10 +5,23 @@ logging:
     '[org.springframework.cloud.gateway.route.RouteDefinitionMetrics]': info
     '[org.springframework.cloud.gateway.filter.GatewayMetricsFilter]': info
 
+management:
+  endpoints.web.exposure.include: routes, filters
+  tracing.sampling.probability: 1.0
+  tracing.propagation.consume: B3
+  tracing.propagation.produce: B3_MULTI
+  zipkin.tracing.endpoint: http://mgkim.net:59411/api/v2/spans
+
 spring:
-  application.name: cloud-gateway
   profiles.active: local
   config.location: currentdir/config
+  application.name: cloud-gateway
+
+---
+server.port: 10100
+
+spring:
+  config.activate.on-profile: local, dev
   
   data.redis.repositories.enabled: false
   
@@ -32,63 +42,75 @@ spring:
           predicates:
             - Path=/boot23-app/**
           uri: lb://boot23-app
+          filters:
+            - RewritePathFilter
           
         - id: boot23-soap
           predicates:
             - Path=/boot23-soap/**
           uri: lb://boot23-soap
+          filters:
+            - RewritePathFilter
         
         # boot27
         - id: boot27-app
           predicates:
             - Path=/boot27-app/**
           uri: lb://boot27-app
+          filters:
+            - RewritePathFilter
         
         # boot34
         - id: boot34-app
           predicates:
             - Path=/boot34-app/**
           uri: lb://boot34-app
+          filters:
+            - RewritePathFilter
         
         # story
         - id: story-app
           predicates:
             - Path=/story-app/**
           uri: lb://story-app
-        
-        # market
-        - id: market-api-auth
-          predicates:
-            - Path=/market-api-auth/**
-          uri: lb://market-api-auth
           filters:
             - RewritePathFilter
-            - AuthFilter
-          
+        
+        # market
         - id: market-api-customer
           predicates:
             - Path=/customer/**
           uri: lb://market-api-customer
+          filters:
+            - RewritePathFilter
           
         - id: market-api-delivery
           predicates:
             - Path=/delivery/**
           uri: lb://market-api-delivery
+          filters:
+            - RewritePathFilter
           
         - id: market-api-inventory
           predicates:
             - Path=/inventory/**
           uri: lb://market-api-inventory
+          filters:
+            - RewritePathFilter
           
         - id: market-api-order
           predicates:
             - Path=/order/**
           uri: lb://market-api-order
+          filters:
+            - RewritePathFilter
           
         - id: market-api-product
           predicates:
             - Path=/product/**
           uri: lb://market-api-product
+          filters:
+            - RewritePathFilter
 
 eureka:
   client:
@@ -102,13 +124,6 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 3
     lease-expiration-duration-in-seconds: 3
-
-management:
-  endpoints.web.exposure.include: routes, filters
-  tracing.sampling.probability: 1.0
-  tracing.propagation.consume: B3
-  tracing.propagation.produce: B3_MULTI
-  zipkin.tracing.endpoint: http://mgkim.net:59411/api/v2/spans
 
 springdoc:
   api-docs:
@@ -125,9 +140,6 @@ springdoc:
         
       - name: Spring Boot 3.4.x APP (boot34-app)
         url: /boot34-app/v3/api-docs
-        
-      - name: Market Auth API (market-api-auth)
-        url: /market-api-auth/v3/api-docs
         
       - name: Market Customer API (market-api-customer)
         url: /market-api-customer/v3/api-docs
@@ -147,3 +159,55 @@ springdoc:
       - name: Story APP (story-app)
         url: /story-app/v3/api-docs
 
+
+---
+server:
+  port: 10200
+
+spring:
+  config.activate.on-profile: local-auth, dev-auth
+  
+  data.redis.repositories.enabled: false
+  
+  reactor.context-propagation: AUTO
+  
+  cloud:
+    loadbalancer:
+      health-check:
+        interval: 3s
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+      routes:
+        # auth
+        - id: auth-api
+          predicates:
+            - Path=/auth-api/**
+          uri: lb://auth-api
+          filters:
+            - RewritePathFilter
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 3
+    service-url:
+      defaultZone: http://localhost:8763/eureka
+    disable-delta: false
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 3
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    default-models-expand-depth: -1
+    #try-it-out-enabled: false
+    urls:
+      - name: Auth API (auth-api)
+        url: /auth-api/v3/api-docs

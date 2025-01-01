@@ -17,12 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.enumcode.RESPONSE_CODE;
+import spring.custom.common.exception.AppException;
 import spring.market.api.dto.ProductReqDto;
 import spring.market.api.dto.ProductResDto;
 import spring.market.api.service.ProductService;
 import spring.market.common.aop.annotation.Login;
 import spring.market.common.aop.annotation.UserInfo;
-import spring.market.common.exception.MarketException;
 import spring.market.common.vo.UserVo;
 
 @RestController
@@ -69,7 +69,7 @@ public class ProductController {
     try {
       resDto = productService.saveProduct(request, imgThumb);
     } catch (IllegalStateException|IOException e) {
-      throw new MarketException(RESPONSE_CODE.C002);
+      throw new AppException(RESPONSE_CODE.C002);
     }
     return ResponseDto.body(resDto);
   }

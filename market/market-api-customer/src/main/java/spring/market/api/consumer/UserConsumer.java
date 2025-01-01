@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import spring.custom.common.vo.User;
 import spring.market.api.entity.Customer;
 import spring.market.api.repository.MyInfoRepository;
-import spring.market.common.vo.User;
 
 @Component
 @RequiredArgsConstructor

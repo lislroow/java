@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import spring.custom.common.vo.User;
 import spring.market.api.dto.OrderReqDto;
 import spring.market.api.dto.OrderResDto;
 import spring.market.api.entity.Customer;
@@ -15,7 +16,6 @@ import spring.market.api.producer.OrderProducer;
 import spring.market.api.repository.CustomerRepository;
 import spring.market.api.repository.OrderRepository;
 import spring.market.common.dto.kafka.OrderDto;
-import spring.market.common.vo.User;
 import spring.market.common.vo.UserVo;
 
 @Service

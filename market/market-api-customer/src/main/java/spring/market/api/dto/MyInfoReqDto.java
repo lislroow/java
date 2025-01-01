@@ -1,7 +1,7 @@
 package spring.market.api.dto;
 
 import lombok.Data;
-import spring.market.common.enumcode.YN;
+import spring.custom.common.enumcode.YN;
 
 public class MyInfoReqDto {
   

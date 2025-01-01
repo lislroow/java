@@ -15,12 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.enumcode.RESPONSE_CODE;
+import spring.custom.common.exception.AppException;
 import spring.market.api.dto.ProductReqDto;
 import spring.market.api.dto.ProductResDto;
 import spring.market.api.entity.Product;
 import spring.market.api.repository.ProductRepository;
 import spring.market.common.constant.Constant;
-import spring.market.common.exception.MarketException;
 import spring.market.common.util.Uuid;
 
 @Service
@@ -62,7 +62,7 @@ public class ProductService {
     if (imgThumb != null) {
       String originName = imgThumb.getOriginalFilename();
       if (!StringUtils.hasLength(originName)) {
-        throw new MarketException(RESPONSE_CODE.C001);
+        throw new AppException(RESPONSE_CODE.C001);
       }
       String originExt = originName.substring(originName.lastIndexOf(".")+1, originName.length());
       String imgThumbPath = Constant.File.UPLOAD_PRODUCT + File.pathSeparator + Uuid.create() + "." + originExt;

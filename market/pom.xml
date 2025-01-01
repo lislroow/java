@@ -35,7 +35,6 @@
   <modules>
     <module>market-lib-common</module>
     <module>market-lib-api</module>
-    <module>market-api-auth</module>
     <module>market-api-customer</module>
     <module>market-api-delivery</module>
     <module>market-api-inventory</module>

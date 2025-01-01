@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "auth.social.user.defaultPassword",
+      "type": "java.lang.String"
+    }
+  ]
+}
