@@ -31,9 +31,6 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
   @Autowired
   private ApiClient apiClient;
   
-  @Autowired
-  private ObjectMapper objectMapper;
-  
   public AuthFilter() {
     super(Config.class);
   }
@@ -50,36 +47,37 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
       String token = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
       if (token != null && (token.startsWith("Bearer") || token.startsWith("bearer"))) {
         token = token.substring(7);
-      }
-      log.info(token);
-      
-      String api = String.format("%s/v1/token/verify/%s", authUrl, token);
-      ResponseDto<TokenResDto.Verify> resDto = null;
-      
-      RESPONSE failCode = RESPONSE.A002;
-      try {
-        resDto = apiClient.get(api, TokenResDto.Verify.class);
-        RESPONSE code = RESPONSE.fromCode(resDto.getHeader().getCode());
-        if (code != RESPONSE.S000) {
-          log.error("{} > {}", code, failCode);
+        
+        /* for debug */ if (log.isDebugEnabled()) log.info(token);
+        
+        String api = String.format("%s/v1/token/verify/%s", authUrl, token);
+        ResponseDto<TokenResDto.Verify> resDto = null;
+        
+        RESPONSE failCode = RESPONSE.A002;
+        try {
+          resDto = apiClient.get(api, TokenResDto.Verify.class);
+          RESPONSE code = RESPONSE.fromCode(resDto.getHeader().getCode());
+          if (code != RESPONSE.S000) {
+            log.error("{} > {}", code, failCode);
+            throw new AppException(failCode);
+          }
+          /* for debug */ if (log.isDebugEnabled()) log.info("{}", resDto.getBody());
+        } catch (AppException e) {
+          log.error("{} > {}", e, failCode);
+          throw new AppException(failCode);
+          
+        } catch (HttpServerErrorException e) {
+          log.error("{} > {}", e.getMessage(), failCode);
+          throw new AppException(failCode);
+          
+        } catch (HttpClientErrorException e) {
+          log.error("{} > {}", e.getMessage(), failCode);
+          throw new AppException(failCode);
+          
+        } catch (Exception e) {
+          log.error("{} > {}", e.getMessage(), failCode);
           throw new AppException(failCode);
         }
-        log.info("{}", resDto.getBody());
-      } catch (AppException e) {
-        log.error("{} > {}", e, failCode);
-        throw new AppException(failCode);
-        
-      } catch (HttpServerErrorException e) {
-        log.error("{} > {}", e.getMessage(), failCode);
-        throw new AppException(failCode);
-        
-      } catch (HttpClientErrorException e) {
-        log.error("{} > {}", e.getMessage(), failCode);
-        throw new AppException(failCode);
-        
-      } catch (Exception e) {
-        log.error("{} > {}", e.getMessage(), failCode);
-        throw new AppException(failCode);
       }
       return chain.filter(exchange);
     };
