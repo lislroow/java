@@ -18,7 +18,6 @@ import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.modelmapper.internal.util.Assert;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
@@ -144,7 +143,7 @@ public class TokenService {
   
   public TokenResDto.Verify verifyToken(String tokenId) {
     TokenResDto.Verify resDto = new TokenResDto.Verify();
-    Object accessToken = this.redisSupport.getHash(tokenId, Constant.Token.ACCESS_TOKEN);
+    String accessToken = this.redisSupport.getHash(tokenId, Constant.Token.ACCESS_TOKEN);
     Assert.isTrue(accessToken != null, "accessToken not be null");
     Assert.isTrue(accessToken instanceof String, "accessToken type is java.lang.String");
     

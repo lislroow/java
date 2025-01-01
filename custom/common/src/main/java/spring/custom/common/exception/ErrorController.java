@@ -1,4 +1,4 @@
-package spring.market.common.exception;
+package spring.custom.common.exception;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.enumcode.RESPONSE_CODE;
@@ -25,14 +25,19 @@ public class ErrorController extends AbstractErrorController {
   }
   
   @GetMapping(value = "/error", produces = "application/json;charset=UTF-8")
-  public ResponseEntity<ResponseDto<Serializable>> error(HttpServletRequest request) {
-    Map<String, Object> errorAttributes = super.getErrorAttributes(request, ErrorAttributeOptions.defaults());
-    HttpStatus status = getStatus(request);
+  public ResponseEntity<ResponseDto<Serializable>> error() {
+    //Map<String, Object> errorAttributes = super.getErrorAttributes(request, ErrorAttributeOptions.defaults());
+    //HttpStatus status = getStatus(request);
     RESPONSE_CODE responseCode = RESPONSE_CODE.E999;
-    errorAttributes.forEach((key, value) -> 
-      log.error("[{}] {}. {}={}", responseCode.code(), responseCode.message(), key, value)
-    );
-    return ResponseEntity.status(status)
+    //errorAttributes.forEach((key, value) -> 
+    //  log.error("[{}] {}. {}={}", responseCode.code(), responseCode.message(), key, value)
+    //);
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
         .body(ResponseDto.body(responseCode));
+  }
+
+  //@Override
+  public String getErrorPath() {
+    return "/error";
   }
 }

@@ -1,4 +1,4 @@
-package spring.market.common.exception;
+package spring.custom.common.exception;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import feign.FeignException;
+//import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.dto.ResponseDto;
@@ -33,13 +33,13 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
     return ResponseDto.body(e.getErrorCode(), e.getErrorMessage());
   }
   
-  @ExceptionHandler({FeignException.class})
-  @ResponseStatus(HttpStatus.OK)
-  protected ResponseDto<Serializable> handleFeignException(FeignException e) {
-    RESPONSE_CODE responseCode = RESPONSE_CODE.G001;
-    log.error(LOGFMT, responseCode.code(), responseCode.message(), e.getCause() != null ? CAUSE + e.getCause().getClass() : e.getClass());
-    return ResponseDto.body(responseCode.code(), responseCode.message());
-  }
+  //@ExceptionHandler({FeignException.class})
+  //@ResponseStatus(HttpStatus.OK)
+  //protected ResponseDto<Serializable> handleFeignException(FeignException e) {
+  //  RESPONSE_CODE responseCode = RESPONSE_CODE.G001;
+  //  log.error(LOGFMT, responseCode.code(), responseCode.message(), e.getCause() != null ? CAUSE + e.getCause().getClass() : e.getClass());
+  //  return ResponseDto.body(responseCode.code(), responseCode.message());
+  //}
   
   @ExceptionHandler({Exception.class})
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
