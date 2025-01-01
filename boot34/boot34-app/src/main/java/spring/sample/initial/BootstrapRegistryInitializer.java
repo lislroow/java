@@ -8,5 +8,6 @@ public class BootstrapRegistryInitializer implements org.springframework.boot.Bo
   public void initialize(BootstrapRegistry registry) {
     System.setProperty("java.net.preferIPv4Stack", "true");
     System.out.println("java.net.preferIPv4Stack=true");
+    System.setProperty("jasypt.encryptor.password", "123");
   }
 }

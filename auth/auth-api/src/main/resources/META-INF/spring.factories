@@ -1,2 +1,2 @@
 org.springframework.boot.BootstrapRegistryInitializer=\
-spring.auth.initial.BootstrapInitializer
+spring.auth.initial.BootstrapRegistryInitializer

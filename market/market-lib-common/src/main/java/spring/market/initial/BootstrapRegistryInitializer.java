@@ -2,7 +2,7 @@ package spring.market.initial;
 
 import org.springframework.boot.BootstrapRegistry;
 
-public class BootstrapInitializer implements org.springframework.boot.BootstrapRegistryInitializer {
+public class BootstrapRegistryInitializer implements org.springframework.boot.BootstrapRegistryInitializer {
 
   @Override
   public void initialize(BootstrapRegistry registry) {
