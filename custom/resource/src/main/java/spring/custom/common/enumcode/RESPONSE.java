@@ -1,6 +1,8 @@
 package spring.custom.common.enumcode;
 
-public enum RESPONSE_CODE {
+import java.util.Arrays;
+
+public enum RESPONSE {
   
   /** 성공 */
   S000("Success"),
@@ -21,7 +23,7 @@ public enum RESPONSE_CODE {
   
   private String message;
 
-  RESPONSE_CODE(String message){
+  RESPONSE(String message) {
     this.message = message;
   }
   
@@ -32,4 +34,16 @@ public enum RESPONSE_CODE {
   public String code() {
     return this.name();
   }
+  
+  public static RESPONSE fromCode(String code) {
+      return Arrays.stream(RESPONSE.values())
+          .filter(item -> item.code().equals(code))
+          .findFirst()
+          .orElseThrow(() -> new IllegalArgumentException(String.format("'%s' not exist.", code)));
+  }
+  
+  public String toString() {
+    return String.format("[%s] %s", this.code(), this.message);
+  }
+  
 }

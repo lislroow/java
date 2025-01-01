@@ -75,6 +75,7 @@ spring:
           uri: lb://story-app
           filters:
             - RewritePathFilter
+            - AuthFilter
         
         # market
         - id: market-api-customer

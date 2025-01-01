@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.dto.ResponseDto;
-import spring.custom.common.enumcode.RESPONSE_CODE;
+import spring.custom.common.enumcode.RESPONSE;
 
 @RestController
 @Slf4j
@@ -29,7 +29,7 @@ public class ErrorController extends AbstractErrorController {
   public ResponseEntity<ResponseDto<Serializable>> error(HttpServletRequest request) {
     Map<String, Object> errorAttributes = super.getErrorAttributes(request, ErrorAttributeOptions.defaults());
     HttpStatus status = getStatus(request);
-    RESPONSE_CODE responseCode = RESPONSE_CODE.E999;
+    RESPONSE responseCode = RESPONSE.E999;
     errorAttributes.forEach((key, value) -> 
       log.error("[{}] {}. {}={}", responseCode.code(), responseCode.message(), key, value)
     );

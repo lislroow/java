@@ -1,6 +1,6 @@
 package spring.custom.common.exception;
 
-import spring.custom.common.enumcode.RESPONSE_CODE;
+import spring.custom.common.enumcode.RESPONSE;
 
 public class AppException extends RuntimeException {
   
@@ -27,13 +27,13 @@ public class AppException extends RuntimeException {
     this.errorMessage = "";
   }
 
-  public AppException(RESPONSE_CODE responseCode) {
+  public AppException(RESPONSE responseCode) {
     super(responseCode.code());
     this.errorCode = responseCode.code();
     this.errorMessage = responseCode.message();
   }
 
-  public AppException(RESPONSE_CODE responseCode, Throwable cause) {
+  public AppException(RESPONSE responseCode, Throwable cause) {
     super(responseCode.code(), cause);
     this.errorCode = responseCode.code();
     this.errorMessage = responseCode.message();

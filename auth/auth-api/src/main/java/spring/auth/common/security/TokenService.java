@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 import spring.auth.common.constant.Constant;
 import spring.auth.config.properties.JwtProperties;
 import spring.custom.common.dto.TokenResDto;
-import spring.custom.common.enumcode.RESPONSE_CODE;
+import spring.custom.common.enumcode.RESPONSE;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.vo.SessionUser;
@@ -128,7 +128,7 @@ public class TokenService {
       this.redisSupport.setHash(tokenId, Constant.Token.ACCESS_TOKEN, token);
     } catch (Exception e) {
       log.error("message: {}", e.getMessage());
-      throw new AppException(RESPONSE_CODE.A001, e);
+      throw new AppException(RESPONSE.A001, e);
     }
     return tokenId;
   }
@@ -144,11 +144,9 @@ public class TokenService {
   public TokenResDto.Verify verifyToken(String tokenId) {
     TokenResDto.Verify resDto = new TokenResDto.Verify();
     String accessToken = this.redisSupport.getHash(tokenId, Constant.Token.ACCESS_TOKEN);
-    Assert.isTrue(accessToken != null, "accessToken not be null");
-    Assert.isTrue(accessToken instanceof String, "accessToken type is java.lang.String");
     
     if (accessToken == null) {
-      throw new AppException(RESPONSE_CODE.A003);
+      throw new AppException(RESPONSE.A003);
     }
     
     try {
@@ -157,10 +155,10 @@ public class TokenService {
         String email = signedJWT.getJWTClaimsSet().getSubject();
         resDto.setUserId(email);
       } else {
-        throw new AppException(RESPONSE_CODE.A002);
+        throw new AppException(RESPONSE.A002);
       }
     } catch (JOSEException | ParseException e) {
-      throw new AppException(RESPONSE_CODE.A002);
+      throw new AppException(RESPONSE.A002);
     }
     return resDto;
   }

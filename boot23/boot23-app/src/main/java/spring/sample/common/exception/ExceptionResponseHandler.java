@@ -14,8 +14,8 @@ import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.dto.ResponseDto;
-import spring.custom.common.enumcode.RESPONSE_CODE;
-import spring.custom.common.exception.BizException;
+import spring.custom.common.enumcode.RESPONSE;
+import spring.custom.common.exception.AppException;
 
 @ControllerAdvice
 @RestController
@@ -26,9 +26,9 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
   static final String LOGFMT = "[{}] {}. {}";
   static final String CAUSE = "/ cause: ";
   
-  @ExceptionHandler({BizException.class})
+  @ExceptionHandler({AppException.class})
   @ResponseStatus(HttpStatus.OK)
-  protected ResponseDto<Serializable> handleMarketException(BizException e, WebRequest request) {
+  protected ResponseDto<Serializable> handleMarketException(AppException e, WebRequest request) {
     log.error(LOGFMT, e.getErrorCode(), e.getErrorMessage(), e.getCause() != null ? CAUSE + e.getCause().getClass() : e.getClass());
     return ResponseDto.body(e.getErrorCode(), e.getErrorMessage());
   }
@@ -36,7 +36,7 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler({FeignException.class})
   @ResponseStatus(HttpStatus.OK)
   protected ResponseDto<Serializable> handleFeignException(FeignException e) {
-    RESPONSE_CODE responseCode = RESPONSE_CODE.E001;
+    RESPONSE responseCode = RESPONSE.E001;
     log.error(LOGFMT, responseCode.code(), responseCode.message(), e.getCause() != null ? CAUSE + e.getCause().getClass() : e.getClass());
     return ResponseDto.body(responseCode.code(), responseCode.message());
   }
@@ -44,7 +44,7 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler({Exception.class})
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   protected ResponseDto<Serializable> handleException(Exception e) {
-    RESPONSE_CODE responseCode = RESPONSE_CODE.E999;
+    RESPONSE responseCode = RESPONSE.E999;
     log.error(LOGFMT, responseCode.code(), responseCode.message(), e.getCause() != null ? CAUSE + e.getCause().getClass() : e.getClass());
     return ResponseDto.body(responseCode.code(), responseCode.message());
   }
