@@ -11,9 +11,9 @@ import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.enumcode.RESPONSE;
 import spring.custom.common.exception.AppException;
 
-@RestControllerAdvice
+@RestControllerAdvice // @ControllerAdvice 일 경우 view resolver 를 찾게 됨
 @Slf4j
-public class WebFluxExceptionResponseHandler {
+public class ControllerExceptionHandlerWebFlux {
 
   static final String LOGFMT = "[{}] {}. {}";
   static final String CAUSE = "/ cause: ";
@@ -25,7 +25,7 @@ public class WebFluxExceptionResponseHandler {
     /* for debug */ log.error(LOGFMT, e.getErrorCode(), e.getErrorMessage(), e.getCause() != null ? CAUSE + e.getCause().getClass() : e.getClass());
     return Mono.just(resDto);
   }
-
+  
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public Mono<ResponseDto<?>> handleException(Exception e) {

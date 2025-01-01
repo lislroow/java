@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.auth.common.security.TokenService;
+import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.dto.TokenResDto;
 
 @RestController
@@ -15,9 +16,9 @@ public class TokenController {
   final TokenService tokenService;
   
   @GetMapping("/v1/token/verify/{token}")
-  public TokenResDto.Verify verityToken(@PathVariable("token") String token) {
-    TokenResDto.Verify resDto = tokenService.verifyToken(token);
-    return resDto;
+  public ResponseDto<TokenResDto.Verify> verityToken(@PathVariable("token") String token) {
+    TokenResDto.Verify result = tokenService.verifyToken(token);
+    return ResponseDto.body(result);
   }
   
 }
