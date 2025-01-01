@@ -1,4 +1,4 @@
-package spring.sample.config.properties;
+package spring.cloud.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

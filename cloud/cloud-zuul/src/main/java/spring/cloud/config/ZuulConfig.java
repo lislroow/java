@@ -1,9 +1,9 @@
-package spring.sample.config;
+package spring.cloud.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import spring.sample.filter.HostRoutingZuulFilter;
+import spring.cloud.filter.HostRoutingZuulFilter;
 
 @Configuration
 public class ZuulConfig {

@@ -1,4 +1,4 @@
-package spring.sample.initial;
+package spring.cloud.initial;
 
 import org.springframework.boot.BootstrapRegistry;
 

@@ -1,4 +1,4 @@
-package spring.sample.filter;
+package spring.cloud.filter;
 
 import java.nio.charset.StandardCharsets;
 

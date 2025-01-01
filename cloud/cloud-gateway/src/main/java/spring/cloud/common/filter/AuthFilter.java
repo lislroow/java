@@ -1,4 +1,4 @@
-package spring.sample.common.filter;
+package spring.cloud.common.filter;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;

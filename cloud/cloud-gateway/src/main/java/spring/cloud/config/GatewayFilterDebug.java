@@ -1,4 +1,4 @@
-package spring.sample.config;
+package spring.cloud.config;
 
 import org.springframework.cloud.gateway.filter.factory.GatewayFilterFactory;
 import org.springframework.context.ApplicationContext;

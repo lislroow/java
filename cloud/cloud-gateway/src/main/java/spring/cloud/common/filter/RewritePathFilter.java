@@ -1,4 +1,4 @@
-package spring.sample.common.filter;
+package spring.cloud.common.filter;
 
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 

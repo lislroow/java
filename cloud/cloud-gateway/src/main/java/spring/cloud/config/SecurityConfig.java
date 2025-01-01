@@ -1,9 +1,9 @@
-package spring.sample.config;
+package spring.cloud.config;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import spring.sample.config.properties.SecurityConfigProperties;
+import spring.cloud.config.properties.SecurityConfigProperties;
 
 //@Configuration
 //@EnableConfigurationProperties({SecurityConfigProperties.class})

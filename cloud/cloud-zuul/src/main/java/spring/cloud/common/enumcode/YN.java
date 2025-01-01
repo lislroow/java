@@ -1,4 +1,4 @@
-package spring.sample.common.enumcode;
+package spring.cloud.common.enumcode;
 
 public enum YN {
   Y, N;
