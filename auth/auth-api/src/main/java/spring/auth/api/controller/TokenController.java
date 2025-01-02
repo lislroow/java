@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import spring.auth.common.security.TokenService;
 import spring.custom.common.dto.ResponseDto;
-import spring.custom.common.dto.TokenResDto;
+import spring.custom.dto.TokenResDto;
 
 @RestController
 @RequiredArgsConstructor

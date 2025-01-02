@@ -1,4 +1,4 @@
-package spring.custom.common.runtime;
+package spring.custom.initial;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,19 +14,29 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 
-import spring.custom.common.vo.BootJarVo;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-public class ClasspathLibs {
+public class Classpath {
   
   public static final String REGEX_BOOT_JAR = "(?:nested:)(.*)(?:/!BOOT-INF/.*)";
   public static final String REGEX_JAVA_CLASSPATH = "(.*?)(?:-)*(\\d+(?:\\.[a-zA-Z0-9]+)*(?:-[a-zA-Z0-9_-]*)*)*(?=\\.jar)";
   public static final String REGEX_CLASSPATH_IDX = "(?<=BOOT-INF/lib/)"+REGEX_JAVA_CLASSPATH;
   
   public static final String FILE_CLASSPATH_IDX = "BOOT-INF/classpath.idx";
+
+  @Data
+  @AllArgsConstructor
+  public static class BootJarVo {
+    
+    private String jar;
+    private String version;
+    
+  }
   
   public static List<BootJarVo> getBootJars() {
     List<BootJarVo> result = new ArrayList<>();
-    URL jarUrl = ClasspathLibs.class
+    URL jarUrl = Classpath.class
         .getProtectionDomain()
         .getCodeSource()
         .getLocation();

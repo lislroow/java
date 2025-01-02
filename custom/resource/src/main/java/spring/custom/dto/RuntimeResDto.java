@@ -1,9 +1,9 @@
-package spring.custom.common.dto;
+package spring.custom.dto;
 
 import java.util.List;
 
 import lombok.Data;
-import spring.custom.common.vo.BootJarVo;
+import spring.custom.initial.Classpath;
 
 public class RuntimeResDto {
   
@@ -11,6 +11,6 @@ public class RuntimeResDto {
   
   @Data
   public static class BootJar {
-    private List<BootJarVo> list;
+    private List<Classpath.BootJarVo> list;
   }
 }

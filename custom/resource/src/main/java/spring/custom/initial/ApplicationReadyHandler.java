@@ -9,9 +9,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.runtime.ClasspathLibs;
 import spring.custom.common.util.AsciiTable;
-import spring.custom.common.vo.BootJarVo;
 
 @Component
 @Slf4j
@@ -38,13 +36,13 @@ public class ApplicationReadyHandler {
   
   @EventListener
   public void applicationReady(ApplicationReadyEvent event) {
-    List<BootJarVo> list = ClasspathLibs.getBootJars();
-    List<BootJarVo> coreList = list.stream()
+    List<Classpath.BootJarVo> list = Classpath.getBootJars();
+    List<Classpath.BootJarVo> coreList = list.stream()
         .filter(item -> CORE_LIST.contains(item.getJar()))
         .collect(Collectors.toList());
     log.info("Application Info # Core Libraries\n{}", AsciiTable.getTable(coreList, "jar", "ver"));
     
-    List<BootJarVo> jdbcList = list.stream()
+    List<Classpath.BootJarVo> jdbcList = list.stream()
         .filter(item -> JDBC_LIST.contains(item.getJar()))
         .collect(Collectors.toList());
     log.info("Application Info # JDBC Libraries\n{}", AsciiTable.getTable(jdbcList, "jar", "ver"));

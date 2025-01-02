@@ -1,4 +1,4 @@
-package spring.custom.common.dto;
+package spring.custom.dto;
 
 import java.io.Serializable;
 

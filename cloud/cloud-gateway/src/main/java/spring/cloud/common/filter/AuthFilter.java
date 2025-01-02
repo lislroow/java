@@ -15,11 +15,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import spring.cloud.api.dto.TokenResDto;
 import spring.cloud.common.client.ApiClient;
 import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.enumcode.RESPONSE;
 import spring.custom.common.exception.AppException;
+import spring.custom.dto.TokenResDto;
 
 @Component
 @Slf4j

@@ -36,11 +36,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.auth.common.constant.Constant;
 import spring.auth.config.properties.JwtProperties;
-import spring.custom.common.dto.TokenResDto;
 import spring.custom.common.enumcode.RESPONSE;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.vo.SessionUser;
+import spring.custom.dto.TokenResDto;
 
 @Component
 @Slf4j
