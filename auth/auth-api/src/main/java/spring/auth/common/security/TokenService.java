@@ -15,6 +15,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.time.Duration;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
@@ -35,9 +36,10 @@ import com.nimbusds.jwt.SignedJWT;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.auth.config.properties.JwtProperties;
+import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.RESPONSE;
 import spring.custom.common.enumcode.Role;
+import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.vo.AuthPrincipal;
@@ -49,23 +51,27 @@ import spring.custom.dto.TokenResDto;
 public class TokenService {
   
   final RedisSupport redisSupport;
-  final JwtProperties jwtProperties;
+
+  private final String PUBLIC_KEY_FILE_PATH = "C:\\project\\java\\auth\\auth-api\\config\\cert\\star.develop.net.crt";
+  private final String PRIVATE_KEY_FILE_PATH = "C:\\project\\java\\auth\\auth-api\\config\\cert\\star.develop.net.key";
+  private final String ISSUER = "market.develop.net";
+  private final Integer RTK_EXPIRE_SEC = 60 * 10;
+  private final Integer ATK_EXPIRE_SEC = 60 * 60 * 24;
+  private final Long RTK_EXPIRE_MILLS = RTK_EXPIRE_SEC * Constant.MILLS;
+  private final Long ATK_EXPIRE_MILLS = ATK_EXPIRE_SEC * Constant.MILLS;
   
-  private Long refreshTokenExpTm;
-  private Long accessTokenExpTm;
+  private final String REDIS_RTK_KEY_FMT = "token:rtk:%s:%s";
+  private final String REDIS_ATK_KEY_FMT = "token:atk:%s:%s";
   
   private JWSSigner signer;
   private RSASSAVerifier verifier;
-
+  
   @PostConstruct
   public void init() throws CertificateException, IOException {
-    RSAPublicKey publicKey = loadRSAPublicKey(jwtProperties.getCert().getPublicKeyFilePath());
+    RSAPublicKey publicKey = loadRSAPublicKey(PUBLIC_KEY_FILE_PATH);
     this.verifier = new RSASSAVerifier(publicKey);
-    
-    RSAPrivateKey privateKey = loadRSAPrivateKey(jwtProperties.getCert().getPrivateKeyFilePath());
+    RSAPrivateKey privateKey = loadRSAPrivateKey(PRIVATE_KEY_FILE_PATH);
     this.signer = new RSASSASigner(privateKey);
-    this.refreshTokenExpTm = jwtProperties.getToken().getRefreshTokenExpireTime();
-    this.accessTokenExpTm = jwtProperties.getToken().getRefreshTokenExpireTime();
   }
   
   private RSAPrivateKey loadRSAPrivateKey(String keyFilePath) throws IOException {
@@ -73,10 +79,8 @@ public class TokenService {
           PEMParser pemParser = new PEMParser(keyReader)) {
       Object object = pemParser.readObject();
       PrivateKeyInfo privateKeyInfo = (PrivateKeyInfo) object;
-      
       JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
       PrivateKey privateKey = converter.getPrivateKey(privateKeyInfo);
-      
       return (RSAPrivateKey) privateKey;
     }
   }
@@ -89,23 +93,21 @@ public class TokenService {
     }
   }
   
-  public TokenResDto.Create createToken(org.springframework.security.core.Authentication authentication, String ip, String userAgent) {
+  public TokenResDto.Create createToken(org.springframework.security.core.Authentication authentication, String clientIp, String userAgent) {
     AuthPrincipal authPrincipal = (AuthPrincipal) authentication.getPrincipal();
     String username = authPrincipal.getUsername();
     String rtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
     String atkUuid = UUID.randomUUID().toString().replaceAll("-", "");
-    String clientIdent = this.sha256(ip + userAgent);
     TokenResDto.Create result = new TokenResDto.Create();
     result.setRtkUuid(rtkUuid);
     result.setAtkUuid(atkUuid);
     try {
       JWTClaimsSet claimsSet;
       SignedJWT signedJWT;
-      String redisKey;
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
-          .issuer(jwtProperties.getToken().getIssuer())
-          .expirationTime(new Date(new Date().getTime() + refreshTokenExpTm * 1000))
+          .issuer(ISSUER)
+          .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
           .claim("role", Role.ROLE_USER.name())
           .build();
       signedJWT = new SignedJWT(
@@ -113,14 +115,12 @@ public class TokenService {
           claimsSet
           );
       signedJWT.sign(this.signer);
-      redisKey = String.format("token:rtk:%s:%s", rtkUuid, clientIdent);
-      Duration ttl = Duration.ofSeconds(refreshTokenExpTm);
-      this.redisSupport.setValue(redisKey, signedJWT.serialize(), ttl); // refreshToken 의 expireTime 을 ttl 로 설정
+      this.setToken(TOKEN.REFRESH_TOKEN, rtkUuid, clientIp, userAgent, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
       
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
-          .issuer(jwtProperties.getToken().getIssuer())
-          .expirationTime(new Date(new Date().getTime() + accessTokenExpTm * 1000))
+          .issuer(ISSUER)
+          .expirationTime(new Date(System.currentTimeMillis() + ATK_EXPIRE_MILLS))
           .claim("role", Role.ROLE_USER.name())
           .build();
       signedJWT = new SignedJWT(
@@ -128,8 +128,7 @@ public class TokenService {
           claimsSet
       );
       signedJWT.sign(this.signer);
-      redisKey = String.format("token:atk:%s:%s", atkUuid, clientIdent);
-      this.redisSupport.setValue(redisKey, signedJWT.serialize(), ttl);
+      this.setToken(TOKEN.ACCESS_TOKEN, atkUuid, clientIp, userAgent, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
     } catch (Exception e) { 
       log.error("message: {}", e.getMessage());
       throw new AppException(RESPONSE.A001, e);
@@ -137,16 +136,9 @@ public class TokenService {
     return result;
   }
   
-  public TokenResDto.Verify verifyToken(String atkUuid, String ip, String userAgent) {
+  public TokenResDto.Verify verifyToken(String atkUuid, String clientIp, String userAgent) {
     TokenResDto.Verify resDto = new TokenResDto.Verify();
-    
-    String clientIdent = this.sha256(ip + userAgent);
-    String redisKey = String.format("token:atk:%s:%s", atkUuid, clientIdent);
-    String accessToken = this.redisSupport.getValue(redisKey);
-    
-    if (accessToken == null) {
-      throw new AppException(RESPONSE.A003);
-    }
+    String accessToken = this.getToken(TOKEN.ACCESS_TOKEN, atkUuid, clientIp, userAgent).orElseThrow(() -> new AppException(RESPONSE.A003));
     
     try {
       SignedJWT signedJWT = SignedJWT.parse(accessToken);
@@ -163,15 +155,12 @@ public class TokenService {
     return resDto;
   }
   
-  public TokenResDto.Create refreshToken(String oldRtkUuid, String ip, String userAgent) {
-    String clientIdent = this.sha256(ip + userAgent);
-    String oldRedisKey = String.format("token:rtk:%s:%s", oldRtkUuid, clientIdent);
+  public TokenResDto.Create refreshToken(String oldRtkUuid, String clientIp, String userAgent) {
+    String oldRedisKey = this.getRedisKey(TOKEN.REFRESH_TOKEN, oldRtkUuid, clientIp, userAgent);
     String refreshToken = this.redisSupport.getValue(oldRedisKey);
-    
     if (refreshToken == null) {
       throw new AppException(RESPONSE.A004);
     }
-    
     String username = null;
     try {
       SignedJWT signedJWT = SignedJWT.parse(refreshToken);
@@ -183,7 +172,7 @@ public class TokenService {
     } catch (JOSEException | ParseException e) {
       throw new AppException(RESPONSE.A004);
     }
-    String newRedisKey;
+    
     String newRtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
     String newAtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
     TokenResDto.Create result = new TokenResDto.Create();
@@ -194,8 +183,8 @@ public class TokenService {
       SignedJWT signedJWT;
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
-          .issuer(jwtProperties.getToken().getIssuer())
-          .expirationTime(new Date(new Date().getTime() + refreshTokenExpTm * 1000))
+          .issuer(ISSUER)
+          .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
           .claim("role", Role.ROLE_USER.name())
           .build();
       signedJWT = new SignedJWT(
@@ -203,14 +192,12 @@ public class TokenService {
           claimsSet
           );
       signedJWT.sign(this.signer);
-      newRedisKey = String.format("token:rtk:%s:%s", newRtkUuid, clientIdent);
-      Duration ttl = Duration.ofSeconds(refreshTokenExpTm);
-      this.redisSupport.setValue(newRedisKey, signedJWT.serialize(), ttl); // refreshToken 의 expireTime 을 ttl 로 설정
+      this.setToken(TOKEN.REFRESH_TOKEN, newRtkUuid, clientIp, userAgent, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
       
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
-          .issuer(jwtProperties.getToken().getIssuer())
-          .expirationTime(new Date(new Date().getTime() + accessTokenExpTm * 1000))
+          .issuer(ISSUER)
+          .expirationTime(new Date(System.currentTimeMillis() + ATK_EXPIRE_MILLS))
           .claim("role", Role.ROLE_USER.name())
           .build();
       signedJWT = new SignedJWT(
@@ -218,34 +205,54 @@ public class TokenService {
           claimsSet
       );
       signedJWT.sign(this.signer);
-      newRedisKey = String.format("token:atk:%s:%s", newAtkUuid, clientIdent);
-      this.redisSupport.setValue(newRedisKey, signedJWT.serialize(), ttl);
+      this.setToken(TOKEN.ACCESS_TOKEN, newAtkUuid, clientIp, userAgent, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
     } catch (Exception e) { 
       log.error("message: {}", e.getMessage());
       throw new AppException(RESPONSE.A004, e);
     }
-    
     this.redisSupport.delValue(oldRedisKey);
-    
     return result;
   }
-
-  private String sha256(String plainText) {
+  
+  private String getRedisKey(TOKEN type, String tokenUuid, String clientIp, String userAgent) {
+    String redisKey = null;
+    String clientIdent = this.getClientIdent(clientIp, userAgent);
+    switch (type) {
+    case REFRESH_TOKEN:
+      redisKey = String.format(REDIS_RTK_KEY_FMT, tokenUuid, clientIdent);
+      break;
+    case ACCESS_TOKEN:
+      redisKey = String.format(REDIS_ATK_KEY_FMT, tokenUuid, clientIdent);
+      break;
+    }
+    return redisKey;
+  }
+  
+  private Optional<String> getToken(TOKEN type, String tokenUuid, String clientIp, String userAgent) {
+    String redisKey = this.getRedisKey(type, tokenUuid, clientIp, userAgent);
+    return Optional.of(this.redisSupport.getValue(redisKey));
+  }
+  
+  private void setToken(TOKEN type, String tokenUuid, String clientIp, String userAgent, String token, Duration ttl) {
+    String redisKey = this.getRedisKey(type, tokenUuid, clientIp, userAgent);
+    this.redisSupport.setValue(redisKey, token, ttl);
+  }
+  
+  private String getClientIdent(String clientIp, String userAgent) {
     MessageDigest digest;
     try {
       digest = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
       throw new AppException(RESPONSE.E002.code(), e.getMessage());
     }
-    byte[] encodedHash = digest.digest(plainText.getBytes(StandardCharsets.UTF_8));
-    StringBuilder hexString = new StringBuilder();
+    byte[] encodedHash = digest.digest((clientIp + userAgent).getBytes(StandardCharsets.UTF_8));
+    StringBuilder clientIdent = new StringBuilder();
     for (byte b : encodedHash) {
-        String hex = Integer.toHexString(0xff & b);
-        if (hex.length() == 1) hexString.append('0'); // 한 자리 수는 앞에 '0' 추가
-        hexString.append(hex);
+      String hex = Integer.toHexString(0xff & b);
+      if (hex.length() == 1) clientIdent.append('0'); // 한 자리 수는 앞에 '0' 추가
+      clientIdent.append(hex);
     }
-    
-    /* for test */ hexString = new StringBuilder("a013e2bad0956321b787cf5cab9f229b02e739996b8c4c8116894a339ecdaf5c");
-    return hexString.toString();
+    /* for test */ clientIdent = new StringBuilder("a013e2bad0956321b787cf5cab9f229b02e739996b8c4c8116894a339ecdaf5c");
+    return clientIdent.toString();
   }
 }

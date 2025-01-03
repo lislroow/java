@@ -32,11 +32,10 @@ import spring.auth.common.security.TokenService;
 import spring.auth.common.security.UsernamePasswordAuthenticationFailureHandler;
 import spring.auth.common.security.UsernamePasswordAuthenticationSuccessHandler;
 import spring.auth.common.security.UsernamePasswordDetailsService;
-import spring.auth.config.properties.JwtProperties;
 import spring.custom.common.enumcode.PROTOTYPE_URI;
 
 @Configuration
-@EnableConfigurationProperties({ OAuth2ClientProperties.class, JwtProperties.class })
+@EnableConfigurationProperties({ OAuth2ClientProperties.class })
 @RequiredArgsConstructor
 public class SecurityConfig {
   

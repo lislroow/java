@@ -34,4 +34,18 @@ public class ApiClient {
     return resDto;
   }
   
+  public <T> ResponseDto<T> post(String url, Object requestBody, Class<T> responseType) {
+    ResponseDto<T> resDto = null;
+    ResponseEntity<String> resEntity = restTemplate.postForEntity(url, requestBody, String.class);
+    String body = resEntity.getBody();
+    JavaType javaType = objectMapper.getTypeFactory()
+        .constructParametricType(ResponseDto.class, responseType);
+    try {
+      resDto = objectMapper.readValue(body, javaType);
+    } catch (JsonProcessingException e) {
+      log.error("{}", e.getMessage());
+    }
+    return resDto;
+  }
+  
 }

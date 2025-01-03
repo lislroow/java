@@ -9,6 +9,7 @@ public class Constant {
   public static final String ENCODING_UTF8 = "utf-8";
   public static final String ENABLED = "enabled";
   public static final String CUSTOM = "custom";
+  public static final Long MILLS = 1000L;
   
   public static class DBMS {
     public static final String H2 = "h2";
@@ -29,11 +30,6 @@ public class Constant {
     public static final String X_RTKID = "X-RTKID";
     public static final String X_CAPTCHA_EC = "X-CAPTCHA-EC";
     public static final String X_CAPTCHA_ANSWER = "X-CAPTCHA-ANSWER";
-  }
-  
-  public static class Token {
-    public static final String ACCESS_TOKEN = "atk";
-    public static final String REFRESH_TOKEN = "rtk";
   }
   
   public static class File {

@@ -15,6 +15,7 @@ import spring.cloud.common.client.ApiClient;
 import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.enumcode.RESPONSE;
 import spring.custom.common.exception.AppException;
+import spring.custom.dto.TokenReqDto;
 import spring.custom.dto.TokenResDto;
 
 @Component
@@ -22,7 +23,7 @@ import spring.custom.dto.TokenResDto;
 public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> {
   
   //@Value("${cloud.gateway.auth-url}")
-  private String authUrl = "http://localhost/auth-api";
+  private final String AUTH_URL = "http://localhost/auth-api/v1/token/verify";
   
   @Autowired
   private ApiClient apiClient;
@@ -46,12 +47,13 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
         
         /* for debug */ if (log.isDebugEnabled()) log.info(token);
         
-        String api = String.format("%s/v1/token/verify/%s", authUrl, token);
         ResponseDto<TokenResDto.Verify> resDto = null;
         
         RESPONSE failCode = RESPONSE.A002;
+        TokenReqDto.Verify requestBody = new TokenReqDto.Verify();
+        requestBody.setAtkUuid(token);
         try {
-          resDto = apiClient.get(api, TokenResDto.Verify.class);
+          resDto = apiClient.post(AUTH_URL, requestBody, TokenResDto.Verify.class);
           RESPONSE code = RESPONSE.fromCode(resDto.getHeader().getCode());
           if (code != RESPONSE.S000) {
             log.error("{} > {}", code, failCode);
