@@ -68,7 +68,7 @@ public class MybatisCrudController {
   }
   
   @GetMapping("/v1/mybatis-crud/scientist/list/{name}")
-  public PagedList<ScientistVo> findListByName(
+  public ResponseDto<PagedList<ScientistVo>> findListByName(
       @PathVariable String name, Pageable pageable) {
     
     ScientistVo.FindVo vo = ScientistVo.FindVo.builder()
@@ -76,7 +76,7 @@ public class MybatisCrudController {
         .build();
     vo.setPageable(pageable);
     PagedList<ScientistVo> result = scientistDao.findListByName(vo);
-    return result;
+    return ResponseDto.body(result);
   }
   
   @PostMapping("/v1/mybatis-crud/scientist")
