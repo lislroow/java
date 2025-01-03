@@ -22,6 +22,7 @@ public class MemberVo implements Serializable {
   private String registrationId;
   private String oauth2Id;
   private String email;
+  private String password;
   private String nickname;
   private String role;
   private String ip;

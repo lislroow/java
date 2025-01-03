@@ -17,6 +17,7 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
   private static final long serialVersionUID = 2501815366855398147L;
 
   private String username;
+  private String password;
   private String nickname;
   private String role;
   private String ip;
@@ -27,6 +28,7 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
   
   public AuthPrincipal(MemberVo memberVo) {
     this.username = memberVo.getEmail();
+    this.password = memberVo.getPassword();
     this.nickname = memberVo.getNickname();
     this.role = memberVo.getRole();
     this.ip = memberVo.getIp();
@@ -58,8 +60,7 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
   // [UserDetails]
   @Override
   public String getPassword() {
-    //return user.getPassword();
-    return "";
+    return this.password;
   }
   @Override
   public String getUsername() {
