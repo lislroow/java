@@ -10,30 +10,33 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import lombok.Data;
-import spring.custom.common.enumcode.Role;
 
 @Data
-public class SessionUser implements OAuth2User, UserDetails {
+public class AuthPrincipal implements OAuth2User, UserDetails {
   
   private static final long serialVersionUID = 2501815366855398147L;
 
   private String username;
   private String nickname;
-  private Role role;
+  private String role;
+  private String ip;
+  private String userAgent;
   
   //private User user;
   private transient Map<String,Object> attributes;
   
-  public SessionUser(MemberVo memberVo) {
+  public AuthPrincipal(MemberVo memberVo) {
     this.username = memberVo.getEmail();
     this.nickname = memberVo.getNickname();
+    this.role = memberVo.getRole();
+    this.ip = memberVo.getIp();
+    this.userAgent = memberVo.getUserAgent();
   }
   
   // [OAuth2User, UserDetails]
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    //return Collections.singleton(new SimpleGrantedAuthority(user.getRole().name()));
-    return Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER"));
+    return Collections.singleton(new SimpleGrantedAuthority(this.role));
   }
   // --[OAuth2User, UserDetails]
   

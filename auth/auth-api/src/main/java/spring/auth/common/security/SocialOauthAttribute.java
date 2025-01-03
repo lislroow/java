@@ -4,6 +4,7 @@ import java.util.Map;
 
 import lombok.Builder;
 import lombok.Getter;
+import spring.custom.common.enumcode.Role;
 import spring.custom.common.vo.MemberVo;
 
 @Getter

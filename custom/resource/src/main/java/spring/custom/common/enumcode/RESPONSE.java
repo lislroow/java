@@ -7,6 +7,7 @@ public enum RESPONSE {
   /** 성공 */
   S000("Success"),
   E001("openfeign error"),
+  E002("encrypt error"),
   E999("unknown error"),
   G001("api gateway error"),
   G002("server status 503"),
@@ -15,7 +16,9 @@ public enum RESPONSE {
   A001("token creation error"),
   A002("token verification error"),
   A003("token is empty"),
+  A004("token refresh error"),
   AL01("login required, userId is null"),
+  AL02("user not found"),
   C001("illegal access"),
   C002("fail to save")
   ;

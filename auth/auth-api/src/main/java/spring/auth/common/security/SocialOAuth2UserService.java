@@ -10,11 +10,18 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.MemberDao;
+import spring.custom.common.constant.Constant;
+import spring.custom.common.enumcode.RESPONSE;
+import spring.custom.common.enumcode.Role;
+import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.MemberVo;
-import spring.custom.common.vo.SessionUser;
+import spring.custom.common.vo.AuthPrincipal;
 
 @Service
 @RequiredArgsConstructor
@@ -36,12 +43,15 @@ public class SocialOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
     String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
     SocialOauthAttribute attributes = SocialOauthAttribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
-    MemberVo memberVo = attributes.toVo();
-    MemberVo selVo = memberDao.selectByEmail(memberVo.getEmail());
-    if (selVo == null) {
-      memberDao.insert(memberVo);
-      selVo = memberDao.selectByEmail(memberVo.getEmail());
-    }
-    return new SessionUser(selVo);
+    MemberVo vo = attributes.toVo();
+    MemberVo memberVo = memberDao.selectByEmail(vo.getEmail()).orElseGet(() -> {
+      memberDao.insert(vo);
+      return memberDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(RESPONSE.AL02));
+    });
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    memberVo.setIp(request.getRemoteAddr());
+    memberVo.setUserAgent(request.getHeader(Constant.HTTP_HEADER.USER_AGENT));
+    memberVo.setRole(Role.ROLE_USER.name());
+    return new AuthPrincipal(memberVo);
   }
 }

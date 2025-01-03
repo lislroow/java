@@ -28,8 +28,10 @@ public class RedisController {
   
   @PostConstruct
   public void init() {
-    redisSupport.setValue("custom.value.string", "value-string");
-    redisSupport.setHash("custom.hash.string", "hash-key-string", "hash-value-string");
+    redisSupport.setValue("test:test-key1", "my-value1");
+    redisSupport.setValue("test:test-key2", "my-value2");
+    redisSupport.setHash("test:test-hkey", "my-key1", "my-value1");
+    redisSupport.setHash("test:test-hkey", "my-key2", "my-value2");
   }
   
   @GetMapping("/v1/redis/keys")

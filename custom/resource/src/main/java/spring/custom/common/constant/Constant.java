@@ -24,14 +24,16 @@ public class Constant {
   }
   
   public static class HTTP_HEADER {
-    public static final String X_TOKEN_ID = "X-TOKEN-ID";
+    public static final String USER_AGENT = "User-Agent";
+    public static final String X_ATKID = "X-ATKID";
+    public static final String X_RTKID = "X-RTKID";
     public static final String X_CAPTCHA_EC = "X-CAPTCHA-EC";
     public static final String X_CAPTCHA_ANSWER = "X-CAPTCHA-ANSWER";
   }
   
   public static class Token {
-    public static final String ACCESS_TOKEN = "accessToken";
-    public static final String REFRESH_TOKEN = "refreshToken";
+    public static final String ACCESS_TOKEN = "atk";
+    public static final String REFRESH_TOKEN = "rtk";
   }
   
   public static class File {

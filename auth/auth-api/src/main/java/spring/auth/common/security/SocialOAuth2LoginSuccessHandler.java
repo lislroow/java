@@ -14,7 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.vo.SessionUser;
+import spring.custom.common.constant.Constant;
+import spring.custom.common.vo.AuthPrincipal;
+import spring.custom.dto.TokenResDto;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,14 +28,23 @@ public class SocialOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) throws IOException, ServletException {
     Assert.isTrue(authentication.getPrincipal() != null, "authentication.getPrincipal() is null");
-    Assert.isTrue(authentication.getPrincipal() instanceof SessionUser, "authentication.getPrincipal() is not SessionUser type");
+    Assert.isTrue(authentication.getPrincipal() instanceof AuthPrincipal, "authentication.getPrincipal() is not SessionUser type");
     
-    try {
-      ResponseCookie cookie = tokenService.createTokenCookie(authentication);
-      response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-    } catch (Exception e) {
-      log.error(e.getMessage());
-    }
+    String ip = request.getRemoteAddr();
+    String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
+    TokenResDto.Create resDto = tokenService.createToken(authentication, ip, userAgent);
+    
+    ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
+        .path("/")
+        .httpOnly(true)
+        .build();
+    response.addHeader(HttpHeaders.SET_COOKIE, rtkCookie.toString());
+    ResponseCookie atkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_ATKID, resDto.getAtkUuid())
+        .path("/")
+        .httpOnly(true)
+        .build();
+    response.addHeader(HttpHeaders.SET_COOKIE, atkCookie.toString());
+    
     response.setHeader(HttpHeaders.LOCATION, "/");
     response.setStatus(HttpStatus.FOUND.value());
   }

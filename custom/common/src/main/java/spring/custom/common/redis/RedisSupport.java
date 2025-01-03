@@ -30,6 +30,10 @@ public class RedisSupport {
     this.redisTemplate.opsForValue().set(key, val);
   }
   
+  public void setValue(String key, Object val, Duration ttl) {
+    this.redisTemplate.opsForValue().set(key, val, ttl);
+  }
+  
   public <T> T getValue(String key) {
     return (T) this.redisTemplate.opsForValue().get(key);
   }
@@ -44,7 +48,7 @@ public class RedisSupport {
   }
   
   public void setHash(String key, String hashKey, Object val, Duration ttl) {
-    this.setHash(key, hashKey, val);
+    this.redisTemplate.opsForHash().put(key, hashKey, val);
     this.redisTemplate.expire(key, ttl);
   }
   
