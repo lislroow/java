@@ -13,7 +13,7 @@ import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import lombok.RequiredArgsConstructor;
-import spring.market.common.constant.Constant;
+import spring.market.common.constant.MarketConstant;
 
 @Configuration
 @RequiredArgsConstructor

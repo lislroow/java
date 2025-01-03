@@ -16,7 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import spring.sample.common.constant.Constant;
+import spring.custom.common.constant.Constant;
 
 @Configuration
 @ConditionalOnProperty(prefix = "spring.datasource.hikari", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)

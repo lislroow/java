@@ -4,7 +4,8 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 
 import lombok.extern.slf4j.Slf4j;
-import spring.sample.common.constant.Constant;
+import spring.custom.common.constant.Constant;
+import spring.sample.common.constant.Boot34AppConstant;
 import spring.sample.common.enumcode.DBMS_TYPE;
 
 @Slf4j

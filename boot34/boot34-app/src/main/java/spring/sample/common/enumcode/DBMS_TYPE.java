@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
-import spring.sample.common.constant.Constant;
+import spring.custom.common.constant.Constant;
 
 @Slf4j
 public enum DBMS_TYPE {

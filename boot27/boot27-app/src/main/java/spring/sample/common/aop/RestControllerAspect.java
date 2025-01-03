@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.annotation.Login;
 import spring.custom.common.annotation.UserInfo;
-import spring.sample.common.constant.Constant;
+import spring.sample.common.constant.Boot27AppConstant;
 
 @Aspect
 @Order(1)
@@ -34,7 +34,7 @@ public class RestControllerAspect {
   
   //@Around("execution(* "+Constant.BASE_PACKAGE+".*.controller.*Controller.*(..))") // market 하위 1단계만 weaving 됨 
   @SuppressWarnings("unused")
-  @Around("execution(* "+Constant.BASE_PACKAGE+"..controller.*Controller.*(..))")  // market 하위 모든 단계가 weaving 됨
+  @Around("execution(* "+Boot27AppConstant.BASE_PACKAGE+"..controller.*Controller.*(..))")  // market 하위 모든 단계가 weaving 됨
   public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
     javax.servlet.http.HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     javax.servlet.http.HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();

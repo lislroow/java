@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
-import spring.sample.common.constant.Constant;
+import spring.custom.common.constant.Constant;
 
 //@Configuration
 //@EnableConfigurationProperties({KafkaProperties.class})

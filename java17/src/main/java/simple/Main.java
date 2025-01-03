@@ -2,6 +2,7 @@ package simple;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.sql.Date;
 
 public class Main {
   
@@ -26,5 +27,7 @@ public class Main {
     
     System.out.println("["+new String(new byte[] {0x30})+"]");
     System.out.println("["+new String(new byte[] {0x20})+"]");
+    
+    System.out.println(new Date(1735990371000L));
   }
 }

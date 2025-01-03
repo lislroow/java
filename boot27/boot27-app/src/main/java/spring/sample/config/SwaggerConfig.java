@@ -5,14 +5,14 @@ import org.springframework.context.annotation.Configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
-import spring.sample.common.constant.Constant;
+import spring.sample.common.constant.Boot27AppConstant;
 
 @Configuration
 public class SwaggerConfig {
   
   @Bean
   OpenAPI openAPI() {
-    return new OpenAPI().addServersItem(new Server().url(Constant.APP.BASE_URI));
+    return new OpenAPI().addServersItem(new Server().url(Boot27AppConstant.APP.BASE_URI));
   }
   
 }

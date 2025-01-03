@@ -28,7 +28,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import lombok.RequiredArgsConstructor;
-import spring.market.common.constant.Constant;
+import spring.custom.common.constant.Constant;
 
 @Configuration
 @RequiredArgsConstructor

@@ -12,8 +12,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import spring.custom.common.constant.Constant;
 import spring.custom.common.redis.RedisSupport;
-import spring.market.common.constant.Constant;
+import spring.market.common.constant.MarketConstant;
 import spring.market.common.enumcode.REDIS_TYPE;
 import spring.market.config.properties.RedisProperties;
 
@@ -25,13 +26,13 @@ public class RedisAuthUserConfig {
   @Autowired
   spring.market.config.properties.RedisProperties redisProperties;
   
-  @Bean(name = Constant.REDIS.AUTH_USER + "RedisConnectionFactory")
+  @Bean(name = MarketConstant.REDIS.AUTH_USER + "RedisConnectionFactory")
   RedisConnectionFactory redisConnectionFactory() {
     RedisProperties.Configure configure = redisProperties.getConfigure(REDIS_TYPE.AUTH_USER);
     return new LettuceConnectionFactory(configure.getHost(), configure.getPort());
   }
   
-  @Bean(name = Constant.REDIS.AUTH_USER + "RedisTemplate")
+  @Bean(name = MarketConstant.REDIS.AUTH_USER + "RedisTemplate")
   RedisTemplate<String, Object> redisTemplate() {
     RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory());
@@ -42,7 +43,7 @@ public class RedisAuthUserConfig {
     return redisTemplate;
   }
   
-  @Bean(name = Constant.REDIS.AUTH_USER + "RedisSupport")
+  @Bean(name = MarketConstant.REDIS.AUTH_USER + "RedisSupport")
   RedisSupport redisSupport(ModelMapper modelMapper) {
     return new RedisSupport(redisTemplate(), modelMapper);
   }

@@ -7,7 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import spring.market.common.constant.Constant;
+import spring.custom.common.constant.Constant;
 
 public class EncodingFilter implements Filter {
 

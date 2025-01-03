@@ -4,13 +4,14 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
-import spring.market.common.constant.Constant;
+import spring.custom.common.constant.Constant;
+import spring.market.common.constant.MarketConstant;
 
 @Slf4j
 public enum REDIS_TYPE {
   
-  AUTH_GUEST(Constant.REDIS.AUTH_GUEST),
-  AUTH_USER(Constant.REDIS.AUTH_USER),
+  AUTH_GUEST(MarketConstant.REDIS.AUTH_GUEST),
+  AUTH_USER(MarketConstant.REDIS.AUTH_USER),
   ;
   
   private String code;

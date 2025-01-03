@@ -17,14 +17,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
+import spring.custom.common.constant.Constant;
 import spring.custom.common.mybatis.PagingInterceptor;
-import spring.sample.common.constant.Constant;
+import spring.sample.common.constant.Boot34AppConstant;
 
 @Configuration
 @ConditionalOnProperty(prefix = MybatisProperties.MYBATIS_PREFIX, name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(org.mybatis.spring.boot.autoconfigure.MybatisProperties.class)
 @Slf4j
-@MapperScan(basePackages = {Constant.BASE_PACKAGE}, annotationClass = Mapper.class, sqlSessionFactoryRef = "sqlSessionFactoryBean")
+@MapperScan(basePackages = {Boot34AppConstant.BASE_PACKAGE}, annotationClass = Mapper.class, sqlSessionFactoryRef = "sqlSessionFactoryBean")
 public class MybatisConfig {
   
   @Autowired

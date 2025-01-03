@@ -25,9 +25,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import spring.custom.common.constant.Constant;
 import spring.custom.common.util.AsciiTable;
 import spring.market.common.aop.annotation.Login;
-import spring.market.common.constant.Constant;
+import spring.market.common.constant.MarketConstant;
 
 @Aspect
 @Order(1)
@@ -52,19 +53,19 @@ public class RestControllerAspect {
     String method = request.getMethod();
     String contentType = request.getHeader("Content-Type");
     String remoteAddr = request.getRemoteAddr();
-    String tokenId = request.getHeader(Constant.HTTP_HEADER.X_TOKEN_ID);
+    String tokenId = request.getHeader(Constant.HTTP_HEADER.X_ATKID);
     List<RestControllerAspect.PrintVo> list = Arrays.asList(
         new RestControllerAspect.PrintVo("RequestURI", String.format("%s <%s>", reqUri, method)),
         new RestControllerAspect.PrintVo("Class", joinPoint.getSignature().toShortString()),
         new RestControllerAspect.PrintVo("RemoteAddr", remoteAddr),
-        new RestControllerAspect.PrintVo(Constant.HTTP_HEADER.X_TOKEN_ID, tokenId)
+        new RestControllerAspect.PrintVo(Constant.HTTP_HEADER.X_ATKID, tokenId)
         );
     
     log.info("Request Info\n{}", AsciiTable.getTable(new LinkedHashMap<>() {{
         put("RequestURI", String.format("%s <%s>", reqUri, method));
         put("Class", joinPoint.getSignature().toShortString());
         put("RemoteAddr", remoteAddr);
-        put(Constant.HTTP_HEADER.X_TOKEN_ID, tokenId);
+        put(Constant.HTTP_HEADER.X_ATKID, tokenId);
     }}));
     
     MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();

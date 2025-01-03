@@ -20,7 +20,7 @@ import spring.market.api.dto.ProductReqDto;
 import spring.market.api.dto.ProductResDto;
 import spring.market.api.entity.Product;
 import spring.market.api.repository.ProductRepository;
-import spring.market.common.constant.Constant;
+import spring.market.common.constant.MarketConstant;
 import spring.market.common.util.Uuid;
 
 @Service
@@ -65,13 +65,13 @@ public class ProductService {
         throw new AppException(RESPONSE.C001);
       }
       String originExt = originName.substring(originName.lastIndexOf(".")+1, originName.length());
-      String imgThumbPath = Constant.File.UPLOAD_PRODUCT + File.pathSeparator + Uuid.create() + "." + originExt;
+      String imgThumbPath = MarketConstant.File.UPLOAD_PRODUCT + File.pathSeparator + Uuid.create() + "." + originExt;
       if (System.getProperty("os.name").startsWith("Win")) {
-        File dir = new File("C:"+Constant.File.UPLOAD_PRODUCT);
+        File dir = new File("C:"+MarketConstant.File.UPLOAD_PRODUCT);
         if (!dir.exists()) dir.mkdirs();
         imgThumb.transferTo(new File("C:"+imgThumbPath));
       } else {
-        File dir = new File(Constant.File.UPLOAD_PRODUCT);
+        File dir = new File(MarketConstant.File.UPLOAD_PRODUCT);
         if (!dir.exists()) dir.mkdirs();
         imgThumb.transferTo(new File(imgThumbPath));
       }
