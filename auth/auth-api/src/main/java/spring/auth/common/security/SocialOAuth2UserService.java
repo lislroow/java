@@ -1,8 +1,6 @@
 package spring.auth.common.security;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -20,8 +18,8 @@ import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.RESPONSE;
 import spring.custom.common.enumcode.Role;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.MemberVo;
 import spring.custom.common.vo.AuthPrincipal;
+import spring.custom.common.vo.MemberVo;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +28,6 @@ public class SocialOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   final MemberDao memberDao;
   //final UserRepository userRepository;
   final ModelMapper model;
-  final BCryptPasswordEncoder bcryptPasswordEncoder;
-  
-  @Value("${auth.social.user.defaultPassword}")
-  private String defaultPassword;
   
   @Transactional
   @Override

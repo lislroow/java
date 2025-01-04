@@ -33,7 +33,7 @@
   </properties>
   
   <modules>
-    <module>api-auth</module>
+    <module>auth-api</module>
   </modules>
   
   <dependencies>

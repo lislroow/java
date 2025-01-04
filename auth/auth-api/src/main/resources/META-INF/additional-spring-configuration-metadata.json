@@ -1,8 +1,34 @@
 {
   "properties": [
     {
-      "name": "auth.social.user.defaultPassword",
-      "type": "java.lang.String"
+      "name": "spring.data.redis.enabled",
+      "type": "java.lang.String",
+      "description": "A description for 'spring.data.redis.enabled'"
+    },
+    {
+      "name": "auth.token.private-key-file-path",
+      "type": "java.lang.String",
+      "description": "A description for 'auth.token.private-key-file-path'"
+    },
+    {
+      "name": "auth.token.public-key-file-path",
+      "type": "java.lang.String",
+      "description": "A description for 'auth.token.public-key-file-path'"
+    },
+    {
+      "name": "auth.token.issuer",
+      "type": "java.lang.String",
+      "description": "A description for 'auth.token.issuer'"
+    },
+    {
+      "name": "auth.token.refresh-token.expire-sec",
+      "type": "java.lang.String",
+      "description": "A description for 'auth.token.refresh-token.expire-sec'"
+    },
+    {
+      "name": "auth.token.access-token.expire-sec",
+      "type": "java.lang.String",
+      "description": "A description for 'auth.token.access-token.expire-sec'"
     }
   ]
 }

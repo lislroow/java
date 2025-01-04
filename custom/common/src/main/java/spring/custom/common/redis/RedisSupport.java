@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RedisSupport {
 
-  private final RedisTemplate<String, Object> redisTemplate;
+  private final RedisTemplate<String, String> redisTemplate;
   private final ModelMapper modelMapper;
   
   // key
@@ -26,16 +26,16 @@ public class RedisSupport {
   }
   
   // value: opsForValue()
-  public void setValue(String key, Object val) {
+  public void setValue(String key, String val) {
     this.redisTemplate.opsForValue().set(key, val);
   }
   
-  public void setValue(String key, Object val, Duration ttl) {
+  public void setValue(String key, String val, Duration ttl) {
     this.redisTemplate.opsForValue().set(key, val, ttl);
   }
   
-  public <T> T getValue(String key) {
-    return (T) this.redisTemplate.opsForValue().get(key);
+  public String getValue(String key) {
+    return this.redisTemplate.opsForValue().get(key);
   }
   
   public void delValue(String key) {

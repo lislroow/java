@@ -21,6 +21,7 @@ import java.util.UUID;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.nimbusds.jose.JOSEException;
@@ -51,14 +52,23 @@ import spring.custom.dto.TokenResDto;
 public class TokenService {
   
   final RedisSupport redisSupport;
-
-  private final String PUBLIC_KEY_FILE_PATH = "C:\\project\\java\\auth\\auth-api\\config\\cert\\star.develop.net.crt";
-  private final String PRIVATE_KEY_FILE_PATH = "C:\\project\\java\\auth\\auth-api\\config\\cert\\star.develop.net.key";
-  private final String ISSUER = "market.develop.net";
-  private final Integer RTK_EXPIRE_SEC = 60 * 10;
-  private final Integer ATK_EXPIRE_SEC = 60 * 60 * 24;
-  private final Long RTK_EXPIRE_MILLS = RTK_EXPIRE_SEC * Constant.MILLS;
-  private final Long ATK_EXPIRE_MILLS = ATK_EXPIRE_SEC * Constant.MILLS;
+  
+  @Value("${auth.token.private-key-file-path:config/cert/star.develop.net.key}")
+  private String PRIVATE_KEY_FILE_PATH;
+  
+  @Value("${auth.token.public-key-file-path:config/cert/star.develop.net.crt}")
+  private String PUBLIC_KEY_FILE_PATH;
+  
+  @Value("${auth.token.issuer:market.develop.net}")
+  private String ISSUER;
+  
+  @Value("${auth.token.refresh-token.expire-sec:600}")
+  private Integer RTK_EXPIRE_SEC;
+  private Long RTK_EXPIRE_MILLS;
+  
+  @Value("${auth.token.access-token.expire-sec:86400}")
+  private Integer ATK_EXPIRE_SEC;
+  private Long ATK_EXPIRE_MILLS;
   
   private final String REDIS_RTK_KEY_FMT = "token:rtk:%s:%s";
   private final String REDIS_ATK_KEY_FMT = "token:atk:%s:%s";
@@ -72,6 +82,9 @@ public class TokenService {
     this.verifier = new RSASSAVerifier(publicKey);
     RSAPrivateKey privateKey = loadRSAPrivateKey(PRIVATE_KEY_FILE_PATH);
     this.signer = new RSASSASigner(privateKey);
+    
+    RTK_EXPIRE_MILLS = RTK_EXPIRE_SEC * Constant.MILLS;
+    ATK_EXPIRE_MILLS = ATK_EXPIRE_SEC * Constant.MILLS;
   }
   
   private RSAPrivateKey loadRSAPrivateKey(String keyFilePath) throws IOException {
@@ -138,7 +151,8 @@ public class TokenService {
   
   public TokenResDto.Verify verifyToken(String atkUuid, String clientIp, String userAgent) {
     TokenResDto.Verify resDto = new TokenResDto.Verify();
-    String accessToken = this.getToken(TOKEN.ACCESS_TOKEN, atkUuid, clientIp, userAgent).orElseThrow(() -> new AppException(RESPONSE.A003));
+    String accessToken = this.getToken(TOKEN.ACCESS_TOKEN, atkUuid, clientIp, userAgent)
+        .orElseThrow(() -> new AppException(RESPONSE.A002));
     
     try {
       SignedJWT signedJWT = SignedJWT.parse(accessToken);
@@ -230,7 +244,7 @@ public class TokenService {
   
   private Optional<String> getToken(TOKEN type, String tokenUuid, String clientIp, String userAgent) {
     String redisKey = this.getRedisKey(type, tokenUuid, clientIp, userAgent);
-    return Optional.of(this.redisSupport.getValue(redisKey));
+    return Optional.ofNullable(this.redisSupport.getValue(redisKey));
   }
   
   private void setToken(TOKEN type, String tokenUuid, String clientIp, String userAgent, String token, Duration ttl) {

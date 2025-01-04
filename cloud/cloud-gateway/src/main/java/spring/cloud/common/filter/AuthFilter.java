@@ -1,8 +1,10 @@
 package spring.cloud.common.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -18,12 +20,13 @@ import spring.custom.common.exception.AppException;
 import spring.custom.dto.TokenReqDto;
 import spring.custom.dto.TokenResDto;
 
+@Profile({"local", "dev"})
 @Component
 @Slf4j
 public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> {
   
-  //@Value("${cloud.gateway.auth-url}")
-  private final String AUTH_URL = "http://localhost/auth-api/v1/token/verify";
+  @Value("${cloud.gateway.filter.auth-url:http://localhost/auth-api/v1/token/verify}")
+  private String AUTH_URL;
   
   @Autowired
   private ApiClient apiClient;

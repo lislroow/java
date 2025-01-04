@@ -17,6 +17,7 @@ public enum RESPONSE {
   A002("token verification error"),
   A003("token is empty"),
   A004("token refresh error"),
+  A005("token not exist"),
   AL01("login required, userId is null"),
   AL02("user not found"),
   C001("illegal access"),

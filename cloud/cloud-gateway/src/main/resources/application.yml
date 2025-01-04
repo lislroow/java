@@ -160,6 +160,7 @@ springdoc:
       - name: Story APP (story-app)
         url: /story-app/v3/api-docs
 
+#cloud.gateway.filter.auth-url: http://localhost/auth-api/v1/token/verify
 
 ---
 server:
