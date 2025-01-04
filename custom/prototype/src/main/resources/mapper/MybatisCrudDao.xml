@@ -4,25 +4,29 @@
 <mapper namespace="spring.custom.api.dao.MybatisCrudDao">
   
   <select id="findAll" resultType="ScientistVo">
-    SELECT *
+    SELECT /* MybatisCrudDao.findAll */
+           *
     FROM   scientist
     ORDER BY id DESC
   </select>
   
   <select id="findById" resultType="ScientistVo">
-    SELECT *
+    SELECT /* MybatisCrudDao.findById */
+           *
     FROM   scientist
     WHERE  id = #{id}
   </select>
   
   <select id="findList">
-    SELECT *
+    SELECT /* MybatisCrudDao.findList */
+           *
     FROM   scientist
     ORDER BY id DESC
   </select>
   
   <select id="findListByName" resultType="ScientistVo">
-    SELECT *
+    SELECT /* MybatisCrudDao.findListByName */
+           *
     FROM   scientist
     <if test="vo.name != null and !''.equals(vo.name)">
       WHERE name LIKE '%'||#{vo.name}||'%'
@@ -31,7 +35,8 @@
   </select>
   
   <insert id="add">
-    INSERT INTO scientist (
+    INSERT /* MybatisCrudDao.add */
+      INTO scientist (
         id,
         name,
         create_date,
@@ -49,7 +54,8 @@
   </insert>
   
   <update id="modifyNameById">
-    UPDATE scientist
+    UPDATE /* MybatisCrudDao.modifyNameById */
+           scientist
        SET name = #{vo.name},
            modify_date = now(),
            modify_id = #{vo.modifyId}
@@ -57,7 +63,7 @@
   </update>
   
   <delete id="removeById">
-    DELETE
+    DELETE /* MybatisCrudDao.removeById */
       FROM scientist
      WHERE id = #{vo.id}
   </delete>

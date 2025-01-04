@@ -4,25 +4,29 @@
 <mapper namespace="spring.custom.api.dao.MybatisMultipleDatasourceVerticaDao">
   
   <select id="findAll" resultType="ScientistVerticaVo">
-    SELECT *
+    SELECT /* MybatisMultipleDatasourceVerticaDao.findAll */
+           *
     FROM   scientist
     ORDER BY id DESC
   </select>
   
   <select id="findById" resultType="ScientistVerticaVo">
-    SELECT *
+    SELECT /* MybatisMultipleDatasourceVerticaDao.findById */
+           *
     FROM   scientist
     WHERE  id = #{id}
   </select>
   
   <select id="findList">
-    SELECT *
+    SELECT /* MybatisMultipleDatasourceVerticaDao.findList */
+           *
     FROM   scientist
     ORDER BY id DESC
   </select>
   
   <select id="findListByName" resultType="ScientistVerticaVo">
-    SELECT *
+    SELECT /* MybatisMultipleDatasourceVerticaDao.findListByName */
+           *
     FROM   scientist
     <if test="name != null and !''.equals(vo.name)">
       WHERE name LIKE '%'||#{vo.name}||'%'
@@ -31,7 +35,8 @@
   </select>
   
   <insert id="add">
-    INSERT INTO scientist (
+    INSERT /* MybatisMultipleDatasourceVerticaDao.add */
+      INTO scientist (
         id,
         name,
         create_date,
@@ -49,7 +54,8 @@
   </insert>
   
   <update id="modifyNameById">
-    UPDATE scientist
+    UPDATE /* MybatisMultipleDatasourceVerticaDao.modifyNameById */
+           scientist
        SET name = #{vo.name},
            modify_date = now(),
            modify_id = #{vo.modifyId}
@@ -57,7 +63,7 @@
   </update>
   
   <delete id="removeById">
-    DELETE
+    DELETE /* MybatisMultipleDatasourceVerticaDao.removeById */
       FROM scientist
      WHERE id = #{vo.id}
   </delete>

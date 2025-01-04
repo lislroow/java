@@ -4,25 +4,29 @@
 <mapper namespace="spring.custom.api.dao.MybatisMultipleDatasourceDao">
   
   <select id="findAll" resultType="ScientistVo">
-    SELECT *
+    SELECT /* MybatisMultipleDatasourceDao.findAll */
+           *
     FROM   scientist
     ORDER BY id DESC
   </select>
   
   <select id="findById" resultType="ScientistVo">
-    SELECT *
+    SELECT /* MybatisMultipleDatasourceDao.findById */
+           *
     FROM   scientist
     WHERE  id = #{id}
   </select>
   
   <select id="findList">
-    SELECT *
+    SELECT /* MybatisMultipleDatasourceDao.findList */
+           *
     FROM   scientist
     ORDER BY id DESC
   </select>
   
   <select id="findListByName" resultType="ScientistVo">
-    SELECT *
+    SELECT /* MybatisMultipleDatasourceDao.findListByName */
+           *
     FROM   scientist
     <if test="name != null and !''.equals(vo.name)">
       WHERE name LIKE '%'||#{vo.name}||'%'
@@ -31,7 +35,8 @@
   </select>
   
   <insert id="add">
-    INSERT INTO scientist (
+    INSERT /* MybatisMultipleDatasourceDao.add */
+      INTO scientist (
         id,
         name,
         create_date,
@@ -49,7 +54,8 @@
   </insert>
   
   <update id="modifyNameById">
-    UPDATE scientist
+    UPDATE /* MybatisMultipleDatasourceDao.modifyNameById */
+           scientist
        SET name = #{vo.name},
            modify_date = now(),
            modify_id = #{vo.modifyId}
@@ -57,7 +63,7 @@
   </update>
   
   <delete id="removeById">
-    DELETE
+    DELETE /* MybatisMultipleDatasourceDao.removeById */
       FROM scientist
      WHERE id = #{vo.id}
   </delete>
