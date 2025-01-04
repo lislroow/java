@@ -21,7 +21,6 @@ import spring.custom.api.service.MybatisCrudService;
 import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.mybatis.Pageable;
-import spring.custom.common.mybatis.Paged;
 import spring.custom.common.mybatis.PagedList;
 
 @RestController
@@ -66,8 +65,7 @@ public class MybatisCrudController {
     ScientistVo.FindVo vo = ScientistVo.FindVo.builder()
         .name(name)
         .build();
-    vo.setPageable(pageable);
-    PagedList<ScientistVo> result = scientistDao.findListByName(vo);
+    PagedList<ScientistVo> result = scientistDao.findListByName(pageable, vo);
     return ResponseDto.body(result);
   }
   

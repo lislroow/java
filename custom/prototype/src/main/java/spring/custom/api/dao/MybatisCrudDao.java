@@ -18,7 +18,7 @@ public interface MybatisCrudDao {
   
   PagedList<ScientistVo> findList(Pageable param);
   
-  PagedList<ScientistVo> findListByName(@Param("vo") ScientistVo.FindVo vo);
+  PagedList<ScientistVo> findListByName(@Param("pageable") Pageable pageable, @Param("vo") ScientistVo.FindVo vo);
   
   int add(@Param("vo") ScientistVo.AddVo vo);
   
