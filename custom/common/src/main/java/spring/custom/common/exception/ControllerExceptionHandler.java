@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.dto.ResponseDto;
-import spring.custom.common.enumcode.RESPONSE;
+import spring.custom.common.enumcode.ERROR_CODE;
 
 @RestControllerAdvice
 @AllArgsConstructor
@@ -33,7 +33,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler({Exception.class})
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   protected ResponseDto<Serializable> handleException(Exception e) {
-    RESPONSE responseCode = RESPONSE.E999;
+    ERROR_CODE responseCode = ERROR_CODE.E999;
     /* for debug */ log.error(LOGFMT, responseCode.code(), responseCode.message(), e.getCause() != null ? CAUSE + e.getCause().getClass() : e.getClass());
     return ResponseDto.body(responseCode.code(), responseCode.message());
   }

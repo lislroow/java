@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.dto.ResponseDto;
-import spring.custom.common.enumcode.RESPONSE;
+import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.exception.AppException;
 import spring.market.api.dto.ProductReqDto;
 import spring.market.api.dto.ProductResDto;
@@ -69,7 +69,7 @@ public class ProductController {
     try {
       resDto = productService.saveProduct(request, imgThumb);
     } catch (IllegalStateException|IOException e) {
-      throw new AppException(RESPONSE.C002);
+      throw new AppException(ERROR_CODE.C002);
     }
     return ResponseDto.body(resDto);
   }

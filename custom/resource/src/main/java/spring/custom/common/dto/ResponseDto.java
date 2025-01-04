@@ -3,7 +3,7 @@ package spring.custom.common.dto;
 import java.io.Serializable;
 
 import lombok.Data;
-import spring.custom.common.enumcode.RESPONSE;
+import spring.custom.common.enumcode.ERROR_CODE;
 
 @Data
 public class ResponseDto<T> implements Serializable {
@@ -12,15 +12,15 @@ public class ResponseDto<T> implements Serializable {
 
   private ResponseDto() {
     this.header = new Header();
-    this.header.code = RESPONSE.S000.name();
-    this.header.message = RESPONSE.S000.message();
+    this.header.code = ERROR_CODE.S000.name();
+    this.header.message = ERROR_CODE.S000.message();
     this.body = null;
   }
   
   private ResponseDto(T data) {
     this.header = new Header();
-    this.header.code = RESPONSE.S000.name();
-    this.header.message = RESPONSE.S000.message();
+    this.header.code = ERROR_CODE.S000.name();
+    this.header.message = ERROR_CODE.S000.message();
     this.body = data;
   }
   
@@ -57,11 +57,11 @@ public class ResponseDto<T> implements Serializable {
     return new ResponseDto<>(code, message);
   }
   
-  public static<T> ResponseDto<T> body(RESPONSE responseCode, T data) {
+  public static<T> ResponseDto<T> body(ERROR_CODE responseCode, T data) {
     return new ResponseDto<>(responseCode.code(), responseCode.message(), data);
   }
   
-  public static<T> ResponseDto<T> body(RESPONSE responseCode) {
+  public static<T> ResponseDto<T> body(ERROR_CODE responseCode) {
     return new ResponseDto<>(responseCode.code(), responseCode.message());
   }
   

@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.MemberDao;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.RESPONSE;
+import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.Role;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.AuthPrincipal;
@@ -40,7 +40,7 @@ public class SocialOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     MemberVo vo = attributes.toVo();
     MemberVo memberVo = memberDao.selectByEmail(vo.getEmail()).orElseGet(() -> {
       memberDao.insert(vo);
-      return memberDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(RESPONSE.AL02));
+      return memberDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(ERROR_CODE.AL02));
     });
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     memberVo.setIp(request.getRemoteAddr());

@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import spring.cloud.common.client.ApiClient;
 import spring.custom.common.dto.ResponseDto;
-import spring.custom.common.enumcode.RESPONSE;
+import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.exception.AppException;
 import spring.custom.dto.TokenReqDto;
 import spring.custom.dto.TokenResDto;
@@ -52,13 +52,13 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
         
         ResponseDto<TokenResDto.Verify> resDto = null;
         
-        RESPONSE failCode = RESPONSE.A002;
+        ERROR_CODE failCode = ERROR_CODE.A002;
         TokenReqDto.Verify requestBody = new TokenReqDto.Verify();
         requestBody.setAtkUuid(token);
         try {
           resDto = apiClient.post(AUTH_URL, requestBody, TokenResDto.Verify.class);
-          RESPONSE code = RESPONSE.fromCode(resDto.getHeader().getCode());
-          if (code != RESPONSE.S000) {
+          ERROR_CODE code = ERROR_CODE.fromCode(resDto.getHeader().getCode());
+          if (code != ERROR_CODE.S000) {
             log.error("{} > {}", code, failCode);
             throw new AppException(failCode);
           }

@@ -38,7 +38,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.RESPONSE;
+import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.Role;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
@@ -144,7 +144,7 @@ public class TokenService {
       this.setToken(TOKEN.ACCESS_TOKEN, atkUuid, clientIp, userAgent, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
     } catch (Exception e) { 
       log.error("message: {}", e.getMessage());
-      throw new AppException(RESPONSE.A001, e);
+      throw new AppException(ERROR_CODE.A001, e);
     }
     return result;
   }
@@ -152,7 +152,7 @@ public class TokenService {
   public TokenResDto.Verify verifyToken(String atkUuid, String clientIp, String userAgent) {
     TokenResDto.Verify resDto = new TokenResDto.Verify();
     String accessToken = this.getToken(TOKEN.ACCESS_TOKEN, atkUuid, clientIp, userAgent)
-        .orElseThrow(() -> new AppException(RESPONSE.A002));
+        .orElseThrow(() -> new AppException(ERROR_CODE.A002));
     
     try {
       SignedJWT signedJWT = SignedJWT.parse(accessToken);
@@ -161,10 +161,10 @@ public class TokenService {
         resDto.setValid(true);
         resDto.setUsername(username);
       } else {
-        throw new AppException(RESPONSE.A002);
+        throw new AppException(ERROR_CODE.A002);
       }
     } catch (JOSEException | ParseException e) {
-      throw new AppException(RESPONSE.A002);
+      throw new AppException(ERROR_CODE.A002);
     }
     return resDto;
   }
@@ -173,7 +173,7 @@ public class TokenService {
     String oldRedisKey = this.getRedisKey(TOKEN.REFRESH_TOKEN, oldRtkUuid, clientIp, userAgent);
     String refreshToken = this.redisSupport.getValue(oldRedisKey);
     if (refreshToken == null) {
-      throw new AppException(RESPONSE.A004);
+      throw new AppException(ERROR_CODE.A004);
     }
     String username = null;
     try {
@@ -181,10 +181,10 @@ public class TokenService {
       if (signedJWT.verify(this.verifier)) {
         username = signedJWT.getJWTClaimsSet().getSubject();
       } else {
-        throw new AppException(RESPONSE.A004);
+        throw new AppException(ERROR_CODE.A004);
       }
     } catch (JOSEException | ParseException e) {
-      throw new AppException(RESPONSE.A004);
+      throw new AppException(ERROR_CODE.A004);
     }
     
     String newRtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -222,7 +222,7 @@ public class TokenService {
       this.setToken(TOKEN.ACCESS_TOKEN, newAtkUuid, clientIp, userAgent, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
     } catch (Exception e) { 
       log.error("message: {}", e.getMessage());
-      throw new AppException(RESPONSE.A004, e);
+      throw new AppException(ERROR_CODE.A004, e);
     }
     this.redisSupport.delValue(oldRedisKey);
     return result;
@@ -257,7 +257,7 @@ public class TokenService {
     try {
       digest = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
-      throw new AppException(RESPONSE.E002.code(), e.getMessage());
+      throw new AppException(ERROR_CODE.E002.code(), e.getMessage());
     }
     byte[] encodedHash = digest.digest((clientIp + userAgent).getBytes(StandardCharsets.UTF_8));
     StringBuilder clientIdent = new StringBuilder();

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import spring.custom.common.dto.ResponseDto;
-import spring.custom.common.enumcode.RESPONSE;
+import spring.custom.common.enumcode.ERROR_CODE;
 import spring.sample.app.dto.QualificationResDto;
 import spring.sample.app.feign.FeignQualificationController;
 
@@ -25,7 +25,7 @@ public class QualificationController {
         qualificationFeignClient.verifyUsingWebservice();
     
     QualificationResDto.SoapRes body = null;
-    if (RESPONSE.S000.name().equals(result.getHeader().getCode())) {
+    if (ERROR_CODE.S000.name().equals(result.getHeader().getCode())) {
       body = result.getBody();
     }
     return ResponseDto.body(body);
