@@ -29,7 +29,7 @@
            *
     FROM   scientist
     <if test="vo.name != null and !''.equals(vo.name)">
-      WHERE name LIKE '%'||#{vo.name}||'%'
+      WHERE UPPER(name) LIKE '%' || UPPER(#{vo.name}) || '%'
     </if>
     ORDER BY id DESC
   </select>
