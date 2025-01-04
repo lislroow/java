@@ -21,7 +21,6 @@ import spring.custom.api.service.MybatisCrudService;
 import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.mybatis.Pageable;
-import spring.custom.common.mybatis.Paged;
 import spring.custom.common.mybatis.PagedList;
 
 @RestController
@@ -32,7 +31,7 @@ public class MybatisCrudController {
   final MybatisCrudService scientistService;
   final MybatisCrudDao scientistDao;
   
-  @GetMapping("/v1/mybatis-crud/scientists")
+  @GetMapping("/v1/mybatis-crud/scientists/all")
   public ResponseDto<MybatisCrudResDto.ScientistList> findAll() {
     
     List<ScientistVo> result = scientistDao.findAll();
@@ -44,30 +43,25 @@ public class MybatisCrudController {
     return ResponseDto.body(resDto);
   }
   
-  // @GetMapping("/v1/mybatis-crud/scientists")
-  // public ResponseDto<MybatisCrudResDto.PagedScientistList> findList(
-  //     Pageable pageable) {
-  //   
-  //   PagedList<ScientistVo> result = scientistDao.findList(pageable);
-  //   List<MybatisCrudResDto.Scientist> list = result.stream()
-  //       .map(item -> modelMapper.map(item, MybatisCrudResDto.Scientist.class))
-  //       .collect(Collectors.toList());
-  //   Paged paged = modelMapper.map(result, Paged.class);
-  //   MybatisCrudResDto.PagedScientistList resDto = new MybatisCrudResDto.PagedScientistList();
-  //   resDto.setPaged(paged);
-  //   resDto.setList(list);
-  //   return ResponseDto.body(resDto);
-  // }
+  @GetMapping("/v1/mybatis-crud/scientists")
+  public ResponseDto<PagedList<ScientistVo>> findList(
+      @RequestParam(defaultValue = "1") Integer page,
+      @RequestParam(defaultValue = "10") Integer size) {
+    
+    PagedList<ScientistVo> result = scientistDao.findList(Pageable.of(page, size));
+    return ResponseDto.body(result);
+  }
   
   @GetMapping("/v1/mybatis-crud/scientists/search")
   public ResponseDto<PagedList<ScientistVo>> searchByName(
-      @RequestParam String name, Pageable pageable) {
+      @RequestParam String name,
+      @RequestParam(defaultValue = "1") Integer page,
+      @RequestParam(defaultValue = "10") Integer size) {
     
     ScientistVo.FindVo vo = ScientistVo.FindVo.builder()
         .name(name)
         .build();
-    vo.setPageable(pageable);
-    PagedList<ScientistVo> result = scientistDao.findListByName(vo);
+    PagedList<ScientistVo> result = scientistDao.findListByName(Pageable.of(page, size), vo);
     return ResponseDto.body(result);
   }
   

@@ -6,10 +6,17 @@ import lombok.Data;
 public class Pageable {
   
   protected Integer page;
-  protected Integer pageSize;
+  protected Integer size;
   
   public void setPageable(Pageable pageable) {
     this.page = pageable.page == null ? 1 : pageable.page;
-    this.pageSize = pageable.pageSize == null ? 10 : pageable.pageSize;
+    this.size = pageable.size == null ? 10 : pageable.size;
+  }
+  
+  public static Pageable of(Integer page, Integer size) {
+    Pageable pageable = new Pageable();
+    pageable.setPage(page);
+    pageable.setSize(size);
+    return pageable;
   }
 }

@@ -1,6 +1,7 @@
 package spring.custom.common.mybatis;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -38,37 +39,47 @@ public class PagingInterceptor implements Interceptor {
     ResultHandler<?> resultHandler = (ResultHandler<?>) args[3];
     Executor executor = (Executor) invocation.getTarget();
     
-    log.debug("sqlid: {}", ms.getId());
-    if (parameter instanceof Pageable &&
-        SqlCommandType.SELECT == ms.getSqlCommandType()) {
-      PagedList<Object> pagedList = new PagedList<>();
-      executor.query(ms, parameter,
-          new RowBounds(0, RowBounds.NO_ROW_LIMIT),
-          new ResultHandler() {
-            @Override
-            public void handleResult(ResultContext resultContext) {
-              pagedList.setTotal(resultContext.getResultCount());
-            }
-          });
-      int page = ((Pageable) parameter).getPage();
-      int pageSize = ((Pageable) parameter).getPageSize();
-      int offset = (page - 1) * pageSize;
-      int limit = pageSize;
-      int start = offset + 1;
-      int end = offset + limit;
-      
-      List<Object> result = executor.query(ms, parameter,
-          new RowBounds(offset, limit),
-          resultHandler);
-      
-      pagedList.setList(result);
-      pagedList.setPage(page);
-      pagedList.setPageSize(pageSize);
-      pagedList.setStart(start);
-      pagedList.setEnd(end);
-      log.info("total: {}, range: {}~{}", pagedList.getTotal(), pagedList.getStart(), pagedList.getEnd());
-      return pagedList;
+    if (parameter instanceof java.util.Map) {
+      Optional<Pageable> pageableEntry = ((java.util.Map<?, ?>) parameter).entrySet()
+          .stream()
+          .filter(entry -> entry.getValue() instanceof Pageable)
+          .findFirst()
+          .map(map -> (Pageable) map.getValue());
+      if (pageableEntry.isPresent() && SqlCommandType.SELECT == ms.getSqlCommandType()) {
+        Pageable pagable = pageableEntry.get();
+        PagedList<Object> pagedList = new PagedList<>();
+        executor.query(ms, parameter,
+            new RowBounds(0, RowBounds.NO_ROW_LIMIT),
+            new ResultHandler() {
+              @Override
+              public void handleResult(ResultContext resultContext) {
+                pagedList.setTotal(resultContext.getResultCount());
+              }
+            });
+        
+        int page = pagable.getPage() == null ? 1 : pagable.getPage();
+        int size = pagable.getSize() == null ? 10 : pagable.getSize();
+        int offset = (page - 1) * size;
+        int limit = size;
+        int start = offset + 1;
+        int end = offset + limit;
+        
+        List<Object> result = executor.query(ms, parameter,
+            new RowBounds(offset, limit),
+            resultHandler);
+        
+        pagedList.setList(result);
+        pagedList.setPage(page);
+        pagedList.setSize(size);
+        pagedList.setStart(start);
+        pagedList.setEnd(end);
+        log.info("total: {}, range: {}~{}", pagedList.getTotal(), pagedList.getStart(), pagedList.getEnd());
+        return pagedList;
+      }
     }
+    
+    log.debug("sqlid: {}", ms.getId());
+    
     
     return invocation.proceed();
   }

@@ -32,8 +32,8 @@ public class PagedList<T> implements List<T> {
   public void setPage(Integer page) {
     paged.setPage(page);
   }
-  public void setPageSize(Integer pageSize) {
-    paged.setPageSize(pageSize);
+  public void setSize(Integer size) {
+    paged.setSize(size);
   }
   public void setStart(Integer start) {
     paged.setStart(start);
@@ -50,8 +50,8 @@ public class PagedList<T> implements List<T> {
     return paged.getPage();
   }
   @JsonIgnore
-  public Integer getPageSize() {
-    return paged.getPageSize();
+  public Integer getSize() {
+    return paged.getSize();
   }
   @JsonIgnore
   public Integer getStart() {

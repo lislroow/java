@@ -6,7 +6,7 @@ import lombok.Data;
 public class Paged {
   // param
   private Integer page;
-  private Integer pageSize;
+  private Integer size;
   
   // result
   private Integer start;

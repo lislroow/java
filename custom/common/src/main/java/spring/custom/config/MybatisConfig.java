@@ -1,4 +1,4 @@
-package spring.market.config;
+package spring.custom.config;
 
 import javax.sql.DataSource;
 
@@ -19,13 +19,12 @@ import org.springframework.util.ObjectUtils;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.mybatis.PagingInterceptor;
-import spring.market.common.constant.MarketConstant;
 
 @Configuration
-@ConditionalOnProperty(prefix = MybatisProperties.MYBATIS_PREFIX, name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "mybatis", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(org.mybatis.spring.boot.autoconfigure.MybatisProperties.class)
 @Slf4j
-@MapperScan(basePackages = {MarketConstant.BASE_PACKAGE}, annotationClass = Mapper.class, sqlSessionFactoryRef = "sqlSessionFactoryBean")
+@MapperScan(basePackages = {Constant.BASE_PACKAGE}, annotationClass = Mapper.class, sqlSessionFactoryRef = "sqlSessionFactoryBean")
 public class MybatisConfig {
   
   @Autowired
