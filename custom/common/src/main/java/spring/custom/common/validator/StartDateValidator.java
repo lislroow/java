@@ -2,8 +2,8 @@ package spring.custom.common.validator;
 
 import java.time.LocalDateTime;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class StartDateValidator implements ConstraintValidator<StartDate, LocalDateTime> {
 

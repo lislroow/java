@@ -2,10 +2,10 @@ package spring.custom.api.controller;
 
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
+//import javax.annotation.PostConstruct;
+//import jakarta.annotation.PostConstruct;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,14 +25,6 @@ public class RedisController {
   
   final RedisSupport redisSupport;
   //final RedisTemplate<String, Object> redisTemplate;
-  
-  @PostConstruct
-  public void init() {
-    redisSupport.setValue("test:test-key1", "my-value1");
-    redisSupport.setValue("test:test-key2", "my-value2");
-    redisSupport.setHash("test:test-hkey", "my-key1", "my-value1");
-    redisSupport.setHash("test:test-hkey", "my-key2", "my-value2");
-  }
   
   @GetMapping("/v1/redis/keys")
   public ResponseDto<Set<String>> keys() {

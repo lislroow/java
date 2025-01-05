@@ -12,7 +12,9 @@
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
     <downloadSources>true</downloadSources>
     <downloadJavadocs>true</downloadJavadocs>
-    <java.version>8</java.version>
+    
+    <!--<java.version>8</java.version>-->
+    <java.version>17</java.version>
   </properties>
   
   <dependencies>
