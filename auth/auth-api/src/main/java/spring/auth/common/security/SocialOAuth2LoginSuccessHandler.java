@@ -33,19 +33,13 @@ public class SocialOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
     String ip = request.getRemoteAddr();
     String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
     TokenResDto.Create resDto = tokenService.createToken(authentication, ip, userAgent);
-    
     ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
         .path("/")
-        .httpOnly(true)
+        .httpOnly(false)
+        .maxAge(10)
         .build();
     response.addHeader(HttpHeaders.SET_COOKIE, rtkCookie.toString());
-    ResponseCookie atkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_ATKID, resDto.getAtkUuid())
-        .path("/")
-        .httpOnly(true)
-        .build();
-    response.addHeader(HttpHeaders.SET_COOKIE, atkCookie.toString());
-    
-    response.setHeader(HttpHeaders.LOCATION, "/");
+    response.setHeader(HttpHeaders.LOCATION, "/login_after");
     response.setStatus(HttpStatus.FOUND.value());
   }
 }

@@ -34,13 +34,9 @@ public class UsernamePasswordAuthenticationSuccessHandler implements Authenticat
     TokenResDto.Create resDto = tokenService.createToken(authentication, ip, userAgent);
     ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
         .path("/")
-        .httpOnly(true)
+        .httpOnly(false)
+        .maxAge(10)
         .build();
     response.addHeader(HttpHeaders.SET_COOKIE, rtkCookie.toString());
-    ResponseCookie atkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_ATKID, resDto.getAtkUuid())
-        .path("/")
-        .httpOnly(true)
-        .build();
-    response.addHeader(HttpHeaders.SET_COOKIE, atkCookie.toString());
   }
 }

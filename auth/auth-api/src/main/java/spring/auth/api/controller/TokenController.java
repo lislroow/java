@@ -33,14 +33,14 @@ public class TokenController {
   }
   
   @PostMapping("/v1/token/refresh")
-  public ResponseDto<TokenResDto.Create> refreshToken(@RequestBody TokenReqDto.Refresh reqDto) {
+  public ResponseDto<TokenResDto.Refresh> refreshToken(@RequestBody TokenReqDto.Refresh reqDto) {
     String rtkUuid = reqDto.getRtkUuid();
     
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     String clientIp = request.getRemoteAddr();
     String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
     
-    TokenResDto.Create result = tokenService.refreshToken(rtkUuid, clientIp, userAgent);
+    TokenResDto.Refresh result = tokenService.refreshToken(rtkUuid, clientIp, userAgent);
     return ResponseDto.body(result);
   }
   

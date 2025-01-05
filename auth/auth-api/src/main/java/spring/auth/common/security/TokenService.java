@@ -62,11 +62,11 @@ public class TokenService {
   @Value("${auth.token.issuer:market.develop.net}")
   private String ISSUER;
   
-  @Value("${auth.token.refresh-token.expire-sec:600}")
+  @Value("${auth.token.refresh-token.expire-sec:86400}")
   private Integer RTK_EXPIRE_SEC;
   private Long RTK_EXPIRE_MILLS;
   
-  @Value("${auth.token.access-token.expire-sec:86400}")
+  @Value("${auth.token.access-token.expire-sec:60}")
   private Integer ATK_EXPIRE_SEC;
   private Long ATK_EXPIRE_MILLS;
   
@@ -109,11 +109,7 @@ public class TokenService {
   public TokenResDto.Create createToken(org.springframework.security.core.Authentication authentication, String clientIp, String userAgent) {
     AuthPrincipal authPrincipal = (AuthPrincipal) authentication.getPrincipal();
     String username = authPrincipal.getUsername();
-    String rtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
-    String atkUuid = UUID.randomUUID().toString().replaceAll("-", "");
     TokenResDto.Create result = new TokenResDto.Create();
-    result.setRtkUuid(rtkUuid);
-    result.setAtkUuid(atkUuid);
     try {
       JWTClaimsSet claimsSet;
       SignedJWT signedJWT;
@@ -128,20 +124,10 @@ public class TokenService {
           claimsSet
           );
       signedJWT.sign(this.signer);
-      this.setToken(TOKEN.REFRESH_TOKEN, rtkUuid, clientIp, userAgent, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
-      
-      claimsSet = new JWTClaimsSet.Builder()
-          .subject(username)
-          .issuer(ISSUER)
-          .expirationTime(new Date(System.currentTimeMillis() + ATK_EXPIRE_MILLS))
-          .claim("role", Role.ROLE_USER.name())
-          .build();
-      signedJWT = new SignedJWT(
-          new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),
-          claimsSet
-      );
-      signedJWT.sign(this.signer);
-      this.setToken(TOKEN.ACCESS_TOKEN, atkUuid, clientIp, userAgent, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
+      String rtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
+      result.setRtkUuid(rtkUuid);
+      String rtkRedisKey = this.getRedisKey(TOKEN.REFRESH_TOKEN, rtkUuid, clientIp, userAgent);
+      this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
     } catch (Exception e) { 
       log.error("message: {}", e.getMessage());
       throw new AppException(ERROR_CODE.A001, e);
@@ -151,9 +137,9 @@ public class TokenService {
   
   public TokenResDto.Verify verifyToken(String atkUuid, String clientIp, String userAgent) {
     TokenResDto.Verify resDto = new TokenResDto.Verify();
-    String accessToken = this.getToken(TOKEN.ACCESS_TOKEN, atkUuid, clientIp, userAgent)
+    String redisKey = this.getRedisKey(TOKEN.ACCESS_TOKEN, atkUuid, clientIp, userAgent);
+    String accessToken = Optional.ofNullable(this.redisSupport.getValue(redisKey))
         .orElseThrow(() -> new AppException(ERROR_CODE.A002));
-    
     try {
       SignedJWT signedJWT = SignedJWT.parse(accessToken);
       if (signedJWT.verify(this.verifier)) {
@@ -169,7 +155,7 @@ public class TokenService {
     return resDto;
   }
   
-  public TokenResDto.Create refreshToken(String oldRtkUuid, String clientIp, String userAgent) {
+  public TokenResDto.Refresh refreshToken(String oldRtkUuid, String clientIp, String userAgent) {
     String oldRedisKey = this.getRedisKey(TOKEN.REFRESH_TOKEN, oldRtkUuid, clientIp, userAgent);
     String refreshToken = this.redisSupport.getValue(oldRedisKey);
     if (refreshToken == null) {
@@ -189,7 +175,7 @@ public class TokenService {
     
     String newRtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
     String newAtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
-    TokenResDto.Create result = new TokenResDto.Create();
+    TokenResDto.Refresh result = new TokenResDto.Refresh();
     result.setRtkUuid(newRtkUuid);
     result.setAtkUuid(newAtkUuid);
     try {
@@ -206,7 +192,8 @@ public class TokenService {
           claimsSet
           );
       signedJWT.sign(this.signer);
-      this.setToken(TOKEN.REFRESH_TOKEN, newRtkUuid, clientIp, userAgent, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
+      String rtkRedisKey = this.getRedisKey(TOKEN.REFRESH_TOKEN, newRtkUuid, clientIp, userAgent);
+      this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
       
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
@@ -219,7 +206,9 @@ public class TokenService {
           claimsSet
       );
       signedJWT.sign(this.signer);
-      this.setToken(TOKEN.ACCESS_TOKEN, newAtkUuid, clientIp, userAgent, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
+      
+      String atkRedisKey = this.getRedisKey(TOKEN.ACCESS_TOKEN, newAtkUuid, clientIp, userAgent);
+      this.redisSupport.setValue(atkRedisKey, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
     } catch (Exception e) { 
       log.error("message: {}", e.getMessage());
       throw new AppException(ERROR_CODE.A004, e);
@@ -240,16 +229,6 @@ public class TokenService {
       break;
     }
     return redisKey;
-  }
-  
-  private Optional<String> getToken(TOKEN type, String tokenUuid, String clientIp, String userAgent) {
-    String redisKey = this.getRedisKey(type, tokenUuid, clientIp, userAgent);
-    return Optional.ofNullable(this.redisSupport.getValue(redisKey));
-  }
-  
-  private void setToken(TOKEN type, String tokenUuid, String clientIp, String userAgent, String token, Duration ttl) {
-    String redisKey = this.getRedisKey(type, tokenUuid, clientIp, userAgent);
-    this.redisSupport.setValue(redisKey, token, ttl);
   }
   
   private String getClientIdent(String clientIp, String userAgent) {

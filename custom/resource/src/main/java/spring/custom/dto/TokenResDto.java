@@ -14,6 +14,12 @@ public class TokenResDto implements Serializable {
   public static class Create implements Serializable {
     private static final long serialVersionUID = 1L;
     private String rtkUuid;
+  }
+  
+  @Data
+  public static class Refresh implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private String rtkUuid;
     private String atkUuid;
   }
   
