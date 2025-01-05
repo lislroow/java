@@ -35,7 +35,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   protected ResponseDto<Serializable> handleException(Exception e) {
     ERROR_CODE responseCode = ERROR_CODE.E999;
     /* for debug */ log.error(LOGFMT, responseCode.code(), responseCode.message(), e.getCause() != null ? CAUSE + e.getCause().getClass() : e.getClass());
-    return ResponseDto.body(responseCode.code(), responseCode.message());
+    return ResponseDto.body(responseCode.code(), e.getMessage());
   }
   
 }

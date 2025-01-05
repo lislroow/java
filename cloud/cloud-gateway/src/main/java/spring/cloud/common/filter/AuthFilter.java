@@ -64,7 +64,6 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
           }
           /* for debug */ if (log.isDebugEnabled()) log.info("{}", resDto.getBody());
         } catch (AppException e) {
-          log.error("{} > {}", e, failCode);
           throw new AppException(failCode);
           
         } catch (HttpServerErrorException e) {
