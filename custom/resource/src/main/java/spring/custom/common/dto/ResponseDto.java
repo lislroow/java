@@ -11,31 +11,21 @@ public class ResponseDto<T> implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private ResponseDto() {
-    this.header = new Header();
-    this.header.code = ERROR_CODE.S000.name();
-    this.header.message = ERROR_CODE.S000.message();
-    this.body = null;
+    this(ERROR_CODE.S000.name(), ERROR_CODE.S000.message());
   }
   
   private ResponseDto(T data) {
-    this.header = new Header();
-    this.header.code = ERROR_CODE.S000.name();
-    this.header.message = ERROR_CODE.S000.message();
-    this.body = data;
-  }
-  
-  private ResponseDto(String code, String message, T data) {
-    this.header = new Header();
-    this.header.code = code;
-    this.header.message = message;
-    this.body = data;
+    this(ERROR_CODE.S000.name(), ERROR_CODE.S000.message(), data);
   }
   
   private ResponseDto(String code, String message) {
-    this.header = new Header();
-    this.header.setCode(code);
-    this.header.setMessage(message);
-    this.body = null;
+    this(code, message, null);
+  }
+  
+  private ResponseDto(String code, String message, T data) {
+    this.header.code = code;
+    this.header.message = message;
+    this.body = data;
   }
   
   private Header header = new Header();
