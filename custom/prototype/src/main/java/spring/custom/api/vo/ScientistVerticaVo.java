@@ -12,14 +12,14 @@ import spring.custom.common.mybatis.Pageable;
 @EqualsAndHashCode(callSuper=false)
 public class ScientistVerticaVo extends AuditVerticaVo {
   
-  private String id;
+  private Integer id;
   private String name;
   
   @Data
   @EqualsAndHashCode(callSuper=false)
   @Builder
   public static class FindVo extends Pageable {
-    private String id;
+    private Integer id;
     private String name;
   }
   @Data
@@ -28,7 +28,7 @@ public class ScientistVerticaVo extends AuditVerticaVo {
   @NoArgsConstructor
   @Builder
   public static class AddVo extends AuditVerticaVo {
-    private String id;
+    private Integer id;
     private String name;
   }
   
@@ -38,7 +38,7 @@ public class ScientistVerticaVo extends AuditVerticaVo {
   @NoArgsConstructor
   @Builder
   public static class ModifyVo extends AuditVerticaVo {
-    private String id;
+    private Integer id;
     private String name;
   }
   
@@ -48,7 +48,7 @@ public class ScientistVerticaVo extends AuditVerticaVo {
   @NoArgsConstructor
   @Builder
   public static class RemoveVo extends AuditVerticaVo {
-    private String id;
+    private Integer id;
     private String name;
   }
 

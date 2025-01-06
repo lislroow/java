@@ -56,6 +56,7 @@ public class SecurityConfig {
       .authorizeHttpRequests(authorizeRequests -> {
         List<String> permitList = Arrays.asList(
             "/oauth2/authorization/**",
+            "/v1/logout",
             "/v1/login/process",
             "/v1/token/**",
             "/v1/member/info",
@@ -89,7 +90,7 @@ public class SecurityConfig {
         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.NEVER)
       )
       .logout(logout ->
-        logout.logoutUrl("/auth/v1/logout")
+        logout.logoutUrl("/v1/logout")
           .logoutSuccessUrl("/")
           .addLogoutHandler(logoutHandlerImpl())
           .logoutSuccessHandler(logoutSuccessHandlerImpl())

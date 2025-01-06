@@ -14,14 +14,14 @@ import spring.custom.common.mybatis.Pageable;
 @NoArgsConstructor
 public class ScientistVo extends AuditVo {
   
-  private String id;
+  private Integer id;
   private String name;
   
   @Data
   @EqualsAndHashCode(callSuper=false)
   @Builder
   public static class FindVo extends Pageable {
-    private String id;
+    private Integer id;
     private String name;
   }
   @Data
@@ -30,7 +30,7 @@ public class ScientistVo extends AuditVo {
   @NoArgsConstructor
   @Builder
   public static class AddVo extends AuditVo {
-    private String id;
+    private Integer id;
     private String name;
   }
   
@@ -40,7 +40,7 @@ public class ScientistVo extends AuditVo {
   @NoArgsConstructor
   @Builder
   public static class ModifyVo extends AuditVo {
-    private String id;
+    private Integer id;
     private String name;
   }
   
@@ -50,7 +50,7 @@ public class ScientistVo extends AuditVo {
   @NoArgsConstructor
   @Builder
   public static class RemoveVo extends AuditVo {
-    private String id;
+    private Integer id;
     private String name;
   }
 }

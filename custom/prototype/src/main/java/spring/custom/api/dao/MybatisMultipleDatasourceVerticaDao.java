@@ -2,8 +2,6 @@ package spring.custom.api.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import spring.custom.api.vo.ScientistVerticaVo;
 import spring.custom.common.annotation.MapperVertica;
 import spring.custom.common.mybatis.Pageable;
@@ -14,16 +12,16 @@ public interface MybatisMultipleDatasourceVerticaDao {
   
   List<ScientistVerticaVo> findAll();
   
-  ScientistVerticaVo findById(@Param("id") String id);
+  ScientistVerticaVo findById(Integer id);
   
   PagedList<ScientistVerticaVo> findList(Pageable param);
   
-  PagedList<ScientistVerticaVo> findListByName(@Param("vo") ScientistVerticaVo.FindVo vo);
+  PagedList<ScientistVerticaVo> findListByName(ScientistVerticaVo.FindVo vo);
   
-  int add(@Param("vo") ScientistVerticaVo.AddVo vo);
+  int add(ScientistVerticaVo.AddVo vo);
   
-  int modifyNameById(@Param("vo") ScientistVerticaVo.ModifyVo vo);
+  int modifyNameById(ScientistVerticaVo.ModifyVo vo);
   
-  int removeById(@Param("vo") ScientistVerticaVo.RemoveVo vo);
+  int removeById(ScientistVerticaVo.RemoveVo vo);
   
 }

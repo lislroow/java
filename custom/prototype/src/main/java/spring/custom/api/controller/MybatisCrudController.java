@@ -66,7 +66,7 @@ public class MybatisCrudController {
   
   @GetMapping("/v1/mybatis-crud/scientist/{id}")
   public ResponseEntity<MybatisCrudResDto.Scientist> findById(
-      @PathVariable String id) {
+      @PathVariable Integer id) {
     
     ScientistVo result = scientistDao.findById(id);
     MybatisCrudResDto.Scientist resDto = modelMapper.map(result, MybatisCrudResDto.Scientist.class);
@@ -93,7 +93,7 @@ public class MybatisCrudController {
   
   @DeleteMapping("/v1/mybatis-crud/scientist/{id}")
   public ResponseEntity<?> removeById(
-      @PathVariable String id) {
+      @PathVariable Integer id) {
     
     ScientistVo.RemoveVo vo = ScientistVo.RemoveVo.builder()
         .id(id)

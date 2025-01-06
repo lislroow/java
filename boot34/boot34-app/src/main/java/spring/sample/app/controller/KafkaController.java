@@ -43,7 +43,7 @@ public class KafkaController {
     List<String> names = Arrays.asList("scott", "tiger", "ecycle", "yslee", "yslee", "sckim", "dhkim", "jkpark", "yhlee", "jckim", "mgkim");
     EmployVo data = new EmployVo();
     {
-      String id = Uuid.create();
+      Integer id = 1;
       data.setId(id);
       data.setName(names.get(new Random().nextInt(names.size())));
       data.setCreateDate(LocalDateTime.now());

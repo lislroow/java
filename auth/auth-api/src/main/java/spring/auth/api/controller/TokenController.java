@@ -42,7 +42,7 @@ public class TokenController {
     String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
     
     TokenResDto.Refresh result = tokenService.refreshToken(rtkUuid, clientIp, userAgent);
-    return ResponseEntity.status(HttpStatus.OK).body(result);
+    return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
   
 }

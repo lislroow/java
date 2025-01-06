@@ -22,16 +22,16 @@ public interface MybatisMultipleDatasourceDao {
   
   List<ScientistVo> findAll();
   
-  ScientistVo findById(@Param("id") String id);
+  ScientistVo findById(Integer id);
   
   PagedList<ScientistVo> findList(Pageable param);
   
-  PagedList<ScientistVo> findListByName(@Param("vo") ScientistVo.FindVo vo);
+  PagedList<ScientistVo> findListByName(ScientistVo.FindVo vo);
   
-  int add(@Param("vo") ScientistVo.AddVo vo);
+  int add(ScientistVo.AddVo vo);
   
-  int modifyNameById(@Param("vo") ScientistVo.ModifyVo vo);
+  int modifyNameById(ScientistVo.ModifyVo vo);
   
-  int removeById(@Param("vo") ScientistVo.RemoveVo vo);
+  int removeById(ScientistVo.RemoveVo vo);
   
 }

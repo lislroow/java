@@ -12,7 +12,7 @@ public class MybatisCrudReqDto {
   @EqualsAndHashCode(callSuper=false)
   @Builder
   public static class AddDto extends AuditVo {
-    private String id;
+    private Integer id;
     private String name;
   }
   
@@ -20,7 +20,7 @@ public class MybatisCrudReqDto {
   @EqualsAndHashCode(callSuper=false)
   @Builder
   public static class ModifyDto extends AuditVo {
-    private String id;
+    private Integer id;
     private String name;
   }
 }
