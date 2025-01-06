@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.enumcode.PROTOTYPE_URI;
-import spring.custom.common.security.JwtAuthenticationFilter;
+import spring.custom.common.security.TokenAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -29,7 +29,7 @@ public class SecurityConfig {
       .csrf(AbstractHttpConfigurer::disable)
       .httpBasic(AbstractHttpConfigurer::disable)
       .formLogin(AbstractHttpConfigurer::disable)
-      .addFilterBefore(new JwtAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
+      .addFilterBefore(new TokenAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
       .authorizeHttpRequests(authorizeRequests -> {
         List<String> permitList = Arrays.asList(
             "/actuator/**",

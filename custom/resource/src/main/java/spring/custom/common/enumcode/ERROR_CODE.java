@@ -18,6 +18,8 @@ public enum ERROR_CODE {
   /** token is empty */ A003("token is empty"),
   /** token refresh error */ A004("token refresh error"),
   /** token not exist */ A005("token not exist"),
+  /** access token is wrong */ A006("access token is wrong"),
+  /** authenticate token creation error */ A007("authenticate token creation error"),
   /** login required, userId is null */ AL01("login required, userId is null"),
   /** user not found */ AL02("user not found"),
   /** illegal access */ C001("illegal access"),

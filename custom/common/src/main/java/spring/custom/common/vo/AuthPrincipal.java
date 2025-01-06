@@ -10,12 +10,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import lombok.Data;
+import spring.custom.common.enumcode.TOKEN;
 
 @Data
 public class AuthPrincipal implements OAuth2User, UserDetails {
   
   private static final long serialVersionUID = 2501815366855398147L;
 
+  private String userType;
   private String email;
   private String password;
   private String nickname;
@@ -25,7 +27,8 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
   
   private transient Map<String, Object> attributes;
   
-  public AuthPrincipal(MemberVo memberVo) {
+  public AuthPrincipal(TOKEN.USER userType, MemberVo memberVo) {
+    this.userType = userType.code();
     this.email = memberVo.getEmail();
     this.password = memberVo.getPassword();
     this.nickname = memberVo.getNickname();

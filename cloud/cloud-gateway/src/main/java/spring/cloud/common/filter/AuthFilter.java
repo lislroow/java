@@ -60,7 +60,6 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
           /* for debug */ if (log.isDebugEnabled()) e.printStackTrace();
           throw new AppException(failCode);
         }
-
       }
       return chain.filter(exchange);
     };

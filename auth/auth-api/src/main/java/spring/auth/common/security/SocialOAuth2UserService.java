@@ -17,6 +17,7 @@ import spring.auth.api.dao.MemberDao;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.Role;
+import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.AuthPrincipal;
 import spring.custom.common.vo.MemberVo;
@@ -46,6 +47,6 @@ public class SocialOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     memberVo.setIp(request.getRemoteAddr());
     memberVo.setUserAgent(request.getHeader(Constant.HTTP_HEADER.USER_AGENT));
     memberVo.setRole(Role.ROLE_USER.name());
-    return new AuthPrincipal(memberVo);
+    return new AuthPrincipal(TOKEN.USER.MEMBER, memberVo);
   }
 }

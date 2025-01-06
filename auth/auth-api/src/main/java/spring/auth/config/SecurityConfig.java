@@ -35,7 +35,7 @@ import spring.auth.common.security.UsernamePasswordAuthenticationFailureHandler;
 import spring.auth.common.security.UsernamePasswordAuthenticationSuccessHandler;
 import spring.auth.common.security.UsernamePasswordDetailsService;
 import spring.custom.common.enumcode.PROTOTYPE_URI;
-import spring.custom.common.security.JwtAuthenticationFilter;
+import spring.custom.common.security.TokenAuthenticationFilter;
 
 @Configuration
 @EnableConfigurationProperties({ OAuth2ClientProperties.class })
@@ -56,7 +56,7 @@ public class SecurityConfig {
           .failureHandler(usernamePasswordAuthenticationFailureHandler())
           .successHandler(usernamePasswordAuthenticationSuccessHandler(tokenService))
       )
-      .addFilterBefore(new JwtAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
+      .addFilterBefore(new TokenAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
       .exceptionHandling(exceptionHandlingCustomizer -> 
         exceptionHandlingCustomizer.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
       )

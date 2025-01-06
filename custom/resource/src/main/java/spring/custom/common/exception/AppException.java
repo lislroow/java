@@ -6,44 +6,44 @@ public class AppException extends RuntimeException {
   
   private static final long serialVersionUID = 1L;
   
-  private final String errorCode;
-  private final String errorMessage;
+  private final String code;
+  private final String message;
 
-  public AppException(String errorCode, String errorMessage) {
-    super(errorMessage);
-    this.errorCode = errorCode;
-    this.errorMessage = errorMessage;
+  public AppException(String code, String message) {
+    super("["+code+"] " + message);
+    this.code = code;
+    this.message = message;
   }
 
-  public AppException(String errorMessage, Throwable cause) {
-    super(errorMessage, cause);
-    this.errorMessage = errorMessage;
-    this.errorCode = "";
+  public AppException(String message, Throwable cause) {
+    super(message, cause);
+    this.code = "";
+    this.message = message;
   }
 
-  public AppException(String errorCode) {
-    super(errorCode);
-    this.errorCode = errorCode;
-    this.errorMessage = "";
+  public AppException(String code) {
+    super("["+code+"]");
+    this.code = code;
+    this.message = "";
   }
 
-  public AppException(ERROR_CODE responseCode) {
-    super(responseCode.code());
-    this.errorCode = responseCode.code();
-    this.errorMessage = responseCode.message();
+  public AppException(ERROR_CODE errorCode) {
+    super("["+errorCode.code()+"] " + errorCode.message());
+    this.code = errorCode.code();
+    this.message = errorCode.message();
   }
 
-  public AppException(ERROR_CODE responseCode, Throwable cause) {
-    super(responseCode.code(), cause);
-    this.errorCode = responseCode.code();
-    this.errorMessage = responseCode.message();
+  public AppException(ERROR_CODE errorCode, Throwable cause) {
+    super("["+errorCode.code()+"] " + errorCode.message(), cause);
+    this.code = errorCode.code();
+    this.message = errorCode.message();
   }
 
   public String getErrorCode() {
-    return errorCode;
+    return code;
   }
 
   public String getErrorMessage() {
-    return errorMessage;
+    return message;
   }
 }

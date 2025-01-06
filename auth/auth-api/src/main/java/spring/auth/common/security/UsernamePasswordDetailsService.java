@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.MemberDao;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.MemberVo;
 import spring.custom.common.vo.AuthPrincipal;
@@ -35,6 +36,6 @@ public class UsernamePasswordDetailsService implements UserDetailsService {
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     memberVo.setIp(request.getRemoteAddr());
     memberVo.setUserAgent(request.getHeader(Constant.HTTP_HEADER.USER_AGENT));
-    return new AuthPrincipal(memberVo);
+    return new AuthPrincipal(TOKEN.USER.MEMBER, memberVo);
   }
 }
