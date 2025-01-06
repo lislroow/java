@@ -15,25 +15,22 @@ public class MybatisCrudService {
   private MybatisCrudDao scientistDao;
   
   @Transactional
-  public void add(ScientistVo.AddVo vo) {
-    scientistDao.add(vo);
+  public int add(ScientistVo.AddVo vo) {
+    vo.setCreateId(1);
+    vo.setModifyId(1);
+    return scientistDao.add(vo);
   }
   
   @Transactional
-  public void modifyNameById(ScientistVo.ModifyVo vo) {
-    vo.setModifyId(vo.getId());
+  public int modifyNameById(ScientistVo.ModifyVo vo) {
+    vo.setModifyId(1);
     
-    int cnt = scientistDao.modifyNameById(vo);
-    if (cnt == 0) {
-      throw new RuntimeException("수정 대상이 없습니다.");
-    }
+    return scientistDao.modifyNameById(vo);
   }
   
   @Transactional
-  public void removeById(ScientistVo.RemoveVo vo) {
-    int cnt = scientistDao.removeById(vo);
-    if (cnt == 0) {
-      throw new RuntimeException("삭제 대상이 없습니다.");
-    }
+  public int removeById(ScientistVo.RemoveVo vo) {
+    return scientistDao.removeById(vo);
   }
+  
 }

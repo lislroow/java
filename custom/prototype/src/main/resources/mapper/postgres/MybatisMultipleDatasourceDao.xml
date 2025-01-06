@@ -28,8 +28,8 @@
     SELECT /* MybatisMultipleDatasourceDao.findListByName */
            *
     FROM   scientist
-    <if test="name != null and !''.equals(vo.name)">
-      WHERE name LIKE '%'||#{vo.name}||'%'
+    <if test="vo.name != null and !''.equals(vo.name)">
+      WHERE UPPER(name) LIKE '%' || UPPER(#{vo.name}) || '%'
     </if>
     ORDER BY id DESC
   </select>
@@ -37,35 +37,33 @@
   <insert id="add">
     INSERT /* MybatisMultipleDatasourceDao.add */
       INTO scientist (
-        id,
         name,
         create_date,
         modify_date,
         create_id,
         modify_id
       ) VALUES (
-        #{vo.id},
-        #{vo.name},
+        #{name},
         now(),
         now(),
-        #{vo.createId},
-        #{vo.modifyId}
+        #{createId},
+        #{modifyId}
       )
   </insert>
   
   <update id="modifyNameById">
     UPDATE /* MybatisMultipleDatasourceDao.modifyNameById */
            scientist
-       SET name = #{vo.name},
+       SET name = #{name},
            modify_date = now(),
-           modify_id = #{vo.modifyId}
-     WHERE id = #{vo.id}
+           modify_id = #{modifyId}
+     WHERE id = #{id}
   </update>
   
   <delete id="removeById">
     DELETE /* MybatisMultipleDatasourceDao.removeById */
       FROM scientist
-     WHERE id = #{vo.id}
+     WHERE id = #{id}
   </delete>
   
 </mapper>

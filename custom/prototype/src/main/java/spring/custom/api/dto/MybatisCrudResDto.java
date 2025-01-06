@@ -8,6 +8,8 @@ import spring.custom.common.mybatis.PageInfo;
 @Data
 public class MybatisCrudResDto {
   
+  private MybatisCrudResDto() { }
+  
   @Data
   public static class Scientist {
     private Integer id;
@@ -17,6 +19,10 @@ public class MybatisCrudResDto {
   @Data
   public static class ScientistList {
     private List<Scientist> list;
+    
+    public ScientistList(List<Scientist> list) {
+      this.list = list;
+    }
   }
   
   @Data

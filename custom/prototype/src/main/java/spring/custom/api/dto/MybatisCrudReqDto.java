@@ -1,25 +1,19 @@
 package spring.custom.api.dto;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import spring.custom.common.audit.AuditVo;
 
 @Data
 public class MybatisCrudReqDto {
+  
+  private MybatisCrudReqDto() { }
 
   @Data
-  @EqualsAndHashCode(callSuper=false)
-  @Builder
-  public static class AddDto extends AuditVo {
-    private Integer id;
+  public static class AddDto {
     private String name;
   }
   
   @Data
-  @EqualsAndHashCode(callSuper=false)
-  @Builder
-  public static class ModifyDto extends AuditVo {
+  public static class ModifyDto {
     private Integer id;
     private String name;
   }
