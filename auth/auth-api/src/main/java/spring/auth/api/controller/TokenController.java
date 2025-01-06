@@ -1,5 +1,7 @@
 package spring.auth.api.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import spring.auth.common.security.TokenService;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.dto.ResponseDto;
 import spring.custom.dto.TokenReqDto;
 import spring.custom.dto.TokenResDto;
 
@@ -21,7 +22,7 @@ public class TokenController {
   final TokenService tokenService;
   
   @PostMapping("/v1/token/verify")
-  public ResponseDto<TokenResDto.Verify> verityToken(@RequestBody TokenReqDto.Verify reqDto) {
+  public ResponseEntity<TokenResDto.Verify> verityToken(@RequestBody TokenReqDto.Verify reqDto) {
     String atkUuid = reqDto.getAtkUuid();
     
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -29,11 +30,11 @@ public class TokenController {
     String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
     
     TokenResDto.Verify result = tokenService.verifyToken(atkUuid, clientIp, userAgent);
-    return ResponseDto.body(result);
+    return ResponseEntity.ok(result);
   }
   
   @PostMapping("/v1/token/refresh")
-  public ResponseDto<TokenResDto.Refresh> refreshToken(@RequestBody TokenReqDto.Refresh reqDto) {
+  public ResponseEntity<TokenResDto.Refresh> refreshToken(@RequestBody TokenReqDto.Refresh reqDto) {
     String rtkUuid = reqDto.getRtkUuid();
     
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -41,7 +42,7 @@ public class TokenController {
     String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
     
     TokenResDto.Refresh result = tokenService.refreshToken(rtkUuid, clientIp, userAgent);
-    return ResponseDto.body(result);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
   }
   
 }

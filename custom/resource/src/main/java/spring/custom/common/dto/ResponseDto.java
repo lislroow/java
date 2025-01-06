@@ -1,14 +1,11 @@
 package spring.custom.common.dto;
 
-import java.io.Serializable;
-
 import lombok.Data;
 import spring.custom.common.enumcode.ERROR_CODE;
 
+@Deprecated
 @Data
-public class ResponseDto<T> implements Serializable {
-
-  private static final long serialVersionUID = 1L;
+public class ResponseDto<T> {
 
   private ResponseDto() {
     this(ERROR_CODE.S000.name(), ERROR_CODE.S000.message());
@@ -32,9 +29,7 @@ public class ResponseDto<T> implements Serializable {
   private final T body;
   
   @Data
-  public static class Header implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
+  public static class Header {
     private String code;
     private String message;
   }

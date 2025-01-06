@@ -16,7 +16,7 @@ import spring.custom.common.constant.Constant;
 import spring.custom.common.redis.RedisSupport;
 
 @Configuration
-@ConditionalOnProperty(prefix = "spring.data.redis", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "spring.data.redis", name = Constant.DISABLED, havingValue = "false", matchIfMissing = true)
 public class RedisConfig {
 
   @Autowired

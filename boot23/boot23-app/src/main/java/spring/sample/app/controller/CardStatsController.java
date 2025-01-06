@@ -5,12 +5,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.common.dto.ResponseDto;
 import spring.sample.app.dao.CardStatsDao;
 import spring.sample.app.dto.CardStatsReqDto;
 import spring.sample.app.dto.CardStatsResDto;
@@ -27,7 +27,7 @@ public class CardStatsController {
   
   @PostMapping("/v1/card-stats/issue-info")
   @AccessControl
-  public ResponseDto<CardStatsResDto.IssueInfo> getIssueInfo(
+  public ResponseEntity<CardStatsResDto.IssueInfo> getIssueInfo(
       @RequestBody CardStatsReqDto.Issue request) {
     Optional<CardVo> result = cardStatsDao.selectIssueDateByCardNo(request.getCardNo());
     
@@ -36,12 +36,12 @@ public class CardStatsController {
       resDto = modelMapper.map(result, CardStatsResDto.IssueInfo.class);
     }
     
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
   @PostMapping("/v1/card-stats/payments")
   @AccessControl
-  public ResponseDto<CardStatsResDto.Payments> getPayments(
+  public ResponseEntity<CardStatsResDto.Payments> getPayments(
       @RequestBody CardStatsReqDto.Payment request) {
     List<CardPaymentVo> result = cardStatsDao.selectPaymentsByCardNo(request.getCardNo());
     
@@ -52,7 +52,7 @@ public class CardStatsController {
           .collect(Collectors.toList()));
     }
     
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
 }

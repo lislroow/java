@@ -18,9 +18,9 @@ import spring.market.common.constant.MarketConstant;
 import spring.market.common.enumcode.REDIS_TYPE;
 import spring.market.config.properties.RedisProperties;
 
-@Configuration
-@ConditionalOnProperty(prefix = "market.redis.auth-guest", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
-@EnableConfigurationProperties(spring.market.config.properties.RedisProperties.class)
+//@Configuration
+//@ConditionalOnProperty(prefix = "market.redis.auth-guest", name = Constant.DISABLED, havingValue = "false", matchIfMissing = true)
+//@EnableConfigurationProperties(spring.market.config.properties.RedisProperties.class)
 public class RedisAuthGuestConfig {
 
   @Autowired

@@ -1,13 +1,12 @@
 package spring.sample.app.controller;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import spring.custom.common.dto.ResponseDto;
-import spring.custom.common.enumcode.ERROR_CODE;
 import spring.sample.app.dto.QualificationResDto;
 import spring.sample.app.feign.FeignQualificationController;
 
@@ -20,15 +19,11 @@ public class QualificationController {
   final FeignQualificationController qualificationFeignClient;
   
   @PostMapping("/v1/qualification/verify-using-webservice")
-  public ResponseDto<QualificationResDto.SoapRes> verifyUsingWebservice() {
-    ResponseDto<QualificationResDto.SoapRes> result = 
+  public ResponseEntity<QualificationResDto.SoapRes> verifyUsingWebservice() {
+    ResponseEntity<QualificationResDto.SoapRes> result = 
         qualificationFeignClient.verifyUsingWebservice();
-    
-    QualificationResDto.SoapRes body = null;
-    if (ERROR_CODE.S000.name().equals(result.getHeader().getCode())) {
-      body = result.getBody();
-    }
-    return ResponseDto.body(body);
+    QualificationResDto.SoapRes body = result.getBody();
+    return ResponseEntity.ok(body);
   }
   
 }

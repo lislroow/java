@@ -2,6 +2,7 @@ package spring.auth.api.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.MemberDao;
 import spring.auth.common.security.TokenService;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.MemberVo;
@@ -29,7 +29,7 @@ public class MemberController {
   final ModelMapper modelMapper;
   
   @GetMapping("/v1/member/info")
-  public ResponseDto<MemberResDto.Info> info(
+  public ResponseEntity<MemberResDto.Info> info(
       @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorization) {
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     String atkUuid = null;
@@ -42,7 +42,7 @@ public class MemberController {
     MemberVo vo = memberDao.selectByEmail(result.getUsername())
         .orElseThrow(() -> new AppException(ERROR_CODE.AL02));
     MemberResDto.Info resDto = modelMapper.map(vo, MemberResDto.Info.class);
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
 }

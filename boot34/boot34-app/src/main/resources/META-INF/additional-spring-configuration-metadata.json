@@ -1,8 +1,9 @@
 {
   "properties": [
     {
-      "name": "spring.data.redis.enabled",
-      "type": "java.lang.Boolean"
+      "name": "spring.data.redis.disabled",
+      "type": "java.lang.Boolean",
+      "description": "A description for 'spring.data.redis.disabled'"
     },
     
     

@@ -3,6 +3,7 @@ package spring.market.api.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.common.dto.ResponseDto;
 import spring.market.api.dto.MyInfoReqDto;
 import spring.market.api.dto.MyInfoResDto;
 import spring.market.api.service.MyInfoService;
@@ -26,38 +26,38 @@ public class MyInfoController {
   
   @GetMapping("/v1/my/user")
   @Login
-  public ResponseDto<MyInfoResDto.UserRes> getUser(@UserInfo UserVo user) {
-    return ResponseDto.body(myInfoService.getUser(user));
+  public ResponseEntity<MyInfoResDto.UserRes> getUser(@UserInfo UserVo user) {
+    return ResponseEntity.ok(myInfoService.getUser(user));
   }
   
   @PutMapping("/v1/my/user")
   @Login
-  public ResponseDto<MyInfoResDto.UserRes> saveUser(
+  public ResponseEntity<MyInfoResDto.UserRes> saveUser(
       @UserInfo UserVo user,
       @RequestBody MyInfoReqDto.UserReq request) {
-    return ResponseDto.body(myInfoService.saveMyInfo(user, request));
+    return ResponseEntity.ok(myInfoService.saveMyInfo(user, request));
   }
 
   @GetMapping("/v1/my/delivery-address")
   @Login
-  public ResponseDto<ArrayList<MyInfoResDto.DeliveryAddressRes>> getDeliveryAddress(
+  public ResponseEntity<ArrayList<MyInfoResDto.DeliveryAddressRes>> getDeliveryAddress(
       @UserInfo UserVo user) {
-    return ResponseDto.body(new ArrayList<>(myInfoService.getDeliveryAddress(user)));
+    return ResponseEntity.ok(new ArrayList<>(myInfoService.getDeliveryAddress(user)));
   }
 
   @PutMapping("/v1/my/delivery-address")
   @Login
-  public ResponseDto<ArrayList<MyInfoResDto.DeliveryAddressRes>> saveDeliveryAddress(
+  public ResponseEntity<ArrayList<MyInfoResDto.DeliveryAddressRes>> saveDeliveryAddress(
       @UserInfo UserVo user,
       @RequestBody List<MyInfoReqDto.DeliveryAddressReq> request) {
-    return ResponseDto.body(new ArrayList<>(myInfoService.saveDeliveryAddress(user, request)));
+    return ResponseEntity.ok(new ArrayList<>(myInfoService.saveDeliveryAddress(user, request)));
   }
 
   @DeleteMapping("/v1/my/delivery-address")
   @Login
-  public ResponseDto<ArrayList<MyInfoResDto.DeliveryAddressRes>> deleteDeliveryAddress(
+  public ResponseEntity<ArrayList<MyInfoResDto.DeliveryAddressRes>> deleteDeliveryAddress(
       @UserInfo UserVo user,
       @RequestBody List<MyInfoReqDto.DeliveryAddressReq> request) {
-    return ResponseDto.body(new ArrayList<>(myInfoService.deleteDeliveryAddress(user, request)));
+    return ResponseEntity.ok(new ArrayList<>(myInfoService.deleteDeliveryAddress(user, request)));
   }
 }

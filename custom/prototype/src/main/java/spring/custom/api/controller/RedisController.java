@@ -6,6 +6,7 @@ import java.util.Set;
 //import jakarta.annotation.PostConstruct;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,65 +16,64 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.redis.RedisSupport;
 
 @RestController
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "spring.data.redis", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "spring.data.redis", name = Constant.DISABLED, havingValue = "false", matchIfMissing = true)
 public class RedisController {
   
   final RedisSupport redisSupport;
   //final RedisTemplate<String, Object> redisTemplate;
   
   @GetMapping("/v1/redis/keys")
-  public ResponseDto<Set<String>> keys() {
+  public ResponseEntity<Set<String>> keys() {
     Set<String> keys = redisSupport.keys();
-    return ResponseDto.body(keys);
+    return ResponseEntity.ok(keys);
   }
   
   @GetMapping("/v1/redis/key/{key}")
-  public ResponseDto<Set<String>> key(@PathVariable("key") String key) {
+  public ResponseEntity<Set<String>> key(@PathVariable("key") String key) {
     Set<String> keys = redisSupport.key(key);
-    return ResponseDto.body(keys);
+    return ResponseEntity.ok(keys);
   }
   
   @GetMapping("/v1/redis/value/{key}")
-  public ResponseDto<String> get(@PathVariable("key") String key) {
+  public ResponseEntity<String> get(@PathVariable("key") String key) {
     String value = redisSupport.getValue(key);
-    return ResponseDto.body(value);
+    return ResponseEntity.ok(value);
   }
   
   @GetMapping("/v1/redis/hash/{key}/{hashKey}")
-  public ResponseDto<String> hget(@PathVariable("key") String key, @PathVariable("hashKey") String hashKey) {
+  public ResponseEntity<String> hget(@PathVariable("key") String key, @PathVariable("hashKey") String hashKey) {
     String hashValue = redisSupport.getHash(key, hashKey);
-    return ResponseDto.body(hashValue);
+    return ResponseEntity.ok(hashValue);
   }
   
   @PutMapping("/v1/redis/value/{key}")
-  public ResponseDto<String> set(@PathVariable("key") String key, @RequestParam("value") String value) {
+  public ResponseEntity<String> set(@PathVariable("key") String key, @RequestParam("value") String value) {
     redisSupport.setValue(key, value);
     value = redisSupport.getValue(key);
-    return ResponseDto.body(value);
+    return ResponseEntity.ok(value);
   }
   
   @PutMapping("/v1/redis/hash/{key}/{hashKey}")
-  public ResponseDto<String> hset(@PathVariable("key") String key, @PathVariable("hashKey") String hashKey,
+  public ResponseEntity<String> hset(@PathVariable("key") String key, @PathVariable("hashKey") String hashKey,
       @RequestParam("value") String value) {
     redisSupport.setHash(key, hashKey, value);
     String hashValue = redisSupport.getHash(key, hashKey);
-    return ResponseDto.body(hashValue);
+    return ResponseEntity.ok(hashValue);
   }
   
   @DeleteMapping("/v1/redis/value/{key}")
-  public ResponseDto<?> del(@PathVariable("key") String key) {
+  public ResponseEntity<?> del(@PathVariable("key") String key) {
     redisSupport.delValue(key);
-    return ResponseDto.body();
+    return ResponseEntity.ok().build();
   }
   
   @DeleteMapping("/v1/redis/hash/{key}/{hashKey}")
-  public ResponseDto<?> hdel(@PathVariable("key") String key, @PathVariable("hashKey") String hashKey) {
+  public ResponseEntity<?> hdel(@PathVariable("key") String key, @PathVariable("hashKey") String hashKey) {
     redisSupport.deleteHash(key, hashKey);
-    return ResponseDto.body();
+    return ResponseEntity.ok().build();
   }
 }

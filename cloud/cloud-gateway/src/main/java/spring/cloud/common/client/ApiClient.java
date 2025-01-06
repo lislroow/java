@@ -1,17 +1,23 @@
 package spring.cloud.common.client;
 
+import java.util.Optional;
+
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.dto.ResponseDto;
+import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.exception.AppException;
 
 @Profile({"local", "dev"})
 @Component
@@ -22,32 +28,54 @@ public class ApiClient {
   final RestTemplate restTemplate;
   final ObjectMapper objectMapper;
   
-  public <T> ResponseDto<T> get(String url, Class<T> responseType) {
-    ResponseDto<T> resDto = null;
+  public <T> T getForEntity(String url, Class<T> responseType) {
     ResponseEntity<String> resEntity = restTemplate.getForEntity(url, String.class);
     String body = resEntity.getBody();
-    JavaType javaType = objectMapper.getTypeFactory()
-        .constructParametricType(ResponseDto.class, responseType);
+    T result = null;
     try {
-      resDto = objectMapper.readValue(body, javaType);
+      result = objectMapper.readValue(body, responseType);
     } catch (JsonProcessingException e) {
       log.error("{}", e.getMessage());
     }
-    return resDto;
+    return result;
   }
   
-  public <T> ResponseDto<T> post(String url, Object requestBody, Class<T> responseType) {
-    ResponseDto<T> resDto = null;
-    ResponseEntity<String> resEntity = restTemplate.postForEntity(url, requestBody, String.class);
-    String body = resEntity.getBody();
-    JavaType javaType = objectMapper.getTypeFactory()
-        .constructParametricType(ResponseDto.class, responseType);
+  public <T> T postForEntity(String url, Object requestBody, Class<T> responseType) {
+    ResponseEntity<String> resEntity = null;
     try {
-      resDto = objectMapper.readValue(body, javaType);
-    } catch (JsonProcessingException e) {
-      log.error("{}", e.getMessage());
+      resEntity = restTemplate.postForEntity(url, requestBody, String.class);
+    } catch (HttpServerErrorException | HttpClientErrorException e) {
+      /* for debug */ if (log.isDebugEnabled()) System.out.println("HTTP Status Code: " + e.getStatusCode());
+      /* for debug */ if (log.isDebugEnabled()) System.out.println("Response Body: " + e.getResponseBodyAsString());
+      try {
+        ProblemDetail problemDetail = new ObjectMapper().readValue(
+            e.getResponseBodyAsString(), 
+            ProblemDetail.class
+        );
+        Optional<ERROR_CODE> errorCode = ERROR_CODE.fromCode(problemDetail.getTitle());
+        if (errorCode.isPresent()) {
+          throw new AppException(errorCode.get());
+        } else {
+          throw e;
+        }
+      } catch (JsonProcessingException jsonException) {
+        /* for debug */ if (log.isDebugEnabled()) System.err.println("Failed to parse response body to ProblemDetail: " + jsonException.getMessage());
+        throw new AppException(ERROR_CODE.E999.code(), jsonException.getMessage());
+      }
+    } catch (RestClientException e) {
+      /* for debug */ if (log.isDebugEnabled()) e.printStackTrace();
+      throw new AppException(ERROR_CODE.E999.code(), e.getMessage());
     }
-    return resDto;
+    
+    String body = resEntity.getBody();
+    T result = null;
+    try {
+      result = objectMapper.readValue(body, responseType);
+    } catch (JsonProcessingException e) {
+      /* for debug */ if (log.isDebugEnabled()) System.err.println("Failed to parse response body to resDto: " + e.getMessage());
+      throw new AppException(ERROR_CODE.E999.code(), e.getMessage());
+    }
+    return result;
   }
   
 }

@@ -1,14 +1,12 @@
 package spring.market.api.controller;
 
-import java.io.Serializable;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.common.dto.ResponseDto;
 import spring.market.api.dto.OrderReqDto;
 import spring.market.api.dto.OrderResDto;
 import spring.market.api.service.OrderService;
@@ -23,16 +21,16 @@ public class OrderController {
   private final OrderService orderService;
   
   @PostMapping("/v1/process")
-  public ResponseDto<Serializable> orderProducts(@RequestBody OrderReqDto.ItemReq request) {
+  public ResponseEntity<?> orderProducts(@RequestBody OrderReqDto.ItemReq request) {
     orderService.process(request);
-    return ResponseDto.body();
+    return ResponseEntity.ok().build();
   }
   
   @GetMapping("/v1/my/orders")
   @Login
-  public ResponseDto<OrderResDto.ItemListRes> myOrder(@UserInfo UserVo user) {
+  public ResponseEntity<OrderResDto.ItemListRes> myOrder(@UserInfo UserVo user) {
     OrderResDto.ItemListRes resDto = new OrderResDto.ItemListRes();
     resDto.setList(orderService.myOrders(user));
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
 }

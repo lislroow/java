@@ -1,8 +1,7 @@
 package spring.custom.common.enumcode;
 
 import java.util.Arrays;
-
-import org.springframework.http.HttpStatus;
+import java.util.Optional;
 
 public enum ERROR_CODE {
   
@@ -19,13 +18,6 @@ public enum ERROR_CODE {
   /** token is empty */ A003("token is empty"),
   /** token refresh error */ A004("token refresh error"),
   /** token not exist */ A005("token not exist"),
-  H400(HttpStatus.BAD_REQUEST.getReasonPhrase()),
-  H401(HttpStatus.UNAUTHORIZED.getReasonPhrase()),
-  H402(HttpStatus.PAYMENT_REQUIRED.getReasonPhrase()),
-  H403(HttpStatus.FORBIDDEN.getReasonPhrase()),
-  H404(HttpStatus.NOT_FOUND.getReasonPhrase()),
-  H405(HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase()),
-  H406(HttpStatus.NOT_ACCEPTABLE.getReasonPhrase()),
   /** login required, userId is null */ AL01("login required, userId is null"),
   /** user not found */ AL02("user not found"),
   /** illegal access */ C001("illegal access"),
@@ -46,11 +38,10 @@ public enum ERROR_CODE {
     return this.name();
   }
   
-  public static ERROR_CODE fromCode(String code) {
+  public static Optional<ERROR_CODE> fromCode(String code) {
       return Arrays.stream(ERROR_CODE.values())
           .filter(item -> item.code().equals(code))
-          .findFirst()
-          .orElseThrow(() -> new IllegalArgumentException(String.format("'%s' not exist.", code)));
+          .findAny();
   }
   
   public String toString() {

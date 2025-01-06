@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,6 @@ import spring.custom.api.dao.MybatisMultipleDatasourceVerticaDao;
 import spring.custom.api.dto.MybatisMultipleDatasourceResDto;
 import spring.custom.api.vo.ScientistVerticaVo;
 import spring.custom.api.vo.ScientistVo;
-import spring.custom.common.dto.ResponseDto;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,7 +50,7 @@ public class MybatisMultipleDatasourceController {
   private MybatisMultipleDatasourceDao postgresDao;
   
   @GetMapping("/v1/mybatis-multiple-datasource/all")
-  public ResponseDto<MybatisMultipleDatasourceResDto.ScientistList> all() {
+  public ResponseEntity<MybatisMultipleDatasourceResDto.ScientistList> all() {
     MybatisMultipleDatasourceResDto.ScientistList resDto = new MybatisMultipleDatasourceResDto.ScientistList();
     List<MybatisMultipleDatasourceResDto.Scientist> listAll = new ArrayList<MybatisMultipleDatasourceResDto.Scientist>();
     if (h2Dao != null)
@@ -89,72 +89,72 @@ public class MybatisMultipleDatasourceController {
       log.warn("postgresDao is null");
     
       resDto.setList(listAll);
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
   @GetMapping("/v1/mybatis-multiple-datasource/standard")
-  public ResponseDto<MybatisMultipleDatasourceResDto.ScientistList> standard() {
+  public ResponseEntity<MybatisMultipleDatasourceResDto.ScientistList> standard() {
     List<ScientistVo> result = dao.findAll();
     List<MybatisMultipleDatasourceResDto.Scientist> list = result.stream()
         .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
         .collect(Collectors.toList());
     MybatisMultipleDatasourceResDto.ScientistList resDto = new MybatisMultipleDatasourceResDto.ScientistList();
     resDto.setList(list);
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
   @GetMapping("/v1/mybatis-multiple-datasource/h2")
-  public ResponseDto<MybatisMultipleDatasourceResDto.ScientistList> h2() {
+  public ResponseEntity<MybatisMultipleDatasourceResDto.ScientistList> h2() {
     List<ScientistVo> result = h2Dao.findAll();
     List<MybatisMultipleDatasourceResDto.Scientist> list = result.stream()
         .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
         .collect(Collectors.toList());
     MybatisMultipleDatasourceResDto.ScientistList resDto = new MybatisMultipleDatasourceResDto.ScientistList();
     resDto.setList(list);
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
   @GetMapping("/v1/mybatis-multiple-datasource/maria")
-  public ResponseDto<MybatisMultipleDatasourceResDto.ScientistList> maria() {
+  public ResponseEntity<MybatisMultipleDatasourceResDto.ScientistList> maria() {
     List<ScientistVo> result = mariaDao.findAll();
     List<MybatisMultipleDatasourceResDto.Scientist> list = result.stream()
         .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
         .collect(Collectors.toList());
     MybatisMultipleDatasourceResDto.ScientistList resDto = new MybatisMultipleDatasourceResDto.ScientistList();
     resDto.setList(list);
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
   @GetMapping("/v1/mybatis-multiple-datasource/oracle")
-  public ResponseDto<MybatisMultipleDatasourceResDto.ScientistList> oracle() {
+  public ResponseEntity<MybatisMultipleDatasourceResDto.ScientistList> oracle() {
     List<ScientistVo> result = oracleDao.findAll();
     List<MybatisMultipleDatasourceResDto.Scientist> list = result.stream()
         .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
         .collect(Collectors.toList());
     MybatisMultipleDatasourceResDto.ScientistList resDto = new MybatisMultipleDatasourceResDto.ScientistList();
     resDto.setList(list);
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
   @GetMapping("/v1/mybatis-multiple-datasource/vertica")
-  public ResponseDto<MybatisMultipleDatasourceResDto.ScientistList> vertica() {
+  public ResponseEntity<MybatisMultipleDatasourceResDto.ScientistList> vertica() {
     List<ScientistVerticaVo> result = verticaDao.findAll();
     List<MybatisMultipleDatasourceResDto.Scientist> list = result.stream()
         .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
         .collect(Collectors.toList());
     MybatisMultipleDatasourceResDto.ScientistList resDto = new MybatisMultipleDatasourceResDto.ScientistList();
     resDto.setList(list);
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
   @GetMapping("/v1/mybatis-multiple-datasource/postgres")
-  public ResponseDto<MybatisMultipleDatasourceResDto.ScientistList> postgres() {
+  public ResponseEntity<MybatisMultipleDatasourceResDto.ScientistList> postgres() {
     List<ScientistVo> result = postgresDao.findAll();
     List<MybatisMultipleDatasourceResDto.Scientist> list = result.stream()
         .map(item -> modelMapper.map(item, MybatisMultipleDatasourceResDto.Scientist.class))
         .collect(Collectors.toList());
     MybatisMultipleDatasourceResDto.ScientistList resDto = new MybatisMultipleDatasourceResDto.ScientistList();
     resDto.setList(list);
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
 }

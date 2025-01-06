@@ -10,13 +10,13 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
-import spring.cloud.common.exception.RestTemplateErrorHandler;
+//import spring.cloud.common.exception.RestTemplateErrorHandler;
 
 @Configuration
 @RequiredArgsConstructor
 public class RestTemplateConfig {
   
-  final RestTemplateErrorHandler restTemplateErrorHandler;
+  //final RestTemplateErrorHandler restTemplateErrorHandler;
   
   @Bean
   RestTemplate restTemplate() {
@@ -31,7 +31,7 @@ public class RestTemplateConfig {
     
     HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
     RestTemplate restTemplate = new RestTemplate(factory);
-    restTemplate.setErrorHandler(restTemplateErrorHandler);
+    //restTemplate.setErrorHandler(restTemplateErrorHandler);
     return restTemplate;
   }
   

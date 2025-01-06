@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ import spring.custom.api.dto.MybatisCrudReqDto;
 import spring.custom.api.dto.MybatisCrudResDto;
 import spring.custom.api.service.MybatisCrudService;
 import spring.custom.api.vo.ScientistVo;
-import spring.custom.common.dto.ResponseDto;
 import spring.custom.common.mybatis.Pageable;
 import spring.custom.common.mybatis.PagedList;
 
@@ -34,7 +32,7 @@ public class MybatisCrudController {
   final MybatisCrudDao scientistDao;
   
   @GetMapping("/v1/mybatis-crud/scientists/all")
-  public ResponseDto<MybatisCrudResDto.ScientistList> findAll() {
+  public ResponseEntity<MybatisCrudResDto.ScientistList> findAll() {
     
     List<ScientistVo> result = scientistDao.findAll();
     MybatisCrudResDto.ScientistList resDto = new MybatisCrudResDto.ScientistList();
@@ -42,20 +40,19 @@ public class MybatisCrudController {
         .map(item -> modelMapper.map(item, MybatisCrudResDto.Scientist.class))
         .collect(Collectors.toList());
     resDto.setList(list);
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
   @GetMapping("/v1/mybatis-crud/scientists")
-  public ResponseDto<PagedList<ScientistVo>> findList(
-      @RequestParam(required = false, defaultValue = "1") Integer page,
-      @RequestParam(required = false, defaultValue = "10") Integer size) {
-    
+  public ResponseEntity<PagedList<ScientistVo>> findList(
+      @RequestParam(defaultValue = "1") Integer page,
+      @RequestParam(defaultValue = "10") Integer size) {
     PagedList<ScientistVo> result = scientistDao.findList(Pageable.of(page, size));
-    return ResponseDto.body(result);
+    return ResponseEntity.ok(result);
   }
-  
+   
   @GetMapping("/v1/mybatis-crud/scientists/search")
-  public ResponseDto<PagedList<ScientistVo>> searchByName(
+  public ResponseEntity<PagedList<ScientistVo>> searchByName(
       @RequestParam(required = false) String name,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
@@ -64,45 +61,45 @@ public class MybatisCrudController {
         .name(name)
         .build();
     PagedList<ScientistVo> result = scientistDao.findListByName(Pageable.of(page, size), vo);
-    return ResponseDto.body(result);
+    return ResponseEntity.ok(result);
   }
   
   @GetMapping("/v1/mybatis-crud/scientist/{id}")
-  public ResponseDto<MybatisCrudResDto.Scientist> findById(
+  public ResponseEntity<MybatisCrudResDto.Scientist> findById(
       @PathVariable String id) {
     
     ScientistVo result = scientistDao.findById(id);
     MybatisCrudResDto.Scientist resDto = modelMapper.map(result, MybatisCrudResDto.Scientist.class);
-    return ResponseDto.body(resDto);
+    return ResponseEntity.ok(resDto);
   }
   
   @PostMapping("/v1/mybatis-crud/scientist")
-  public ResponseDto<MybatisCrudResDto.Scientist> add(
+  public ResponseEntity<?> add(
       @RequestBody MybatisCrudReqDto.AddDto reqDto) {
     
     ScientistVo.AddVo vo = modelMapper.map(reqDto, ScientistVo.AddVo.class);
     scientistService.add(vo);
-    return ResponseDto.body();
+    return ResponseEntity.ok().build();
   }
   
   @PutMapping("/v1/mybatis-crud/scientist")
-  public ResponseDto<?> modifyNameById(
+  public ResponseEntity<?> modifyNameById(
       @RequestBody MybatisCrudReqDto.ModifyDto reqDto) {
     
     ScientistVo.ModifyVo vo = modelMapper.map(reqDto, ScientistVo.ModifyVo.class);
     scientistService.modifyNameById(vo);
-    return ResponseDto.body();
+    return ResponseEntity.ok().build();
   }
   
   @DeleteMapping("/v1/mybatis-crud/scientist/{id}")
-  public ResponseDto<?> removeById(
+  public ResponseEntity<?> removeById(
       @PathVariable String id) {
     
     ScientistVo.RemoveVo vo = ScientistVo.RemoveVo.builder()
         .id(id)
         .build();
     scientistService.removeById(vo);
-    return ResponseDto.body();
+    return ResponseEntity.ok().build();
   }
   
 }

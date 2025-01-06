@@ -15,7 +15,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import spring.custom.common.constant.Constant;
 
 @Configuration
-@ConditionalOnProperty(prefix = "spring.datasource.hikari", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "spring.datasource.hikari", name = Constant.DISABLED, havingValue = "false", matchIfMissing = true)
 public class DataSourceConfig {
 
   @Bean(name = "dataSource")
@@ -38,7 +38,7 @@ public class DataSourceConfig {
 //  private org.springframework.core.io.Resource initScript;
 //  
 //  @Bean(name = "dataSourceInitializer")
-//  @ConditionalOnProperty(name = "spring.datasource.init", havingValue = "true", matchIfMissing = false)
+//  @ConditionalOnProperty(name = "spring.datasource.init", havingValue = "false", matchIfMissing = true)
 //  DataSourceInitializer dataSourceInitializer() {
 //    DataSourceInitializer initializer = new DataSourceInitializer();
 //    initializer.setDataSource(dataSource());

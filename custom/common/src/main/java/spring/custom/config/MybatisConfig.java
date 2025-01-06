@@ -21,7 +21,7 @@ import spring.custom.common.constant.Constant;
 import spring.custom.common.mybatis.PagingInterceptor;
 
 @Configuration
-@ConditionalOnProperty(prefix = "mybatis", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "mybatis", name = Constant.DISABLED, havingValue = "false", matchIfMissing = true)
 @EnableConfigurationProperties(org.mybatis.spring.boot.autoconfigure.MybatisProperties.class)
 @Slf4j
 @MapperScan(basePackages = {Constant.BASE_PACKAGE}, annotationClass = Mapper.class, sqlSessionFactoryRef = "sqlSessionFactoryBean")
