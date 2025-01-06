@@ -9,13 +9,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import spring.auth.api.dao.MemberDao;
+import spring.custom.api.dao.MemberDao;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.MemberVo;
 import spring.custom.common.vo.AuthPrincipal;
+import spring.custom.common.vo.MemberVo;
 
 @Service
 @RequiredArgsConstructor

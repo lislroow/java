@@ -67,7 +67,6 @@ public class SecurityConfig {
             "/v1/logout",
             "/v1/login/process",
             "/v1/token/**",
-            "/v1/member/info",
             "/actuator/**",
             "/error",
             "/v3/api-docs");

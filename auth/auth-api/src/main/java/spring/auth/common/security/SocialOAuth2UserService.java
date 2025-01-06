@@ -13,7 +13,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import spring.auth.api.dao.MemberDao;
+import spring.auth.api.dao.MngMemberDao;
+import spring.custom.api.dao.MemberDao;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.Role;
@@ -26,8 +27,8 @@ import spring.custom.common.vo.MemberVo;
 @RequiredArgsConstructor
 public class SocialOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
   
+  final MngMemberDao mngMemberDao;
   final MemberDao memberDao;
-  //final UserRepository userRepository;
   final ModelMapper model;
   
   @Transactional
@@ -40,7 +41,7 @@ public class SocialOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     SocialOauthAttribute attributes = SocialOauthAttribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
     MemberVo vo = attributes.toVo();
     MemberVo memberVo = memberDao.selectByEmail(vo.getEmail()).orElseGet(() -> {
-      memberDao.insert(vo);
+      mngMemberDao.insert(vo);
       return memberDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(ERROR_CODE.AL02));
     });
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
