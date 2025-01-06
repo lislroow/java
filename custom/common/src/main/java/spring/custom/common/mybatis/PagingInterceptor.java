@@ -62,7 +62,7 @@ public class PagingInterceptor implements Interceptor {
         int offset = (page - 1) * size;
         int limit = size;
         int start = offset + 1;
-        int end = offset + limit;
+        int end = offset + limit > pagedList.getTotal() ? pagedList.getTotal() : offset + limit;
         
         List<Object> result = executor.query(ms, parameter,
             new RowBounds(offset, limit),

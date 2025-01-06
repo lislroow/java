@@ -3,13 +3,16 @@ package spring.custom.api.dto;
 import java.util.List;
 
 import lombok.Data;
-import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.mybatis.Paged;
 
 @Data
 public class MybatisCrudResDto {
-
-  public static class Scientist extends ScientistVo { }
+  
+  @Data
+  public static class Scientist {
+    private Integer id;
+    private String name;
+  }
   
   @Data
   public static class ScientistList {

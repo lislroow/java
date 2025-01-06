@@ -50,9 +50,9 @@ public class MybatisCrudController {
     PagedList<ScientistVo> result = scientistDao.findList(Pageable.of(page, size));
     return ResponseEntity.ok(result);
   }
-   
+  
   @GetMapping("/v1/mybatis-crud/scientists/search")
-  public ResponseEntity<PagedList<ScientistVo>> searchByName(
+  public ResponseEntity<PagedList<MybatisCrudResDto.Scientist>> searchByName(
       @RequestParam(required = false) String name,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
@@ -61,7 +61,12 @@ public class MybatisCrudController {
         .name(name)
         .build();
     PagedList<ScientistVo> result = scientistDao.findListByName(Pageable.of(page, size), vo);
-    return ResponseEntity.ok(result);
+    PagedList<MybatisCrudResDto.Scientist> resDto = new PagedList<MybatisCrudResDto.Scientist>();
+    resDto.setList(result.stream()
+        .map(item -> modelMapper.map(item, MybatisCrudResDto.Scientist.class))
+        .collect(Collectors.toList()));
+    resDto.setPaged(result.getPaged());
+    return ResponseEntity.ok(resDto);
   }
   
   @GetMapping("/v1/mybatis-crud/scientist/{id}")
