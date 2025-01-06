@@ -10,7 +10,7 @@ import spring.custom.common.annotation.MapperH2;
 import spring.custom.common.annotation.MapperMaria;
 import spring.custom.common.annotation.MapperOracle;
 import spring.custom.common.annotation.MapperPostgres;
-import spring.custom.common.mybatis.Pageable;
+import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PagedList;
 
 @MapperH2
@@ -24,7 +24,7 @@ public interface MybatisMultipleDatasourceDao {
   
   ScientistVo findById(Integer id);
   
-  PagedList<ScientistVo> findList(Pageable param);
+  PagedList<ScientistVo> findList(PageRequest param);
   
   PagedList<ScientistVo> findListByName(ScientistVo.FindVo vo);
   

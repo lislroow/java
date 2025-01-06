@@ -40,13 +40,13 @@ public class PagingInterceptor implements Interceptor {
     Executor executor = (Executor) invocation.getTarget();
     
     if (parameter instanceof java.util.Map) {
-      Optional<Pageable> pageableEntry = ((java.util.Map<?, ?>) parameter).entrySet()
+      Optional<PageRequest> pageableEntry = ((java.util.Map<?, ?>) parameter).entrySet()
           .stream()
-          .filter(entry -> entry.getValue() instanceof Pageable)
+          .filter(entry -> entry.getValue() instanceof PageRequest)
           .findFirst()
-          .map(map -> (Pageable) map.getValue());
+          .map(map -> (PageRequest) map.getValue());
       if (pageableEntry.isPresent() && SqlCommandType.SELECT == ms.getSqlCommandType()) {
-        Pageable pagable = pageableEntry.get();
+        PageRequest pagable = pageableEntry.get();
         PagedList<Object> pagedList = new PagedList<>();
         executor.query(ms, parameter,
             new RowBounds(0, RowBounds.NO_ROW_LIMIT),

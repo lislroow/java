@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import spring.custom.common.audit.AuditVo;
-import spring.custom.common.mybatis.Pageable;
+import spring.custom.common.mybatis.PageRequest;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
@@ -20,7 +20,7 @@ public class ScientistVo extends AuditVo {
   @Data
   @EqualsAndHashCode(callSuper=false)
   @Builder
-  public static class FindVo extends Pageable {
+  public static class FindVo extends PageRequest {
     private Integer id;
     private String name;
   }

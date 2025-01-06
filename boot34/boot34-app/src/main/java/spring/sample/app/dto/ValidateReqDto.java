@@ -16,7 +16,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import spring.custom.common.mybatis.Pageable;
+import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.validator.StartDate;
 
 public class ValidateReqDto {
@@ -28,7 +28,7 @@ public class ValidateReqDto {
   @NoArgsConstructor
   @EqualsAndHashCode(callSuper = false)
   @Builder
-  public static class PersonModel extends Pageable {
+  public static class PersonModel extends PageRequest {
     @NotEmpty(message = "id 가 '@NotEmpty' 입니다.")
     private String id;
     

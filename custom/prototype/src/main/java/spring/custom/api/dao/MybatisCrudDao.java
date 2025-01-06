@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import spring.custom.api.vo.ScientistVo;
-import spring.custom.common.mybatis.Pageable;
+import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PagedList;
 
 @Mapper
@@ -15,9 +15,9 @@ public interface MybatisCrudDao {
   
   ScientistVo findById(Integer id);
   
-  PagedList<ScientistVo> findList(Pageable pageable);
+  PagedList<ScientistVo> findList(PageRequest pageable);
   
-  PagedList<ScientistVo> findListByName(Pageable pageable, ScientistVo.FindVo vo);
+  PagedList<ScientistVo> findListByName(PageRequest pageable, ScientistVo.FindVo vo);
   
   int add(ScientistVo.AddVo vo);
   

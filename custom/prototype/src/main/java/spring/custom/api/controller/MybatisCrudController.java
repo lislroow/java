@@ -20,7 +20,7 @@ import spring.custom.api.dto.MybatisCrudReqDto;
 import spring.custom.api.dto.MybatisCrudResDto;
 import spring.custom.api.service.MybatisCrudService;
 import spring.custom.api.vo.ScientistVo;
-import spring.custom.common.mybatis.Pageable;
+import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PagedList;
 
 @RestController
@@ -47,7 +47,7 @@ public class MybatisCrudController {
   public ResponseEntity<PagedList<ScientistVo>> findList(
       @RequestParam(defaultValue = "1") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
-    PagedList<ScientistVo> result = scientistDao.findList(Pageable.of(page, size));
+    PagedList<ScientistVo> result = scientistDao.findList(PageRequest.of(page, size));
     return ResponseEntity.ok(result);
   }
   
@@ -60,7 +60,7 @@ public class MybatisCrudController {
     ScientistVo.FindVo vo = ScientistVo.FindVo.builder()
         .name(name)
         .build();
-    PagedList<ScientistVo> result = scientistDao.findListByName(Pageable.of(page, size), vo);
+    PagedList<ScientistVo> result = scientistDao.findListByName(PageRequest.of(page, size), vo);
     PagedList<MybatisCrudResDto.Scientist> resDto = new PagedList<MybatisCrudResDto.Scientist>();
     resDto.setList(result.stream()
         .map(item -> modelMapper.map(item, MybatisCrudResDto.Scientist.class))
