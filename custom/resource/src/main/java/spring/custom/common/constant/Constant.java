@@ -12,6 +12,11 @@ public class Constant {
   public static final String CUSTOM = "custom";
   public static final Long MILLS = 1000L;
   
+  public static class PAGE {
+    public static final Integer PAGE_NUMBER = 1;
+    public static final Integer PAGE_SIZE = 10;
+  }
+  
   public static class DBMS {
     public static final String H2 = "h2";
     public static final String MARIA = "maria";

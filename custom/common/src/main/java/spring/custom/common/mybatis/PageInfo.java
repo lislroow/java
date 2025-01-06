@@ -3,7 +3,7 @@ package spring.custom.common.mybatis;
 import lombok.Data;
 
 @Data
-public class Paged {
+public class PageInfo {
   // param
   private Integer page;
   private Integer size;

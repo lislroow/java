@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.Data;
 import spring.custom.api.vo.ScientistVo;
-import spring.custom.common.mybatis.Paged;
+import spring.custom.common.mybatis.PageInfo;
 
 @Data
 public class MybatisMultipleDatasourceResDto {
@@ -18,7 +18,7 @@ public class MybatisMultipleDatasourceResDto {
   
   @Data
   public static class PagedScientistList {
-    private Paged paged;
+    private PageInfo paged;
     private List<Scientist> list;
   }
   

@@ -3,7 +3,7 @@ package spring.custom.api.dto;
 import java.util.List;
 
 import lombok.Data;
-import spring.custom.common.mybatis.Paged;
+import spring.custom.common.mybatis.PageInfo;
 
 @Data
 public class MybatisCrudResDto {
@@ -21,7 +21,7 @@ public class MybatisCrudResDto {
   
   @Data
   public static class PagedScientistList {
-    private Paged paged;
+    private PageInfo paged;
     private List<Scientist> list;
   }
   

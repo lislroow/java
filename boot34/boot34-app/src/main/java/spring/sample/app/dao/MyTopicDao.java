@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import spring.custom.common.mybatis.PageRequest;
-import spring.custom.common.mybatis.PagedList;
+import spring.custom.common.mybatis.PagedData;
 import spring.sample.app.vo.EmployVo;
 
 @Mapper
@@ -15,6 +15,6 @@ public interface MyTopicDao {
   
   List<EmployVo> selectAll();
   
-  PagedList<EmployVo> selectList(PageRequest param);
+  PagedData<EmployVo> selectList(PageRequest param);
   
 }

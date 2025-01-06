@@ -11,120 +11,125 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @JsonFormat(shape = Shape.OBJECT)
-public class PagedList<T> implements List<T> {
-
-  private List<T> list;
-  private Paged paged = new Paged();
+public class PagedData<T> implements List<T> {
   
-  public List<T> getList() {
-    return list;
+  private List<T> pageData;
+  private PageInfo pageInfo = new PageInfo();
+  
+  public PagedData() {
+    pageData = new ArrayList<>();
   }
-  public void setList(List<T> list) {
-    this.list = list;
+  
+  public PagedData(List<T> pageData, PageInfo pageInfo) {
+    this.pageData = pageData;
+    this.pageInfo = pageInfo;
   }
-  public Paged getPaged() {
-    return paged;
+  
+  
+  public List<T> getPageData() {
+    return pageData;
   }
-  public void setPaged(Paged paged) {
-    this.paged = paged;
+  public void setPageData(List<T> pageData) {
+    this.pageData = pageData;
+  }
+  public PageInfo getPageInfo() {
+    return pageInfo;
+  }
+  public void setPageInfo(PageInfo pageInfo) {
+    this.pageInfo = pageInfo;
   }
   
   public void setPage(Integer page) {
-    paged.setPage(page);
+    pageInfo.setPage(page);
   }
   public void setSize(Integer size) {
-    paged.setSize(size);
+    pageInfo.setSize(size);
   }
   public void setStart(Integer start) {
-    paged.setStart(start);
+    pageInfo.setStart(start);
   }
   public void setEnd(Integer end) {
-    paged.setEnd(end);
+    pageInfo.setEnd(end);
   }
   public void setTotal(Integer total) {
-    paged.setTotal(total);
+    pageInfo.setTotal(total);
   }
   
   @JsonIgnore
   public Integer getPage() {
-    return paged.getPage();
+    return pageInfo.getPage();
   }
   @JsonIgnore
   public Integer getSize() {
-    return paged.getSize();
+    return pageInfo.getSize();
   }
   @JsonIgnore
   public Integer getStart() {
-    return paged.getStart();
+    return pageInfo.getStart();
   }
   @JsonIgnore
   public Integer getEnd() {
-    return paged.getEnd();
+    return pageInfo.getEnd();
   }
   @JsonIgnore
   public Integer getTotal() {
-    return paged.getTotal();
-  }
-  
-  
-  public PagedList() {
-    list = new ArrayList<>();
+    return pageInfo.getTotal();
   }
   
   @Override
   public int size() {
-    return list.size();
+    return pageData.size();
   }
 
   @JsonIgnore
   @Override
   public boolean isEmpty() {
-    return list.isEmpty();
+    return pageData.isEmpty();
   }
 
   @Override
   public boolean contains(Object o) {
-    return list.contains(o);
+    return pageData.contains(o);
   }
 
   @Override
   public Iterator<T> iterator() {
-    return list.iterator();
+    return pageData.iterator();
   }
 
   @Override
   public Object[] toArray() {
-    return list.toArray();
+    return pageData.toArray();
   }
 
   @Override
   public <T> T[] toArray(T[] a) {
-    return list.toArray(a);
+    return pageData.toArray(a);
   }
 
   @Override
   public boolean add(T e) {
-    return list.add(e);
+    return pageData.add(e);
   }
 
   @Override
   public boolean remove(Object o) {
-    return list.remove(o);
+    return pageData.remove(o);
   }
 
   @Override
   public boolean containsAll(Collection<?> c) {
-    return list.containsAll(c);
+    return pageData.containsAll(c);
   }
 
   @Override
   public boolean addAll(Collection<? extends T> c) {
-    return list.addAll(c);
+    return pageData.addAll(c);
   }
 
   @Override
   public boolean addAll(int index, Collection<? extends T> c) {
-    return list.addAll(index, c);
+    return pageData.addAll(index, c);
   }
 
   @Override
@@ -134,56 +139,56 @@ public class PagedList<T> implements List<T> {
 
   @Override
   public boolean retainAll(Collection<?> c) {
-    return list.retainAll(c);
+    return pageData.retainAll(c);
   }
 
   @Override
   public void clear() {
-    list.clear();
+    pageData.clear();
   }
 
   @Override
   public T get(int index) {
-    return list.get(index);
+    return pageData.get(index);
   }
 
   @Override
   public T set(int index, T element) {
-    return list.set(index, element);
+    return pageData.set(index, element);
   }
 
   @Override
   public void add(int index, T element) {
-    list.add(index, element);
+    pageData.add(index, element);
   }
 
   @Override
   public T remove(int index) {
-    return list.remove(index);
+    return pageData.remove(index);
   }
 
   @Override
   public int indexOf(Object o) {
-    return list.indexOf(o);
+    return pageData.indexOf(o);
   }
 
   @Override
   public int lastIndexOf(Object o) {
-    return list.lastIndexOf(o);
+    return pageData.lastIndexOf(o);
   }
 
   @Override
   public ListIterator<T> listIterator() {
-    return list.listIterator();
+    return pageData.listIterator();
   }
 
   @Override
   public ListIterator<T> listIterator(int index) {
-    return list.listIterator(index);
+    return pageData.listIterator(index);
   }
 
   @Override
   public List<T> subList(int fromIndex, int toIndex) {
-    return list.subList(fromIndex, toIndex);
+    return pageData.subList(fromIndex, toIndex);
   }
 }

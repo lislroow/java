@@ -5,7 +5,7 @@ import java.util.List;
 import spring.custom.api.vo.ScientistVerticaVo;
 import spring.custom.common.annotation.MapperVertica;
 import spring.custom.common.mybatis.PageRequest;
-import spring.custom.common.mybatis.PagedList;
+import spring.custom.common.mybatis.PagedData;
 
 @MapperVertica
 public interface MybatisMultipleDatasourceVerticaDao {
@@ -14,9 +14,9 @@ public interface MybatisMultipleDatasourceVerticaDao {
   
   ScientistVerticaVo findById(Integer id);
   
-  PagedList<ScientistVerticaVo> findList(PageRequest param);
+  PagedData<ScientistVerticaVo> findList(PageRequest param);
   
-  PagedList<ScientistVerticaVo> findListByName(ScientistVerticaVo.FindVo vo);
+  PagedData<ScientistVerticaVo> findListByName(ScientistVerticaVo.FindVo vo);
   
   int add(ScientistVerticaVo.AddVo vo);
   

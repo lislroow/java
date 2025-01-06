@@ -17,6 +17,8 @@ import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import spring.custom.common.constant.Constant;
+
 @Intercepts({
     @Signature(type = Executor.class, method = "query", 
         args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }
@@ -40,14 +42,14 @@ public class PagingInterceptor implements Interceptor {
     Executor executor = (Executor) invocation.getTarget();
     
     if (parameter instanceof java.util.Map) {
-      Optional<PageRequest> pageableEntry = ((java.util.Map<?, ?>) parameter).entrySet()
+      Optional<PageRequest> pageParam = ((java.util.Map<?, ?>) parameter).entrySet()
           .stream()
           .filter(entry -> entry.getValue() instanceof PageRequest)
           .findFirst()
           .map(map -> (PageRequest) map.getValue());
-      if (pageableEntry.isPresent() && SqlCommandType.SELECT == ms.getSqlCommandType()) {
-        PageRequest pagable = pageableEntry.get();
-        PagedList<Object> pagedList = new PagedList<>();
+      if (pageParam.isPresent() && SqlCommandType.SELECT == ms.getSqlCommandType()) {
+        PageRequest pageRequest = pageParam.get();
+        PagedData<Object> pagedList = new PagedData<>();
         executor.query(ms, parameter,
             new RowBounds(0, RowBounds.NO_ROW_LIMIT),
             new ResultHandler() {
@@ -57,8 +59,8 @@ public class PagingInterceptor implements Interceptor {
               }
             });
         
-        int page = pagable.getPage() == null ? 1 : pagable.getPage();
-        int size = pagable.getSize() == null ? 10 : pagable.getSize();
+        int page = pageRequest.getPage() == null ? Constant.PAGE.PAGE_NUMBER : pageRequest.getPage();
+        int size = pageRequest.getSize() == null ? Constant.PAGE.PAGE_SIZE : pageRequest.getSize();
         int offset = (page - 1) * size;
         int limit = size;
         int start = offset + 1;
@@ -68,7 +70,7 @@ public class PagingInterceptor implements Interceptor {
             new RowBounds(offset, limit),
             resultHandler);
         
-        pagedList.setList(result);
+        pagedList.setPageData(result);
         pagedList.setPage(page);
         pagedList.setSize(size);
         pagedList.setStart(start);

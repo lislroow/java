@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,7 @@ import spring.custom.api.dto.MybatisCrudResDto;
 import spring.custom.api.service.MybatisCrudService;
 import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.mybatis.PageRequest;
-import spring.custom.common.mybatis.PagedList;
+import spring.custom.common.mybatis.PagedData;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,29 +46,28 @@ public class MybatisCrudController {
   }
   
   @GetMapping("/v1/mybatis-crud/scientists")
-  public ResponseEntity<PagedList<ScientistVo>> findList(
+  public ResponseEntity<PagedData<ScientistVo>> findList(
       @RequestParam(defaultValue = "1") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
-    PagedList<ScientistVo> result = scientistDao.findList(PageRequest.of(page, size));
+    PagedData<ScientistVo> result = scientistDao.findList(PageRequest.of(page, size));
     return ResponseEntity.ok(result);
   }
   
   @GetMapping("/v1/mybatis-crud/scientists/search")
-  public ResponseEntity<PagedList<MybatisCrudResDto.Scientist>> searchByName(
+  public PagedData<MybatisCrudResDto.Scientist> searchByName(
       @RequestParam(required = false) String name,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    
     ScientistVo.FindVo vo = ScientistVo.FindVo.builder()
         .name(name)
         .build();
-    PagedList<ScientistVo> result = scientistDao.findListByName(PageRequest.of(page, size), vo);
-    PagedList<MybatisCrudResDto.Scientist> resDto = new PagedList<MybatisCrudResDto.Scientist>();
-    resDto.setList(result.stream()
-        .map(item -> modelMapper.map(item, MybatisCrudResDto.Scientist.class))
-        .collect(Collectors.toList()));
-    resDto.setPaged(result.getPaged());
-    return ResponseEntity.ok(resDto);
+    PagedData<ScientistVo> result = scientistDao.findListByName(PageRequest.of(page, size), vo);
+    PagedData<MybatisCrudResDto.Scientist> resDto = new PagedData<MybatisCrudResDto.Scientist>(
+        result.stream()
+          .map(item -> modelMapper.map(item, MybatisCrudResDto.Scientist.class))
+          .collect(Collectors.toList())
+        , result.getPageInfo());
+    return resDto;
   }
   
   @GetMapping("/v1/mybatis-crud/scientist/{id}")
