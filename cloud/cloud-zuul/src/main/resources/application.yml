@@ -30,9 +30,9 @@ zuul:
       url: lb://boot34-app
     
     # story
-    story-app:
-      path: /story-app/**
-      url: lb://story-app
+    story-api:
+      path: /story-api/**
+      url: lb://story-api
     
     # market
     market-api-auth:

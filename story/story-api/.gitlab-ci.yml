@@ -1,4 +1,4 @@
-.build_story-app:
+.build_story-api:
   stage: build
   tags:
     - java17
@@ -21,7 +21,7 @@
     #- docker push $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_ID.$CI_COMMIT_SHORT_SHA
     #- docker rmi $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_ID.$CI_COMMIT_SHORT_SHA
 
-.deploy_story-app:
+.deploy_story-api:
   stage: deploy
   tags:
     - deploy

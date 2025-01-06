@@ -9,23 +9,23 @@ variables:
   VOLUME_LOGBASE: "/root/logs"
 
 include:
-  - local: "story/story-app/.gitlab-ci.yml"
+  - local: "story/story-api/.gitlab-ci.yml"
 
-build_story-app:
-  extends: .build_story-app
+build_story-api:
+  extends: .build_story-api
   variables:
-    APP_NAME: "story-app"
+    APP_NAME: "story-api"
   rules:
     - if: $CI_COMMIT_BRANCH !~ /^(develop|staging|prod|main)/
       when: never
     - changes:
         paths:
-          - story/story-app/**/*
+          - story/story-api/**/*
 
-deploy_prod_story-app:
-  extends: .deploy_story-app
+deploy_prod_story-api:
+  extends: .deploy_story-api
   variables:
-    APP_NAME: "story-app"
+    APP_NAME: "story-api"
     SPRING_PROFILE: "prod"
     SERVER_PORT: "8080"
     DEPLOY_USER: root
@@ -34,5 +34,5 @@ deploy_prod_story-app:
     - if: $CI_COMMIT_BRANCH == "main"
       changes:
         paths:
-          - story/story-app/**/*
-  needs: ["build_story-app"]
+          - story/story-api/**/*
+  needs: ["build_story-api"]

@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableTransactionManagement
-public class StoryAppMain {
+public class StoryApiMain {
   
   public static void main(String[] args) {
-    SpringApplication.run(StoryAppMain.class, args);
+    SpringApplication.run(StoryApiMain.class, args);
   }
   
 }

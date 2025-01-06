@@ -1,2 +1,2 @@
 rootProject.name = 'story'
-include 'story-app'
+include 'story-api'

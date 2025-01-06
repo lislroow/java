@@ -1,13 +1,13 @@
 package spring.story.common.constant;
 
-public class StoryAppConstant {
+public class StoryApiConstant {
   
-  private StoryAppConstant() {}
+  private StoryApiConstant() {}
 
   public static final String BASE_PACKAGE = "spring";
   
   public static class APP {
-    public static final String BASE_URI = "/story-app";
+    public static final String BASE_URI = "/story-api";
   }
   
 }

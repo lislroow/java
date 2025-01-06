@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.annotation.Login;
 import spring.custom.common.annotation.UserInfo;
-import spring.story.common.constant.StoryAppConstant;
+import spring.story.common.constant.StoryApiConstant;
 
 @Aspect
 @Order(1)
@@ -33,7 +33,7 @@ import spring.story.common.constant.StoryAppConstant;
 public class RestControllerAspect {
   
   @SuppressWarnings("unused")
-  @Around("execution(* "+StoryAppConstant.BASE_PACKAGE+"..controller.*Controller.*(..))")
+  @Around("execution(* "+StoryApiConstant.BASE_PACKAGE+"..controller.*Controller.*(..))")
   public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
     jakarta.servlet.http.HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     jakarta.servlet.http.HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();

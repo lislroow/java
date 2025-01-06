@@ -69,10 +69,10 @@ spring:
             - RewritePathFilter
         
         # story
-        - id: story-app
+        - id: story-api
           predicates:
-            - Path=/story-app/**
-          uri: lb://story-app
+            - Path=/story-api/**
+          uri: lb://story-api
           filters:
             - RewritePathFilter
             - AuthFilter
@@ -157,8 +157,8 @@ springdoc:
       - name: Market Product API (market-api-product)
         url: /market-api-product/v3/api-docs
         
-      - name: Story APP (story-app)
-        url: /story-app/v3/api-docs
+      - name: Story API (story-api)
+        url: /story-api/v3/api-docs
 
 #cloud.gateway.filter.auth-url: http://localhost/auth-api/v1/token/verify
 
