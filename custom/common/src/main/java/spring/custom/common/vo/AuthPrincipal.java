@@ -16,7 +16,7 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
   
   private static final long serialVersionUID = 2501815366855398147L;
 
-  private String username;
+  private String email;
   private String password;
   private String nickname;
   private String role;
@@ -26,14 +26,14 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
   private transient Map<String, Object> attributes;
   
   public AuthPrincipal(MemberVo memberVo) {
-    this.username = memberVo.getEmail();
+    this.email = memberVo.getEmail();
     this.password = memberVo.getPassword();
     this.nickname = memberVo.getNickname();
     this.role = memberVo.getRole();
     this.ip = memberVo.getIp();
     this.userAgent = memberVo.getUserAgent();
     this.attributes = Map.ofEntries(
-        Map.entry("username", this.username),
+        Map.entry("email", this.email),
         Map.entry("role", this.role),
         Map.entry("ip", this.ip),
         Map.entry("userAgent", this.userAgent));
@@ -68,7 +68,7 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
   }
   @Override
   public String getUsername() {
-    return this.username;
+    return this.email;
   }
   @Override
   public boolean isAccountNonExpired() {

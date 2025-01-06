@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientPropertiesMapper;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -26,7 +27,6 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
-import spring.auth.common.security.JwtAuthenticationFilter;
 import spring.auth.common.security.LogoutHandlerImpl;
 import spring.auth.common.security.LogoutSuccessHandlerImpl;
 import spring.auth.common.security.SocialOAuth2LoginSuccessHandler;
@@ -35,24 +35,30 @@ import spring.auth.common.security.UsernamePasswordAuthenticationFailureHandler;
 import spring.auth.common.security.UsernamePasswordAuthenticationSuccessHandler;
 import spring.auth.common.security.UsernamePasswordDetailsService;
 import spring.custom.common.enumcode.PROTOTYPE_URI;
+import spring.custom.common.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableConfigurationProperties({ OAuth2ClientProperties.class })
 @RequiredArgsConstructor
 public class SecurityConfig {
   
-  private final UsernamePasswordDetailsService usernamePasswordDetailsService;
+  final UsernamePasswordDetailsService usernamePasswordDetailsService;
+  final ModelMapper modelMapper;
   
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-      .csrf(csrf -> csrf.disable())
+      .csrf(AbstractHttpConfigurer::disable)
       .httpBasic(AbstractHttpConfigurer::disable)
       .formLogin(formLogin -> 
         formLogin
           .loginProcessingUrl("/v1/login/process")
           .failureHandler(usernamePasswordAuthenticationFailureHandler())
           .successHandler(usernamePasswordAuthenticationSuccessHandler(tokenService))
+      )
+      .addFilterBefore(new JwtAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
+      .exceptionHandling(exceptionHandlingCustomizer -> 
+        exceptionHandlingCustomizer.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
       )
       .authenticationProvider(daoAuthenticationProvider())
       .authorizeHttpRequests(authorizeRequests -> {
@@ -73,23 +79,16 @@ public class SecurityConfig {
         });
         authorizeRequests.anyRequest().authenticated();
       })
-      .addFilterBefore(new JwtAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class)
-      .exceptionHandling(exceptionHandlingCustomizer -> 
-        exceptionHandlingCustomizer.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
-      )
       .oauth2Login(oauth2Login ->
-        oauth2Login
-          .permitAll()
+        oauth2Login.permitAll()
           .authorizationEndpoint(authorizationEndpointCustomizer -> 
             authorizationEndpointCustomizer.authorizationRequestResolver(
               oauth2AuthorizationRequestResolver(clientRegistrationRepository())
             )
           )
-          //.defaultSuccessUrl(String.format("http://%s", HOST), true)
           .successHandler(socialOAuth2LoginSuccessHandler(tokenService))
       )
       .sessionManagement(sessionManagement -> 
-        // spring-security 에서 세션을 생성하지 않고 사용도 하지 않도록 함
         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.NEVER)
       )
       .logout(logout ->
