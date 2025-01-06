@@ -15,6 +15,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.time.Duration;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,7 +40,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR_CODE;
-import spring.custom.common.enumcode.Role;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.redis.RedisSupport;
@@ -116,9 +116,10 @@ public class TokenService {
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
           .issuer(ISSUER)
+          .claim("attributes", authPrincipal.getAttributes())
           .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
-          .claim("role", Role.ROLE_USER.name())
           .build();
+      
       signedJWT = new SignedJWT(
           new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),
           claimsSet
@@ -146,6 +147,7 @@ public class TokenService {
         String username = signedJWT.getJWTClaimsSet().getSubject();
         resDto.setValid(true);
         resDto.setUsername(username);
+        resDto.setAccessToken(accessToken);
       } else {
         throw new AppException(ERROR_CODE.A002);
       }
@@ -162,10 +164,12 @@ public class TokenService {
       throw new AppException(ERROR_CODE.A004);
     }
     String username = null;
+    Map<String, Object> attributes = null;
     try {
       SignedJWT signedJWT = SignedJWT.parse(refreshToken);
       if (signedJWT.verify(this.verifier)) {
         username = signedJWT.getJWTClaimsSet().getSubject();
+        attributes = (Map<String, Object>) signedJWT.getJWTClaimsSet().getClaim("attributes");
       } else {
         throw new AppException(ERROR_CODE.A004);
       }
@@ -185,7 +189,7 @@ public class TokenService {
           .subject(username)
           .issuer(ISSUER)
           .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
-          .claim("role", Role.ROLE_USER.name())
+          .claim("attributes", attributes)
           .build();
       signedJWT = new SignedJWT(
           new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),
@@ -199,7 +203,7 @@ public class TokenService {
           .subject(username)
           .issuer(ISSUER)
           .expirationTime(new Date(System.currentTimeMillis() + ATK_EXPIRE_MILLS))
-          .claim("role", Role.ROLE_USER.name())
+          .claim("attributes", attributes)
           .build();
       signedJWT = new SignedJWT(
           new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),

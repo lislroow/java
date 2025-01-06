@@ -23,8 +23,7 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
   private String ip;
   private String userAgent;
   
-  //private User user;
-  private transient Map<String,Object> attributes;
+  private transient Map<String, Object> attributes;
   
   public AuthPrincipal(MemberVo memberVo) {
     this.username = memberVo.getEmail();
@@ -33,6 +32,11 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
     this.role = memberVo.getRole();
     this.ip = memberVo.getIp();
     this.userAgent = memberVo.getUserAgent();
+    this.attributes = Map.ofEntries(
+        Map.entry("username", this.username),
+        Map.entry("role", this.role),
+        Map.entry("ip", this.ip),
+        Map.entry("userAgent", this.userAgent));
   }
   
   // [OAuth2User, UserDetails]

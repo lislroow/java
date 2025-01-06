@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -50,11 +51,17 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
         TokenReqDto.Verify requestBody = new TokenReqDto.Verify();
         requestBody.setAtkUuid(token);
         try {
-          apiClient.postForEntity(AUTH_URL, requestBody, TokenResDto.Verify.class);
+          final TokenResDto.Verify vertifyDto = 
+              apiClient.postForEntity(AUTH_URL, requestBody, TokenResDto.Verify.class);
+          exchange = exchange.mutate()
+              .request(req -> 
+                req.header(HttpHeaders.AUTHORIZATION, "Bearer " + vertifyDto.getAccessToken()))
+              .build();
         } catch (Exception e) {
           /* for debug */ if (log.isDebugEnabled()) e.printStackTrace();
           throw new AppException(failCode);
         }
+
       }
       return chain.filter(exchange);
     };

@@ -28,5 +28,6 @@ public class TokenResDto implements Serializable {
     private static final long serialVersionUID = 1L;
     private Boolean valid;
     private String username;
+    private String accessToken;
   }
 }

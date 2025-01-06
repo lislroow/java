@@ -23,8 +23,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
+import spring.auth.common.security.JwtAuthenticationFilter;
 import spring.auth.common.security.LogoutHandlerImpl;
 import spring.auth.common.security.LogoutSuccessHandlerImpl;
 import spring.auth.common.security.SocialOAuth2LoginSuccessHandler;
@@ -71,6 +73,7 @@ public class SecurityConfig {
         });
         authorizeRequests.anyRequest().authenticated();
       })
+      .addFilterBefore(new JwtAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class)
       .exceptionHandling(exceptionHandlingCustomizer -> 
         exceptionHandlingCustomizer.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
       )
