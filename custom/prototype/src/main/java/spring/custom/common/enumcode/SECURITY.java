@@ -9,7 +9,8 @@ public class SECURITY {
     Swagger("/v3/api-docs/**"),
     MybatisCrud("/v1/mybatis-crud/**"),
     MybatisMultipleDatasource("/v1/mybatis-multiple-datasource/**"),
-    Redis("/v1/redis/**")
+    Redis("/v1/redis/**"),
+    RedisSample("/v1/redis-sample/**")
     ;
     
     private String pattern;
