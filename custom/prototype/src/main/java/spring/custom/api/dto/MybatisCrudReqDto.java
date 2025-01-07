@@ -2,7 +2,6 @@ package spring.custom.api.dto;
 
 import lombok.Data;
 
-@Data
 public class MybatisCrudReqDto {
   
   private MybatisCrudReqDto() { }

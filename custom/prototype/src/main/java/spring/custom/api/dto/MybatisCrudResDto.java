@@ -5,7 +5,6 @@ import java.util.List;
 import lombok.Data;
 import spring.custom.common.mybatis.PageInfo;
 
-@Data
 public class MybatisCrudResDto {
   
   private MybatisCrudResDto() { }

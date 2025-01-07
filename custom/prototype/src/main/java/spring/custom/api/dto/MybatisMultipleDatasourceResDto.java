@@ -6,7 +6,6 @@ import lombok.Data;
 import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.mybatis.PageInfo;
 
-@Data
 public class MybatisMultipleDatasourceResDto {
 
   public static class Scientist extends ScientistVo { }
