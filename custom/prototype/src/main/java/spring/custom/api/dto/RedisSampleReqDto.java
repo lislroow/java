@@ -15,6 +15,7 @@ public class RedisSampleReqDto {
   public static class Add {
     private Integer id;
     private String name;
+    private Integer age;
   }
   
 }

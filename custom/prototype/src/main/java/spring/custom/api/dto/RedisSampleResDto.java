@@ -10,17 +10,14 @@ public class RedisSampleResDto {
   
   @Data
   public static class SampleList {
-    private List<RedisSample> list;
-    
-    public SampleList(List<RedisSample> list) {
-      this.list = list;
-    }
+    private List<Sample> list;
   }
   
   @Data
-  public static class RedisSample {
+  public static class Sample {
     private Integer id;
     private String name;
+    private Integer age;
   }
   
 }

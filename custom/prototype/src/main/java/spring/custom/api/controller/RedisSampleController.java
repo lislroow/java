@@ -1,6 +1,10 @@
 package spring.custom.api.controller;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -16,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.api.dto.RedisSampleReqDto;
+import spring.custom.api.dto.RedisSampleResDto;
+import spring.custom.api.redis.RedisSampleRepository;
 import spring.custom.api.service.RedisSampleService;
 import spring.custom.api.vo.RedisSampleVo;
 import spring.custom.common.constant.Constant;
@@ -28,15 +34,60 @@ public class RedisSampleController {
   
   final ModelMapper modelMapper;
   final RedisSampleService redisSampleService;
+  final RedisSampleRepository redisSampleRepository;
   final RedisSupport redisSupport;
   
-  @PutMapping("/v1/redis-sample")
+  @PutMapping("/v1/redis-sample/item")
   public ResponseEntity<?> addSample(@RequestBody RedisSampleReqDto.Add reqDto) {
     RedisSampleVo param = modelMapper.map(reqDto, RedisSampleVo.class);
     redisSampleService.addSample(param);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
   
+  @GetMapping("/v1/redis-sample/item/{id}")
+  public ResponseEntity<RedisSampleResDto.Sample> findById(@PathVariable Integer id) {
+    Optional<RedisSampleVo> result = redisSampleRepository.findById(id);
+    if (result.isPresent()) {
+      RedisSampleResDto.Sample resDto = modelMapper.map(result.get(), RedisSampleResDto.Sample.class);
+      return ResponseEntity.ok(resDto);
+    } else {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+  }
+  
+  @GetMapping("/v1/redis-sample/item/all")
+  public ResponseEntity<RedisSampleResDto.SampleList> findAll() {
+    Iterable<RedisSampleVo> result = redisSampleRepository.findAll();
+    
+    List<RedisSampleResDto.Sample> list = StreamSupport.stream(result.spliterator(), true)
+        .map(item -> modelMapper.map(item, RedisSampleResDto.Sample.class))
+        .collect(Collectors.toList());
+    if (!list.isEmpty()) {
+      RedisSampleResDto.SampleList resDto = new RedisSampleResDto.SampleList();
+      resDto.setList(list);
+      return ResponseEntity.ok(resDto);
+    } else {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+  }
+  
+  @GetMapping("/v1/redis-sample/item/search")
+  public ResponseEntity<RedisSampleResDto.SampleList> searchByName(
+      @RequestParam(required = false) String name) {
+    Iterable<RedisSampleVo> result = redisSampleRepository.findAll();
+    
+    List<RedisSampleResDto.Sample> list = StreamSupport.stream(result.spliterator(), true)
+        .filter(item -> name == null || item.getName().indexOf(name) > -1)
+        .map(item -> modelMapper.map(item, RedisSampleResDto.Sample.class))
+        .collect(Collectors.toList());
+    if (!list.isEmpty()) {
+      RedisSampleResDto.SampleList resDto = new RedisSampleResDto.SampleList();
+      resDto.setList(list);
+      return ResponseEntity.ok(resDto);
+    } else {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+  }
   
   // ---
 
