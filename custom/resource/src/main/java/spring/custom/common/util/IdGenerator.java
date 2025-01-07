@@ -6,6 +6,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import jakarta.servlet.http.HttpServletRequest;
+import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
@@ -29,7 +34,14 @@ public class IdGenerator {
     }
     return TOKEN.USER.fromCode(tokenId.split(TOKEN_SEPARATOR)[0]);
   }
-
+  
+  public static String createClientIdent() {
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    String clientIp = XffClientIpExtractor.getClientIp(request);
+    String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
+    return IdGenerator.createClientIdent(clientIp, userAgent);
+  }
+  
   public static String createClientIdent(String clientIp, String userAgent) {
     MessageDigest digest;
     try {
@@ -46,6 +58,21 @@ public class IdGenerator {
     }
     /* for test */ //clientIdent = new StringBuilder("a013e2bad0956321b787cf5cab9f229b02e739996b8c4c8116894a339ecdaf5c");
     return clientIdent.toString();
+  }
+  
+  public static String createJwtRedisKey(TOKEN.JWT jwtType, String tokenId, String clientIdent) {
+    String redisKey = null;
+    switch (jwtType) {
+    case REFRESH_TOKEN:
+      redisKey = String.format("token:rtk:%s:%s", tokenId, clientIdent);
+      break;
+    case ACCESS_TOKEN:
+      redisKey = String.format("token:atk:%s:%s", tokenId, clientIdent);
+      break;
+    default:
+      throw new AppException(ERROR_CODE.A001);
+    }
+    return redisKey;
   }
   
 }

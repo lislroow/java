@@ -3,9 +3,6 @@ package spring.auth.common.security;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -17,7 +14,6 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.openssl.PEMParser;
@@ -71,9 +67,6 @@ public class TokenService {
   private Integer ATK_EXPIRE_SEC;
   private Long ATK_EXPIRE_MILLS;
   
-  private final String REDIS_RTK_KEY_FMT = "token:rtk:%s:%s";
-  private final String REDIS_ATK_KEY_FMT = "token:atk:%s:%s";
-  
   private JWSSigner signer;
   private RSASSAVerifier verifier;
   
@@ -108,8 +101,7 @@ public class TokenService {
   }
   
   public TokenResDto.Create createToken(TOKEN.USER tokenUser,
-      org.springframework.security.core.Authentication authentication,
-      String clientIp, String userAgent) {
+      org.springframework.security.core.Authentication authentication) {
     AuthPrincipal authPrincipal = (AuthPrincipal) authentication.getPrincipal();
     String username = authPrincipal.getUsername();
     TokenResDto.Create result = new TokenResDto.Create();
@@ -131,8 +123,8 @@ public class TokenService {
       signedJWT.sign(this.signer);
       String rtkUuid = IdGenerator.createTokenId(tokenUser);
       result.setRtkUuid(rtkUuid);
-      String clientIdent = IdGenerator.createClientIdent(clientIp, userAgent);
-      String rtkRedisKey = String.format(REDIS_RTK_KEY_FMT, rtkUuid, clientIdent);
+      String clientIdent = IdGenerator.createClientIdent();
+      String rtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, rtkUuid, clientIdent);
       
       // update redis - RTR 일 경우, 잦은 업데이트 빈도로 인해 성능 이슈가 예상됨
       //Map<String, String> hash = this.redisSupport.getHash(username);
@@ -158,7 +150,7 @@ public class TokenService {
     switch (tokenUser) {
     case MEMBER:
     case MANAGER:
-      redisKey = String.format(REDIS_ATK_KEY_FMT, atkUuid, clientIdent);
+      redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, atkUuid, clientIdent);
       break;
     }
     String accessToken = Optional.ofNullable(this.redisSupport.getValue(redisKey))
@@ -181,14 +173,15 @@ public class TokenService {
     return resDto;
   }
   
-  public TokenResDto.Refresh refreshToken(String oldRtkUuid, String clientIp, String userAgent) {
+  public TokenResDto.Refresh refreshToken(String oldRtkUuid) {
     TOKEN.USER tokenUser = IdGenerator.getTokenUser(oldRtkUuid).orElseThrow(() -> new AppException(ERROR_CODE.A002));
-    String clientIdent = IdGenerator.createClientIdent(clientIp, userAgent);
+    
+    String clientIdent = IdGenerator.createClientIdent();
     String oldRedisKey = null;
     switch (tokenUser) {
     case MEMBER:
     case MANAGER:
-      oldRedisKey = String.format(REDIS_RTK_KEY_FMT, oldRtkUuid, clientIdent);
+      oldRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, oldRtkUuid, clientIdent);
       break;
     }
     String refreshToken = this.redisSupport.getValue(oldRedisKey);
@@ -235,7 +228,7 @@ public class TokenService {
           claimsSet
           );
       signedJWT.sign(this.signer);
-      String rtkRedisKey = String.format(REDIS_RTK_KEY_FMT, newRtkUuid, clientIdent);
+      String rtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, newRtkUuid, clientIdent);
       this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
       
       // accessToken 생성
@@ -251,7 +244,7 @@ public class TokenService {
           claimsSet
       );
       signedJWT.sign(this.signer);
-      String atkRedisKey = String.format(REDIS_ATK_KEY_FMT, newAtkUuid, clientIdent);
+      String atkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, newAtkUuid, clientIdent);
       this.redisSupport.setValue(atkRedisKey, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
       
     } catch (Exception e) { 
