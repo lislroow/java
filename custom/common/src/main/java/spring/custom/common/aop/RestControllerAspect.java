@@ -39,11 +39,13 @@ public class RestControllerAspect {
     String method = request.getMethod();
     String contentType = request.getHeader("Content-Type");
     String ipAddr = request.getRemoteAddr();
-    log.info("[COM] Class       : {}", joinPoint.getTarget());
-    log.info("[COM] RequestURI  : {}", reqUri);
-    log.info("[COM] Method      : {}", method);
-    log.info("[COM] ContentType : {}", contentType);
-    log.info("[COM] ipAddr      : {}", ipAddr);
+    /* for debug */ if (log.isInfoEnabled()) {
+      log.info("[COM] Class       : {}", joinPoint.getTarget().getClass().getName());
+      log.info("[COM] RequestURI  : {}", reqUri);
+      log.info("[COM] Method      : {}", method);
+      log.info("[COM] ContentType : {}", contentType);
+      log.info("[COM] ipAddr      : {}", ipAddr);
+    }
     
     MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
     Method refMethod = methodSignature.getMethod();
@@ -65,17 +67,6 @@ public class RestControllerAspect {
     } catch (Throwable e) {
       throwable = e;
       throw e;
-    } finally {
-      ObjectMapper objectMapper = new ObjectMapper();
-      objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-      Object[] newArgs = Arrays.stream(args).map(item -> 
-        (item instanceof MultipartFile) ? item.getClass() : null
-      ).toArray();
-      String reqstr = objectMapper.writeValueAsString(newArgs);
-      String resstr = null;
-      if (throwable != null) {
-        //
-      }
     }
     
     return result;
