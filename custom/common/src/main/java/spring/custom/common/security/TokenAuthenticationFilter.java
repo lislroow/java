@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -34,7 +35,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
 
-    String authorization = request.getHeader("Authorization");
+    String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
     if (authorization != null && authorization.startsWith("Bearer ")) {
       String accessToken = authorization.substring(7);
