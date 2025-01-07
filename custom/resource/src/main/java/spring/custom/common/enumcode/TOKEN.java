@@ -47,13 +47,13 @@ public class TOKEN {
     private USER(String code) {
       this.code = code;
     }
-    
     public String code() {
+    
       return this.code;
     }
     
-    public static Optional<USER> fromCode(String code) {
-        return Arrays.stream(USER.values())
+    public static Optional<TOKEN.USER> fromCode(String code) {
+        return Arrays.stream(TOKEN.USER.values())
             .filter(item -> item.code().equals(code))
             .findAny();
     }

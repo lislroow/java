@@ -43,6 +43,7 @@ import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.redis.RedisSupport;
+import spring.custom.common.util.IdGenerator;
 import spring.custom.common.vo.AuthPrincipal;
 import spring.custom.dto.TokenResDto;
 
@@ -106,7 +107,9 @@ public class TokenService {
     }
   }
   
-  public TokenResDto.Create createToken(org.springframework.security.core.Authentication authentication, String clientIp, String userAgent) {
+  public TokenResDto.Create createToken(TOKEN.USER tokenUser,
+      org.springframework.security.core.Authentication authentication,
+      String clientIp, String userAgent) {
     AuthPrincipal authPrincipal = (AuthPrincipal) authentication.getPrincipal();
     String username = authPrincipal.getUsername();
     TokenResDto.Create result = new TokenResDto.Create();
@@ -126,22 +129,30 @@ public class TokenService {
           claimsSet
           );
       signedJWT.sign(this.signer);
-      String rtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
+      String rtkUuid = IdGenerator.createTokenId(tokenUser);
       result.setRtkUuid(rtkUuid);
       String rtkRedisKey = this.getRedisKey(TOKEN.JWT.REFRESH_TOKEN, rtkUuid, clientIp, userAgent);
       this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
     } catch (Exception e) { 
-      log.error("message: {}", e.getMessage());
+      log.error("message: {}", e);
       throw new AppException(ERROR_CODE.A001, e);
     }
     return result;
   }
   
   public TokenResDto.Verify verifyToken(String atkUuid, String clientIp, String userAgent) {
-    TokenResDto.Verify resDto = new TokenResDto.Verify();
-    String redisKey = this.getRedisKey(TOKEN.JWT.ACCESS_TOKEN, atkUuid, clientIp, userAgent);
+    TOKEN.USER tokenUser = IdGenerator.getTokenUser(atkUuid).orElseThrow(() -> new AppException(ERROR_CODE.A002));
+    String redisKey = null;
+    switch (tokenUser) {
+    case MEMBER:
+    case MANAGER:
+      redisKey = this.getRedisKey(TOKEN.JWT.ACCESS_TOKEN, atkUuid, clientIp, userAgent);
+      break;
+    }
     String accessToken = Optional.ofNullable(this.redisSupport.getValue(redisKey))
         .orElseThrow(() -> new AppException(ERROR_CODE.A002));
+    
+    TokenResDto.Verify resDto = new TokenResDto.Verify();
     try {
       SignedJWT signedJWT = SignedJWT.parse(accessToken);
       if (signedJWT.verify(this.verifier)) {
@@ -153,13 +164,20 @@ public class TokenService {
         throw new AppException(ERROR_CODE.A002);
       }
     } catch (JOSEException | ParseException e) {
-      throw new AppException(ERROR_CODE.A002);
+      throw new AppException(ERROR_CODE.A002, e);
     }
     return resDto;
   }
   
   public TokenResDto.Refresh refreshToken(String oldRtkUuid, String clientIp, String userAgent) {
-    String oldRedisKey = this.getRedisKey(TOKEN.JWT.REFRESH_TOKEN, oldRtkUuid, clientIp, userAgent);
+    TOKEN.USER tokenUser = IdGenerator.getTokenUser(oldRtkUuid).orElseThrow(() -> new AppException(ERROR_CODE.A002));
+    String oldRedisKey = null;
+    switch (tokenUser) {
+    case MEMBER:
+    case MANAGER:
+      oldRedisKey = this.getRedisKey(TOKEN.JWT.REFRESH_TOKEN, oldRtkUuid, clientIp, userAgent);
+      break;
+    }
     String refreshToken = this.redisSupport.getValue(oldRedisKey);
     if (refreshToken == null) {
       throw new AppException(ERROR_CODE.A004);
@@ -178,17 +196,20 @@ public class TokenService {
         throw new AppException(ERROR_CODE.A004);
       }
     } catch (JOSEException | ParseException e) {
-      throw new AppException(ERROR_CODE.A004);
+      throw new AppException(ERROR_CODE.A004, e);
     }
     
-    String newRtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
-    String newAtkUuid = UUID.randomUUID().toString().replaceAll("-", "");
+    String newRtkUuid = IdGenerator.createTokenId(tokenUser);
+    String newAtkUuid = IdGenerator.createTokenId(tokenUser);
+    
     TokenResDto.Refresh result = new TokenResDto.Refresh();
     result.setRtkUuid(newRtkUuid);
     result.setAtkUuid(newAtkUuid);
     try {
       JWTClaimsSet claimsSet;
       SignedJWT signedJWT;
+      
+      // refreshToken 생성
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
           .issuer(ISSUER)
@@ -204,6 +225,7 @@ public class TokenService {
       String rtkRedisKey = this.getRedisKey(TOKEN.JWT.REFRESH_TOKEN, newRtkUuid, clientIp, userAgent);
       this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
       
+      // accessToken 생성
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
           .issuer(ISSUER)
@@ -216,11 +238,10 @@ public class TokenService {
           claimsSet
       );
       signedJWT.sign(this.signer);
-      
       String atkRedisKey = this.getRedisKey(TOKEN.JWT.ACCESS_TOKEN, newAtkUuid, clientIp, userAgent);
       this.redisSupport.setValue(atkRedisKey, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
+      
     } catch (Exception e) { 
-      log.error("message: {}", e.getMessage());
       throw new AppException(ERROR_CODE.A004, e);
     }
     this.redisSupport.delValue(oldRedisKey);
@@ -246,7 +267,7 @@ public class TokenService {
     try {
       digest = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
-      throw new AppException(ERROR_CODE.E901.code(), e.getMessage());
+      throw new AppException(ERROR_CODE.E901.code(), e);
     }
     byte[] encodedHash = digest.digest((clientIp + userAgent).getBytes(StandardCharsets.UTF_8));
     StringBuilder clientIdent = new StringBuilder();

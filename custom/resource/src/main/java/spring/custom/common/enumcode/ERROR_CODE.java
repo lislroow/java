@@ -18,6 +18,7 @@ public enum ERROR_CODE {
   /** token refresh error */ A004("token refresh error"),
   /** token not exist */ A005("token not exist"),
   /** authenticate token creation error */ A006("authenticate token creation error"),
+  /** token check error */ A007("token check error"),
   
   /** unknown error */ E999("unknown error")
   ;

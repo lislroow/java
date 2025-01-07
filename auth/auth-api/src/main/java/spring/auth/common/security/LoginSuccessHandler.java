@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
+import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.vo.AuthPrincipal;
 import spring.custom.dto.TokenResDto;
 
@@ -31,7 +32,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     
     String ip = request.getRemoteAddr();
     String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
-    TokenResDto.Create resDto = tokenService.createToken(authentication, ip, userAgent);
+    TokenResDto.Create resDto = tokenService.createToken(TOKEN.USER.MEMBER, authentication, ip, userAgent);
     ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
         .path("/")
         .httpOnly(false)
