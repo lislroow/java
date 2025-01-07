@@ -9,7 +9,7 @@ import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PagedData;
 
 @Mapper
-public interface MybatisCrudDao {
+public interface MybatisSampleDao {
   
   List<ScientistVo> findAll();
   

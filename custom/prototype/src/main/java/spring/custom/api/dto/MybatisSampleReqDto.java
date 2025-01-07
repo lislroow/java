@@ -2,9 +2,9 @@ package spring.custom.api.dto;
 
 import lombok.Data;
 
-public class MybatisCrudReqDto {
+public class MybatisSampleReqDto {
   
-  private MybatisCrudReqDto() { }
+  private MybatisSampleReqDto() { }
 
   @Data
   public static class AddDto {

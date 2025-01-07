@@ -5,9 +5,9 @@ import java.util.List;
 import lombok.Data;
 import spring.custom.common.mybatis.PageInfo;
 
-public class MybatisCrudResDto {
+public class MybatisSampleResDto {
   
-  private MybatisCrudResDto() { }
+  private MybatisSampleResDto() { }
   
   @Data
   public static class Scientist {

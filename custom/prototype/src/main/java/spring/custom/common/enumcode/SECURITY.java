@@ -7,9 +7,8 @@ public class SECURITY {
     Error("/error"),
     Actuator("/actuator/**"),
     Swagger("/v3/api-docs/**"),
-    MybatisCrud("/v1/mybatis-crud/**"),
     MybatisMultipleDatasource("/v1/mybatis-multiple-datasource/**"),
-    Redis("/v1/redis/**"),
+    MybatisSample("/v1/mybatis-sample/**"),
     RedisSample("/v1/redis-sample/**")
     ;
     
