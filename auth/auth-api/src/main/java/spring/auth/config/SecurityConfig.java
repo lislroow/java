@@ -24,7 +24,7 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequest
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import jakarta.servlet.RequestDispatcher;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ import spring.auth.common.security.LogoutService;
 import spring.auth.common.security.OAuth2LoginSuccessHandler;
 import spring.auth.common.security.TokenService;
 import spring.custom.common.enumcode.SECURITY;
-import spring.custom.common.security.TokenAuthenticationFilter;
+//import spring.custom.common.security.TokenAuthenticationFilter;
 
 @Configuration
 @EnableConfigurationProperties({ OAuth2ClientProperties.class })
@@ -61,7 +61,7 @@ public class SecurityConfig {
           })
           .successHandler(loginSuccessHandler(tokenService))
       )
-      .addFilterBefore(new TokenAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
+      //.addFilterBefore(new TokenAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
       .exceptionHandling(config -> 
         config.authenticationEntryPoint((request, response, authException) -> {
           HttpStatus status = HttpStatus.FORBIDDEN;
