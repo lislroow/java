@@ -77,6 +77,15 @@ spring:
             - RewritePathFilter
             - AuthFilter
         
+        # opendata
+        - id: opendata-api
+          predicates:
+            - Path=/opendata-api/**
+          uri: lb://opendata-api
+          filters:
+            - RewritePathFilter
+            - AuthFilter
+        
         # market
         - id: market-api-customer
           predicates:
@@ -159,6 +168,9 @@ springdoc:
         
       - name: Story API (story-api)
         url: /story-api/v3/api-docs
+        
+      - name: Opendata API (opendata-api)
+        url: /opendata-api/v3/api-docs
 
 #cloud.gateway.filter.auth-url: http://localhost/auth-api/v1/token/verify
 

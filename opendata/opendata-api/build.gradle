@@ -1,0 +1,40 @@
+plugins {
+  id 'java'
+  id 'maven-publish'
+  id 'org.springframework.boot' version "${spring_boot_version}"
+}
+
+dependencies {
+  implementation enforcedPlatform(project(":"))
+  
+  implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+  implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+  implementation "io.github.openfeign:feign-okhttp"
+  
+  implementation "org.springframework.boot:spring-boot-starter-web"
+  implementation "jakarta.servlet:jakarta.servlet-api"
+  implementation "org.springframework.boot:spring-boot-starter-validation"
+  
+  implementation "org.springframework.boot:spring-boot-starter-jdbc"
+  implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatis_version}"
+  implementation "org.mybatis:mybatis"
+  implementation "org.mybatis:mybatis-spring"
+  implementation "com.zaxxer:HikariCP"
+  implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4jdbc_version}"
+  implementation "com.h2database:h2"
+  implementation "org.postgresql:postgresql"
+  
+  api "spring.custom:resource:${spring_custom-component}"
+  api "spring.custom:common:${spring_custom-component}"
+  api "spring.custom:prototype:${spring_custom-component}"
+}
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      from(components.java)
+      artifact tasks.bootJar
+      artifact tasks.sourceJar
+    }
+  }
+}
