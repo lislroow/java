@@ -25,7 +25,7 @@ import spring.custom.common.vo.MemberVo;
 
 @Service
 @RequiredArgsConstructor
-public class SocialOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class OAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
   
   final MngMemberDao mngMemberDao;
   final MemberDao memberDao;
@@ -38,11 +38,11 @@ public class SocialOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     OAuth2User loadedUser = delegate.loadUser(userRequest);
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
     String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-    SocialOauthAttribute attributes = SocialOauthAttribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
+    OAuth2Attribute attributes = OAuth2Attribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
     MemberVo vo = attributes.toVo();
     MemberVo memberVo = memberDao.selectByEmail(vo.getEmail()).orElseGet(() -> {
       mngMemberDao.insert(vo);
-      return memberDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(ERROR_CODE.AL02));
+      return memberDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(ERROR_CODE.A003));
     });
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     memberVo.setIp(request.getRemoteAddr());

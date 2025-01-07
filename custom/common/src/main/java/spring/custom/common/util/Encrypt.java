@@ -15,7 +15,7 @@ public class Encrypt {
     try {
       digest = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
-      throw new AppException(ERROR_CODE.E002.code(), e.getMessage());
+      throw new AppException(ERROR_CODE.E901.code(), e.getMessage());
     }
     byte[] encodedHash = digest.digest(plainText.getBytes(StandardCharsets.UTF_8));
     StringBuilder hexString = new StringBuilder();

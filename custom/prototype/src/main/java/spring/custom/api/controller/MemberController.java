@@ -25,7 +25,7 @@ public class MemberController {
   public ResponseEntity<MemberResDto.Info> info() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String email = authentication.getName();
-    MemberVo result = memberDao.selectByEmail(email).orElseThrow(() -> new AppException(ERROR_CODE.AL02));
+    MemberVo result = memberDao.selectByEmail(email).orElseThrow(() -> new AppException(ERROR_CODE.A003));
     MemberResDto.Info resDto = modelMapper.map(result, MemberResDto.Info.class);
     return ResponseEntity.ok(resDto);
   }

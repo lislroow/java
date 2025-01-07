@@ -20,7 +20,7 @@ import spring.custom.dto.TokenResDto;
 
 @Slf4j
 @RequiredArgsConstructor
-public class SocialOAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
+public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
   
   private final TokenService tokenService;
   

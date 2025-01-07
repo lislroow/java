@@ -6,15 +6,15 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.common.enumcode.PROTOTYPE_URI;
+import spring.custom.common.enumcode.SECURITY;
 import spring.custom.common.security.TokenAuthenticationFilter;
 
 @Configuration
@@ -30,24 +30,24 @@ public class SecurityConfig {
       .httpBasic(AbstractHttpConfigurer::disable)
       .formLogin(AbstractHttpConfigurer::disable)
       .addFilterBefore(new TokenAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
-      .authorizeHttpRequests(authorizeRequests -> {
-        List<String> permitList = Arrays.asList(
-            "/actuator/**",
-            "/error",
-            "/v3/api-docs");
+      .authorizeHttpRequests(config -> {
+        List<String> permitList = Arrays.asList();
         permitList.stream().forEach(item -> {
-          authorizeRequests.requestMatchers(item).permitAll();
+          config.requestMatchers(item).permitAll();
         });
-        Arrays.asList(PROTOTYPE_URI.values()).stream().forEach(item -> {
-          authorizeRequests.requestMatchers(item.getPattern()).permitAll();
+        Arrays.asList(SECURITY.PERMIT_URI.values()).stream().forEach(item -> {
+          config.requestMatchers(item.getPattern()).permitAll();
         });
-        authorizeRequests.anyRequest().authenticated();
+        config.anyRequest().authenticated();
       })
-      .exceptionHandling(exceptionHandlingCustomizer -> 
-        exceptionHandlingCustomizer.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
+      .exceptionHandling(config -> 
+        config.authenticationEntryPoint((request, response, authException) -> {
+          HttpStatus status = HttpStatus.FORBIDDEN;
+          response.sendError(status.value(), status.getReasonPhrase());
+        })
       )
-      .sessionManagement(sessionManagement -> 
-        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.NEVER)
+      .sessionManagement(config -> 
+        config.sessionCreationPolicy(SessionCreationPolicy.NEVER)
       );
     return http.build();
   }

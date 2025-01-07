@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -21,20 +23,17 @@ import org.springframework.security.oauth2.client.web.DefaultOAuth2Authorization
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import jakarta.servlet.RequestDispatcher;
 import lombok.RequiredArgsConstructor;
-import spring.auth.common.security.LogoutHandlerImpl;
-import spring.auth.common.security.LogoutSuccessHandlerImpl;
-import spring.auth.common.security.SocialOAuth2LoginSuccessHandler;
+import spring.auth.common.security.LoginService;
+import spring.auth.common.security.LoginSuccessHandler;
+import spring.auth.common.security.LogoutService;
+import spring.auth.common.security.OAuth2LoginSuccessHandler;
 import spring.auth.common.security.TokenService;
-import spring.auth.common.security.UsernamePasswordAuthenticationFailureHandler;
-import spring.auth.common.security.UsernamePasswordAuthenticationSuccessHandler;
-import spring.auth.common.security.UsernamePasswordDetailsService;
-import spring.custom.common.enumcode.PROTOTYPE_URI;
+import spring.custom.common.enumcode.SECURITY;
 import spring.custom.common.security.TokenAuthenticationFilter;
 
 @Configuration
@@ -42,7 +41,7 @@ import spring.custom.common.security.TokenAuthenticationFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
   
-  final UsernamePasswordDetailsService usernamePasswordDetailsService;
+  final LoginService usernamePasswordDetailsService;
   final ModelMapper modelMapper;
   
   @Bean
@@ -50,52 +49,61 @@ public class SecurityConfig {
     http
       .csrf(AbstractHttpConfigurer::disable)
       .httpBasic(AbstractHttpConfigurer::disable)
-      .formLogin(formLogin -> 
-        formLogin
-          .loginProcessingUrl("/v1/login/process")
-          .failureHandler(usernamePasswordAuthenticationFailureHandler())
-          .successHandler(usernamePasswordAuthenticationSuccessHandler(tokenService))
+      .formLogin(config -> 
+        config
+          .loginProcessingUrl("/v1/login")
+          .failureHandler((request, response, exception) -> {
+            request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI, request.getRequestURI());
+            request.setAttribute(RequestDispatcher.ERROR_EXCEPTION, exception);
+            request.setAttribute(RequestDispatcher.ERROR_MESSAGE, exception.getMessage());
+            HttpStatus status = HttpStatus.UNAUTHORIZED;
+            response.sendError(status.value(), status.getReasonPhrase());
+          })
+          .successHandler(loginSuccessHandler(tokenService))
       )
       .addFilterBefore(new TokenAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
-      .exceptionHandling(exceptionHandlingCustomizer -> 
-        exceptionHandlingCustomizer.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
+      .exceptionHandling(config -> 
+        config.authenticationEntryPoint((request, response, authException) -> {
+          HttpStatus status = HttpStatus.FORBIDDEN;
+          response.sendError(status.value(), status.getReasonPhrase());
+        })
       )
       .authenticationProvider(daoAuthenticationProvider())
-      .authorizeHttpRequests(authorizeRequests -> {
+      .authorizeHttpRequests(config -> {
         List<String> permitList = Arrays.asList(
             "/oauth2/authorization/**",
+            "/v1/login",
             "/v1/logout",
-            "/v1/login/process",
-            "/v1/token/**",
-            "/actuator/**",
-            "/error",
-            "/v3/api-docs");
+            "/v1/token/**");
         permitList.stream().forEach(item -> {
-          authorizeRequests.requestMatchers(item).permitAll();
+          config.requestMatchers(item).permitAll();
         });
-        Arrays.asList(PROTOTYPE_URI.values()).stream().forEach(item -> {
-          authorizeRequests.requestMatchers(item.getPattern()).permitAll();
+        Arrays.asList(SECURITY.PERMIT_URI.values()).stream().forEach(item -> {
+          config.requestMatchers(item.getPattern()).permitAll();
         });
-        authorizeRequests.anyRequest().authenticated();
+        config.anyRequest().authenticated();
       })
-      .oauth2Login(oauth2Login ->
-        oauth2Login.permitAll()
+      .oauth2Login(config ->
+        config.permitAll()
           .authorizationEndpoint(authorizationEndpointCustomizer -> 
             authorizationEndpointCustomizer.authorizationRequestResolver(
               oauth2AuthorizationRequestResolver(clientRegistrationRepository())
             )
           )
-          .successHandler(socialOAuth2LoginSuccessHandler(tokenService))
+          .successHandler(oAuth2LoginSuccessHandler(tokenService))
       )
-      .sessionManagement(sessionManagement -> 
-        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.NEVER)
+      .sessionManagement(config -> 
+        config.sessionCreationPolicy(SessionCreationPolicy.NEVER)
       )
       .logout(logout ->
         logout.logoutUrl("/v1/logout")
           .logoutSuccessUrl("/")
-          .addLogoutHandler(logoutHandlerImpl())
-          .logoutSuccessHandler(logoutSuccessHandlerImpl())
-          .deleteCookies("user")
+          .addLogoutHandler(new LogoutService())
+          .logoutSuccessHandler((request, response, authentication) -> {
+            String redirectUri = "/";
+            response.setStatus(HttpStatus.FOUND.value());
+            response.setHeader(HttpHeaders.LOCATION, redirectUri);
+          })
       );
     return http.build();
   }
@@ -107,21 +115,16 @@ public class SecurityConfig {
     return provider;
   }
   
-  @Bean
-  AuthenticationFailureHandler usernamePasswordAuthenticationFailureHandler() {
-    return new UsernamePasswordAuthenticationFailureHandler();
-  }
-  
   final TokenService tokenService;
   
   @Bean
-  AuthenticationSuccessHandler usernamePasswordAuthenticationSuccessHandler(TokenService tokenService) {
-    return new UsernamePasswordAuthenticationSuccessHandler(tokenService);
+  AuthenticationSuccessHandler loginSuccessHandler(TokenService tokenService) {
+    return new LoginSuccessHandler(tokenService);
   }
   
   @Bean
-  SocialOAuth2LoginSuccessHandler socialOAuth2LoginSuccessHandler(TokenService tokenService) {
-    return new SocialOAuth2LoginSuccessHandler(tokenService);
+  OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler(TokenService tokenService) {
+    return new OAuth2LoginSuccessHandler(tokenService);
   }
   
   final OAuth2ClientProperties properties;
@@ -141,12 +144,4 @@ public class SecurityConfig {
     return new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, authorizationRequestBaseUri);
   }
   
-  LogoutHandlerImpl logoutHandlerImpl() {
-    return new LogoutHandlerImpl();
-  }
-  
-  @Bean
-  LogoutSuccessHandlerImpl logoutSuccessHandlerImpl() {
-    return new LogoutSuccessHandlerImpl();
-  }
 }

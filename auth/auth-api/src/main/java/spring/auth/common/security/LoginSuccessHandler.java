@@ -19,7 +19,7 @@ import spring.custom.dto.TokenResDto;
 
 @Slf4j
 @RequiredArgsConstructor
-public class UsernamePasswordAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
   private final TokenService tokenService;
   

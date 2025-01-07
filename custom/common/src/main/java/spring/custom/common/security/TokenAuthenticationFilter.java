@@ -47,7 +47,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         SignedJWT signedJWT = SignedJWT.parse(accessToken);
         jwtClaimsSet = signedJWT.getJWTClaimsSet();
         TOKEN.USER userType = TOKEN.USER.fromCode(jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.USER_TYPE.code()).toString())
-            .orElseThrow(() -> new AppException(ERROR_CODE.A007));
+            .orElseThrow(() -> new AppException(ERROR_CODE.A006));
         /* for debug */ if (log.isDebugEnabled()) log.debug("jwtClaimsSet: {}", jwtClaimsSet);
         attributes = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.ATTRIBUTES.code());
         /* for debug */ if (log.isDebugEnabled()) log.debug("attributes: {}", attributes);
@@ -62,9 +62,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         /* for debug */ log.error("attributes: {}", attributes);
         /* for debug */ log.error("memberVo: {}", memberVo);
         /* for debug */ e.printStackTrace();
-        throw new AppException(ERROR_CODE.A007, e);
+        throw new AppException(ERROR_CODE.A006, e);
       } catch (Exception e) {
-        throw new AppException(ERROR_CODE.A007, e);
+        throw new AppException(ERROR_CODE.A006, e);
       }
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
           userDetails.getAuthorities());

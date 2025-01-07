@@ -41,7 +41,7 @@ public class ControllerExceptionHandlerWebFlux {
     
     HttpStatusCode status = e.getStatusCode(); // 503: SERVICE_UNAVAILABLE
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
-        .title(ERROR_CODE.G002.code())
+        .title(ERROR_CODE.E503.code())
         .detail(e.getMessage())
         .status(status)
         .build();

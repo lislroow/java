@@ -22,7 +22,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   protected ResponseEntity<ProblemDetail> handleAppException(AppException e, WebRequest request) {
     /* for debug */ if (log.isDebugEnabled()) log.error("{}", e);
     
-    HttpStatusCode status = HttpStatus.INTERNAL_SERVER_ERROR;
+    HttpStatusCode status = null;
+    ERROR_CODE errorCode = ERROR_CODE.fromCode(e.getErrorCode()).orElse(ERROR_CODE.E999);
+    
+    if (ERROR_CODE.isAuthError(errorCode)) {
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+    } else {
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+    }
+    
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
       .title(e.getErrorCode())
       .detail(e.getErrorMessage())

@@ -6,24 +6,20 @@ import java.util.Optional;
 public enum ERROR_CODE {
   
   /** 성공 */ S000("Success"),
-  /** openfeign error */ E001("openfeign error"),
-  /** encrypt error */ E002("encrypt error"),
-  /** unknown error */ E999("unknown error"),
-  /** api gateway error */ G001("api gateway error"),
-  /** server status 503 */ G002("server status 503"),
-  /** ResponseDto creation error */ G998("ResponseDto creation error"),
-  /** unknown gateway error */ G999("unknown gateway error"),
+  
+  /** server unavailable */ E503("server unavailable"),
+  /** encrypt error */ E901("encrypt error"),
+  /** illegal access */ E902("illegal access"),
+  /** fail to save */ E903("fail to save"),
+  
   /** token creation error */ A001("token creation error"),
   /** token verification error */ A002("token verification error"),
-  /** token is empty */ A003("token is empty"),
+  /** user not found */ A003("user not found"),
   /** token refresh error */ A004("token refresh error"),
   /** token not exist */ A005("token not exist"),
-  /** access token is wrong */ A006("access token is wrong"),
-  /** authenticate token creation error */ A007("authenticate token creation error"),
-  /** login required, userId is null */ AL01("login required, userId is null"),
-  /** user not found */ AL02("user not found"),
-  /** illegal access */ C001("illegal access"),
-  /** fail to save */ C002("fail to save")
+  /** authenticate token creation error */ A006("authenticate token creation error"),
+  
+  /** unknown error */ E999("unknown error")
   ;
   
   private String message;
@@ -44,6 +40,14 @@ public enum ERROR_CODE {
       return Arrays.stream(ERROR_CODE.values())
           .filter(item -> item.code().equals(code))
           .findAny();
+  }
+  
+  public static boolean isAuthError(ERROR_CODE errorCode) {
+    return errorCode.code().startsWith("A");
+  }
+  
+  public static boolean isServerError(ERROR_CODE errorCode) {
+    return errorCode.code().startsWith("E");
   }
   
   public String toString() {

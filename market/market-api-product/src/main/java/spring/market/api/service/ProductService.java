@@ -62,7 +62,7 @@ public class ProductService {
     if (imgThumb != null) {
       String originName = imgThumb.getOriginalFilename();
       if (!StringUtils.hasLength(originName)) {
-        throw new AppException(ERROR_CODE.C001);
+        throw new AppException(ERROR_CODE.E902);
       }
       String originExt = originName.substring(originName.lastIndexOf(".")+1, originName.length());
       String imgThumbPath = MarketConstant.File.UPLOAD_PRODUCT + File.pathSeparator + Uuid.create() + "." + originExt;

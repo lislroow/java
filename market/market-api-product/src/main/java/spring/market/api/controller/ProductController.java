@@ -69,7 +69,7 @@ public class ProductController {
     try {
       resDto = productService.saveProduct(request, imgThumb);
     } catch (IllegalStateException|IOException e) {
-      throw new AppException(ERROR_CODE.C002);
+      throw new AppException(ERROR_CODE.E903);
     }
     return ResponseEntity.ok(resDto);
   }

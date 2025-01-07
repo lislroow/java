@@ -19,7 +19,7 @@ import spring.custom.common.vo.MemberVo;
 
 @Service
 @RequiredArgsConstructor
-public class UsernamePasswordDetailsService implements UserDetailsService {
+public class LoginService implements UserDetailsService {
 
   //Logger ecslog = LoggerFactory.getLogger("ECS_JSON");
   
@@ -32,7 +32,7 @@ public class UsernamePasswordDetailsService implements UserDetailsService {
     String email = username;
     //MDC.put("userId", email);
     //ecslog.info("");
-    MemberVo memberVo = memberDao.selectByEmail(email).orElseThrow(() -> new AppException(ERROR_CODE.AL02));
+    MemberVo memberVo = memberDao.selectByEmail(email).orElseThrow(() -> new AppException(ERROR_CODE.A003));
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     memberVo.setIp(request.getRemoteAddr());
     memberVo.setUserAgent(request.getHeader(Constant.HTTP_HEADER.USER_AGENT));
