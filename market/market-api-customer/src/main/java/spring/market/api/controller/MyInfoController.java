@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import spring.custom.common.annotation.Login;
+import spring.custom.common.annotation.UserInfo;
 import spring.market.api.dto.MyInfoReqDto;
 import spring.market.api.dto.MyInfoResDto;
 import spring.market.api.service.MyInfoService;
-import spring.market.common.aop.annotation.Login;
-import spring.market.common.aop.annotation.UserInfo;
 import spring.market.common.vo.UserVo;
 
 @RestController

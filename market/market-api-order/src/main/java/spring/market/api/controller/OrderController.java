@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import spring.custom.common.annotation.Login;
+import spring.custom.common.annotation.UserInfo;
 import spring.market.api.dto.OrderReqDto;
 import spring.market.api.dto.OrderResDto;
 import spring.market.api.service.OrderService;
-import spring.market.common.aop.annotation.Login;
-import spring.market.common.aop.annotation.UserInfo;
 import spring.market.common.vo.UserVo;
 
 @RestController
