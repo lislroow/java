@@ -1,11 +1,9 @@
-package spring.story.common.aop;
+package spring.custom.common.aop;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import org.apache.catalina.connector.RequestFacade;
-import org.apache.catalina.connector.ResponseFacade;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -23,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.annotation.Login;
 import spring.custom.common.annotation.UserInfo;
-import spring.story.common.constant.StoryApiConstant;
+import spring.custom.common.constant.Constant;
 
 @Aspect
 @Order(1)
@@ -33,7 +31,7 @@ import spring.story.common.constant.StoryApiConstant;
 public class RestControllerAspect {
   
   @SuppressWarnings("unused")
-  @Around("execution(* "+StoryApiConstant.BASE_PACKAGE+"..controller.*Controller.*(..))")
+  @Around("execution(* "+Constant.BASE_PACKAGE+"..controller.*Controller.*(..))")
   public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
     jakarta.servlet.http.HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     jakarta.servlet.http.HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
@@ -71,9 +69,7 @@ public class RestControllerAspect {
       ObjectMapper objectMapper = new ObjectMapper();
       objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
       Object[] newArgs = Arrays.stream(args).map(item -> 
-        (item instanceof RequestFacade || 
-        item instanceof ResponseFacade || 
-        item instanceof MultipartFile) ? item.getClass() : null
+        (item instanceof MultipartFile) ? item.getClass() : null
       ).toArray();
       String reqstr = objectMapper.writeValueAsString(newArgs);
       String resstr = null;
@@ -84,4 +80,5 @@ public class RestControllerAspect {
     
     return result;
   }
+  
 }
