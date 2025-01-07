@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import spring.cloud.common.client.ApiClient;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.util.IdGenerator;
+import spring.custom.common.util.XffClientIpExtractor;
 import spring.custom.dto.TokenReqDto;
 import spring.custom.dto.TokenResDto;
 
@@ -48,6 +50,9 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
         
         ERROR_CODE failCode = ERROR_CODE.A002;
         TokenReqDto.Verify requestBody = new TokenReqDto.Verify();
+        String clientIp = XffClientIpExtractor.getClientIp(request);
+        String userAgent = request.getHeaders().get("User-Agent").get(0);
+        requestBody.setClientIdent(IdGenerator.createClientIdent(clientIp, userAgent));
         requestBody.setAtkUuid(token);
         try {
           final TokenResDto.Verify vertifyDto = 

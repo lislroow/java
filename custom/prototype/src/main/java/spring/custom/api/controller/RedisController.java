@@ -34,7 +34,7 @@ public class RedisController {
   
   @GetMapping("/v1/redis/key/{key}")
   public ResponseEntity<Set<String>> key(@PathVariable("key") String key) {
-    Set<String> keys = redisSupport.key(key);
+    Set<String> keys = redisSupport.keys(key);
     return ResponseEntity.ok(keys);
   }
   
@@ -67,13 +67,13 @@ public class RedisController {
   
   @DeleteMapping("/v1/redis/value/{key}")
   public ResponseEntity<?> del(@PathVariable("key") String key) {
-    redisSupport.delValue(key);
+    redisSupport.removeValue(key);
     return ResponseEntity.ok().build();
   }
   
   @DeleteMapping("/v1/redis/hash/{key}/{hashKey}")
   public ResponseEntity<?> hdel(@PathVariable("key") String key, @PathVariable("hashKey") String hashKey) {
-    redisSupport.deleteHash(key, hashKey);
+    redisSupport.removeHash(key, hashKey);
     return ResponseEntity.ok().build();
   }
 }

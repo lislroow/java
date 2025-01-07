@@ -12,6 +12,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import spring.custom.common.constant.Constant;
 import spring.custom.common.redis.RedisSupport;
 import spring.market.common.constant.MarketConstant;
@@ -44,7 +46,7 @@ public class RedisAuthUserConfig {
   }
   
   @Bean(name = MarketConstant.REDIS.AUTH_USER + "RedisSupport")
-  RedisSupport redisSupport(ModelMapper modelMapper) {
-    return new RedisSupport(redisTemplate(), modelMapper);
+  RedisSupport redisSupport(ModelMapper modelMapper, ObjectMapper objectMapper) {
+    return new RedisSupport(redisTemplate(), modelMapper, objectMapper);
   }
 }

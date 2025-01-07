@@ -9,6 +9,7 @@ public class TokenReqDto {
   @Data
   public static class Verify {
     private String atkUuid;
+    private String clientIdent;
   }
   
   @Data

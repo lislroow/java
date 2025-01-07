@@ -2,17 +2,15 @@ package spring.market.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import spring.custom.common.constant.Constant;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import spring.custom.common.redis.RedisSupport;
 import spring.market.common.constant.MarketConstant;
 import spring.market.common.enumcode.REDIS_TYPE;
@@ -44,7 +42,7 @@ public class RedisAuthGuestConfig {
   }
   
   @Bean(name = MarketConstant.REDIS.AUTH_GUEST + "RedisSupport")
-  RedisSupport redisSupport(ModelMapper modelMapper) {
-    return new RedisSupport(redisTemplate(), modelMapper);
+  RedisSupport redisSupport(ModelMapper modelMapper, ObjectMapper objectMapper) {
+    return new RedisSupport(redisTemplate(), modelMapper, objectMapper);
   }
 }

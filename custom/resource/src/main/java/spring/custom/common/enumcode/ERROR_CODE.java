@@ -11,6 +11,8 @@ public enum ERROR_CODE {
   /** encrypt error */ E901("encrypt error"),
   /** illegal access */ E902("illegal access"),
   /** fail to save */ E903("fail to save"),
+  /** fail to json convert */ E904("fail to json convert"),
+  /** x-forwarded-for is empty */ E905("x-forwarded-for is empty"),
   
   /** token creation error */ A001("token creation error"),
   /** token verification error */ A002("token verification error"),

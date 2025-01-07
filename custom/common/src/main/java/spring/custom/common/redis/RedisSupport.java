@@ -2,32 +2,57 @@ package spring.custom.common.redis;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
+import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.exception.AppException;
 
 @RequiredArgsConstructor
 public class RedisSupport {
 
-  private final RedisTemplate<String, String> redisTemplate;
-  private final ModelMapper modelMapper;
+  final RedisTemplate<String, String> redisTemplate;
+  final ModelMapper modelMapper;
+  final ObjectMapper objectMapper;
+  
   
   // key
   public Set<String> keys() {
     return this.redisTemplate.keys("*");
   }
   
-  public Set<String> key(String key) {
+  public Set<String> keys(String key) {
     return this.redisTemplate.keys(key);
+  }
+  
+  public Set<Object> hkeys(String key) {
+    Set<Object> hkeySet = this.redisTemplate.opsForHash().keys(key);
+    return hkeySet;
   }
   
   // value: opsForValue()
   public void setValue(String key, String val) {
     this.redisTemplate.opsForValue().set(key, val);
+  }
+  
+  public void setList(String key, List<String> list) {
+    String val = null;
+    try {
+      objectMapper.writeValueAsString(list);
+    } catch (JsonProcessingException e) {
+      throw new AppException(ERROR_CODE.E904, e);
+    }
+    this.setValue(key, val);
   }
   
   public void setValue(String key, String val, Duration ttl) {
@@ -38,7 +63,18 @@ public class RedisSupport {
     return this.redisTemplate.opsForValue().get(key);
   }
   
-  public void delValue(String key) {
+  public List<String> getList(String key) {
+    String val = this.getValue(key);
+    List<String> list = null;
+    try {
+      list = Arrays.asList(objectMapper.readValue(val, String[].class));
+    } catch (JsonProcessingException e) {
+      throw new AppException(ERROR_CODE.E904, e);
+    }
+    return list;
+  }
+  
+  public void removeValue(String key) {
     this.redisTemplate.delete(key);
   }
   
@@ -57,13 +93,14 @@ public class RedisSupport {
     return (T) this.redisTemplate.opsForHash().get(key, hashKey);
   }
   
-  public void deleteHash(String key, String hashKey) {
-    if (hashKey != null && hashKey.indexOf("*") > -1) {
-      Set<Object> hkeySet = this.redisTemplate.opsForHash().keys(key);
-      hkeySet.forEach(hkey -> this.redisTemplate.opsForHash().delete(key, hkey));
-    } else {
-      this.redisTemplate.opsForHash().delete(key, hashKey);
-    }
+  public Map<String, String> getHash(String key) {
+    Map<String, String> result = redisTemplate.opsForHash().entries(key)
+        .entrySet().stream()
+        .collect(Collectors.toMap(
+            entry -> String.valueOf(entry.getKey()),
+            entry -> String.valueOf(entry.getValue())
+        ));
+    return result;
   }
   
   public <T> List<T> getHashAll(String key, Class<T> type) {

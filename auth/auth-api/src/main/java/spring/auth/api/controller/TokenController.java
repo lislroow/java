@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import spring.auth.common.security.TokenService;
 import spring.custom.common.constant.Constant;
+import spring.custom.common.util.XffClientIpExtractor;
 import spring.custom.dto.TokenReqDto;
 import spring.custom.dto.TokenResDto;
 
@@ -24,12 +25,9 @@ public class TokenController {
   @PostMapping("/v1/token/verify")
   public ResponseEntity<TokenResDto.Verify> verityToken(@RequestBody TokenReqDto.Verify reqDto) {
     String atkUuid = reqDto.getAtkUuid();
+    String clientIdent = reqDto.getClientIdent();
     
-    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    String clientIp = request.getRemoteAddr();
-    String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
-    
-    TokenResDto.Verify result = tokenService.verifyToken(atkUuid, clientIp, userAgent);
+    TokenResDto.Verify result = tokenService.verifyToken(atkUuid, clientIdent);
     return ResponseEntity.ok(result);
   }
   
@@ -38,7 +36,7 @@ public class TokenController {
     String rtkUuid = reqDto.getRtkUuid();
     
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    String clientIp = request.getRemoteAddr();
+    String clientIp = XffClientIpExtractor.getClientIp(request);
     String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
     
     TokenResDto.Refresh result = tokenService.refreshToken(rtkUuid, clientIp, userAgent);

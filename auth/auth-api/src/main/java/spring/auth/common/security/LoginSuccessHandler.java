@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.TOKEN;
+import spring.custom.common.util.XffClientIpExtractor;
 import spring.custom.common.vo.AuthPrincipal;
 import spring.custom.dto.TokenResDto;
 
@@ -30,9 +31,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     Assert.isTrue(authentication.getPrincipal() != null, "authentication.getPrincipal() is null");
     Assert.isTrue(authentication.getPrincipal() instanceof AuthPrincipal, "authentication.getPrincipal() is not SessionUser type");
     
-    String ip = request.getRemoteAddr();
+    String clientIp = XffClientIpExtractor.getClientIp(request);
     String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
-    TokenResDto.Create resDto = tokenService.createToken(TOKEN.USER.MEMBER, authentication, ip, userAgent);
+    TokenResDto.Create resDto = tokenService.createToken(TOKEN.USER.MEMBER, authentication, clientIp, userAgent);
     ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
         .path("/")
         .httpOnly(false)
