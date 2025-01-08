@@ -20,6 +20,9 @@
   <logger name="jdbc.resultsettable" level="DEBUG" />
   <logger name="jdbc.sqltiming" level="DEBUG" />
   -->
+  <logger name="com.zaxxer.hikari.HikariConfig" level="debug" additivity="false">
+    <appender-ref ref="STDOUT"/>
+  </logger>
   
   <logger name="org.springframework.security" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
