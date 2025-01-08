@@ -34,3 +34,16 @@ CREATE TABLE IF NOT EXISTS manager
   create_id INT DEFAULT 1,
   modify_id INT DEFAULT 1
 );
+
+DROP TABLE IF EXISTS token;
+CREATE TABLE IF NOT EXISTS token
+(
+  id VARCHAR(42) PRIMARY KEY,
+  token TEXT,
+  client_ip VARCHAR(255),
+  use_yn CHAR(1) DEFAULT 'Y',
+  create_date TIMESTAMP DEFAULT NOW(),
+  modify_date TIMESTAMP DEFAULT NOW(),
+  create_id INT DEFAULT 1,
+  modify_id INT DEFAULT 1
+);

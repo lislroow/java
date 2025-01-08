@@ -54,7 +54,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
         String clientIp = XffClientIpExtractor.getClientIp(request);
         String userAgent = request.getHeaders().get(Constant.HTTP_HEADER.USER_AGENT).get(0);
         requestBody.setClientIdent(IdGenerator.createClientIdent(clientIp, userAgent));
-        requestBody.setAtkUuid(token);
+        requestBody.setTokenId(token);
         try {
           final TokenResDto.Verify vertifyDto = 
               apiClient.postForEntity(AUTH_URL, requestBody, TokenResDto.Verify.class);

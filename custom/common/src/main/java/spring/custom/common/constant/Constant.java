@@ -32,6 +32,7 @@ public class Constant {
   
   public static class HTTP_HEADER {
     public static final String USER_AGENT = "User-Agent";
+    public static final String X_FORWARDED_FOR = "X-Forwarded-For";
     public static final String X_ATKID = "X-ATKID";
     public static final String X_RTKID = "X-RTKID";
     public static final String X_CAPTCHA_EC = "X-CAPTCHA-EC";

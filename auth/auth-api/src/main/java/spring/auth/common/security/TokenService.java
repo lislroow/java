@@ -34,9 +34,12 @@ import com.nimbusds.jwt.SignedJWT;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import spring.auth.api.dao.TokenDao;
+import spring.auth.api.vo.TokenVo;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.TOKEN;
+import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.util.IdGenerator;
@@ -49,6 +52,7 @@ import spring.custom.dto.TokenResDto;
 public class TokenService {
   
   final RedisSupport redisSupport;
+  final TokenDao tokenDao;
   
   @Value("${auth.token.private-key-file-path:config/cert/star.develop.net.key}")
   private String PRIVATE_KEY_FILE_PATH;
@@ -144,26 +148,36 @@ public class TokenService {
     return result;
   }
   
-  public TokenResDto.Verify verifyToken(String atkUuid, String clientIdent) {
-    TOKEN.USER tokenUser = IdGenerator.getTokenUser(atkUuid).orElseThrow(() -> new AppException(ERROR_CODE.A002));
-    String redisKey = null;
+  public TokenResDto.Verify verifyToken(String tokenId, String clientIdent) {
+    TOKEN.USER tokenUser = IdGenerator.getTokenUser(tokenId).orElseThrow(() -> new AppException(ERROR_CODE.A002));
+    String token = null;
     switch (tokenUser) {
     case MEMBER:
     case MANAGER:
-      redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, atkUuid, clientIdent);
+      String redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, tokenId, clientIdent);
+      token = Optional.ofNullable(this.redisSupport.getValue(redisKey))
+          .orElseThrow(() -> new AppException(ERROR_CODE.A002));
       break;
+    case OPENDATA:
+      TokenVo tokenVo = tokenDao.findById(tokenId)
+          .orElseThrow(() -> new AppException(ERROR_CODE.A002));
+      if (tokenVo.getUseYn() == YN.N) {
+        throw new AppException(ERROR_CODE.A002);
+      }
+      token = tokenVo.getToken();
+      break;
+    default:
+      throw new AppException(ERROR_CODE.A002);
     }
-    String accessToken = Optional.ofNullable(this.redisSupport.getValue(redisKey))
-        .orElseThrow(() -> new AppException(ERROR_CODE.A002));
     
     TokenResDto.Verify resDto = new TokenResDto.Verify();
     try {
-      SignedJWT signedJWT = SignedJWT.parse(accessToken);
+      SignedJWT signedJWT = SignedJWT.parse(token);
       if (signedJWT.verify(this.verifier)) {
         String username = signedJWT.getJWTClaimsSet().getSubject();
         resDto.setValid(true);
         resDto.setUsername(username);
-        resDto.setAccessToken(accessToken);
+        resDto.setAccessToken(token);
       } else {
         throw new AppException(ERROR_CODE.A002);
       }

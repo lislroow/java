@@ -19,10 +19,10 @@ public class TokenController {
   
   @PostMapping("/v1/token/verify")
   public ResponseEntity<TokenResDto.Verify> verityToken(@RequestBody TokenReqDto.Verify reqDto) {
-    String atkUuid = reqDto.getAtkUuid();
+    String tokenId = reqDto.getTokenId();
     String clientIdent = reqDto.getClientIdent(); // api gateway 에서 x-forward-for 로 생성한 clientIdent 값
     
-    TokenResDto.Verify result = tokenService.verifyToken(atkUuid, clientIdent);
+    TokenResDto.Verify result = tokenService.verifyToken(tokenId, clientIdent);
     return ResponseEntity.ok(result);
   }
   
