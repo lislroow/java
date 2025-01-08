@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import spring.auth.api.dao.MemberAuthenticationDao;
-import spring.auth.api.vo.MemberAuthenticationVo;
+import spring.auth.api.dao.MemberAuthDao;
+import spring.auth.api.vo.MemberAuthVo;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
@@ -20,7 +20,7 @@ import spring.custom.common.exception.AppException;
 @RequiredArgsConstructor
 public class OAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
   
-  final MemberAuthenticationDao memberAuthenticationDao;
+  final MemberAuthDao memberAuthDao;
   final ModelMapper model;
   
   @Transactional
@@ -31,10 +31,10 @@ public class OAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, 
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
     String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
     OAuth2Attribute attributes = OAuth2Attribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
-    MemberAuthenticationVo vo = attributes.toVo();
-    MemberAuthenticationVo memberVo = memberAuthenticationDao.selectByEmail(vo.getEmail()).orElseGet(() -> {
-      memberAuthenticationDao.insertOAuth2Member(vo);
-      return memberAuthenticationDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(ERROR_CODE.A003));
+    MemberAuthVo vo = attributes.toMemberAuthVo();
+    MemberAuthVo memberVo = memberAuthDao.selectByEmail(vo.getEmail()).orElseGet(() -> {
+      memberAuthDao.insert(vo);
+      return memberAuthDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(ERROR_CODE.A003));
     });
     return new UserAuthentication(TOKEN.USER.MEMBER, memberVo);
   }

@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.enumcode.SECURITY;
-import spring.custom.common.security.TokenAuthenticationFilter;
+import spring.custom.common.security.TokenAuthFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -29,7 +29,7 @@ public class SecurityConfig {
       .csrf(AbstractHttpConfigurer::disable)
       .httpBasic(AbstractHttpConfigurer::disable)
       .formLogin(AbstractHttpConfigurer::disable)
-      .addFilterBefore(new TokenAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
+      .addFilterBefore(new TokenAuthFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
       .authorizeHttpRequests(config -> {
         List<String> permitList = Arrays.asList();
         permitList.stream().forEach(item -> {

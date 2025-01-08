@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.auth.api.dao.OpendataAuthDao">
+  
+  <select id="selectById" resultType="OpendataAuthVo">
+    SELECT /* OpendataAuthDao.selectById */
+           'ROLE_OPENDATA' as role,
+           user_id,
+           user_name,
+    FROM   opendata_user a
+    WHERE  a.user_id = #{userId}
+  </select>
+  
+  <insert id="insert">
+    INSERT /* OpendataAuthDao.insert */
+      INTO opendata_user (
+      user_id,
+      user_name
+    ) VALUES (
+      #{userId},
+      #{userName}
+    )
+  </insert>
+  
+</mapper>

@@ -28,7 +28,7 @@ import spring.custom.common.vo.MemberVo;
 
 @Slf4j
 @RequiredArgsConstructor
-public class TokenAuthenticationFilter extends OncePerRequestFilter {
+public class TokenAuthFilter extends OncePerRequestFilter {
   
   final ModelMapper modelMapper;
   

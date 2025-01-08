@@ -25,6 +25,11 @@ public class MemberVo implements AuthenticatedPrincipal {
   private String ip;
   private String userAgent;
   
+  @Override
+  public String getName() {
+    return this.email;
+  }
+  
   public static MemberVo ofToken(Map<String, Object> userAttr) {
     return MemberVo.builder()
         .id(userAttr.getOrDefault("id", "").toString())
@@ -33,11 +38,6 @@ public class MemberVo implements AuthenticatedPrincipal {
         .email(userAttr.getOrDefault("email", "").toString())
         .nickname(userAttr.getOrDefault("nickname", "").toString())
         .build();
-  }
-
-  @Override
-  public String getName() {
-    return this.email;
   }
   
 }

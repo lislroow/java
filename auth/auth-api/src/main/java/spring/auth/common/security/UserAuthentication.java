@@ -9,20 +9,20 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import lombok.Data;
 import spring.custom.common.enumcode.TOKEN;
-import spring.custom.common.security.AuthenticationDetails;
+import spring.custom.common.security.AuthDetails;
 
 @Data
 public class UserAuthentication implements OAuth2User, UserDetails {
   
   private static final long serialVersionUID = 2501815366855398147L;
   
-  private AuthenticationDetails tokenUserDetails;
+  private AuthDetails tokenUserDetails;
   
   private transient String userType;
   private transient String role;
   private transient Map<String, Object> userAttr;
   
-  public UserAuthentication(TOKEN.USER userType, AuthenticationDetails tokenUserDetails) {
+  public UserAuthentication(TOKEN.USER userType, AuthDetails tokenUserDetails) {
     this.userType = userType.code();
     this.tokenUserDetails = tokenUserDetails;
     this.role = tokenUserDetails.getRole();

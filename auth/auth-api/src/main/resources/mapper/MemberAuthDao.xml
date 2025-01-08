@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="spring.auth.api.dao.MemberAuthenticationDao">
+<mapper namespace="spring.auth.api.dao.MemberAuthDao">
   
-  <select id="selectByEmail" resultType="MemberAuthenticationVo">
-    SELECT /* MemberDao.selectByEmail */
+  <select id="selectByEmail" resultType="MemberAuthVo">
+    SELECT /* MemberAuthDao.selectByEmail */
            '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
-           'ROLE_USER' as role,
+           'ROLE_MEMBER' as role,
            registration_id,
            oauth2_id,
            email,
@@ -15,8 +15,8 @@
     WHERE  a.email = #{email}
   </select>
   
-  <insert id="insertOAuth2Member">
-    INSERT /* MngMemberDao.insertOAuth2Member */
+  <insert id="insert">
+    INSERT /* MemberAuthDao.insert */
       INTO member (
       registration_id,
       oauth2_id,

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import lombok.Builder;
 import lombok.Getter;
-import spring.auth.api.vo.MemberAuthenticationVo;
+import spring.auth.api.vo.MemberAuthVo;
 
 @Getter
 public class OAuth2Attribute {
@@ -91,30 +91,13 @@ public class OAuth2Attribute {
             .build();
   }
   
-  public MemberAuthenticationVo toVo() {
-    return MemberAuthenticationVo.builder()
+  public MemberAuthVo toMemberAuthVo() {
+    return MemberAuthVo.builder()
         .registrationId(registrationId)
         .oauth2Id(oauth2Id)
         .email(email)
         .nickname(nickname)
         .build();
   }
-  
-  //public UserEntity toEntity() {
-  //  return UserEntity.builder()
-  //      .id(Uuid.create())
-  //      .email(email)
-  //      .nickname(nickname)
-  //      .picture(picture)
-  //      .role(Role.ROLE_USER)
-  //      .lockedYn(YN.N)
-  //      .dormantYn(YN.N)
-  //      .passwordExpireDate(LocalDateTime.now().plusDays(90))
-  //      .oauth2Id(oauth2Id)
-  //      .registrationId(registrationId)
-  //      .createDate(LocalDateTime.now())
-  //      .modifyDate(LocalDateTime.now())
-  //      .build();
-  //}
   
 }
