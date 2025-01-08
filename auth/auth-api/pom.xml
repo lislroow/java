@@ -26,7 +26,7 @@
     -->
     <dependency>
       <groupId>spring.custom</groupId>
-      <artifactId>resource</artifactId>
+      <artifactId>common</artifactId>
     </dependency>
     
     <dependency>

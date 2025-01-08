@@ -20,7 +20,7 @@
   <dependencies>
     <dependency>
       <groupId>spring.custom</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>configurer</artifactId>
       <version>0.1-SNAPSHOT</version>
     </dependency>
     

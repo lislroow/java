@@ -27,8 +27,8 @@
   </properties>
   
   <modules>
-    <module>resource</module>
     <module>common</module>
+    <module>configurer</module>
     <module>prototype</module>
   </modules>
   
@@ -88,7 +88,7 @@
       
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>resource</artifactId>
+        <artifactId>common</artifactId>
         <version>${project.version}</version>
       </dependency>
     </dependencies>

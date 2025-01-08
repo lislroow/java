@@ -99,12 +99,12 @@
       
       <dependency>
         <groupId>spring.custom</groupId>
-        <artifactId>resource</artifactId>
+        <artifactId>common</artifactId>
         <version>${spring.custom-component.version}</version>
       </dependency>
       <dependency>
         <groupId>spring.custom</groupId>
-        <artifactId>common</artifactId>
+        <artifactId>configurer</artifactId>
         <version>${spring.custom-component.version}</version>
       </dependency>
       <dependency>

@@ -23,10 +23,6 @@ dependencies {
   implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4jdbc_version}"
   implementation "com.h2database:h2"
   implementation "org.postgresql:postgresql"
-  
-  api "spring.custom:common:${spring_custom-component}"
-  api "spring.custom:configurer:${spring_custom-component}"
-  api "spring.custom:prototype:${spring_custom-component}"
 }
 
 publishing {

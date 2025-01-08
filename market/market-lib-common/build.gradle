@@ -12,8 +12,8 @@ dependencies {
   implementation "org.springframework.boot:spring-boot-starter-data-redis"
   implementation "org.modelmapper:modelmapper:${modelmapper_version}"
   
-  implementation "spring.custom:resource:${spring_custom-component}"
   implementation "spring.custom:common:${spring_custom-component}"
+  implementation "spring.custom:configurer:${spring_custom-component}"
 }
 
 publishing {

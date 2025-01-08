@@ -1,4 +1,4 @@
 rootProject.name = 'component'
-include 'resource'
+include 'configurer'
 include 'common'
 include 'prototype'

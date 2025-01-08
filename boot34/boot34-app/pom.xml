@@ -18,11 +18,11 @@
   <dependencies>
     <dependency>
       <groupId>spring.custom</groupId>
-      <artifactId>resource</artifactId>
+      <artifactId>common</artifactId>
     </dependency>
     <dependency>
       <groupId>spring.custom</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>configurer</artifactId>
     </dependency>
     <dependency>
       <groupId>spring.custom</groupId>

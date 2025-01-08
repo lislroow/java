@@ -37,8 +37,8 @@ dependencies {
   
   api "org.springdoc:springdoc-openapi-starter-webmvc-ui:${swagger_version}"
   
-  api "spring.custom:resource:${spring_custom-component}"
   api "spring.custom:common:${spring_custom-component}"
+  api "spring.custom:configurer:${spring_custom-component}"
   api "spring.custom:prototype:${spring_custom-component}"
   
   annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${spring_boot_version}"
