@@ -15,8 +15,8 @@
     WHERE  a.email = #{email}
   </select>
   
-  <insert id="insertOAuth2User">
-    INSERT /* MngMemberDao.insertOAuth2User */
+  <insert id="insertOAuth2Member">
+    INSERT /* MngMemberDao.insertOAuth2Member */
       INTO member (
       registration_id,
       oauth2_id,

@@ -12,6 +12,6 @@ public interface MemberAuthenticationDao {
   
   public Optional<MemberAuthenticationVo> selectByEmail(@Param("email") String email);
   
-  public int insertOAuth2User(MemberAuthenticationVo param);
+  public int insertOAuth2Member(MemberAuthenticationVo param);
   
 }
