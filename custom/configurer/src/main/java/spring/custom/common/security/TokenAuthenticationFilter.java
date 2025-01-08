@@ -2,11 +2,13 @@ package spring.custom.common.security;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.UserPrincipal;
 import spring.custom.common.vo.MemberVo;
 
 @Slf4j
@@ -42,32 +43,48 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
       /* for debug */ if (log.isDebugEnabled()) log.debug("accessToken: {}", accessToken);
       JWTClaimsSet jwtClaimsSet = null;
       Map<String, Object> userAttr = null;
-      MemberVo memberVo = null;
-      UserPrincipal userPrincipal = null;
+      String role = null;
+      Object principal = null;
       try {
         SignedJWT signedJWT = SignedJWT.parse(accessToken);
         jwtClaimsSet = signedJWT.getJWTClaimsSet();
         TOKEN.USER userType = TOKEN.USER.fromCode(jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.USER_TYPE.code()).toString())
-            .orElseThrow(() -> new AppException(ERROR_CODE.A006));
+            .orElseThrow(() -> new AppException(ERROR_CODE.A008));
         /* for debug */ if (log.isDebugEnabled()) log.debug("jwtClaimsSet: {}", jwtClaimsSet);
         userAttr = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
         /* for debug */ if (log.isDebugEnabled()) log.debug("userAttr: {}", userAttr);
-        /* for debug */ if (log.isDebugEnabled()) log.debug("memberVo: {}", memberVo);
-        userPrincipal = new UserPrincipal(userType, userAttr);
+        switch (userType) {
+        case MEMBER:
+          principal = MemberVo.ofToken(userAttr);
+          break;
+        case MANAGER:
+          principal = MemberVo.ofToken(userAttr);
+          break;
+        case OPENDATA:
+          principal = MemberVo.ofToken(userAttr);
+          break;
+        }
+        /* for debug */ if (log.isDebugEnabled()) log.debug("principal: {}", principal);
+        role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLE.code());
+        /* for debug */ if (log.isDebugEnabled()) log.debug("role: {}", role);
       } catch (AppException e) {
         throw e;
       } catch (ParseException e) {
         /* for debug */ log.error("accessToken: {}", accessToken);
         /* for debug */ log.error("jwtClaimsSet: {}", jwtClaimsSet);
         /* for debug */ log.error("attributes: {}", userAttr);
-        /* for debug */ log.error("memberVo: {}", memberVo);
+        /* for debug */ log.error("principal: {}", principal);
         /* for debug */ e.printStackTrace();
         throw new AppException(ERROR_CODE.A006, e);
       } catch (Exception e) {
         throw new AppException(ERROR_CODE.A006, e);
       }
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userPrincipal, null,
-          userPrincipal.getAuthorities());
+      
+      Object credentials = null;
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+          principal, 
+          credentials,
+          Collections.singleton(new SimpleGrantedAuthority(role)));
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
     

@@ -43,7 +43,6 @@ import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.util.IdGenerator;
-import spring.custom.common.vo.UserPrincipal;
 import spring.custom.dto.TokenResDto;
 
 @Component
@@ -106,8 +105,8 @@ public class TokenService {
   
   public TokenResDto.Create createToken(TOKEN.USER tokenUser,
       org.springframework.security.core.Authentication authentication) {
-    UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-    String username = userPrincipal.getUsername();
+    UserAuthentication userAuthentication = (UserAuthentication) authentication.getPrincipal();
+    String username = userAuthentication.getUsername();
     TokenResDto.Create result = new TokenResDto.Create();
     try {
       JWTClaimsSet claimsSet;
@@ -115,8 +114,9 @@ public class TokenService {
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
           .issuer(ISSUER)
-          .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userPrincipal.getUserType())
-          .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), userPrincipal.getUserAttr())
+          .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userAuthentication.getUserType())
+          .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), userAuthentication.getUserAttr())
+          .claim(TOKEN.JWT_CLAIM.ROLE.code(), userAuthentication.getRole())
           .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
           .build();
       
@@ -205,6 +205,7 @@ public class TokenService {
     String username = null;
     Map<String, Object> attributes = null;
     String userType = null;
+    String role = null;
     try {
       SignedJWT signedJWT = SignedJWT.parse(refreshToken);
       if (signedJWT.verify(this.verifier)) {
@@ -212,6 +213,7 @@ public class TokenService {
         username = signedJWT.getJWTClaimsSet().getSubject();
         userType = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.USER_TYPE.code());
         attributes = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
+        role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLE.code());
       } else {
         throw new AppException(ERROR_CODE.A004);
       }
@@ -236,6 +238,7 @@ public class TokenService {
           .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
           .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), attributes)
+          .claim(TOKEN.JWT_CLAIM.ROLE.code(), role)
           .build();
       signedJWT = new SignedJWT(
           new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),
@@ -252,6 +255,7 @@ public class TokenService {
           .expirationTime(new Date(System.currentTimeMillis() + ATK_EXPIRE_MILLS))
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
           .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), attributes)
+          .claim(TOKEN.JWT_CLAIM.ROLE.code(), role)
           .build();
       signedJWT = new SignedJWT(
           new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),

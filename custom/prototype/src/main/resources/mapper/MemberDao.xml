@@ -5,10 +5,6 @@
   
   <select id="selectByEmail" resultType="MemberVo">
     SELECT /* MemberDao.selectByEmail */
-           '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
-           'ROLE_USER' as role,
-           registration_id,
-           oauth2_id,
            email,
            nickname
     FROM   member a

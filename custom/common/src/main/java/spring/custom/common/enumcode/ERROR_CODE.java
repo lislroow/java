@@ -21,6 +21,7 @@ public enum ERROR_CODE {
   /** token not exist */ A005("token not exist"),
   /** authenticate token creation error */ A006("authenticate token creation error"),
   /** token check error */ A007("token check error"),
+  /** invalid token user type */ A008("invalid token user type"),
   
   /** unknown error */ E999("unknown error")
   ;

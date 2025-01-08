@@ -10,20 +10,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import spring.auth.api.dao.MngMemberDao;
-import spring.custom.api.dao.MemberDao;
+import spring.auth.api.dao.MemberAuthenticationDao;
+import spring.auth.api.vo.MemberAuthenticationVo;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.MemberVo;
-import spring.custom.common.vo.UserPrincipal;
 
 @Service
 @RequiredArgsConstructor
 public class OAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
   
-  final MngMemberDao mngMemberDao;
-  final MemberDao memberDao;
+  final MemberAuthenticationDao memberAuthenticationDao;
   final ModelMapper model;
   
   @Transactional
@@ -34,11 +31,11 @@ public class OAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, 
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
     String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
     OAuth2Attribute attributes = OAuth2Attribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
-    MemberVo vo = attributes.toVo();
-    MemberVo memberVo = memberDao.selectByEmail(vo.getEmail()).orElseGet(() -> {
-      mngMemberDao.insert(vo);
-      return memberDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(ERROR_CODE.A003));
+    MemberAuthenticationVo vo = attributes.toVo();
+    MemberAuthenticationVo memberVo = memberAuthenticationDao.selectByEmail(vo.getEmail()).orElseGet(() -> {
+      memberAuthenticationDao.insertOAuth2User(vo);
+      return memberAuthenticationDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(ERROR_CODE.A003));
     });
-    return new UserPrincipal(TOKEN.USER.MEMBER, memberVo.toMap());
+    return new UserAuthentication(TOKEN.USER.MEMBER, memberVo);
   }
 }

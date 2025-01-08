@@ -23,7 +23,8 @@ public class TOKEN {
   
   public enum JWT_CLAIM {
     USER_ATTR("user_attr"),
-    USER_TYPE("user_type")
+    USER_TYPE("user_type"),
+    ROLE("role")
     ;
     
     private String code;

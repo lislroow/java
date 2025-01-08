@@ -6,24 +6,23 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.api.dao.MemberDao;
+import spring.auth.api.dao.MemberAuthenticationDao;
+import spring.auth.api.vo.MemberAuthenticationVo;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.MemberVo;
-import spring.custom.common.vo.UserPrincipal;
 
 @Service
 @RequiredArgsConstructor
 public class LoginService implements UserDetailsService {
 
   //Logger ecslog = LoggerFactory.getLogger("ECS_JSON");
-  final MemberDao memberDao;
+  final MemberAuthenticationDao memberAuthenticationDao;
   
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     String email = username;
-    MemberVo memberVo = memberDao.selectByEmail(email).orElseThrow(() -> new AppException(ERROR_CODE.A003));
-    return new UserPrincipal(TOKEN.USER.MEMBER, memberVo.toMap());
+    MemberAuthenticationVo memberVo = memberAuthenticationDao.selectByEmail(email).orElseThrow(() -> new AppException(ERROR_CODE.A003));
+    return new UserAuthentication(TOKEN.USER.MEMBER, memberVo);
   }
 }

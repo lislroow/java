@@ -4,8 +4,7 @@ import java.util.Map;
 
 import lombok.Builder;
 import lombok.Getter;
-import spring.custom.common.enumcode.Role;
-import spring.custom.common.vo.MemberVo;
+import spring.auth.api.vo.MemberAuthenticationVo;
 
 @Getter
 public class OAuth2Attribute {
@@ -92,8 +91,8 @@ public class OAuth2Attribute {
             .build();
   }
   
-  public MemberVo toVo() {
-    return MemberVo.builder()
+  public MemberAuthenticationVo toVo() {
+    return MemberAuthenticationVo.builder()
         .registrationId(registrationId)
         .oauth2Id(oauth2Id)
         .email(email)
