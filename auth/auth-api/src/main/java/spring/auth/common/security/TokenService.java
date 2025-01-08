@@ -43,7 +43,7 @@ import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.util.IdGenerator;
-import spring.custom.common.vo.AuthPrincipal;
+import spring.custom.common.vo.UserPrincipal;
 import spring.custom.dto.TokenResDto;
 
 @Component
@@ -106,8 +106,8 @@ public class TokenService {
   
   public TokenResDto.Create createToken(TOKEN.USER tokenUser,
       org.springframework.security.core.Authentication authentication) {
-    AuthPrincipal authPrincipal = (AuthPrincipal) authentication.getPrincipal();
-    String username = authPrincipal.getUsername();
+    UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+    String username = userPrincipal.getUsername();
     TokenResDto.Create result = new TokenResDto.Create();
     try {
       JWTClaimsSet claimsSet;
@@ -115,8 +115,8 @@ public class TokenService {
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
           .issuer(ISSUER)
-          .claim(TOKEN.JWT_CLAIM.ATTRIBUTES.code(), authPrincipal.getAttributes())
-          .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), authPrincipal.getUserType())
+          .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userPrincipal.getUserType())
+          .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), userPrincipal.getUserAttr())
           .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
           .build();
       
@@ -210,8 +210,8 @@ public class TokenService {
       if (signedJWT.verify(this.verifier)) {
         JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
         username = signedJWT.getJWTClaimsSet().getSubject();
-        attributes = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.ATTRIBUTES.code());
         userType = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.USER_TYPE.code());
+        attributes = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
       } else {
         throw new AppException(ERROR_CODE.A004);
       }
@@ -234,8 +234,8 @@ public class TokenService {
           .subject(username)
           .issuer(ISSUER)
           .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
-          .claim(TOKEN.JWT_CLAIM.ATTRIBUTES.code(), attributes)
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
+          .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), attributes)
           .build();
       signedJWT = new SignedJWT(
           new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),
@@ -250,8 +250,8 @@ public class TokenService {
           .subject(username)
           .issuer(ISSUER)
           .expirationTime(new Date(System.currentTimeMillis() + ATK_EXPIRE_MILLS))
-          .claim(TOKEN.JWT_CLAIM.ATTRIBUTES.code(), attributes)
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
+          .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), attributes)
           .build();
       signedJWT = new SignedJWT(
           new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),

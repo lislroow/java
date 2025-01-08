@@ -43,4 +43,5 @@ public class Constant {
     public static final String UPLOAD_BASE = "/upload";
   }
   
+  public static final String LOOPBACK_IP = "127.0.0.1";
 }

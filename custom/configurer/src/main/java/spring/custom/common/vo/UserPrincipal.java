@@ -13,34 +13,39 @@ import lombok.Data;
 import spring.custom.common.enumcode.TOKEN;
 
 @Data
-public class AuthPrincipal implements OAuth2User, UserDetails {
+public class UserPrincipal implements OAuth2User, UserDetails {
   
   private static final long serialVersionUID = 2501815366855398147L;
-
+  
   private String userType;
-  private String email;
+  private transient Map<String, Object> userAttr;
+  
+  private String username;
   private String password;
-  private String nickname;
+  private String name;
   private String role;
-  private String ip;
-  private String userAgent;
   
-  private transient Map<String, Object> attributes;
-  
-  public AuthPrincipal(TOKEN.USER userType, MemberVo memberVo) {
+  public UserPrincipal(TOKEN.USER userType, Map<String, Object> userAttr) {
     this.userType = userType.code();
-    this.email = memberVo.getEmail();
-    this.password = memberVo.getPassword();
-    this.nickname = memberVo.getNickname();
-    this.role = memberVo.getRole();
-    this.ip = memberVo.getIp();
-    this.userAgent = memberVo.getUserAgent();
-    this.attributes = Map.ofEntries(
-        Map.entry("email", this.email),
-        Map.entry("role", this.role),
-        Map.entry("ip", this.ip),
-        Map.entry("userAgent", this.userAgent));
+    this.userAttr = userAttr;
+    
+    this.username = userAttr.getOrDefault("username", "").toString();
+    this.password = userAttr.getOrDefault("password", "").toString();
+    this.name = userAttr.getOrDefault("name", "").toString();
+    this.role = userAttr.getOrDefault("role", "").toString();
+    
+    //userAttr.remove("password");
   }
+  
+  /*
+  public UserPrincipal ofLogin() {
+    
+  }
+  
+  public static UserPrincipal ofToken(Map<String, Object> userAttr) {
+    
+  }
+  */
   
   // [OAuth2User, UserDetails]
   @Override
@@ -52,14 +57,14 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
   // [OAuth2User]
   @Override
   public Map<String, Object> getAttributes() {
-    return this.attributes;
+    return this.userAttr;
   }
   // --[OAuth2User]
   
   // [AuthenticatedPrincipal]
   @Override
   public String getName() {
-    return this.nickname;
+    return this.name;
   }
   // --[AuthenticatedPrincipal]
   
@@ -71,7 +76,7 @@ public class AuthPrincipal implements OAuth2User, UserDetails {
   }
   @Override
   public String getUsername() {
-    return this.email;
+    return this.username;
   }
   @Override
   public boolean isAccountNonExpired() {

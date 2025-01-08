@@ -8,20 +8,15 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.MngMemberDao;
 import spring.custom.api.dao.MemberDao;
-import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR_CODE;
-import spring.custom.common.enumcode.Role;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.AuthPrincipal;
 import spring.custom.common.vo.MemberVo;
+import spring.custom.common.vo.UserPrincipal;
 
 @Service
 @RequiredArgsConstructor
@@ -44,10 +39,6 @@ public class OAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, 
       mngMemberDao.insert(vo);
       return memberDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(ERROR_CODE.A003));
     });
-    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    memberVo.setIp(request.getRemoteAddr());
-    memberVo.setUserAgent(request.getHeader(Constant.HTTP_HEADER.USER_AGENT));
-    memberVo.setRole(Role.ROLE_USER.name());
-    return new AuthPrincipal(TOKEN.USER.MEMBER, memberVo);
+    return new UserPrincipal(TOKEN.USER.MEMBER, memberVo.toMap());
   }
 }

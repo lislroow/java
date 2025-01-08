@@ -1,5 +1,8 @@
 package spring.cloud.common.filter;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.core.Ordered;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -25,12 +28,16 @@ public class GlobalFilter implements org.springframework.cloud.gateway.filter.Gl
     String clientIp = exchange.getRequest()
         .getHeaders()
         .getFirst(Constant.HTTP_HEADER.X_FORWARDED_FOR);
-    
-    if (clientIp == null) {
-      clientIp = exchange.getRequest()
-           .getRemoteAddress()
-           .getAddress()
-           .getHostAddress();
+
+    if (clientIp == null || clientIp.isEmpty()) {
+      InetAddress address = exchange.getRequest().getRemoteAddress().getAddress();
+      if (address.isLoopbackAddress()) {
+        clientIp = Constant.LOOPBACK_IP;
+      } else if (address instanceof Inet4Address) {
+        clientIp = address.getHostAddress();
+      } else {
+        clientIp = address.getHostAddress().split("%")[0];
+      }
       
       ServerWebExchange mutatedExchange = exchange.mutate()
           .request(exchange.getRequest().mutate()

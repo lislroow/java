@@ -1,6 +1,6 @@
 package spring.custom.common.vo;
 
-import java.io.Serializable;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -14,9 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties("passwd")
-public class MemberVo implements Serializable {
-  
-  private static final long serialVersionUID = 4358471420033975600L;
+public class MemberVo {
   
   private String id;
   private String registrationId;
@@ -27,4 +25,22 @@ public class MemberVo implements Serializable {
   private String role;
   private String ip;
   private String userAgent;
+  
+  public Map<String, Object> toMap() {
+    Map<String, Object> map = Map.ofEntries(
+        Map.entry("password", this.password),
+        
+        Map.entry("username", this.email),
+        Map.entry("role", this.role)
+        );
+    return map;
+  }
+  
+  public static MemberVo fromMap(Map<String, Object> map) {
+    MemberVo result = MemberVo.builder()
+        .email(map.getOrDefault("username", "").toString())
+        .role(map.getOrDefault("role", "").toString())
+        .build();
+    return result;
+  }
 }

@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.ERROR_CODE;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.AuthPrincipal;
+import spring.custom.common.vo.UserPrincipal;
 import spring.custom.common.vo.MemberVo;
 
 @Slf4j
@@ -41,34 +41,33 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
       String accessToken = authorization.substring(7);
       /* for debug */ if (log.isDebugEnabled()) log.debug("accessToken: {}", accessToken);
       JWTClaimsSet jwtClaimsSet = null;
-      Map<String, Object> attributes = null;
+      Map<String, Object> userAttr = null;
       MemberVo memberVo = null;
-      AuthPrincipal userDetails = null;
+      UserPrincipal userPrincipal = null;
       try {
         SignedJWT signedJWT = SignedJWT.parse(accessToken);
         jwtClaimsSet = signedJWT.getJWTClaimsSet();
         TOKEN.USER userType = TOKEN.USER.fromCode(jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.USER_TYPE.code()).toString())
             .orElseThrow(() -> new AppException(ERROR_CODE.A006));
         /* for debug */ if (log.isDebugEnabled()) log.debug("jwtClaimsSet: {}", jwtClaimsSet);
-        attributes = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.ATTRIBUTES.code());
-        /* for debug */ if (log.isDebugEnabled()) log.debug("attributes: {}", attributes);
-        memberVo = modelMapper.map(attributes, MemberVo.class);
+        userAttr = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
+        /* for debug */ if (log.isDebugEnabled()) log.debug("userAttr: {}", userAttr);
         /* for debug */ if (log.isDebugEnabled()) log.debug("memberVo: {}", memberVo);
-        userDetails = new AuthPrincipal(userType, memberVo);
+        userPrincipal = new UserPrincipal(userType, userAttr);
       } catch (AppException e) {
         throw e;
       } catch (ParseException e) {
         /* for debug */ log.error("accessToken: {}", accessToken);
         /* for debug */ log.error("jwtClaimsSet: {}", jwtClaimsSet);
-        /* for debug */ log.error("attributes: {}", attributes);
+        /* for debug */ log.error("attributes: {}", userAttr);
         /* for debug */ log.error("memberVo: {}", memberVo);
         /* for debug */ e.printStackTrace();
         throw new AppException(ERROR_CODE.A006, e);
       } catch (Exception e) {
         throw new AppException(ERROR_CODE.A006, e);
       }
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
-          userDetails.getAuthorities());
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userPrincipal, null,
+          userPrincipal.getAuthorities());
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
     

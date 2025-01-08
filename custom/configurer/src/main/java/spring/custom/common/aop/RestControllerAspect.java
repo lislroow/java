@@ -12,16 +12,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.annotation.Login;
 import spring.custom.common.annotation.UserInfo;
 import spring.custom.common.constant.Constant;
+import spring.custom.common.util.XffClientIpExtractor;
 
 @Aspect
 @Order(1)
@@ -38,7 +35,7 @@ public class RestControllerAspect {
     String reqUri = request.getRequestURI();
     String method = request.getMethod();
     String contentType = request.getHeader("Content-Type");
-    String ipAddr = request.getRemoteAddr();
+    String ipAddr = XffClientIpExtractor.getClientIp(request);
     /* for debug */ if (log.isInfoEnabled()) {
       log.info("[COM] Class       : {}", joinPoint.getTarget().getClass().getName());
       log.info("[COM] RequestURI  : {}", reqUri);
@@ -68,7 +65,9 @@ public class RestControllerAspect {
       throwable = e;
       throw e;
     }
-    
+    /* for debug */ if (log.isInfoEnabled()) {
+      
+    }
     return result;
   }
   

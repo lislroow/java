@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.TOKEN;
-import spring.custom.common.vo.AuthPrincipal;
+import spring.custom.common.vo.UserPrincipal;
 import spring.custom.dto.TokenResDto;
 
 @Slf4j
@@ -29,7 +29,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) throws IOException, ServletException {
     Assert.isTrue(authentication.getPrincipal() != null, "authentication.getPrincipal() is null");
-    Assert.isTrue(authentication.getPrincipal() instanceof AuthPrincipal, "authentication.getPrincipal() is not SessionUser type");
+    Assert.isTrue(authentication.getPrincipal() instanceof UserPrincipal, "authentication.getPrincipal() is not SessionUser type");
     
     TokenResDto.Create resDto = tokenService.createToken(TOKEN.USER.MEMBER, authentication);
     ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
