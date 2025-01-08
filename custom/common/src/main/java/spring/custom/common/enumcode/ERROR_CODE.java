@@ -23,6 +23,8 @@ public enum ERROR_CODE {
   /** token check error */ A007("token check error"),
   /** invalid token user type */ A008("invalid token user type"),
   
+  /** access denied */ A403("access denied"),
+  
   /** unknown error */ E999("unknown error")
   ;
   

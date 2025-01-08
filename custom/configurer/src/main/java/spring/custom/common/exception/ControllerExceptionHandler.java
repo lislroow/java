@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -20,7 +21,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   
   @ExceptionHandler({AppException.class})
   protected ResponseEntity<ProblemDetail> handleAppException(AppException e, WebRequest request) {
-    /* for debug */ if (log.isDebugEnabled()) log.error("{}", e);
+    /* for debug */ if (log.isDebugEnabled()) log.error("", e);
     
     HttpStatusCode status = null;
     ERROR_CODE errorCode = ERROR_CODE.fromCode(e.getErrorCode()).orElse(ERROR_CODE.E999);
@@ -39,9 +40,22 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(status).body(problemDetail);
   }
   
+  @ExceptionHandler({AuthorizationDeniedException.class})
+  protected ResponseEntity<ProblemDetail> handleAuthorizationDeniedException(Exception e, WebRequest request) {
+    /* for debug */ if (log.isInfoEnabled()) log.error("", e); 
+    
+    HttpStatusCode status = HttpStatus.FORBIDDEN;
+    ProblemDetail problemDetail = ProblemDetailBuilder.builder()
+        .title(ERROR_CODE.A403.code())
+        .detail(e.getMessage())
+        .status(status)
+        .build();
+    return ResponseEntity.status(status).body(problemDetail);
+  }
+  
   @ExceptionHandler({Exception.class})
   protected ResponseEntity<ProblemDetail> handleUncategorizedException(Exception e, WebRequest request) {
-    /* for debug */ if (log.isDebugEnabled()) log.error("{}", e); 
+    /* for debug */ if (log.isInfoEnabled()) log.error("", e);
     
     HttpStatusCode status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()

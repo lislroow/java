@@ -24,7 +24,7 @@ public class ControllerExceptionHandlerWebFlux {
   
   @ExceptionHandler({AppException.class})
   public Mono<ResponseEntity<ProblemDetail>> handleAppException(AppException e) {
-    /* for debug */ if (log.isDebugEnabled()) log.error("{}", e);
+    /* for debug */ if (log.isInfoEnabled()) log.error("", e);
     
     HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
@@ -37,7 +37,7 @@ public class ControllerExceptionHandlerWebFlux {
   
   @ExceptionHandler(org.springframework.cloud.gateway.support.NotFoundException.class)
   public Mono<ResponseEntity<ProblemDetail>> handleNotFoundException(NotFoundException e) {
-    /* for debug */ if (log.isDebugEnabled()) log.error("{}", e);
+    /* for debug */ if (log.isInfoEnabled()) log.error("", e);
     
     HttpStatusCode status = e.getStatusCode(); // 503: SERVICE_UNAVAILABLE
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
@@ -51,7 +51,7 @@ public class ControllerExceptionHandlerWebFlux {
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public Mono<ResponseEntity<ProblemDetail>> handleUncategorizedException(Exception e) {
-    /* for debug */ if (log.isDebugEnabled()) log.error("{}", e);
+    /* for debug */ if (log.isInfoEnabled()) log.error("", e);
     
     HttpStatusCode status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
