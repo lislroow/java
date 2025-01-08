@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 import spring.custom.common.exception.AppException;
 
 public class Encrypt {
@@ -15,7 +15,7 @@ public class Encrypt {
     try {
       digest = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
-      throw new AppException(ERROR_CODE.E901.code(), e.getMessage());
+      throw new AppException(Error.E901.code(), e.getMessage());
     }
     byte[] encodedHash = digest.digest(plainText.getBytes(StandardCharsets.UTF_8));
     StringBuilder hexString = new StringBuilder();

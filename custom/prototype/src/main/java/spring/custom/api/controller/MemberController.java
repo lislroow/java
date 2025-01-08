@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.api.dao.MemberDao;
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.MemberVo;
 import spring.custom.dto.MemberResDto;
@@ -25,7 +25,7 @@ public class MemberController {
   public ResponseEntity<MemberResDto.Info> info() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String email = authentication.getName();
-    MemberVo result = memberDao.selectByEmail(email).orElseThrow(() -> new AppException(ERROR_CODE.A003));
+    MemberVo result = memberDao.selectByEmail(email).orElseThrow(() -> new AppException(Error.A003));
     MemberResDto.Info resDto = modelMapper.map(result, MemberResDto.Info.class);
     return ResponseEntity.ok(resDto);
   }

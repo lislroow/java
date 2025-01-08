@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 import spring.auth.api.dao.TokenDao;
 import spring.auth.api.vo.TokenVo;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
@@ -143,31 +143,31 @@ public class TokenService {
       
     } catch (Exception e) { 
       log.error("message: {}", e);
-      throw new AppException(ERROR_CODE.A001, e);
+      throw new AppException(Error.A001, e);
     }
     return result;
   }
   
   public TokenResDto.Verify verifyToken(String tokenId, String clientIdent) {
-    TOKEN.USER tokenUser = IdGenerator.getTokenUser(tokenId).orElseThrow(() -> new AppException(ERROR_CODE.A002));
+    TOKEN.USER tokenUser = IdGenerator.getTokenUser(tokenId).orElseThrow(() -> new AppException(Error.A002));
     String token = null;
     switch (tokenUser) {
     case MEMBER:
     case MANAGER:
       String redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, tokenId, clientIdent);
       token = Optional.ofNullable(this.redisSupport.getValue(redisKey))
-          .orElseThrow(() -> new AppException(ERROR_CODE.A002));
+          .orElseThrow(() -> new AppException(Error.A002));
       break;
     case OPENDATA:
       TokenVo tokenVo = tokenDao.findById(tokenId)
-          .orElseThrow(() -> new AppException(ERROR_CODE.A002));
+          .orElseThrow(() -> new AppException(Error.A002));
       if (tokenVo.getUseYn() == YN.N) {
-        throw new AppException(ERROR_CODE.A002);
+        throw new AppException(Error.A002);
       }
       token = tokenVo.getToken();
       break;
     default:
-      throw new AppException(ERROR_CODE.A002);
+      throw new AppException(Error.A002);
     }
     
     TokenResDto.Verify resDto = new TokenResDto.Verify();
@@ -179,16 +179,16 @@ public class TokenService {
         resDto.setUsername(username);
         resDto.setAccessToken(token);
       } else {
-        throw new AppException(ERROR_CODE.A002);
+        throw new AppException(Error.A002);
       }
     } catch (JOSEException | ParseException e) {
-      throw new AppException(ERROR_CODE.A002, e);
+      throw new AppException(Error.A002, e);
     }
     return resDto;
   }
   
   public TokenResDto.Refresh refreshToken(String oldRtkUuid) {
-    TOKEN.USER tokenUser = IdGenerator.getTokenUser(oldRtkUuid).orElseThrow(() -> new AppException(ERROR_CODE.A002));
+    TOKEN.USER tokenUser = IdGenerator.getTokenUser(oldRtkUuid).orElseThrow(() -> new AppException(Error.A002));
     
     String clientIdent = IdGenerator.createClientIdent();
     String oldRedisKey = null;
@@ -200,7 +200,7 @@ public class TokenService {
     }
     String refreshToken = this.redisSupport.getValue(oldRedisKey);
     if (refreshToken == null) {
-      throw new AppException(ERROR_CODE.A004);
+      throw new AppException(Error.A004);
     }
     String username = null;
     Map<String, Object> attributes = null;
@@ -215,10 +215,10 @@ public class TokenService {
         attributes = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
         role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLE.code());
       } else {
-        throw new AppException(ERROR_CODE.A004);
+        throw new AppException(Error.A004);
       }
     } catch (JOSEException | ParseException e) {
-      throw new AppException(ERROR_CODE.A004, e);
+      throw new AppException(Error.A004, e);
     }
     
     String newRtkUuid = IdGenerator.createTokenId(tokenUser);
@@ -266,7 +266,7 @@ public class TokenService {
       this.redisSupport.setValue(atkRedisKey, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
       
     } catch (Exception e) { 
-      throw new AppException(ERROR_CODE.A004, e);
+      throw new AppException(Error.A004, e);
     }
     this.redisSupport.removeValue(oldRedisKey);
     return result;

@@ -3,7 +3,7 @@ package spring.custom.common.enumcode;
 import java.util.Arrays;
 import java.util.Optional;
 
-public enum ERROR_CODE {
+public enum Error {
   
   /** 성공 */ S000("Success"),
   
@@ -30,7 +30,7 @@ public enum ERROR_CODE {
   
   private String message;
 
-  ERROR_CODE(String message) {
+  Error(String message) {
     this.message = message;
   }
   
@@ -42,17 +42,17 @@ public enum ERROR_CODE {
     return this.name();
   }
   
-  public static Optional<ERROR_CODE> fromCode(String code) {
-      return Arrays.stream(ERROR_CODE.values())
+  public static Optional<Error> fromCode(String code) {
+      return Arrays.stream(Error.values())
           .filter(item -> item.code().equals(code))
           .findAny();
   }
   
-  public static boolean isAuthError(ERROR_CODE errorCode) {
+  public static boolean isAuthError(Error errorCode) {
     return errorCode.code().startsWith("A");
   }
   
-  public static boolean isServerError(ERROR_CODE errorCode) {
+  public static boolean isServerError(Error errorCode) {
     return errorCode.code().startsWith("E");
   }
   

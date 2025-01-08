@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.ProblemDetailBuilder;
 
@@ -41,7 +41,7 @@ public class ControllerExceptionHandlerWebFlux {
     
     HttpStatusCode status = e.getStatusCode(); // 503: SERVICE_UNAVAILABLE
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
-        .title(ERROR_CODE.E503.code())
+        .title(Error.E503.code())
         .detail(e.getMessage())
         .status(status)
         .build();
@@ -55,7 +55,7 @@ public class ControllerExceptionHandlerWebFlux {
     
     HttpStatusCode status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
-      .title(ERROR_CODE.E999.code())
+      .title(Error.E999.code())
       .detail(e.getMessage())
       .status(status)
       .build();

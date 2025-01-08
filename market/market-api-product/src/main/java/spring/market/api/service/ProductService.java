@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 import spring.custom.common.exception.AppException;
 import spring.market.api.dto.ProductReqDto;
 import spring.market.api.dto.ProductResDto;
@@ -62,7 +62,7 @@ public class ProductService {
     if (imgThumb != null) {
       String originName = imgThumb.getOriginalFilename();
       if (!StringUtils.hasLength(originName)) {
-        throw new AppException(ERROR_CODE.E902);
+        throw new AppException(Error.E902);
       }
       String originExt = originName.substring(originName.lastIndexOf(".")+1, originName.length());
       String imgThumbPath = MarketConstant.File.UPLOAD_PRODUCT + File.pathSeparator + Uuid.create() + "." + originExt;

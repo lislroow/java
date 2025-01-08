@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 
 @RestControllerAdvice
 @AllArgsConstructor
@@ -24,9 +24,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     /* for debug */ if (log.isDebugEnabled()) log.error("", e);
     
     HttpStatusCode status = null;
-    ERROR_CODE errorCode = ERROR_CODE.fromCode(e.getErrorCode()).orElse(ERROR_CODE.E999);
+    Error errorCode = Error.fromCode(e.getErrorCode()).orElse(Error.E999);
     
-    if (ERROR_CODE.isAuthError(errorCode)) {
+    if (Error.isAuthError(errorCode)) {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -46,7 +46,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     
     HttpStatusCode status = HttpStatus.FORBIDDEN;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
-        .title(ERROR_CODE.A403.code())
+        .title(Error.A403.code())
         .detail(e.getMessage())
         .status(status)
         .build();
@@ -59,7 +59,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     
     HttpStatusCode status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
-      .title(ERROR_CODE.E999.code())
+      .title(Error.E999.code())
       .detail(e.getMessage())
       .status(status)
       .build();

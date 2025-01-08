@@ -1,6 +1,6 @@
 package spring.custom.common.exception;
 
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 
 public class AppException extends RuntimeException {
   
@@ -27,16 +27,16 @@ public class AppException extends RuntimeException {
     this.message = "";
   }
 
-  public AppException(ERROR_CODE errorCode) {
-    super("["+errorCode.code()+"] " + errorCode.message());
-    this.code = errorCode.code();
-    this.message = errorCode.message();
+  public AppException(Error error) {
+    super("["+error.code()+"] " + error.message());
+    this.code = error.code();
+    this.message = error.message();
   }
 
-  public AppException(ERROR_CODE errorCode, Throwable cause) {
-    super("["+errorCode.code()+"] " + errorCode.message(), cause);
-    this.code = errorCode.code();
-    this.message = errorCode.message();
+  public AppException(Error error, Throwable cause) {
+    super("["+error.code()+"] " + error.message(), cause);
+    this.code = error.code();
+    this.message = error.message();
   }
 
   public String getErrorCode() {

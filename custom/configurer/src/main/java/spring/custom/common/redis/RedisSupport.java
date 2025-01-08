@@ -15,7 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 import spring.custom.common.exception.AppException;
 
 @RequiredArgsConstructor
@@ -50,7 +50,7 @@ public class RedisSupport {
     try {
       objectMapper.writeValueAsString(list);
     } catch (JsonProcessingException e) {
-      throw new AppException(ERROR_CODE.E904, e);
+      throw new AppException(Error.E904, e);
     }
     this.setValue(key, val);
   }
@@ -69,7 +69,7 @@ public class RedisSupport {
     try {
       list = Arrays.asList(objectMapper.readValue(val, String[].class));
     } catch (JsonProcessingException e) {
-      throw new AppException(ERROR_CODE.E904, e);
+      throw new AppException(Error.E904, e);
     }
     return list;
   }

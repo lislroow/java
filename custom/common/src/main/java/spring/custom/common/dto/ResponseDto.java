@@ -1,18 +1,18 @@
 package spring.custom.common.dto;
 
 import lombok.Data;
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 
 @Deprecated
 @Data
 public class ResponseDto<T> {
 
   private ResponseDto() {
-    this(ERROR_CODE.S000.name(), ERROR_CODE.S000.message());
+    this(Error.S000.name(), Error.S000.message());
   }
   
   private ResponseDto(T data) {
-    this(ERROR_CODE.S000.name(), ERROR_CODE.S000.message(), data);
+    this(Error.S000.name(), Error.S000.message(), data);
   }
   
   private ResponseDto(String code, String message) {
@@ -42,11 +42,11 @@ public class ResponseDto<T> {
     return new ResponseDto<>(code, message);
   }
   
-  public static<T> ResponseDto<T> body(ERROR_CODE responseCode, T data) {
+  public static<T> ResponseDto<T> body(Error responseCode, T data) {
     return new ResponseDto<>(responseCode.code(), responseCode.message(), data);
   }
   
-  public static<T> ResponseDto<T> body(ERROR_CODE responseCode) {
+  public static<T> ResponseDto<T> body(Error responseCode) {
     return new ResponseDto<>(responseCode.code(), responseCode.message());
   }
   

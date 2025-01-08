@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.annotation.Login;
 import spring.custom.common.annotation.UserInfo;
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 import spring.custom.common.exception.AppException;
 import spring.market.api.dto.ProductReqDto;
 import spring.market.api.dto.ProductResDto;
@@ -69,7 +69,7 @@ public class ProductController {
     try {
       resDto = productService.saveProduct(request, imgThumb);
     } catch (IllegalStateException|IOException e) {
-      throw new AppException(ERROR_CODE.E903);
+      throw new AppException(Error.E903);
     }
     return ResponseEntity.ok(resDto);
   }

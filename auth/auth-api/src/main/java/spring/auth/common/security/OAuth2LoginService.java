@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.MemberAuthDao;
 import spring.auth.api.vo.MemberAuthVo;
-import spring.custom.common.enumcode.ERROR_CODE;
+import spring.custom.common.enumcode.Error;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 
@@ -34,7 +34,7 @@ public class OAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, 
     MemberAuthVo vo = attributes.toMemberAuthVo();
     MemberAuthVo memberVo = memberAuthDao.selectByEmail(vo.getEmail()).orElseGet(() -> {
       memberAuthDao.insert(vo);
-      return memberAuthDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(ERROR_CODE.A003));
+      return memberAuthDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(Error.A003));
     });
     return new UserAuthentication(TOKEN.USER.MEMBER, memberVo);
   }
