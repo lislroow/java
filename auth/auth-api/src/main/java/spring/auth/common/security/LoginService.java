@@ -22,7 +22,9 @@ public class LoginService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     String email = username;
-    MemberAuthVo memberVo = memberAuthDao.selectByEmail(email).orElseThrow(() -> new AppException(Error.A003));
+    MemberAuthVo memberVo = memberAuthDao.selectByEmail(email)
+        .orElseThrow(() -> new AppException(Error.A003));
     return new UserAuthentication(TOKEN.USER.MEMBER, memberVo);
   }
+  
 }

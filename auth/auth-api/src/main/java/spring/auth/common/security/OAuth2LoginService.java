@@ -32,10 +32,12 @@ public class OAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, 
     String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
     OAuth2Attribute attributes = OAuth2Attribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
     MemberAuthVo vo = attributes.toMemberAuthVo();
-    MemberAuthVo memberVo = memberAuthDao.selectByEmail(vo.getEmail()).orElseGet(() -> {
-      memberAuthDao.insert(vo);
-      return memberAuthDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(Error.A003));
-    });
+    MemberAuthVo memberVo = memberAuthDao.selectByEmail(vo.getEmail())
+        .orElseGet(() -> {
+          memberAuthDao.insert(vo);
+          return memberAuthDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(Error.A003));
+        });
     return new UserAuthentication(TOKEN.USER.MEMBER, memberVo);
   }
+  
 }
