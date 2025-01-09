@@ -71,7 +71,8 @@ public class SecurityConfig {
       .authenticationProvider(daoAuthenticationProvider())
       .authorizeHttpRequests(config -> {
         List<String> permitList = Arrays.asList(
-            "/v1/member/oauth2/authorization/**",
+            "/v1/member/login/oauth2/authorization/**",
+            "/v1/member/login/oauth2/code/**",
             "/v1/member/login",
             "/v1/member/logout",
             "/v1/token/**");
@@ -86,9 +87,11 @@ public class SecurityConfig {
       .oauth2Login(config ->
         config.permitAll()
           .authorizationEndpoint(authorizationEndpointCustomizer -> 
-            authorizationEndpointCustomizer.authorizationRequestResolver(
-              oauth2AuthorizationRequestResolver()
-            )
+            authorizationEndpointCustomizer
+              .authorizationRequestResolver(oauth2AuthorizationRequestResolver())
+          )
+          .redirectionEndpoint(redirectionEndpointCustomizer ->
+            redirectionEndpointCustomizer.baseUri("/v1/member/login/oauth2/code/*") // OAuth2LoginAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI = "/login/oauth2/code/*";
           )
           .successHandler(new MemberOAuth2LoginSuccessHandler(tokenService))
       )
@@ -124,7 +127,7 @@ public class SecurityConfig {
     ClientRegistrationRepository clientRegistrationRepository = 
         new InMemoryClientRegistrationRepository(registrations);
     
-    String authorizationUri = "/v1/member/oauth2/authorization"; //OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
+    String authorizationUri = "/v1/member/login/oauth2/authorization"; //OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI = "/oauth2/authorization";
     return new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, authorizationUri);
   }
   
