@@ -1,8 +1,8 @@
-package spring.cloud.common.client;
+package spring.custom.common.client;
 
 import java.util.Optional;
 
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -19,8 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.Error;
 import spring.custom.common.exception.AppException;
 
-@Profile({"local", "dev"})
 @Component
+@ConditionalOnBean(RestTemplate.class)
 @RequiredArgsConstructor
 @Slf4j
 public class ApiClient {

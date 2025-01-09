@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RestTemplateConfig {
   
-  //final RestTemplateErrorHandler restTemplateErrorHandler;
+  // new HttpComponentsClientHttpRequestFactory(httpClient); boot 2.x compatibility issue
   
   @Bean
   RestTemplate restTemplate() {

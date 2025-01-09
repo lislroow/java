@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import spring.cloud.common.client.ApiClient;
+import spring.custom.common.client.ApiClient;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.Error;
 import spring.custom.common.exception.AppException;
