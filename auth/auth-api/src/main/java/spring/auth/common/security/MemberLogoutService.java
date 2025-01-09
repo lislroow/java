@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class LogoutService implements LogoutHandler {
+public class MemberLogoutService implements LogoutHandler {
 
   @Override
   public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {

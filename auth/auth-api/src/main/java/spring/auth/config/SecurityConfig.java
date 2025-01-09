@@ -20,18 +20,15 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import jakarta.servlet.RequestDispatcher;
 import lombok.RequiredArgsConstructor;
-import spring.auth.common.security.LoginService;
-import spring.auth.common.security.LoginSuccessHandler;
-import spring.auth.common.security.LogoutService;
-import spring.auth.common.security.OAuth2LoginSuccessHandler;
+import spring.auth.common.security.MemberLoginService;
+import spring.auth.common.security.MemberLoginSuccessHandler;
+import spring.auth.common.security.MemberLogoutService;
+import spring.auth.common.security.MemberOAuth2LoginSuccessHandler;
 import spring.auth.common.security.TokenService;
 import spring.custom.common.enumcode.SECURITY;
 //import spring.custom.common.security.TokenAuthenticationFilter;
@@ -41,7 +38,9 @@ import spring.custom.common.enumcode.SECURITY;
 @RequiredArgsConstructor
 public class SecurityConfig {
   
-  final LoginService usernamePasswordDetailsService;
+  final OAuth2ClientProperties properties;
+  final MemberLoginService memberLoginService;
+  final TokenService tokenService;
   final ModelMapper modelMapper;
   
   @Bean
@@ -51,7 +50,7 @@ public class SecurityConfig {
       .httpBasic(AbstractHttpConfigurer::disable)
       .formLogin(config -> 
         config
-          .loginProcessingUrl("/v1/login")
+          .loginProcessingUrl("/v1/member/login")
           .failureHandler((request, response, exception) -> {
             request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI, request.getRequestURI());
             request.setAttribute(RequestDispatcher.ERROR_EXCEPTION, exception);
@@ -59,7 +58,7 @@ public class SecurityConfig {
             HttpStatus status = HttpStatus.UNAUTHORIZED;
             response.sendError(status.value(), status.getReasonPhrase());
           })
-          .successHandler(loginSuccessHandler(tokenService))
+          .successHandler(new MemberLoginSuccessHandler(tokenService))
       )
       //.addFilterBefore(new TokenAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
       .exceptionHandling(config -> 
@@ -71,9 +70,9 @@ public class SecurityConfig {
       .authenticationProvider(daoAuthenticationProvider())
       .authorizeHttpRequests(config -> {
         List<String> permitList = Arrays.asList(
-            "/oauth2/authorization/**",
-            "/v1/login",
-            "/v1/logout",
+            "/v1/member/oauth2/authorization/**",
+            "/v1/member/login",
+            "/v1/member/logout",
             "/v1/token/**");
         permitList.stream().forEach(item -> {
           config.requestMatchers(item).permitAll();
@@ -87,18 +86,18 @@ public class SecurityConfig {
         config.permitAll()
           .authorizationEndpoint(authorizationEndpointCustomizer -> 
             authorizationEndpointCustomizer.authorizationRequestResolver(
-              oauth2AuthorizationRequestResolver(clientRegistrationRepository())
+              oauth2AuthorizationRequestResolver()
             )
           )
-          .successHandler(oAuth2LoginSuccessHandler(tokenService))
+          .successHandler(new MemberOAuth2LoginSuccessHandler(tokenService))
       )
       .sessionManagement(config -> 
         config.sessionCreationPolicy(SessionCreationPolicy.NEVER)
       )
       .logout(logout ->
-        logout.logoutUrl("/v1/logout")
+        logout.logoutUrl("/v1/member/logout")
           .logoutSuccessUrl("/")
-          .addLogoutHandler(new LogoutService())
+          .addLogoutHandler(new MemberLogoutService())
           .logoutSuccessHandler((request, response, authentication) -> {
             String redirectUri = "/";
             response.setStatus(HttpStatus.FOUND.value());
@@ -111,37 +110,19 @@ public class SecurityConfig {
   @Bean
   DaoAuthenticationProvider daoAuthenticationProvider() {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-    provider.setUserDetailsService(usernamePasswordDetailsService);
+    provider.setUserDetailsService(memberLoginService);
     return provider;
   }
   
-  final TokenService tokenService;
-  
   @Bean
-  AuthenticationSuccessHandler loginSuccessHandler(TokenService tokenService) {
-    return new LoginSuccessHandler(tokenService);
-  }
-  
-  @Bean
-  OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler(TokenService tokenService) {
-    return new OAuth2LoginSuccessHandler(tokenService);
-  }
-  
-  final OAuth2ClientProperties properties;
-  
-  @Bean
-  ClientRegistrationRepository clientRegistrationRepository() {
+  OAuth2AuthorizationRequestResolver oauth2AuthorizationRequestResolver() {
     List<ClientRegistration> registrations = new ArrayList<>(
         new OAuth2ClientPropertiesMapper(properties).asClientRegistrations().values());
-    return new InMemoryClientRegistrationRepository(registrations);
-  }
-  
-  @Bean
-  OAuth2AuthorizationRequestResolver oauth2AuthorizationRequestResolver(
-      ClientRegistrationRepository clientRegistrationRepository) {
-    String authorizationRequestBaseUri = 
-        OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
-    return new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, authorizationRequestBaseUri);
+    ClientRegistrationRepository clientRegistrationRepository = 
+        new InMemoryClientRegistrationRepository(registrations);
+    
+    String authorizationUri = "/v1/member/oauth2/authorization"; //OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
+    return new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, authorizationUri);
   }
   
 }

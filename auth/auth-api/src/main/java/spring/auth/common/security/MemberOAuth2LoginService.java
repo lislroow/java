@@ -18,7 +18,7 @@ import spring.custom.common.exception.AppException;
 
 @Service
 @RequiredArgsConstructor
-public class OAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class MemberOAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
   
   final MemberAuthDao memberAuthDao;
   final ModelMapper model;
@@ -30,7 +30,7 @@ public class OAuth2LoginService implements OAuth2UserService<OAuth2UserRequest, 
     OAuth2User loadedUser = delegate.loadUser(userRequest);
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
     String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-    OAuth2Attribute attributes = OAuth2Attribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
+    MemberOAuth2Attribute attributes = MemberOAuth2Attribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
     MemberAuthVo vo = attributes.toMemberAuthVo();
     MemberAuthVo memberVo = memberAuthDao.selectByEmail(vo.getEmail())
         .orElseGet(() -> {

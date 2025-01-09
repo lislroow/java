@@ -14,7 +14,7 @@ import spring.custom.common.exception.AppException;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService implements UserDetailsService {
+public class MemberLoginService implements UserDetailsService {
 
   //Logger ecslog = LoggerFactory.getLogger("ECS_JSON");
   final MemberAuthDao memberAuthDao;
