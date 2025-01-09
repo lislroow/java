@@ -13,6 +13,15 @@
            nickname
     FROM   member a
     WHERE  a.email = #{email}
+    UNION ALL
+    SELECT '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
+           'ROLE_MANAGER' as role,
+           '' as registration_id,
+           '' as oauth2_id,
+           mgr_id as email,
+           mgr_name as nickname
+    FROM   manager a
+    WHERE  a.mgr_id = #{email}
   </select>
   
   <insert id="insert">

@@ -9,6 +9,11 @@
            nickname
     FROM   member a
     WHERE  a.email = #{email}
+    UNION ALL
+    SELECT mgr_id as email,
+           mgr_name as nickname
+    FROM   manager a
+    WHERE  a.mgr_id = #{email}
   </select>
   
 </mapper>
