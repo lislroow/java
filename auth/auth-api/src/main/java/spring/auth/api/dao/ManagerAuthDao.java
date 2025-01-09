@@ -12,6 +12,4 @@ public interface ManagerAuthDao {
   
   public Optional<ManagerAuthVo> selectById(@Param("mgrId") String mgrId);
   
-  public int insert(ManagerAuthVo param);
-  
 }

@@ -5,23 +5,10 @@
   
   <select id="selectById" resultType="ManagerAuthVo">
     SELECT /* ManagerAuthDao.selectById */
-           '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
-           'ROLE_MANAGER' as role,
            mgr_id,
-           mgr_name,
+           mgr_name
     FROM   manager a
     WHERE  a.mgr_id = #{mgrId}
   </select>
-  
-  <insert id="insert">
-    INSERT /* ManagerAuthDao.insert */
-      INTO manager (
-      mgr_id,
-      mgr_name,
-    ) VALUES (
-      #{mgrId},
-      #{mgrName}
-    )
-  </insert>
   
 </mapper>

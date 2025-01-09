@@ -12,15 +12,4 @@
     WHERE  a.user_id = #{userId}
   </select>
   
-  <insert id="insert">
-    INSERT /* OpendataAuthDao.insert */
-      INTO opendata_user (
-      user_id,
-      user_name
-    ) VALUES (
-      #{userId},
-      #{userName}
-    )
-  </insert>
-  
 </mapper>

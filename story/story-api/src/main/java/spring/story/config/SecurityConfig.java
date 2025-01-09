@@ -31,7 +31,8 @@ public class SecurityConfig {
       .formLogin(AbstractHttpConfigurer::disable)
       .addFilterBefore(new TokenAuthFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
       .authorizeHttpRequests(config -> {
-        List<String> permitList = Arrays.asList();
+        List<String> permitList = Arrays.asList(
+            "/v1/login");
         permitList.stream().forEach(item -> {
           config.requestMatchers(item).permitAll();
         });

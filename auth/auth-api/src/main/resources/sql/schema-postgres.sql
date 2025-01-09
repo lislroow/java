@@ -27,8 +27,8 @@ DROP TABLE IF EXISTS manager;
 CREATE TABLE IF NOT EXISTS manager
 (
   id SERIAL PRIMARY KEY,
-  email VARCHAR(255),
-  passwd VARCHAR(1024),
+  mgr_id VARCHAR(255),
+  mgr_name VARCHAR(255),
   create_date TIMESTAMP DEFAULT NOW(),
   modify_date TIMESTAMP DEFAULT NOW(),
   create_id INT DEFAULT 1,

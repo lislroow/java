@@ -28,7 +28,7 @@ public class GlobalFilter implements org.springframework.cloud.gateway.filter.Gl
     String clientIp = exchange.getRequest()
         .getHeaders()
         .getFirst(Constant.HTTP_HEADER.X_FORWARDED_FOR);
-
+    
     if (clientIp == null || clientIp.isEmpty()) {
       InetAddress address = exchange.getRequest().getRemoteAddress().getAddress();
       if (address.isLoopbackAddress()) {

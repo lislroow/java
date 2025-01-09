@@ -26,10 +26,13 @@ public class MemberLoginSuccessHandler implements AuthenticationSuccessHandler {
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) throws IOException, ServletException {
+    /* for debug */ if (log.isInfoEnabled()) log.info("{}", authentication.getPrincipal());
+    
     Assert.isTrue(authentication.getPrincipal() != null, "authentication.getPrincipal() is null");
     Assert.isTrue(authentication.getPrincipal() instanceof UserAuthentication, "authentication.getPrincipal() is not SessionUser type");
     
-    TokenResDto.Create resDto = tokenService.createToken(TOKEN.USER.MEMBER, authentication);
+    UserAuthentication userAuthentication = (UserAuthentication) authentication.getPrincipal();
+    TokenResDto.Create resDto = tokenService.createToken(TOKEN.USER.MEMBER, userAuthentication);
     ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
         .path("/")
         .httpOnly(false)
@@ -37,4 +40,5 @@ public class MemberLoginSuccessHandler implements AuthenticationSuccessHandler {
         .build();
     response.addHeader(HttpHeaders.SET_COOKIE, rtkCookie.toString());
   }
+  
 }

@@ -103,9 +103,7 @@ public class TokenService {
     }
   }
   
-  public TokenResDto.Create createToken(TOKEN.USER tokenUser,
-      org.springframework.security.core.Authentication authentication) {
-    UserAuthentication userAuthentication = (UserAuthentication) authentication.getPrincipal();
+  public TokenResDto.Create createToken(TOKEN.USER tokenUser, UserAuthentication userAuthentication) {
     String username = userAuthentication.getUsername();
     TokenResDto.Create result = new TokenResDto.Create();
     try {

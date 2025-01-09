@@ -17,6 +17,19 @@ spring:
   config.location: currentdir/config
   application.name: cloud-gateway
 
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 3
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    disable-delta: false
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 3
+    lease-expiration-duration-in-seconds: 3
+
 ---
 server.port: 10100
 
@@ -122,19 +135,6 @@ spring:
           filters:
             - RewritePathFilter
 
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    registry-fetch-interval-seconds: 3
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-    disable-delta: false
-  instance:
-    prefer-ip-address: true
-    lease-renewal-interval-in-seconds: 3
-    lease-expiration-duration-in-seconds: 3
-
 springdoc:
   api-docs:
     enabled: true
@@ -202,19 +202,6 @@ spring:
           uri: lb://auth-api
           filters:
             - RewritePathFilter
-
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    registry-fetch-interval-seconds: 3
-    service-url:
-      defaultZone: http://localhost:8763/eureka
-    disable-delta: false
-  instance:
-    prefer-ip-address: true
-    lease-renewal-interval-in-seconds: 3
-    lease-expiration-duration-in-seconds: 3
 
 springdoc:
   api-docs:

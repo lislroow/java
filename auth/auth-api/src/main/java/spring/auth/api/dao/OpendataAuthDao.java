@@ -12,6 +12,4 @@ public interface OpendataAuthDao {
   
   public Optional<OpendataAuthVo> selectById(@Param("userId") String userId);
   
-  public int insert(OpendataAuthVo param);
-  
 }
