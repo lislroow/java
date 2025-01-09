@@ -7,6 +7,7 @@
     SELECT /* MemberAuthDao.selectByEmail */
            '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
            'ROLE_MEMBER' as role,
+           'Y' as memberYn,
            registration_id,
            oauth2_id,
            email,
@@ -16,6 +17,7 @@
     UNION ALL
     SELECT '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
            'ROLE_MANAGER' as role,
+           'N' as memberYn,
            '' as registration_id,
            '' as oauth2_id,
            mgr_id as email,

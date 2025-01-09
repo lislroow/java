@@ -103,7 +103,8 @@ public class TokenService {
     }
   }
   
-  public TokenResDto.Create createToken(TOKEN.USER tokenUser, UserAuthentication userAuthentication) {
+  public TokenResDto.Create createToken(UserAuthentication userAuthentication) {
+    TOKEN.USER userType = userAuthentication.getUserType();
     String username = userAuthentication.getUsername();
     TokenResDto.Create result = new TokenResDto.Create();
     try {
@@ -112,7 +113,7 @@ public class TokenService {
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
           .issuer(ISSUER)
-          .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userAuthentication.getUserType())
+          .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userAuthentication.getUserType().code())
           .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), userAuthentication.getUserAttr())
           .claim(TOKEN.JWT_CLAIM.ROLE.code(), userAuthentication.getRole())
           .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
@@ -123,13 +124,13 @@ public class TokenService {
           claimsSet
           );
       signedJWT.sign(this.signer);
-      String rtkUuid = IdGenerator.createTokenId(tokenUser);
+      String rtkUuid = IdGenerator.createTokenId(userType);
       result.setRtkUuid(rtkUuid);
       String clientIdent = IdGenerator.createClientIdent();
       String rtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, rtkUuid, clientIdent);
       
       
-      switch (tokenUser) {
+      switch (userType) {
       case MEMBER:
       case MANAGER:
         // update redis - RTR 일 경우, 잦은 업데이트 빈도로 인해 성능 이슈가 예상됨
@@ -160,9 +161,9 @@ public class TokenService {
   }
   
   public TokenResDto.Verify verifyToken(String tokenId, String clientIdent) {
-    TOKEN.USER tokenUser = IdGenerator.getTokenUser(tokenId).orElseThrow(() -> new AppException(Error.A002));
+    TOKEN.USER userType = IdGenerator.getTokenUser(tokenId).orElseThrow(() -> new AppException(Error.A002));
     String token = null;
-    switch (tokenUser) {
+    switch (userType) {
     case MEMBER:
     case MANAGER:
       String redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, tokenId, clientIdent);
@@ -199,15 +200,16 @@ public class TokenService {
   }
   
   public TokenResDto.Refresh refreshToken(String oldRtkUuid) {
-    TOKEN.USER tokenUser = IdGenerator.getTokenUser(oldRtkUuid).orElseThrow(() -> new AppException(Error.A002));
-    
+    TOKEN.USER userType = IdGenerator.getTokenUser(oldRtkUuid).orElseThrow(() -> new AppException(Error.A002));
     String clientIdent = IdGenerator.createClientIdent();
     String oldRedisKey = null;
-    switch (tokenUser) {
+    switch (userType) {
     case MEMBER:
     case MANAGER:
       oldRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, oldRtkUuid, clientIdent);
       break;
+    default:
+      throw new AppException(Error.A004);
     }
     String refreshToken = this.redisSupport.getValue(oldRedisKey);
     if (refreshToken == null) {
@@ -215,14 +217,12 @@ public class TokenService {
     }
     String username = null;
     Map<String, Object> attributes = null;
-    String userType = null;
     String role = null;
     try {
       SignedJWT signedJWT = SignedJWT.parse(refreshToken);
       if (signedJWT.verify(this.verifier)) {
         JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
         username = signedJWT.getJWTClaimsSet().getSubject();
-        userType = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.USER_TYPE.code());
         attributes = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
         role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLE.code());
       } else {
@@ -232,8 +232,8 @@ public class TokenService {
       throw new AppException(Error.A004, e);
     }
     
-    String newRtkUuid = IdGenerator.createTokenId(tokenUser);
-    String newAtkUuid = IdGenerator.createTokenId(tokenUser);
+    String newRtkUuid = IdGenerator.createTokenId(userType);
+    String newAtkUuid = IdGenerator.createTokenId(userType);
     
     TokenResDto.Refresh result = new TokenResDto.Refresh();
     result.setRtkUuid(newRtkUuid);

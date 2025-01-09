@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import spring.custom.common.enumcode.YN;
 import spring.custom.common.security.AuthDetails;
 
 @Data
@@ -28,6 +29,7 @@ public class MemberAuthVo implements AuthDetails {
   private String role;
   private String ip;
   private String userAgent;
+  private YN memberYn;
   
   @Override
   public String getUsername() {

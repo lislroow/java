@@ -37,7 +37,8 @@ public class MemberOAuth2LoginService implements OAuth2UserService<OAuth2UserReq
           memberAuthDao.insert(vo);
           return memberAuthDao.selectByEmail(vo.getEmail()).orElseThrow(() -> new AppException(Error.A003));
         });
-    return new UserAuthentication(TOKEN.USER.MEMBER, authVo);
+    TOKEN.USER tokenUser = TOKEN.USER.MEMBER;
+    return new UserAuthentication(tokenUser, authVo);
   }
   
 }

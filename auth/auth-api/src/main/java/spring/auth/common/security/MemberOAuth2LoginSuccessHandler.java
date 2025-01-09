@@ -33,7 +33,7 @@ public class MemberOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
     Assert.isTrue(authentication.getPrincipal() instanceof UserAuthentication, "authentication.getPrincipal() is not SessionUser type");
     
     UserAuthentication userAuthentication = (UserAuthentication) authentication.getPrincipal();
-    TokenResDto.Create resDto = tokenService.createToken(TOKEN.USER.MEMBER, userAuthentication);
+    TokenResDto.Create resDto = tokenService.createToken(userAuthentication);
     ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
         .path("/")
         .httpOnly(false)

@@ -41,7 +41,8 @@ public class TOKEN {
   public enum USER {
     MEMBER("member"),
     MANAGER("manager"),
-    OPENAPI("openapi")
+    OPENAPI("openapi"),
+    GUEST("guest")
     ;
     
     private String code;
@@ -56,7 +57,7 @@ public class TOKEN {
     
     public static Optional<TOKEN.USER> fromCode(String code) {
         return Arrays.stream(TOKEN.USER.values())
-            .filter(item -> item.code().equals(code))
+            .filter(item -> item.code().equalsIgnoreCase(code))
             .findAny();
     }
   }

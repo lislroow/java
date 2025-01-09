@@ -32,7 +32,8 @@ public class SecurityConfig {
       .addFilterBefore(new TokenAuthFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
       .authorizeHttpRequests(config -> {
         List<String> permitList = Arrays.asList(
-            "/v1/login");
+            "/v1/login",
+            "/v1/user/info");
         permitList.stream().forEach(item -> {
           config.requestMatchers(item).permitAll();
         });

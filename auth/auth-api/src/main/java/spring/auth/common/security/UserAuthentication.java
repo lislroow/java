@@ -18,12 +18,12 @@ public class UserAuthentication implements OAuth2User, UserDetails {
   
   private AuthDetails tokenUserDetails;
   
-  private transient String userType;
+  private transient TOKEN.USER userType;
   private transient String role;
   private transient Map<String, Object> userAttr;
   
   public UserAuthentication(TOKEN.USER userType, AuthDetails tokenUserDetails) {
-    this.userType = userType.code();
+    this.userType = userType;
     this.tokenUserDetails = tokenUserDetails;
     this.role = tokenUserDetails.getRole();
     this.userAttr = tokenUserDetails.toToken();

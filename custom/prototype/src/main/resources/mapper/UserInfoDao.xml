@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.custom.api.dao.UserInfoDao">
+  
+  <select id="selectMemberByEmail" resultType="MemberVo">
+    SELECT /* UserInfoDao.selectMemberByEmail */
+           email,
+           nickname
+    FROM   member a
+    WHERE  a.email = #{email}
+  </select>
+  
+  <select id="selectManagerByMgrId" resultType="ManagerVo">
+    SELECT /* UserInfoDao.selectManagerByMgrId */
+           mgr_id,
+           mgr_name
+    FROM   manager a
+    WHERE  a.mgr_id = #{mgrId}
+  </select>
+  
+</mapper>

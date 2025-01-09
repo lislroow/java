@@ -54,7 +54,7 @@ public class TokenController {
     case MEMBER:
       throw new AppException(Error.A008);
     case MANAGER:
-      authVo = managerAuthDao.selectById(userId)
+      authVo = managerAuthDao.selectByMgrId(userId)
         .orElseThrow(() -> new AppException(Error.A003));
       break;
     case OPENAPI:
@@ -64,7 +64,7 @@ public class TokenController {
     }
     
     UserAuthentication userAuthentication = new UserAuthentication(userType, authVo);
-    TokenResDto.Create resDto = tokenService.createToken(userType, userAuthentication);
+    TokenResDto.Create resDto = tokenService.createToken(userAuthentication);
     return resDto;
   }
   

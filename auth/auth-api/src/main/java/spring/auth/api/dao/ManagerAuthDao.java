@@ -10,6 +10,6 @@ import spring.auth.api.vo.ManagerAuthVo;
 @Mapper
 public interface ManagerAuthDao {
   
-  public Optional<ManagerAuthVo> selectById(@Param("mgrId") String mgrId);
+  public Optional<ManagerAuthVo> selectByMgrId(@Param("mgrId") String mgrId);
   
 }
