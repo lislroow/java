@@ -30,6 +30,7 @@ import spring.auth.common.security.MemberLoginSuccessHandler;
 import spring.auth.common.security.MemberLogoutService;
 import spring.auth.common.security.MemberOAuth2LoginSuccessHandler;
 import spring.auth.common.security.TokenService;
+import spring.auth.common.security.UserPasswordEncoder;
 import spring.custom.common.enumcode.SECURITY;
 //import spring.custom.common.security.TokenAuthenticationFilter;
 
@@ -111,6 +112,8 @@ public class SecurityConfig {
   DaoAuthenticationProvider daoAuthenticationProvider() {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
     provider.setUserDetailsService(memberLoginService);
+    provider.setPasswordEncoder(new UserPasswordEncoder()); // no check
+    // provider.setPasswordEncoder(new BCryptPasswordEncoder()); // {bcrypt}, PasswordEncoderFactories, DelegatingPasswordEncoder
     return provider;
   }
   
