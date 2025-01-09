@@ -9,6 +9,8 @@ import spring.auth.api.vo.TokenVo;
 @Mapper
 public interface TokenDao {
   
-  public Optional<TokenVo> findById(String id);
+  Optional<TokenVo> findByTokenId(String tokenId);
+  
+  int insert(TokenVo tokenVo);
   
 }

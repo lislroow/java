@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OpendataVo implements AuthenticatedPrincipal {
+public class OpenapiVo implements AuthenticatedPrincipal {
   
   private String userId;
   private String userName;
@@ -23,8 +23,8 @@ public class OpendataVo implements AuthenticatedPrincipal {
     return this.userId;
   }
   
-  public static OpendataVo ofToken(Map<String, Object> userAttr) {
-    return OpendataVo.builder()
+  public static OpenapiVo ofToken(Map<String, Object> userAttr) {
+    return OpenapiVo.builder()
         .userId(userAttr.getOrDefault("userId", "").toString())
         .userName(userAttr.getOrDefault("userName", "").toString())
         .build();

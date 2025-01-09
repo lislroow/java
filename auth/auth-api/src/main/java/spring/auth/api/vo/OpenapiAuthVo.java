@@ -15,7 +15,7 @@ import spring.custom.common.security.AuthDetails;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties("passwd")
-public class OpendataAuthVo implements AuthDetails {
+public class OpenapiAuthVo implements AuthDetails {
   
   private static final long serialVersionUID = -5566207645876050761L;
   

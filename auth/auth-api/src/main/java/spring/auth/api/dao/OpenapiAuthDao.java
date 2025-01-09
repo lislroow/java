@@ -5,11 +5,11 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import spring.auth.api.vo.OpendataAuthVo;
+import spring.auth.api.vo.OpenapiAuthVo;
 
 @Mapper
-public interface OpendataAuthDao {
+public interface OpenapiAuthDao {
   
-  public Optional<OpendataAuthVo> selectById(@Param("userId") String userId);
+  public Optional<OpenapiAuthVo> selectById(@Param("userId") String userId);
   
 }

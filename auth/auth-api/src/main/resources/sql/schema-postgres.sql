@@ -1,3 +1,14 @@
+DROP TABLE IF EXISTS scientist;
+CREATE TABLE IF NOT EXISTS scientist 
+(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  create_date TIMESTAMP DEFAULT NOW(),
+  modify_date TIMESTAMP DEFAULT NOW(),
+  create_id SMALLINT DEFAULT 1,
+  modify_id SMALLINT DEFAULT 1
+);
+
 DROP TABLE IF EXISTS member;
 CREATE TABLE IF NOT EXISTS member 
 (
@@ -6,17 +17,6 @@ CREATE TABLE IF NOT EXISTS member
   oauth2_id VARCHAR(255),
   email VARCHAR(255),
   nickname VARCHAR(255),
-  create_date TIMESTAMP DEFAULT NOW(),
-  modify_date TIMESTAMP DEFAULT NOW(),
-  create_id SMALLINT DEFAULT 1,
-  modify_id SMALLINT DEFAULT 1
-);
-
-DROP TABLE IF EXISTS scientist;
-CREATE TABLE IF NOT EXISTS scientist 
-(
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(255),
   create_date TIMESTAMP DEFAULT NOW(),
   modify_date TIMESTAMP DEFAULT NOW(),
   create_id SMALLINT DEFAULT 1,
@@ -35,13 +35,26 @@ CREATE TABLE IF NOT EXISTS manager
   modify_id INT DEFAULT 1
 );
 
+DROP TABLE IF EXISTS openapi_user;
+CREATE TABLE IF NOT EXISTS openapi_user
+(
+  id SERIAL PRIMARY KEY,
+  user_id VARCHAR(255),
+  user_name VARCHAR(255),
+  create_date TIMESTAMP DEFAULT NOW(),
+  modify_date TIMESTAMP DEFAULT NOW(),
+  create_id INT DEFAULT 1,
+  modify_id INT DEFAULT 1
+);
+
 DROP TABLE IF EXISTS token;
 CREATE TABLE IF NOT EXISTS token
 (
-  id VARCHAR(42) PRIMARY KEY,
-  token TEXT,
+  token_id VARCHAR(42) PRIMARY KEY,
+  user_id VARCHAR(255),
   client_ip VARCHAR(255),
-  use_yn CHAR(1) DEFAULT 'Y',
+  use_yn CHAR(1) DEFAULT 'N',
+  token TEXT,
   create_date TIMESTAMP DEFAULT NOW(),
   modify_date TIMESTAMP DEFAULT NOW(),
   create_id INT DEFAULT 1,

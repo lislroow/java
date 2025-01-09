@@ -128,16 +128,29 @@ public class TokenService {
       String clientIdent = IdGenerator.createClientIdent();
       String rtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, rtkUuid, clientIdent);
       
-      // update redis - RTR 일 경우, 잦은 업데이트 빈도로 인해 성능 이슈가 예상됨
-      //Map<String, String> hash = this.redisSupport.getHash(username);
-      //hash.entrySet().forEach(entry -> {
-      //  if (clientIp.equals(entry.getKey())) {
-      //    this.redisSupport.removeValue(entry.getValue());
-      //    this.redisSupport.removeHash(username, clientIdent);
-      //  }
-      //});
-      this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
-      //this.redisSupport.setHash(username, clientIdent, rtkRedisKey, Duration.ofSeconds(RTK_EXPIRE_SEC));
+      
+      switch (tokenUser) {
+      case MEMBER:
+      case MANAGER:
+        // update redis - RTR 일 경우, 잦은 업데이트 빈도로 인해 성능 이슈가 예상됨
+        //Map<String, String> hash = this.redisSupport.getHash(username);
+        //hash.entrySet().forEach(entry -> {
+        //  if (clientIp.equals(entry.getKey())) {
+        //    this.redisSupport.removeValue(entry.getValue());
+        //    this.redisSupport.removeHash(username, clientIdent);
+        //  }
+        //});
+        this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
+        //this.redisSupport.setHash(username, clientIdent, rtkRedisKey, Duration.ofSeconds(RTK_EXPIRE_SEC));
+        break;
+      case OPENAPI:
+        TokenVo tokenVo = TokenVo.builder()
+          .tokenId(rtkUuid)
+          .userId(username)
+          .token(signedJWT.serialize())
+          .build();
+        tokenDao.insert(tokenVo);
+      }
       
     } catch (Exception e) { 
       log.error("message: {}", e);
@@ -156,8 +169,8 @@ public class TokenService {
       token = Optional.ofNullable(this.redisSupport.getValue(redisKey))
           .orElseThrow(() -> new AppException(Error.A002));
       break;
-    case OPENDATA:
-      TokenVo tokenVo = tokenDao.findById(tokenId)
+    case OPENAPI:
+      TokenVo tokenVo = tokenDao.findByTokenId(tokenId)
           .orElseThrow(() -> new AppException(Error.A002));
       if (tokenVo.getUseYn() == YN.N) {
         throw new AppException(Error.A002);

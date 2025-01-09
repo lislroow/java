@@ -24,7 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.Error;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.vo.ManagerVo;
 import spring.custom.common.vo.MemberVo;
+import spring.custom.common.vo.OpenapiVo;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -58,10 +60,10 @@ public class TokenAuthFilter extends OncePerRequestFilter {
           principal = MemberVo.ofToken(userAttr);
           break;
         case MANAGER:
-          principal = MemberVo.ofToken(userAttr);
+          principal = ManagerVo.ofToken(userAttr);
           break;
-        case OPENDATA:
-          principal = MemberVo.ofToken(userAttr);
+        case OPENAPI:
+          principal = OpenapiVo.ofToken(userAttr);
           break;
         }
         /* for debug */ if (log.isDebugEnabled()) log.debug("principal: {}", principal);

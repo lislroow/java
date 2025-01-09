@@ -4,20 +4,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.ManagerAuthDao;
-import spring.auth.api.dao.OpendataAuthDao;
+import spring.auth.api.dao.OpenapiAuthDao;
 import spring.auth.common.security.TokenService;
 import spring.auth.common.security.UserAuthentication;
 import spring.custom.common.enumcode.Error;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.security.AuthDetails;
-import spring.custom.common.util.XffClientIpExtractor;
 import spring.custom.dto.TokenReqDto;
 import spring.custom.dto.TokenResDto;
 
@@ -27,7 +23,7 @@ public class TokenController {
   
   final TokenService tokenService;
   final ManagerAuthDao managerAuthDao;
-  final OpendataAuthDao opendataAuthDao;
+  final OpenapiAuthDao opendataAuthDao;
   
   
   @PostMapping("/v1/token/verify")
@@ -61,14 +57,11 @@ public class TokenController {
       authVo = managerAuthDao.selectById(userId)
         .orElseThrow(() -> new AppException(Error.A003));
       break;
-    case OPENDATA:
+    case OPENAPI:
       authVo = opendataAuthDao.selectById(userId)
       .orElseThrow(() -> new AppException(Error.A003));
       break;
     }
-
-    HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-    String ip = XffClientIpExtractor.getClientIp(req);
     
     UserAuthentication userAuthentication = new UserAuthentication(userType, authVo);
     TokenResDto.Create resDto = tokenService.createToken(userType, userAuthentication);

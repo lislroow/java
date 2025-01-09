@@ -41,7 +41,7 @@ public class TOKEN {
   public enum USER {
     MEMBER("member"),
     MANAGER("manager"),
-    OPENDATA("opendata")
+    OPENAPI("openapi")
     ;
     
     private String code;

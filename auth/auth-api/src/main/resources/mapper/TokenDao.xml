@@ -3,11 +3,24 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.auth.api.dao.TokenDao">
   
-  <select id="findById" resultType="TokenVo">
-    SELECT /* TokenDao.findById */
-           id, token, client_ip, use_yn
+  <select id="findByTokenId" resultType="TokenVo">
+    SELECT /* TokenDao.findByTokenId */
+           token_id, token, client_ip, use_yn
     FROM   token
-    WHERE  id = #{id}
+    WHERE  token_id = #{tokenId}
   </select>
+  
+  <insert id="insert">
+    INSERT /* TokenDao.insert */
+      INTO token (
+      token_id,
+      user_id,
+      token
+    ) VALUES (
+      #{tokenId},
+      #{userId},
+      #{token}
+    )
+  </insert>
   
 </mapper>

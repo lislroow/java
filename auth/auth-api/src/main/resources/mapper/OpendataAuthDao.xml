@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="spring.auth.api.dao.OpendataAuthDao">
+<mapper namespace="spring.auth.api.dao.OpenapiAuthDao">
   
-  <select id="selectById" resultType="OpendataAuthVo">
-    SELECT /* OpendataAuthDao.selectById */
+  <select id="selectById" resultType="OpenapiAuthVo">
+    SELECT /* OpenapiAuthDao.selectById */
            'ROLE_OPENDATA' as role,
            user_id,
-           user_name,
-    FROM   opendata_user a
+           user_name
+    FROM   openapi_user a
     WHERE  a.user_id = #{userId}
   </select>
   
