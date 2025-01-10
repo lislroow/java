@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.Date;
 
-public class Main {
+public class ByteArrayInputStreamMain {
   
   public static void main(String[] args) throws IOException {
     String phone = "010   abc5678";
@@ -30,4 +30,5 @@ public class Main {
     
     System.out.println(new Date(1735990371000L));
   }
+  
 }

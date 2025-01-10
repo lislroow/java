@@ -1,10 +1,10 @@
-package samples.async;
+package samples;
 import java.util.concurrent.CompletableFuture;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SampleAsync {
+public class CompletableFuture2Main {
   
   public static void main(String[] args) {
     
@@ -38,4 +38,5 @@ public class SampleAsync {
     
     log.info("최종 완료");
   }
+  
 }

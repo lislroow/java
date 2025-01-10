@@ -1,10 +1,10 @@
-package samples.reflection;
+package samples;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SampleReflection {
+public class ReflectionMain {
   
   public static class PersonVo {
     private String name;
@@ -37,7 +37,7 @@ public class SampleReflection {
   }
   
   public static void main(String[] args) {
-    new SampleReflection().process();
+    new ReflectionMain().process();
   }
   
 }

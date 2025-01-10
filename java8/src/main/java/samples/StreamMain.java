@@ -1,4 +1,4 @@
-package samples.stream;
+package samples;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +13,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-public class SampleStream {
+public class StreamMain {
 
   @Data
   @AllArgsConstructor
@@ -54,6 +54,5 @@ public class SampleStream {
       Map<Object, Boolean> map = new ConcurrentHashMap<>();
       return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
   }
-
 
 }

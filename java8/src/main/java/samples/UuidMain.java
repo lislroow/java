@@ -1,11 +1,11 @@
-package samples.uuid;
+package samples;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Uuid {
+public class UuidMain {
 
   public static String create() {
     String uuid = Long.toString(ByteBuffer.wrap(UUID.randomUUID().toString().getBytes()).getLong(), Character.MAX_RADIX);
@@ -47,7 +47,6 @@ public class Uuid {
       createBase62();
       map.merge(time, 1, Integer::sum);
     }
-    
-    
   }
+  
 }

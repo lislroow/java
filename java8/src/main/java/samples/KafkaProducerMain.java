@@ -1,4 +1,4 @@
-package samples.kafka;
+package samples;
 
 import java.util.Map;
 import java.util.Properties;
@@ -9,16 +9,16 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.json.JSONObject;
 
-public class TopicProducer {
+public class KafkaProducerMain {
   
   public static final String BOOTSTRAP_SERVERS = "172.28.200.30:9092";
   private Properties props = new Properties();
   
-  public TopicProducer() {
+  public KafkaProducerMain() {
     this(BOOTSTRAP_SERVERS);
   }
   
-  public TopicProducer(String bootstrapServers) {
+  public KafkaProducerMain(String bootstrapServers) {
     props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
     props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringSerializer.class);
     props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringSerializer.class);
@@ -33,4 +33,5 @@ public class TopicProducer {
     producer.send(new ProducerRecord<String, String>(topic, message));
     producer.close();
   }
+  
 }

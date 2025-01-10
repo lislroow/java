@@ -1,6 +1,6 @@
-package samples.string;
+package samples;
 
-public class SampleMaskedString {
+public class MaskMain {
 
   public static void main(String[] args) {
     String input = "1234567890";
@@ -21,4 +21,5 @@ public class SampleMaskedString {
     }
     System.out.println(masked.toString());
   }
+  
 }

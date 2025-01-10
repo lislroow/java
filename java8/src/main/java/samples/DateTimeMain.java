@@ -1,11 +1,11 @@
-package samples.datetime;
+package samples;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class SampleDateTime {
+public class DateTimeMain {
 
   public static String toStr(long time) {
     if (time < 1e12) {
@@ -30,4 +30,5 @@ public class SampleDateTime {
   public static void main(String[] args) {
     System.out.println(toStr(1717052518));
   }
+  
 }

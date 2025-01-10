@@ -1,4 +1,4 @@
-package samples.xml;
+package samples;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-public class SampleXml {
+public class XmlMain {
 
   @Data
   @AllArgsConstructor
@@ -249,7 +249,7 @@ public class SampleXml {
     }
   }
   
-  public static Map<String, Object> toMap(Node node, List<SampleXml.FieldVo> fields) {
+  public static Map<String, Object> toMap(Node node, List<XmlMain.FieldVo> fields) {
     Map<String, Object> level1Map = new HashMap<>();
     {
       NodeList level0 = node.getChildNodes();
@@ -292,7 +292,7 @@ public class SampleXml {
     return level1Map;
   }
   
-  public static Map<String, Object> parseXml(SampleXml.TestXmlString xml) {
+  public static Map<String, Object> parseXml(XmlMain.TestXmlString xml) {
     Map<String, Object> resultMap = new HashMap<>();
     String xmlstr = xml.getXmlStr();
     String serviceName = null;
@@ -365,7 +365,7 @@ public class SampleXml {
     long start = System.currentTimeMillis();
     for (int i=0; i<=100000; i++) {
       int time = (int) ((System.currentTimeMillis() - start) / 1000);
-      SampleXml.TestXmlString xml = SampleXml.TestXmlString.values()[i%SampleXml.TestXmlString.values().length];
+      XmlMain.TestXmlString xml = XmlMain.TestXmlString.values()[i%XmlMain.TestXmlString.values().length];
       Map<String, Object> resultMap = parseXml(xml);
       //System.out.println(resultMap);
       map.merge(time, 1, Integer::sum);

@@ -1,4 +1,4 @@
-package samples.jwt;
+package samples;
 
 import java.util.Base64;
 import java.util.Map;
@@ -7,7 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class SampleJwt {
+public class JwtMain {
+  
   public void decodeBase64() {
     String token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3MTk2NzgzNTFhNWZhZWRjMmU3MDI3NGJiZWE2MmRhMmE4YzRhMTIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxMjU2NjA1Mjk4OTktNzcwdWJqdWR0bGJnMGZncTQ3cTc2OGt1NW4wM3VrdXAuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIxMjU2NjA1Mjk4OTktNzcwdWJqdWR0bGJnMGZncTQ3cTc2OGt1NW4wM3VrdXAuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDg1NjgxNTMzODY5MDM0MDg3NDkiLCJlbWFpbCI6Im1na2ltLm5ldEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IjNxTkpPcklRYnlUMXFpZXJscG1Ib2ciLCJuYW1lIjoi66y066qF7JmVIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0xJY3paNDM4NEFfakpVS0Z5MnUzeWc3Si1FR3d3d1JqZGtnZnJIb1E3VF9IMkVsU1U9czk2LWMiLCJnaXZlbl9uYW1lIjoi66y066qF7JmVIiwiaWF0IjoxNzE3MDQ4OTE4LCJleHAiOjE3MTcwNTI1MTh9.Mh1WHL3wFJJg0tVvdljhVnf6l8EqhKUx1yOOdAJsIg61T6K4cuDyCVCtZUniAiKozyaFn6awXcQcom2BAM5saXEGrhyeAuQ1WEGeacmXYYJ1K4dGtC6eCtYEBIIGIblMMGJ6cKFLVlXquvL_V5aZtSl7XoFNotjjBX5rpMRtzzvXwPrdkeZyltX9Wty1BIoAi8cBa-SLNYMnOPfmvL1vJD7eLfqSO3u5qNWspOaqP5_njuSkGbScXNcU1RqI_-nwsRetFuoQaVitG1hKVoNnpP5X-XOS2rEqfbghDp2cdlItquB3ip9NJt1Rs-vW-8HVkVODXALb9UEXs89D2p4OAw";
     if (token.contains("{id_token=")) {
@@ -40,4 +41,5 @@ public class SampleJwt {
       }
     }
   }
+  
 }

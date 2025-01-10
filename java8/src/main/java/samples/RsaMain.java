@@ -1,4 +1,4 @@
-package samples.crypto;
+package samples;
 
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -11,7 +11,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-public class SampleRsa {
+public class RsaMain {
 
   public static KeyPair generateKeyPair() {
     KeyPairGenerator keyPairGenerator = null;

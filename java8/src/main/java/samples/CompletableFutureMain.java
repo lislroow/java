@@ -1,4 +1,4 @@
-package samples.async;
+package samples;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CFMain {
+public class CompletableFutureMain {
 
   @Data
   @AllArgsConstructor
@@ -34,7 +34,7 @@ public class CFMain {
   
   Queue<TaskVo> taskQueue = new LinkedList<>();
   
-  private CFMain init() {
+  private CompletableFutureMain init() {
     taskQueue.add(new TaskVo("Task 1"));
     taskQueue.add(new TaskVo("Task 2"));
     taskQueue.add(new TaskVo("Task 3"));
@@ -89,6 +89,7 @@ public class CFMain {
   }
   
   public static void main(String[] args) {
-    new CFMain().init().start();
+    new CompletableFutureMain().init().start();
   }
+  
 }

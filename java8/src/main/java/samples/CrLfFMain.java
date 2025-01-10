@@ -1,9 +1,9 @@
-package samples.file;
+package samples;
 
 import java.io.File;
 import java.io.PrintWriter;
 
-public class SampleCRLF {
+public class CrLfFMain {
   
   public static void main(String[] args) {
     File f = new File("crlf.txt");
@@ -15,4 +15,5 @@ public class SampleCRLF {
       System.err.println(e.getMessage());
     }
   }
+  
 }

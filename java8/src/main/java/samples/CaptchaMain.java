@@ -1,4 +1,4 @@
-package samples.captcha;
+package samples;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,7 +13,7 @@ import nl.captcha.Captcha;
 import nl.captcha.text.producer.NumbersAnswerProducer;
 import nl.captcha.text.renderer.DefaultWordRenderer;
 
-public class SampleCaptcha {
+public class CaptchaMain {
 
   public static String generateCaptcha() {
     try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
@@ -35,9 +35,9 @@ public class SampleCaptcha {
     }
   }
   
-  
   public static void main(String[] args) {
     String imgstr = generateCaptcha();
     System.out.println(imgstr);
   }
+  
 }

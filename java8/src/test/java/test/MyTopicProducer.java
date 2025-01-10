@@ -9,8 +9,8 @@ import java.util.Random;
 
 import org.junit.Test;
 
-import samples.kafka.TopicProducer;
-import samples.uuid.Uuid;
+import samples.KafkaProducerMain;
+import samples.UuidMain;
 
 public class MyTopicProducer {
   
@@ -20,13 +20,13 @@ public class MyTopicProducer {
   public void mytopic() {
     String topicName = "mytopic";
     Map<String, Object> data = new HashMap<String, Object>();
-    String id = Uuid.create();
+    String id = UuidMain.create();
     data.put("id", id);
     data.put("name", names.get(new Random().nextInt(names.size())));
     data.put("createDate", LocalDateTime.now());
     data.put("modifyDate", LocalDateTime.now());
     data.put("createId", id);
     data.put("modifyId", id);
-    new TopicProducer().send(topicName, data);
+    new KafkaProducerMain().send(topicName, data);
   }
 }
