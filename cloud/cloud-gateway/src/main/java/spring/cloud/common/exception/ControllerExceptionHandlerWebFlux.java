@@ -24,7 +24,7 @@ public class ControllerExceptionHandlerWebFlux {
   
   @ExceptionHandler({AppException.class})
   public Mono<ResponseEntity<ProblemDetail>> handleAppException(AppException e) {
-    /* for debug */ if (log.isInfoEnabled()) log.error("", e);
+    /* for debug */ if (log.isDebugEnabled()) log.error("", e);
     
     HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
