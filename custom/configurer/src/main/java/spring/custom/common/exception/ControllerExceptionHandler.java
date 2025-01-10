@@ -19,13 +19,25 @@ import spring.custom.common.enumcode.Error;
 @Slf4j
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   
+  @ExceptionHandler({AccessTokenExpiredException.class})
+  protected ResponseEntity<ProblemDetail> handleAccessTokenExpiredException(AccessTokenExpiredException e, WebRequest request) {
+    /* for debug */ if (log.isInfoEnabled()) log.info("accessToken expired");
+    
+    HttpStatusCode status = HttpStatus.UNAUTHORIZED;
+    ProblemDetail problemDetail = ProblemDetailBuilder.builder()
+      .title(e.getErrorCode())
+      .detail(e.getErrorMessage())
+      .status(status)
+      .build();
+    return ResponseEntity.status(status).body(problemDetail);
+  }
+  
   @ExceptionHandler({AppException.class})
   protected ResponseEntity<ProblemDetail> handleAppException(AppException e, WebRequest request) {
     /* for debug */ if (log.isDebugEnabled()) log.error("", e);
     
     HttpStatusCode status = null;
     Error errorCode = Error.fromCode(e.getErrorCode()).orElse(Error.E999);
-    
     if (Error.isAuthError(errorCode)) {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
     } else {
@@ -33,10 +45,10 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
     
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
-      .title(e.getErrorCode())
-      .detail(e.getErrorMessage())
-      .status(status)
-      .build();
+        .title(e.getErrorCode())
+        .detail(e.getErrorMessage())
+        .status(status)
+        .build();
     return ResponseEntity.status(status).body(problemDetail);
   }
   

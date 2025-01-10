@@ -1,4 +1,4 @@
-package spring.custom.api.controller;
+package spring.auth.api.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.api.dao.UserInfoDao;
+import spring.auth.api.dao.UserInfoDao;
+import spring.auth.api.dto.UserInfoResDto;
 import spring.custom.common.enumcode.Error;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.ManagerVo;
 import spring.custom.common.vo.MemberVo;
-import spring.custom.dto.UserInfoResDto;
 
 @RestController
 @RequiredArgsConstructor

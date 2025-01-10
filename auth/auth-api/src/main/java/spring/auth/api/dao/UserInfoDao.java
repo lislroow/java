@@ -1,4 +1,4 @@
-package spring.custom.api.dao;
+package spring.auth.api.dao;
 
 import java.util.Optional;
 

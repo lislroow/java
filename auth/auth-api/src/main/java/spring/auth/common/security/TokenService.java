@@ -40,6 +40,7 @@ import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.Error;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.enumcode.YN;
+import spring.custom.common.exception.AccessTokenExpiredException;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.util.IdGenerator;
@@ -168,11 +169,11 @@ public class TokenService {
     case MANAGER:
       String redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, tokenId, clientIdent);
       token = Optional.ofNullable(this.redisSupport.getValue(redisKey))
-          .orElseThrow(() -> new AppException(Error.A002));
+          .orElseThrow(() -> new AccessTokenExpiredException());
       break;
     case OPENAPI:
       TokenVo tokenVo = tokenDao.findByTokenId(tokenId)
-          .orElseThrow(() -> new AppException(Error.A002));
+          .orElseThrow(() -> new AccessTokenExpiredException());
       if (tokenVo.getUseYn() == YN.N) {
         throw new AppException(Error.A002);
       }

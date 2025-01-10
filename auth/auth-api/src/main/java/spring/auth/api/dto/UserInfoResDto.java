@@ -1,4 +1,4 @@
-package spring.custom.dto;
+package spring.auth.api.dto;
 
 import lombok.Data;
 

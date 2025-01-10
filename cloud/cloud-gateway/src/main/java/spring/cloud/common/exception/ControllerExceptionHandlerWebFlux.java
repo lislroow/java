@@ -13,6 +13,7 @@ import org.springframework.web.reactive.resource.NoResourceFoundException;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import spring.custom.common.enumcode.Error;
+import spring.custom.common.exception.AccessTokenExpiredException;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.ProblemDetailBuilder;
 
@@ -22,6 +23,19 @@ public class ControllerExceptionHandlerWebFlux {
 
   static final String LOGFMT = "[{}] {}. {}";
   static final String CAUSE = "/ cause: ";
+  
+  @ExceptionHandler({AccessTokenExpiredException.class})
+  public Mono<ResponseEntity<ProblemDetail>> handleAccessTokenExpiredException(AccessTokenExpiredException e) {
+    /* for debug */ if (log.isInfoEnabled()) log.info("accessToken expired");
+    
+    HttpStatusCode status = HttpStatus.UNAUTHORIZED;
+    ProblemDetail problemDetail = ProblemDetailBuilder.builder()
+        .title(e.getErrorCode())
+        .detail(e.getErrorMessage())
+        .status(status)
+        .build();
+    return Mono.just(ResponseEntity.status(status).body(problemDetail));
+  }
   
   @ExceptionHandler({AppException.class})
   public Mono<ResponseEntity<ProblemDetail>> handleAppException(AppException e) {

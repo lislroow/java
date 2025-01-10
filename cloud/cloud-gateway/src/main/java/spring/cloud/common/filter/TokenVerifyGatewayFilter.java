@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.client.ApiClient;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.Error;
+import spring.custom.common.exception.AccessTokenExpiredException;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.util.IdGenerator;
 import spring.custom.common.util.XffClientIpExtractor;
@@ -62,6 +63,8 @@ public class TokenVerifyGatewayFilter extends AbstractGatewayFilterFactory<Token
               .request(req -> 
                 req.header(HttpHeaders.AUTHORIZATION, "Bearer " + vertifyDto.getAccessToken()))
               .build();
+        } catch (AccessTokenExpiredException e) {
+          throw e;
         } catch (Exception e) {
           /* for debug */ if (log.isDebugEnabled()) e.printStackTrace();
           throw new AppException(failCode);
