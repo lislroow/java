@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.Error;
+import spring.custom.common.exception.token.AccessTokenExpiredException;
 
 @RestControllerAdvice
 @AllArgsConstructor

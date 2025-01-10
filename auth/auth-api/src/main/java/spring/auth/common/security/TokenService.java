@@ -40,8 +40,9 @@ import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.Error;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.enumcode.YN;
-import spring.custom.common.exception.AccessTokenExpiredException;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.exception.token.AccessTokenExpiredException;
+import spring.custom.common.exception.token.RefreshTokenExpiredException;
 import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.util.IdGenerator;
 import spring.custom.dto.TokenResDto;
@@ -212,17 +213,18 @@ public class TokenService {
     default:
       throw new AppException(Error.A004);
     }
-    String refreshToken = this.redisSupport.getValue(oldRedisKey);
-    if (refreshToken == null) {
-      throw new AppException(Error.A004);
-    }
+    String oldRefreshToken = Optional.ofNullable(this.redisSupport.getValue(oldRedisKey))
+        .orElseThrow(() -> new RefreshTokenExpiredException());
+    
+    Date rtkExpireTime = null;
     String username = null;
     Map<String, Object> attributes = null;
     String role = null;
     try {
-      SignedJWT signedJWT = SignedJWT.parse(refreshToken);
+      SignedJWT signedJWT = SignedJWT.parse(oldRefreshToken);
       if (signedJWT.verify(this.verifier)) {
         JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
+        rtkExpireTime = jwtClaimsSet.getExpirationTime();
         username = signedJWT.getJWTClaimsSet().getSubject();
         attributes = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
         role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLE.code());
@@ -247,7 +249,7 @@ public class TokenService {
       claimsSet = new JWTClaimsSet.Builder()
           .subject(username)
           .issuer(ISSUER)
-          .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
+          .expirationTime(rtkExpireTime)
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
           .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), attributes)
           .claim(TOKEN.JWT_CLAIM.ROLE.code(), role)
@@ -257,8 +259,9 @@ public class TokenService {
           claimsSet
           );
       signedJWT.sign(this.signer);
-      String rtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, newRtkUuid, clientIdent);
-      this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
+      String newRtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, newRtkUuid, clientIdent);
+      long rtkExpireSec = (rtkExpireTime.getTime() - System.currentTimeMillis()) / 1000L;
+      this.redisSupport.setValue(newRtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(rtkExpireSec));
       
       // accessToken 생성
       claimsSet = new JWTClaimsSet.Builder()
@@ -274,8 +277,8 @@ public class TokenService {
           claimsSet
       );
       signedJWT.sign(this.signer);
-      String atkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, newAtkUuid, clientIdent);
-      this.redisSupport.setValue(atkRedisKey, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
+      String newAtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, newAtkUuid, clientIdent);
+      this.redisSupport.setValue(newAtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
       
     } catch (Exception e) { 
       throw new AppException(Error.A004, e);

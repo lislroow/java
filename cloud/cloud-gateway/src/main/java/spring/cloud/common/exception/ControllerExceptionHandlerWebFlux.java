@@ -13,9 +13,9 @@ import org.springframework.web.reactive.resource.NoResourceFoundException;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import spring.custom.common.enumcode.Error;
-import spring.custom.common.exception.AccessTokenExpiredException;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.ProblemDetailBuilder;
+import spring.custom.common.exception.token.AccessTokenExpiredException;
 
 @RestControllerAdvice // @ControllerAdvice 일 경우 view resolver 를 찾게 됨
 @Slf4j

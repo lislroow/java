@@ -17,8 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.Error;
-import spring.custom.common.exception.AccessTokenExpiredException;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.exception.token.AccessTokenExpiredException;
 
 @Component
 @ConditionalOnBean(RestTemplate.class)
@@ -55,7 +55,7 @@ public class ApiClient {
         );
         Optional<Error> errorCode = Error.fromCode(problemDetail.getTitle());
         if (errorCode.isPresent()) {
-          if (errorCode.get() == Error.A000) {
+          if (errorCode.get() == Error.A100) {
             throw new AccessTokenExpiredException();
           } else {
             throw new AppException(errorCode.get());

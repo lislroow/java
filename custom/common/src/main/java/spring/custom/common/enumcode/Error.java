@@ -14,7 +14,8 @@ public enum Error {
   /** fail to json convert */ E904("fail to json convert"),
   /** x-forwarded-for is empty */ E905("x-forwarded-for is empty"),
   
-  /** access token expired */ A000("access token expired"),
+  /** access token expired */ A100("access token expired"),
+  /** refresh token expired */ A200("refresh token expired"),
   /** token creation error */ A001("token creation error"),
   /** token verification error */ A002("token verification error"),
   /** user not found */ A003("user not found"),
