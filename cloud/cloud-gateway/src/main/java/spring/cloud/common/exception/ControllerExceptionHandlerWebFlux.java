@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.reactive.resource.NoResourceFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -51,7 +52,11 @@ public class ControllerExceptionHandlerWebFlux {
   @ExceptionHandler(Exception.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public Mono<ResponseEntity<ProblemDetail>> handleUncategorizedException(Exception e) {
-    /* for debug */ if (log.isInfoEnabled()) log.error("", e);
+    boolean isKnown = e instanceof NoResourceFoundException;
+    /* for debug */ if (log.isInfoEnabled()) {
+      if (isKnown) log.error("{}", e.getMessage());
+      else log.error("", e);
+    }
     
     HttpStatusCode status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()

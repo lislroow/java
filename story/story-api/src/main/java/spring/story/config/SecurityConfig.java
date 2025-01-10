@@ -33,7 +33,8 @@ public class SecurityConfig {
       .authorizeHttpRequests(config -> {
         List<String> permitList = Arrays.asList(
             "/v1/login",
-            "/v1/user/info");
+            "/v1/user/info",
+            "/v1/user/member/info");
         permitList.stream().forEach(item -> {
           config.requestMatchers(item).permitAll();
         });

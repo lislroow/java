@@ -23,7 +23,7 @@ import spring.custom.dto.TokenResDto;
 @Profile({"local", "dev"})
 @Component
 @Slf4j
-public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> {
+public class TokenVerifyGatewayFilter extends AbstractGatewayFilterFactory<TokenVerifyGatewayFilter.Config> {
   
   @Value("${cloud.gateway.filter.auth-url:http://localhost/auth-api/v1/token/verify}")
   private String AUTH_URL;
@@ -31,12 +31,12 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
   @Autowired
   private ApiClient apiClient;
   
-  public AuthFilter() {
+  public TokenVerifyGatewayFilter() {
     super(Config.class);
   }
   
   @Override
-  public GatewayFilter apply(AuthFilter.Config config) {
+  public GatewayFilter apply(TokenVerifyGatewayFilter.Config config) {
     return (exchange, chain) -> {
       /* for debug */ if (log.isDebugEnabled()) {
         ServerHttpRequest request = exchange.getRequest();
@@ -44,17 +44,17 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
         log.debug(uri);
       }
       ServerHttpRequest request = exchange.getRequest();
-      String token = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-      if (token != null && (token.startsWith("Bearer") || token.startsWith("bearer"))) {
-        token = token.substring(7);
-        /* for debug */ if (log.isDebugEnabled()) log.info(token);
+      String tokenId = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+      if (tokenId != null && (tokenId.startsWith("Bearer") || tokenId.startsWith("bearer"))) {
+        tokenId = tokenId.substring(7);
+        /* for debug */ if (log.isDebugEnabled()) log.info("tokenId: {}", tokenId);
         
         Error failCode = Error.A002;
         TokenReqDto.Verify requestBody = new TokenReqDto.Verify();
         String clientIp = XffClientIpExtractor.getClientIp(request);
         String userAgent = request.getHeaders().get(Constant.HTTP_HEADER.USER_AGENT).get(0);
         requestBody.setClientIdent(IdGenerator.createClientIdent(clientIp, userAgent));
-        requestBody.setTokenId(token);
+        requestBody.setTokenId(tokenId);
         try {
           final TokenResDto.Verify vertifyDto = 
               apiClient.postForEntity(AUTH_URL, requestBody, TokenResDto.Verify.class);

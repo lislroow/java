@@ -15,7 +15,7 @@ import spring.custom.common.constant.Constant;
 
 @Component
 @Slf4j
-public class GlobalFilter implements org.springframework.cloud.gateway.filter.GlobalFilter, Ordered {
+public class XffGatewayFilter implements org.springframework.cloud.gateway.filter.GlobalFilter, Ordered {
 
   @Override
   public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

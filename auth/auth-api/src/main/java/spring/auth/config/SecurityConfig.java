@@ -22,9 +22,11 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import jakarta.servlet.RequestDispatcher;
 import lombok.RequiredArgsConstructor;
+import spring.auth.common.filter.TokenVerifyFilter;
 import spring.auth.common.security.MemberLoginService;
 import spring.auth.common.security.MemberLoginSuccessHandler;
 import spring.auth.common.security.MemberLogoutService;
@@ -32,7 +34,7 @@ import spring.auth.common.security.MemberOAuth2LoginSuccessHandler;
 import spring.auth.common.security.TokenService;
 import spring.auth.common.security.UserPasswordEncoder;
 import spring.custom.common.enumcode.SECURITY;
-//import spring.custom.common.security.TokenAuthenticationFilter;
+import spring.custom.common.security.TokenAuthFilter;
 
 @Configuration
 @EnableConfigurationProperties({ OAuth2ClientProperties.class })
@@ -61,7 +63,8 @@ public class SecurityConfig {
           })
           .successHandler(new MemberLoginSuccessHandler(tokenService))
       )
-      //.addFilterBefore(new TokenAuthenticationFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
+      .addFilterBefore(new TokenAuthFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
+      .addFilterBefore(new TokenVerifyFilter(tokenService), TokenAuthFilter.class)
       .exceptionHandling(config -> 
         config.authenticationEntryPoint((request, response, authException) -> {
           HttpStatus status = HttpStatus.FORBIDDEN;

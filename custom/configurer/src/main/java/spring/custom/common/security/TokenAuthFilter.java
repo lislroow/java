@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,7 +39,6 @@ public class TokenAuthFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
 
     String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
-
     if (authorization != null && authorization.startsWith("Bearer ")) {
       String accessToken = authorization.substring(7);
       /* for debug */ if (log.isDebugEnabled()) log.debug("accessToken: {}", accessToken);

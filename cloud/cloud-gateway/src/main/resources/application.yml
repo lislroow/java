@@ -88,7 +88,7 @@ spring:
           uri: lb://story-api
           filters:
             - RewritePathFilter
-            - AuthFilter
+            - TokenVerifyGatewayFilter
         
         # opendata
         - id: opendata-api
@@ -97,7 +97,7 @@ spring:
           uri: lb://opendata-api
           filters:
             - RewritePathFilter
-            - AuthFilter
+            - TokenVerifyGatewayFilter
         
         # market
         - id: market-api-customer
