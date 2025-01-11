@@ -61,7 +61,7 @@ public class PagingInterceptor implements Interceptor {
         
         int page = pageRequest.getPage() == null ? Constant.PAGE.PAGE_NUMBER : pageRequest.getPage();
         int size = pageRequest.getSize() == null ? Constant.PAGE.PAGE_SIZE : pageRequest.getSize();
-        int offset = page * size; // 페이징 시작은 '0' 부터
+        int offset = (page -1) * size; // 페이징 시작은 '1' 부터
         int limit = size;
         int start = offset + 1;
         int end = offset + limit > pagedList.getTotal() ? pagedList.getTotal() : offset + limit;
