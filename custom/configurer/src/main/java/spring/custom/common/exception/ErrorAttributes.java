@@ -8,8 +8,11 @@ import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.util.WebUtils;
 
+import jakarta.servlet.RequestDispatcher;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -39,6 +42,18 @@ public class ErrorAttributes extends DefaultErrorAttributes {
       String trace = defaultErrorAttributes.getOrDefault("trace", "").toString();
       String first = trace.split("\n")[0];
       log.error(first);
+    }
+    /* for debug */ if (log.isDebugEnabled()) {
+      java.util.Arrays.asList(webRequest.getAttributeNames(org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST)).stream()
+        .forEach(item -> System.out.println("["+item+"]: "+webRequest.getAttribute(item, org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST)));
+    }
+    
+    /* custom : filter 에서 response.sendError(int sc, String msg) 로 예외 처리 대응 */
+    Throwable t = (Throwable) webRequest.getAttribute(RequestDispatcher.ERROR_EXCEPTION, RequestAttributes.SCOPE_REQUEST);
+    if (t instanceof AppException) {
+      AppException appException = (AppException) t;
+      problemDetails.put("title", appException.getErrorCode());
+      problemDetails.put("detail", appException.getErrorMessage());
     }
     
     Object exception = defaultErrorAttributes.get("exception");

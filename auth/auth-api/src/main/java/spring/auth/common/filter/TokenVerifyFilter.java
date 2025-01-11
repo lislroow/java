@@ -3,9 +3,11 @@ package spring.auth.common.filter;
 import java.io.IOException;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
@@ -37,9 +39,17 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
       // String userAgent = request.getHeaders().get(Constant.HTTP_HEADER.USER_AGENT).get(0);
       String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
       String clientIdent = IdGenerator.createClientIdent(clientIp, userAgent);
-      TokenResDto.Verify result = tokenService.verifyToken(tokenId, clientIdent);
-      filterChain.doFilter(
-          new TokenVerifyHttpServletRequest("Bearer " + result.getAccessToken(), request), response);
+      try {
+        TokenResDto.Verify result = tokenService.verifyToken(tokenId, clientIdent);
+        filterChain.doFilter(
+            new TokenVerifyHttpServletRequest("Bearer " + result.getAccessToken(), request), response);
+      } catch (Exception exception) {
+        request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI, request.getRequestURI());
+        request.setAttribute(RequestDispatcher.ERROR_EXCEPTION, exception);
+        request.setAttribute(RequestDispatcher.ERROR_MESSAGE, exception.getMessage());
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        response.sendError(status.value(), status.getReasonPhrase());
+      }
     } else {
       filterChain.doFilter(request, response);
     }
