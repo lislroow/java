@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.mybatis.PageRequest;
-import spring.custom.common.mybatis.PagedData;
+import spring.custom.common.mybatis.PageResponse;
 import spring.custom.common.util.Uuid;
 import spring.sample.app.service.KafkaService;
 import spring.sample.app.vo.EmployVo;
@@ -33,8 +33,8 @@ public class KafkaController {
   }
 
   @GetMapping("/v1/kafka/mytopic/list")
-  public PagedData<EmployVo> selectList(PageRequest param) {
-    PagedData<EmployVo> res = service.selectList(param);
+  public PageResponse<EmployVo> selectList(PageRequest param) {
+    PageResponse<EmployVo> res = service.selectList(param);
     return res;
   }
   

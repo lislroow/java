@@ -11,7 +11,7 @@ import spring.custom.common.annotation.MapperMaria;
 import spring.custom.common.annotation.MapperOracle;
 import spring.custom.common.annotation.MapperPostgres;
 import spring.custom.common.mybatis.PageRequest;
-import spring.custom.common.mybatis.PagedData;
+import spring.custom.common.mybatis.PageResponse;
 
 @MapperH2
 @MapperMaria
@@ -24,9 +24,9 @@ public interface MybatisMultipleDatasourceDao {
   
   ScientistVo findById(Integer id);
   
-  PagedData<ScientistVo> findList(PageRequest param);
+  PageResponse<ScientistVo> findList(PageRequest param);
   
-  PagedData<ScientistVo> findListByName(ScientistVo.FindVo vo);
+  PageResponse<ScientistVo> findListByName(ScientistVo.FindVo vo);
   
   int add(ScientistVo.AddVo vo);
   

@@ -11,16 +11,16 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @JsonFormat(shape = Shape.OBJECT)
-public class PagedData<T> implements List<T> {
+public class PageResponse<T> implements List<T> {
   
   private List<T> pageData;
   private PageInfo pageInfo = new PageInfo();
   
-  public PagedData() {
+  public PageResponse() {
     pageData = new ArrayList<>();
   }
   
-  public PagedData(List<T> pageData, PageInfo pageInfo) {
+  public PageResponse(List<T> pageData, PageInfo pageInfo) {
     this.pageData = pageData;
     this.pageInfo = pageInfo;
   }

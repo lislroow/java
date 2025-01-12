@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.mybatis.PageRequest;
-import spring.custom.common.mybatis.PagedData;
+import spring.custom.common.mybatis.PageResponse;
 
 @Mapper
 public interface MybatisSampleDao {
@@ -15,9 +15,9 @@ public interface MybatisSampleDao {
   
   ScientistVo findById(Integer id);
   
-  PagedData<ScientistVo> findList(PageRequest pageRequest);
+  PageResponse<ScientistVo> findList(PageRequest pageRequest);
   
-  PagedData<ScientistVo> findListByName(PageRequest pageRequest, ScientistVo.FindVo vo);
+  PageResponse<ScientistVo> findListByName(PageRequest pageRequest, ScientistVo.FindVo vo);
   
   int add(ScientistVo.AddVo vo);
   

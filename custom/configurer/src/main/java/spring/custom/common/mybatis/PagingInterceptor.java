@@ -49,7 +49,7 @@ public class PagingInterceptor implements Interceptor {
           .map(map -> (PageRequest) map.getValue());
       if (pageParam.isPresent() && SqlCommandType.SELECT == ms.getSqlCommandType()) {
         PageRequest pageRequest = pageParam.get();
-        PagedData<Object> pagedList = new PagedData<>();
+        PageResponse<Object> pagedList = new PageResponse<>();
         executor.query(ms, parameter,
             new RowBounds(0, RowBounds.NO_ROW_LIMIT),
             new ResultHandler() {

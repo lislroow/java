@@ -22,7 +22,7 @@ import spring.custom.api.dto.MybatisSampleResDto;
 import spring.custom.api.service.MybatisSampleService;
 import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.mybatis.PageRequest;
-import spring.custom.common.mybatis.PagedData;
+import spring.custom.common.mybatis.PageResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,13 +45,13 @@ public class MybatisSampleController {
   }
   
   @GetMapping("/v1/mybatis-sample/scientists")
-  public PagedData<MybatisSampleResDto.Scientist> findList(
+  public PageResponse<MybatisSampleResDto.Scientist> findList(
       @RequestParam(defaultValue = "1") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
     
-    PagedData<ScientistVo> result = mybatisSampleDao.findList(PageRequest.of(page, size));
+    PageResponse<ScientistVo> result = mybatisSampleDao.findList(PageRequest.of(page, size));
     
-    PagedData<MybatisSampleResDto.Scientist> resDto = new PagedData<MybatisSampleResDto.Scientist>(
+    PageResponse<MybatisSampleResDto.Scientist> resDto = new PageResponse<MybatisSampleResDto.Scientist>(
         result.stream()
           .map(item -> modelMapper.map(item, MybatisSampleResDto.Scientist.class))
           .collect(Collectors.toList())
@@ -60,7 +60,7 @@ public class MybatisSampleController {
   }
   
   @GetMapping("/v1/mybatis-sample/scientists/search")
-  public PagedData<MybatisSampleResDto.Scientist> searchByName(
+  public PageResponse<MybatisSampleResDto.Scientist> searchByName(
       @RequestParam(required = false) String name,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
@@ -68,9 +68,9 @@ public class MybatisSampleController {
     ScientistVo.FindVo vo = ScientistVo.FindVo.builder()
         .name(name)
         .build();
-    PagedData<ScientistVo> result = mybatisSampleDao.findListByName(PageRequest.of(page, size), vo);
+    PageResponse<ScientistVo> result = mybatisSampleDao.findListByName(PageRequest.of(page, size), vo);
     
-    PagedData<MybatisSampleResDto.Scientist> resDto = new PagedData<MybatisSampleResDto.Scientist>(
+    PageResponse<MybatisSampleResDto.Scientist> resDto = new PageResponse<MybatisSampleResDto.Scientist>(
         result.stream()
           .map(item -> modelMapper.map(item, MybatisSampleResDto.Scientist.class))
           .collect(Collectors.toList())
