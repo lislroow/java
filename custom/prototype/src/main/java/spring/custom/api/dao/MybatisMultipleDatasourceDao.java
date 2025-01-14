@@ -3,7 +3,6 @@ package spring.custom.api.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.annotation.MapperH2;
@@ -20,18 +19,18 @@ import spring.custom.common.mybatis.PageResponse;
 @Mapper
 public interface MybatisMultipleDatasourceDao {
   
-  List<ScientistVo> findAll();
+  List<ScientistVo> allScientists();
   
-  ScientistVo findById(Integer id);
+  ScientistVo findScientistById(Integer id);
   
-  PageResponse<ScientistVo> findList(PageRequest param);
+  PageResponse<ScientistVo> findScientists(PageRequest pageRequest);
   
-  PageResponse<ScientistVo> findListByName(ScientistVo.FindVo vo);
+  PageResponse<ScientistVo> searchScientists(PageRequest pageRequest, ScientistVo.SearchVo searchVo);
   
-  int add(ScientistVo.AddVo vo);
+  int addScientist(ScientistVo.AddVo addVo);
   
-  int modifyNameById(ScientistVo.ModifyVo vo);
+  int modifyScientistById(ScientistVo.ModifyVo modifyVo);
   
-  int removeById(ScientistVo.RemoveVo vo);
+  int removeScientistById(Integer id);
   
 }

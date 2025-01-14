@@ -3,6 +3,7 @@ package spring.custom.api.dao;
 import java.util.List;
 
 import spring.custom.api.vo.ScientistVerticaVo;
+import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.annotation.MapperVertica;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
@@ -10,18 +11,18 @@ import spring.custom.common.mybatis.PageResponse;
 @MapperVertica
 public interface MybatisMultipleDatasourceVerticaDao {
   
-  List<ScientistVerticaVo> findAll();
+  List<ScientistVerticaVo> allScientists();
   
-  ScientistVerticaVo findById(Integer id);
+  ScientistVerticaVo findScientistById(Integer id);
   
-  PageResponse<ScientistVerticaVo> findList(PageRequest param);
+  PageResponse<ScientistVerticaVo> findScientists(PageRequest pageRequest);
   
-  PageResponse<ScientistVerticaVo> findListByName(ScientistVerticaVo.FindVo vo);
+  PageResponse<ScientistVerticaVo> searchScientists(PageRequest pageRequest, ScientistVo.SearchVo searchVo);
   
-  int add(ScientistVerticaVo.AddVo vo);
+  int addScientist(ScientistVerticaVo.AddVo addVo);
   
-  int modifyNameById(ScientistVerticaVo.ModifyVo vo);
+  int modifyScientistById(ScientistVerticaVo.ModifyVo modifyVo);
   
-  int removeById(ScientistVerticaVo.RemoveVo vo);
+  int removeScientistById(Integer id);
   
 }

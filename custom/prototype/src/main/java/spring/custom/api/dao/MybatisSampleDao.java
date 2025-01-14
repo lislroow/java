@@ -11,18 +11,18 @@ import spring.custom.common.mybatis.PageResponse;
 @Mapper
 public interface MybatisSampleDao {
   
-  List<ScientistVo> findAll();
+  List<ScientistVo> allScientists();
   
-  ScientistVo findById(Integer id);
+  ScientistVo findScientistById(Integer id);
   
-  PageResponse<ScientistVo> findList(PageRequest pageRequest);
+  PageResponse<ScientistVo> findScientists(PageRequest pageRequest);
   
-  PageResponse<ScientistVo> findListByName(PageRequest pageRequest, ScientistVo.FindVo vo);
+  PageResponse<ScientistVo> searchScientists(PageRequest pageRequest, ScientistVo.SearchVo searchVo);
   
-  int add(ScientistVo.AddVo vo);
+  int addScientist(ScientistVo.AddVo addVo);
   
-  int modifyNameById(ScientistVo.ModifyVo vo);
+  int modifyScientistById(ScientistVo.ModifyVo modifyVo);
   
-  int removeById(ScientistVo.RemoveVo vo);
+  int removeScientistById(Integer id);
   
 }

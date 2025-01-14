@@ -18,7 +18,7 @@ public class ScientistVerticaVo extends AuditVerticaVo {
   @Data
   @EqualsAndHashCode(callSuper=false)
   @Builder
-  public static class FindVo extends PageRequest {
+  public static class SearchVo extends PageRequest {
     private Integer id;
     private String name;
   }
@@ -38,16 +38,6 @@ public class ScientistVerticaVo extends AuditVerticaVo {
   @NoArgsConstructor
   @Builder
   public static class ModifyVo extends AuditVerticaVo {
-    private Integer id;
-    private String name;
-  }
-  
-  @Data
-  @EqualsAndHashCode(callSuper=false)
-  @AllArgsConstructor
-  @NoArgsConstructor
-  @Builder
-  public static class RemoveVo extends AuditVerticaVo {
     private Integer id;
     private String name;
   }

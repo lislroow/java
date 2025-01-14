@@ -22,7 +22,7 @@ public class ScientistVo extends AuditVo {
   @Data
   @EqualsAndHashCode(callSuper=false)
   @Builder
-  public static class FindVo extends PageRequest {
+  public static class SearchVo extends PageRequest {
     private Integer id;
     private String name;
     private Integer birthYear;
@@ -50,14 +50,5 @@ public class ScientistVo extends AuditVo {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
-  }
-  
-  @Data
-  @EqualsAndHashCode(callSuper=false)
-  @AllArgsConstructor
-  @NoArgsConstructor
-  @Builder
-  public static class RemoveVo extends AuditVo {
-    private Integer id;
   }
 }

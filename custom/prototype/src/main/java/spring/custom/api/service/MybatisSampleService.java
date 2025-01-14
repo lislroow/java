@@ -15,22 +15,22 @@ public class MybatisSampleService {
   private MybatisSampleDao mybatisSampleDao;
   
   @Transactional
-  public int add(ScientistVo.AddVo vo) {
-    vo.setCreateId(1);
-    vo.setModifyId(1);
-    return mybatisSampleDao.add(vo);
+  public int addScientist(ScientistVo.AddVo addVo) {
+    addVo.setCreateId(1);
+    addVo.setModifyId(1);
+    return mybatisSampleDao.addScientist(addVo);
   }
   
   @Transactional
-  public int modifyNameById(ScientistVo.ModifyVo vo) {
-    vo.setModifyId(1);
+  public int modifyScientistById(ScientistVo.ModifyVo modifyVo) {
+    modifyVo.setModifyId(1);
     
-    return mybatisSampleDao.modifyNameById(vo);
+    return mybatisSampleDao.modifyScientistById(modifyVo);
   }
   
   @Transactional
-  public int removeById(ScientistVo.RemoveVo vo) {
-    return mybatisSampleDao.removeById(vo);
+  public int removeScientistById(Integer id) {
+    return mybatisSampleDao.removeScientistById(id);
   }
   
 }

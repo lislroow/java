@@ -33,9 +33,8 @@ public class MybatisSampleController {
   final MybatisSampleDao mybatisSampleDao;
   
   @GetMapping("/v1/mybatis-sample/scientists/all")
-  public MybatisSampleResDto.ScientistList findAll() {
-    
-    List<ScientistVo> result = mybatisSampleDao.findAll();
+  public MybatisSampleResDto.ScientistList allScientists() {
+    List<ScientistVo> result = mybatisSampleDao.allScientists();
     
     MybatisSampleResDto.ScientistList resDto = new MybatisSampleResDto.ScientistList(
         result.stream()
@@ -45,11 +44,10 @@ public class MybatisSampleController {
   }
   
   @GetMapping("/v1/mybatis-sample/scientists")
-  public PageResponse<MybatisSampleResDto.Scientist> findList(
+  public PageResponse<MybatisSampleResDto.Scientist> findScientists(
       @RequestParam(defaultValue = "1") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
-    
-    PageResponse<ScientistVo> result = mybatisSampleDao.findList(PageRequest.of(page, size));
+    PageResponse<ScientistVo> result = mybatisSampleDao.findScientists(PageRequest.of(page, size));
     
     PageResponse<MybatisSampleResDto.Scientist> resDto = new PageResponse<MybatisSampleResDto.Scientist>(
         result.stream()
@@ -60,15 +58,14 @@ public class MybatisSampleController {
   }
   
   @GetMapping("/v1/mybatis-sample/scientists/search")
-  public PageResponse<MybatisSampleResDto.Scientist> searchByName(
+  public PageResponse<MybatisSampleResDto.Scientist> searchScientists(
       @RequestParam(required = false) String name,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    
-    ScientistVo.FindVo vo = ScientistVo.FindVo.builder()
+    ScientistVo.SearchVo searchVo = ScientistVo.SearchVo.builder()
         .name(name)
         .build();
-    PageResponse<ScientistVo> result = mybatisSampleDao.findListByName(PageRequest.of(page, size), vo);
+    PageResponse<ScientistVo> result = mybatisSampleDao.searchScientists(PageRequest.of(page, size), searchVo);
     
     PageResponse<MybatisSampleResDto.Scientist> resDto = new PageResponse<MybatisSampleResDto.Scientist>(
         result.stream()
@@ -79,47 +76,39 @@ public class MybatisSampleController {
   }
   
   @GetMapping("/v1/mybatis-sample/scientist/{id}")
-  public ResponseEntity<MybatisSampleResDto.Scientist> findById(
+  public ResponseEntity<MybatisSampleResDto.Scientist> findScientistById(
       @PathVariable Integer id) {
-    
-    ScientistVo result = mybatisSampleDao.findById(id);
+    ScientistVo result = mybatisSampleDao.findScientistById(id);
     MybatisSampleResDto.Scientist resDto = modelMapper.map(result, MybatisSampleResDto.Scientist.class);
     return ResponseEntity.ok(resDto);
   }
   
   @PostMapping("/v1/mybatis-sample/scientist")
-  public ResponseEntity<?> modifyNameById(
-      @RequestBody MybatisSampleReqDto.ModifyScientist reqDto) {
-    
-    ScientistVo.ModifyVo vo = modelMapper.map(reqDto, ScientistVo.ModifyVo.class);
-    int result = mybatisSampleService.modifyNameById(vo);
-    
-    if (result == 0) {
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.ok(vo);
-    }
-  }
-  
-  @PutMapping("/v1/mybatis-sample/scientist")
-  public ResponseEntity<?> add(
+  public ResponseEntity<?> addScientist(
       @RequestBody MybatisSampleReqDto.AddScientist reqDto) {
-    
-    ScientistVo.AddVo vo = modelMapper.map(reqDto, ScientistVo.AddVo.class);
-    mybatisSampleService.add(vo);
+    ScientistVo.AddVo addVo = modelMapper.map(reqDto, ScientistVo.AddVo.class);
+    mybatisSampleService.addScientist(addVo);
     
     return ResponseEntity.status(HttpStatus.CREATED).build(); // location 정보는 JPA 일 때 적합
   }
   
+  @PutMapping("/v1/mybatis-sample/scientist")
+  public ResponseEntity<?> modifyScientistById(
+      @RequestBody MybatisSampleReqDto.ModifyScientist reqDto) {
+    ScientistVo.ModifyVo modifyVo = modelMapper.map(reqDto, ScientistVo.ModifyVo.class);
+    int result = mybatisSampleService.modifyScientistById(modifyVo);
+    
+    if (result == 0) {
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.ok(modifyVo);
+    }
+  }
+  
   @DeleteMapping("/v1/mybatis-sample/scientist/{id}")
-  public ResponseEntity<?> removeById(
+  public ResponseEntity<?> removeScientistById(
       @PathVariable Integer id) {
-    
-    ScientistVo.RemoveVo vo = ScientistVo.RemoveVo.builder()
-        .id(id)
-        .build();
-    
-    mybatisSampleService.removeById(vo);
+    mybatisSampleService.removeScientistById(id);
     
     return ResponseEntity.noContent().build();
   }

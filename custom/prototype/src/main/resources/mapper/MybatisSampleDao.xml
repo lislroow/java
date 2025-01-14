@@ -3,39 +3,39 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.custom.api.dao.MybatisSampleDao">
   
-  <select id="findAll" resultType="ScientistVo">
-    SELECT /* MybatisCrudDao.findAll */
+  <select id="allScientists" resultType="ScientistVo">
+    SELECT /* MybatisCrudDao.allScientists */
            *
     FROM   scientist
-    ORDER BY id DESC
+    ORDER BY birth_year DESC
   </select>
   
-  <select id="findById" resultType="ScientistVo">
-    SELECT /* MybatisCrudDao.findById */
+  <select id="findScientistById" resultType="ScientistVo">
+    SELECT /* MybatisCrudDao.findScientistById */
            *
     FROM   scientist
     WHERE  id = #{id}
   </select>
   
-  <select id="findList">
-    SELECT /* MybatisCrudDao.findList */
+  <select id="findScientists">
+    SELECT /* MybatisCrudDao.findScientists */
            *
     FROM   scientist
-    ORDER BY id DESC
+    ORDER BY birth_year DESC
   </select>
   
-  <select id="findListByName" resultType="ScientistVo">
-    SELECT /* MybatisCrudDao.findListByName */
+  <select id="searchScientists" resultType="ScientistVo">
+    SELECT /* MybatisCrudDao.searchScientists */
            *
     FROM   scientist
-    <if test="vo.name != null and !''.equals(vo.name)">
-      WHERE UPPER(name) LIKE '%' || UPPER(#{vo.name}) || '%'
+    <if test="searchVo.name != null and !''.equals(searchVo.name)">
+      WHERE UPPER(name) LIKE '%' || UPPER(#{searchVo.name}) || '%'
     </if>
-    ORDER BY id DESC
+    ORDER BY birth_year DESC
   </select>
   
-  <insert id="add">
-    INSERT /* MybatisCrudDao.add */
+  <insert id="addScientist">
+    INSERT /* MybatisCrudDao.addScientist */
       INTO scientist (
         name,
         birth_year,
@@ -55,8 +55,8 @@
       )
   </insert>
   
-  <update id="modifyNameById">
-    UPDATE /* MybatisCrudDao.modifyNameById */
+  <update id="modifyScientistById">
+    UPDATE /* MybatisCrudDao.modifyScientistById */
            scientist
        SET name = #{name},
            birth_year = #{birthYear},
@@ -66,8 +66,8 @@
      WHERE id = #{id}
   </update>
   
-  <delete id="removeById">
-    DELETE /* MybatisCrudDao.removeById */
+  <delete id="removeScientistById">
+    DELETE /* MybatisCrudDao.removeScientistById */
       FROM scientist
      WHERE id = #{id}
   </delete>
