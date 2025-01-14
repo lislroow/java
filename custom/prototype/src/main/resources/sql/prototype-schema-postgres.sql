@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS scientist
 (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
-  birth_year SMALLINT NOT NULL,
-  death_year SMALLINT NULL,
+  birth_year INT4 NOT NULL,
+  death_year INT4 NULL,
   create_date TIMESTAMP DEFAULT NOW(),
   modify_date TIMESTAMP DEFAULT NOW(),
   create_id INT DEFAULT 1,

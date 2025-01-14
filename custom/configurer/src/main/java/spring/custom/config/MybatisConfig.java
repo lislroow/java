@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -49,7 +50,8 @@ public class MybatisConfig {
     }
     
     org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
-    configuration.setJdbcTypeForNull(config.getJdbcTypeForNull());
+    //configuration.setJdbcTypeForNull(config.getJdbcTypeForNull()); // JdbcType.VARCHAR 로 설정되어 postgres 의 INT 타입에 오류 발생
+    configuration.setJdbcTypeForNull(JdbcType.NULL);
     configuration.setMapUnderscoreToCamelCase(config.getMapUnderscoreToCamelCase());
     sqlSessionFactoryBean.setConfiguration(configuration);
     
