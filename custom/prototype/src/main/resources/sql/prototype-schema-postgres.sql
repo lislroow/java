@@ -3,10 +3,12 @@ CREATE TABLE IF NOT EXISTS scientist
 (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
+  birth_year SMALLINT NOT NULL,
+  death_year SMALLINT NULL,
   create_date TIMESTAMP DEFAULT NOW(),
   modify_date TIMESTAMP DEFAULT NOW(),
-  create_id SMALLINT DEFAULT 1,
-  modify_id SMALLINT DEFAULT 1
+  create_id INT DEFAULT 1,
+  modify_id INT DEFAULT 1
 );
 
 /* access_control */

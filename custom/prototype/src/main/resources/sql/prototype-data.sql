@@ -1,16 +1,15 @@
-INSERT INTO scientist (name) VALUES('Galileo Galilei');
-INSERT INTO scientist (name) VALUES('Johannes Kepler');
-INSERT INTO scientist (name) VALUES('Isaac Newton');
-INSERT INTO scientist (name) VALUES('Dmitri Mendeleev');
-INSERT INTO scientist (name) VALUES('Albert Einstein');
-INSERT INTO scientist (name) VALUES('Stephen Hawking');
-INSERT INTO scientist (name) VALUES('Nikola Tesla');
-INSERT INTO scientist (name) VALUES('Niels Bohr');
-INSERT INTO scientist (name) VALUES('Michael Faraday');
-INSERT INTO scientist (name) VALUES('James Clerk Maxwell');
-INSERT INTO scientist (name) VALUES('Alan Turing');
-INSERT INTO scientist (name) VALUES('Richard Feynman');
-
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Galileo Galilei', 1564, 1642);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Johannes Kepler', 1571, 1630);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Isaac Newton', 1643, 1727);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Dmitri Mendeleev', 1834, 1907);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Albert Einstein', 1879, 1955);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Stephen Hawking', 1942, 2018);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Nikola Tesla', 1856, 1943);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Niels Bohr', 1885, 1962);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Michael Faraday', 1791, 1867);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('James Clerk Maxwell', 1831, 1879);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Alan Turing', 1912, 1954);
+INSERT INTO scientist (name, birth_year, death_year) VALUES('Richard Feynman', 1918, 1988);
 
 /* access_control */
 

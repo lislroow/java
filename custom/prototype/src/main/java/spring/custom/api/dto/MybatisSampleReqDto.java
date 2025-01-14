@@ -7,13 +7,17 @@ public class MybatisSampleReqDto {
   private MybatisSampleReqDto() { }
 
   @Data
-  public static class AddDto {
+  public static class AddScientist {
     private String name;
+    private Integer birthYear;
+    private Integer deathYear;
   }
   
   @Data
-  public static class ModifyDto {
+  public static class ModifyScientist {
     private Integer id;
     private String name;
+    private Integer birthYear;
+    private Integer deathYear;
   }
 }

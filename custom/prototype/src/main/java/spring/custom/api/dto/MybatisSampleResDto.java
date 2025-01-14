@@ -13,6 +13,8 @@ public class MybatisSampleResDto {
   public static class Scientist {
     private Integer id;
     private String name;
+    private Integer birthYear;
+    private Integer deathYear;
   }
   
   @Data

@@ -89,7 +89,7 @@ public class MybatisSampleController {
   
   @PostMapping("/v1/mybatis-sample/scientist")
   public ResponseEntity<?> modifyNameById(
-      @RequestBody MybatisSampleReqDto.ModifyDto reqDto) {
+      @RequestBody MybatisSampleReqDto.ModifyScientist reqDto) {
     
     ScientistVo.ModifyVo vo = modelMapper.map(reqDto, ScientistVo.ModifyVo.class);
     int result = mybatisSampleService.modifyNameById(vo);
@@ -103,7 +103,7 @@ public class MybatisSampleController {
   
   @PutMapping("/v1/mybatis-sample/scientist")
   public ResponseEntity<?> add(
-      @RequestBody MybatisSampleReqDto.AddDto reqDto) {
+      @RequestBody MybatisSampleReqDto.AddScientist reqDto) {
     
     ScientistVo.AddVo vo = modelMapper.map(reqDto, ScientistVo.AddVo.class);
     mybatisSampleService.add(vo);

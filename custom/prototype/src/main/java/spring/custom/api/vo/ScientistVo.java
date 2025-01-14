@@ -16,6 +16,8 @@ public class ScientistVo extends AuditVo {
   
   private Integer id;
   private String name;
+  private Integer birthYear;
+  private Integer deathYear;
   
   @Data
   @EqualsAndHashCode(callSuper=false)
@@ -23,6 +25,8 @@ public class ScientistVo extends AuditVo {
   public static class FindVo extends PageRequest {
     private Integer id;
     private String name;
+    private Integer birthYear;
+    private Integer deathYear;
   }
   @Data
   @EqualsAndHashCode(callSuper=false)
@@ -32,6 +36,8 @@ public class ScientistVo extends AuditVo {
   public static class AddVo extends AuditVo {
     private Integer id;
     private String name;
+    private Integer birthYear;
+    private Integer deathYear;
   }
   
   @Data
@@ -42,6 +48,8 @@ public class ScientistVo extends AuditVo {
   public static class ModifyVo extends AuditVo {
     private Integer id;
     private String name;
+    private Integer birthYear;
+    private Integer deathYear;
   }
   
   @Data
@@ -51,6 +59,5 @@ public class ScientistVo extends AuditVo {
   @Builder
   public static class RemoveVo extends AuditVo {
     private Integer id;
-    private String name;
   }
 }

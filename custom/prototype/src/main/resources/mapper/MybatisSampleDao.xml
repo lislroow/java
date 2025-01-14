@@ -38,12 +38,16 @@
     INSERT /* MybatisCrudDao.add */
       INTO scientist (
         name,
+        birth_year,
+        death_year,
         create_date,
         modify_date,
         create_id,
         modify_id
       ) VALUES (
         #{name},
+        #{birthYear},
+        #{deathYear},
         now(),
         now(),
         #{createId},
@@ -55,6 +59,8 @@
     UPDATE /* MybatisCrudDao.modifyNameById */
            scientist
        SET name = #{name},
+           birth_year = #{birthYear},
+           death_year = #{deathYear},
            modify_date = now(),
            modify_id = #{modifyId}
      WHERE id = #{id}
