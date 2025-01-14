@@ -130,7 +130,7 @@ public class TokenService {
       result.setRtkUuid(rtkUuid);
       String clientIdent = IdGenerator.createClientIdent();
       String rtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, rtkUuid, clientIdent);
-      
+      /* for debug */ if (log.isDebugEnabled()) log.info("create token: {}", rtkRedisKey);
       
       switch (userType) {
       case MEMBER:
@@ -215,7 +215,7 @@ public class TokenService {
     }
     String oldRefreshToken = Optional.ofNullable(this.redisSupport.getValue(oldRedisKey))
         .orElseThrow(() -> new RefreshTokenExpiredException());
-    
+    /* for debug */ if (log.isDebugEnabled()) log.info("refresh token (old): {}", oldRedisKey);
     Date rtkExpireTime = null;
     String username = null;
     Map<String, Object> attributes = null;
@@ -261,6 +261,7 @@ public class TokenService {
       signedJWT.sign(this.signer);
       String newRtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, newRtkUuid, clientIdent);
       long rtkExpireSec = (rtkExpireTime.getTime() - System.currentTimeMillis()) / 1000L;
+      /* for debug */ if (log.isDebugEnabled()) log.info("refresh token (new): {}", newRtkRedisKey);
       this.redisSupport.setValue(newRtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(rtkExpireSec));
       
       // accessToken 생성
