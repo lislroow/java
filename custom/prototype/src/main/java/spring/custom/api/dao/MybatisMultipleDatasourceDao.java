@@ -25,7 +25,8 @@ public interface MybatisMultipleDatasourceDao {
   
   PageResponse<ScientistVo> findScientists(PageRequest pageRequest);
   
-  PageResponse<ScientistVo> searchScientists(PageRequest pageRequest, ScientistVo.SearchVo searchVo);
+  PageResponse<ScientistVo> searchScientists(
+      PageRequest pageRequest, ScientistVo.SearchVo searchVo);
   
   int addScientist(ScientistVo.AddVo addVo);
   
