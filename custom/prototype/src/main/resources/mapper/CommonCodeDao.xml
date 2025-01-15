@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.custom.api.dao.CommonCodeDao">
+
+  <select id="findCodes" resultType="spring.custom.api.vo.CommonCodeVo$CodeVo">
+    SELECT /* CommonCodeMngDao.findCodes */
+           A.*,
+           J.cd_grp_nm
+    FROM   code A
+      LEFT JOIN code_group J ON A.cd_grp = J.cd_grp
+    <where>
+      A.cd_grp = #{cdGrp}
+    </where>
+    ORDER BY A.seq ASC
+  </select>
+  
+</mapper>

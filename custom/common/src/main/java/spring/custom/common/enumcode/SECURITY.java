@@ -10,7 +10,8 @@ public class SECURITY {
     Runtime("/v1/runtime/**"),
     MybatisMultipleDatasource("/v1/mybatis-multiple-datasource/**"),
     MybatisSample("/v1/mybatis-sample/**"),
-    RedisSample("/v1/redis-sample/**")
+    RedisSample("/v1/redis-sample/**"),
+    CommonCode("/v1/common-code/**")
     ;
     
     private String pattern;

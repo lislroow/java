@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.custom.api.dao.CommonCodeMngDao">
+  
+  <select id="searchCodeGroups" resultType="spring.custom.api.vo.CommonCodeVo$CodeGroupVo">
+    SELECT /* CommonCodeMngDao.searchCodeGroups */
+           A.*
+    FROM   code_group A
+    <where>
+      <if test="searchVo.cdGrp != null and searchVo.cdGrp != ''">
+        UPPER(A.cd_grp) LIKE '%' || UPPER(#{searchVo.cdGrp}) || '%'
+      </if>
+    </where>
+    ORDER BY cd_grp ASC
+  </select>
+  
+  <select id="searchCodes" resultType="spring.custom.api.vo.CommonCodeVo$CodeVo">
+    SELECT /* CommonCodeMngDao.searchCodes */
+           A.*,
+           J.cd_grp_nm
+    FROM   code A
+      LEFT JOIN code_group J ON A.cd_grp = J.cd_grp
+    <where>
+      <if test="cdGrp != null and cdGrp != ''">
+        OR  UPPER(A.cd_grp) LIKE '%' || UPPER(#{cdGrp}) || '%'
+      </if>
+      <if test="cdGrpNm != null and cdGrpNm != ''">
+        OR  UPPER(A.cd_grp_nm) LIKE '%' || UPPER(#{cdGrpNm}) || '%'
+      </if>
+      <if test="cd != null and cd != ''">
+        OR  UPPER(A.cd) LIKE '%' || UPPER(#{cd}) || '%'
+      </if>
+      <if test="cdNm != null and cdNm != ''">
+        OR  UPPER(A.cd_nm) LIKE '%' || UPPER(#{cdNm}) || '%'
+      </if>
+      <if test="useYn != null and useYn != ''">
+        OR  A.use_yn = #{useYn}
+      </if>
+    </where>
+    ORDER BY A.cd_grp, A.cd, A.seq
+  </select>
+  
+</mapper>

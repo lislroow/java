@@ -11,6 +11,24 @@ INSERT INTO scientist (name, birth_year, death_year) VALUES('James Clerk Maxwell
 INSERT INTO scientist (name, birth_year, death_year) VALUES('Alan Turing', 1912, 1954);
 INSERT INTO scientist (name, birth_year, death_year) VALUES('Richard Feynman', 1918, 1988);
 
+
+/* code_group */
+INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('FOS', 'field of study');
+INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('FOSP', 'physics');
+
+/* code */
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOS', 'P', 1, 'physics');
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOS', 'C', 2, 'chemistry');
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOS', 'M', 3, 'mathematics');
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOS', 'B', 4, 'biology');
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOS', 'A', 5, 'astronomy');
+
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOSP', 'CM', 1, 'Classical Mechanics');
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOSP', 'EM', 2, 'Electromagnetic Mechanics');
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOSP', 'QM', 3, 'Quantum Mechanics');
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOSP', 'FM', 4, 'Fluid Mechanics');
+
+
 /* access_control */
 
 

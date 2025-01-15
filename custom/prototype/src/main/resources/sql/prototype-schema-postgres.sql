@@ -11,6 +11,37 @@ CREATE TABLE IF NOT EXISTS scientist
   modify_id INT DEFAULT 1
 );
 
+DROP TABLE IF EXISTS code_group CASCADE;
+CREATE TABLE IF NOT EXISTS code_group
+(
+  cd_grp VARCHAR(10) PRIMARY KEY,
+  cd_grp_nm VARCHAR(255),
+  use_yn CHAR(1) NOT NULL CHECK (use_yn IN ('Y', 'N')) DEFAULT 'Y',
+  create_date TIMESTAMP DEFAULT NOW(),
+  modify_date TIMESTAMP DEFAULT NOW(),
+  create_id INT DEFAULT 1,
+  modify_id INT DEFAULT 1
+);
+
+DROP TABLE IF EXISTS code CASCADE;
+CREATE TABLE IF NOT EXISTS code
+(
+  cd_grp VARCHAR(10),
+  cd VARCHAR(10),
+  seq INT2 NULL,
+  cd_nm VARCHAR(255),
+  use_yn CHAR(1) NOT NULL CHECK (use_yn IN ('Y', 'N')) DEFAULT 'Y',
+  create_date TIMESTAMP DEFAULT NOW(),
+  modify_date TIMESTAMP DEFAULT NOW(),
+  create_id INT DEFAULT 1,
+  modify_id INT DEFAULT 1,
+  PRIMARY KEY (cd, cd_grp),
+  CONSTRAINT fk_code_cd_grp FOREIGN KEY (cd_grp)
+    REFERENCES code_group (cd_grp)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
 /* access_control */
 DROP TABLE IF EXISTS access_control;
 CREATE TABLE IF NOT EXISTS access_control 
