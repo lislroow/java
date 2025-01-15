@@ -72,6 +72,10 @@ public class TokenService {
   private Integer ATK_EXPIRE_SEC;
   private Long ATK_EXPIRE_MILLS;
   
+  @Value("${auth.token.client-session-sec:600}")
+  private Integer CLIENT_SESSION_SEC;
+  private Long CLIENT_SESSION_MILLS;
+  
   private JWSSigner signer;
   private RSASSAVerifier verifier;
   
@@ -84,6 +88,7 @@ public class TokenService {
     
     RTK_EXPIRE_MILLS = RTK_EXPIRE_SEC * Constant.MILLS;
     ATK_EXPIRE_MILLS = ATK_EXPIRE_SEC * Constant.MILLS;
+    CLIENT_SESSION_MILLS = CLIENT_SESSION_SEC * Constant.MILLS;
   }
   
   private RSAPrivateKey loadRSAPrivateKey(String keyFilePath) throws IOException {
@@ -109,6 +114,7 @@ public class TokenService {
     TOKEN.USER userType = userAuthentication.getUserType();
     String username = userAuthentication.getUsername();
     TokenResDto.Create result = new TokenResDto.Create();
+    Long rtkExpTime = System.currentTimeMillis() + RTK_EXPIRE_MILLS;
     try {
       JWTClaimsSet claimsSet;
       SignedJWT signedJWT;
@@ -118,7 +124,7 @@ public class TokenService {
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userAuthentication.getUserType().code())
           .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), userAuthentication.getUserAttr())
           .claim(TOKEN.JWT_CLAIM.ROLE.code(), userAuthentication.getRole())
-          .expirationTime(new Date(System.currentTimeMillis() + RTK_EXPIRE_MILLS))
+          .expirationTime(new Date(rtkExpTime))
           .build();
       
       signedJWT = new SignedJWT(
@@ -241,6 +247,14 @@ public class TokenService {
     TokenResDto.Refresh result = new TokenResDto.Refresh();
     result.setRtkUuid(newRtkUuid);
     result.setAtkUuid(newAtkUuid);
+    result.setClientSessionSec(CLIENT_SESSION_SEC);
+    
+    // 10 분 남았을 경우 refresh token 의 만료 시간을 연장
+    Long clientSessionTime = System.currentTimeMillis() + CLIENT_SESSION_MILLS;
+    if (clientSessionTime > rtkExpireTime.getTime()) {
+      /* for debug */ if (log.isInfoEnabled()) log.info("apply additional time to expiration time of refresh token.");
+      rtkExpireTime = new Date(clientSessionTime);
+    }
     try {
       JWTClaimsSet claimsSet;
       SignedJWT signedJWT;

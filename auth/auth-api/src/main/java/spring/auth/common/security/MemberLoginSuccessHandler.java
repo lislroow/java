@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.TOKEN;
 import spring.custom.dto.TokenResDto;
 
 @Slf4j
@@ -33,12 +32,13 @@ public class MemberLoginSuccessHandler implements AuthenticationSuccessHandler {
     
     UserAuthentication userAuthentication = (UserAuthentication) authentication.getPrincipal();
     TokenResDto.Create resDto = tokenService.createToken(userAuthentication);
-    ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
+    
+    response.addHeader(HttpHeaders.SET_COOKIE, ResponseCookie
+        .from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
         .path("/")
         .httpOnly(false)
         .maxAge(10)
-        .build();
-    response.addHeader(HttpHeaders.SET_COOKIE, rtkCookie.toString());
+        .build().toString());
   }
   
 }

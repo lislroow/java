@@ -73,7 +73,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     HttpStatusCode status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
       .title(Error.E999.code())
-      .detail(e.getMessage())
+      .detail(e.getCause() != null ? e.getCause().getMessage() : e.getMessage())
       .status(status)
       .build();
     return ResponseEntity.status(status).body(problemDetail);

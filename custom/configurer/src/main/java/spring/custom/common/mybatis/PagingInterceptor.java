@@ -44,9 +44,19 @@ public class PagingInterceptor implements Interceptor {
     if (parameter instanceof java.util.Map) {
       Optional<PageRequest> pageParam = ((java.util.Map<?, ?>) parameter).entrySet()
           .stream()
-          .filter(entry -> entry.getValue() instanceof PageRequest)
+          .filter(entry -> entry.getValue() != null && entry.getValue().getClass() == PageRequest.class)
           .findFirst()
           .map(map -> (PageRequest) map.getValue());
+      /* for debug */ if (!pageParam.isPresent()) {
+        if (log.isDebugEnabled()) {
+          ((java.util.Map<?, ?>) parameter).entrySet().forEach(entry -> {
+            log.info("entry: {}, expr1: {}", entry, entry.getValue() instanceof PageRequest); // java.lang.Object 가 반환되므로 true 가 됨
+            log.info("entry: {}, expr2: {}", entry, entry.getValue() != null && entry.getValue().getClass() == PageRequest.class);
+          });
+        }
+      }
+      
+      /* for debug */ if (log.isInfoEnabled()) log.info("pageRequest: {}", pageParam);
       if (pageParam.isPresent() && SqlCommandType.SELECT == ms.getSqlCommandType()) {
         PageRequest pageRequest = pageParam.get();
         PageResponse<Object> pagedList = new PageResponse<>();
