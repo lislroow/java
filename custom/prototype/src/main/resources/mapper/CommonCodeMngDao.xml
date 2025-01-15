@@ -26,7 +26,7 @@
         OR  UPPER(A.cd_grp) LIKE '%' || UPPER(#{cdGrp}) || '%'
       </if>
       <if test="cdGrpNm != null and cdGrpNm != ''">
-        OR  UPPER(A.cd_grp_nm) LIKE '%' || UPPER(#{cdGrpNm}) || '%'
+        OR  UPPER(J.cd_grp_nm) LIKE '%' || UPPER(#{cdGrpNm}) || '%'
       </if>
       <if test="cd != null and cd != ''">
         OR  UPPER(A.cd) LIKE '%' || UPPER(#{cd}) || '%'
