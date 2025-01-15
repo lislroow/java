@@ -8,8 +8,8 @@
            A.*
     FROM   code_group A
     <where>
-      <if test="searchVo.cdGrp != null and searchVo.cdGrp != ''">
-        UPPER(A.cd_grp) LIKE '%' || UPPER(#{searchVo.cdGrp}) || '%'
+      <if test="cdGrp != null and cdGrp != ''">
+        UPPER(A.cd_grp) LIKE '%' || UPPER(#{cdGrp}) || '%'
       </if>
     </where>
     ORDER BY cd_grp ASC

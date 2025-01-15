@@ -28,8 +28,8 @@
     SELECT /* MybatisCrudDao.searchScientists */
            *
     FROM   scientist
-    <if test="searchVo.name != null and !''.equals(searchVo.name)">
-      WHERE UPPER(name) LIKE '%' || UPPER(#{searchVo.name}) || '%'
+    <if test="name != null and !''.equals(name)">
+      WHERE UPPER(name) LIKE '%' || UPPER(#{name}) || '%'
     </if>
     ORDER BY birth_year DESC
   </select>
