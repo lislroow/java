@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ public class CommonCodeController {
   final CommonCodeDao commonCodeDao;
   
   @GetMapping("/v1/common-code/codes/find/{cdGrp}")
+  @Cacheable(value = "cache:common-code", key = "#cdGrp")
   public List<CommonCodeResDto.Code> findCodesByCdGrp(
       @PathVariable String cdGrp) {
     List<CommonCodeVo.CodeVo> result = commonCodeDao.findCodesByCdGrp(cdGrp);
