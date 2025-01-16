@@ -1,13 +1,14 @@
 DROP TABLE IF EXISTS code_group CASCADE;
 CREATE TABLE IF NOT EXISTS code_group
 (
-  cd_grp VARCHAR(10) PRIMARY KEY,
+  cd_grp VARCHAR(10),
   cd_grp_nm VARCHAR(255),
   use_yn CHAR(1) NOT NULL CHECK (use_yn IN ('Y', 'N')) DEFAULT 'Y',
   create_date TIMESTAMP DEFAULT NOW(),
   modify_date TIMESTAMP DEFAULT NOW(),
-  create_id INT DEFAULT 1,
-  modify_id INT DEFAULT 1
+  create_id VARCHAR(15) DEFAULT '1',
+  modify_id VARCHAR(15) DEFAULT '1',
+  PRIMARY KEY (cd_grp)
 );
 
 DROP TABLE IF EXISTS code CASCADE;
@@ -20,8 +21,8 @@ CREATE TABLE IF NOT EXISTS code
   use_yn CHAR(1) NOT NULL CHECK (use_yn IN ('Y', 'N')) DEFAULT 'Y',
   create_date TIMESTAMP DEFAULT NOW(),
   modify_date TIMESTAMP DEFAULT NOW(),
-  create_id INT DEFAULT 1,
-  modify_id INT DEFAULT 1,
+  create_id VARCHAR(15) DEFAULT '1',
+  modify_id VARCHAR(15) DEFAULT '1',
   PRIMARY KEY (cd, cd_grp),
   CONSTRAINT fk_code_cd_grp FOREIGN KEY (cd_grp)
     REFERENCES code_group (cd_grp)
@@ -32,15 +33,16 @@ CREATE TABLE IF NOT EXISTS code
 DROP TABLE IF EXISTS scientist;
 CREATE TABLE IF NOT EXISTS scientist 
 (
-  id SERIAL PRIMARY KEY,
+  id SERIAL,
   name VARCHAR(255),
   birth_year INT4 NOT NULL,
   death_year INT4 NULL,
   fos_cd VARCHAR(255) NULL,
   create_date TIMESTAMP DEFAULT NOW(),
   modify_date TIMESTAMP DEFAULT NOW(),
-  create_id INT DEFAULT 1,
-  modify_id INT DEFAULT 1
+  create_id VARCHAR(15) DEFAULT '1',
+  modify_id VARCHAR(15) DEFAULT '1',
+  PRIMARY KEY (id)
 );
 
 
@@ -48,9 +50,10 @@ CREATE TABLE IF NOT EXISTS scientist
 DROP TABLE IF EXISTS access_control;
 CREATE TABLE IF NOT EXISTS access_control 
 (
-  id SERIAL PRIMARY KEY,
+  id SERIAL,
   ip_addr VARCHAR(15),
-  delay_time TIMESTAMP
+  delay_time TIMESTAMP,
+  PRIMARY KEY (id)
 );
 
 
@@ -58,10 +61,11 @@ CREATE TABLE IF NOT EXISTS access_control
 DROP TABLE IF EXISTS card;
 CREATE TABLE IF NOT EXISTS card 
 (
-  id SERIAL PRIMARY KEY,
+  id SERIAL,
   card_no VARCHAR(16),
   issue_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  holder_name VARCHAR(100)
+  holder_name VARCHAR(100),
+  PRIMARY KEY (id)
 );
 
 
@@ -69,9 +73,10 @@ CREATE TABLE IF NOT EXISTS card
 DROP TABLE IF EXISTS card_payment;
 CREATE TABLE IF NOT EXISTS card_payment 
 (
-  id SERIAL PRIMARY KEY,
+  id SERIAL,
   card_no VARCHAR(16),
   paid_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   paid_amount INT,
-  store_name VARCHAR(100)
+  store_name VARCHAR(100),
+  PRIMARY KEY (id)
 );

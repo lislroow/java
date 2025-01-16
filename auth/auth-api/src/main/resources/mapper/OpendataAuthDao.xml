@@ -3,13 +3,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.auth.api.dao.OpenapiAuthDao">
   
+  <select id="selectByLoginId" resultType="OpenapiAuthVo">
+    SELECT /* OpenapiAuthDao.selectByLoginId */
+           'ROLE_OPENDATA' as role,
+           user_id,
+           user_name
+    FROM   openapi_user A
+    WHERE  A.login_id = #{loginId}
+  </select>
+  
   <select id="selectById" resultType="OpenapiAuthVo">
     SELECT /* OpenapiAuthDao.selectById */
            'ROLE_OPENDATA' as role,
            user_id,
            user_name
-    FROM   openapi_user a
-    WHERE  a.user_id = #{userId}
+    FROM   openapi_user A
+    WHERE  A.id = #{id}
   </select>
   
 </mapper>

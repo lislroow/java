@@ -7,7 +7,7 @@ public class AuditVerticaVo {
 
   private String createDate;
   private String modifyDate;
-  private Integer createId;
-  private Integer modifyId;
+  private String createId;
+  private String modifyId;
 
 }

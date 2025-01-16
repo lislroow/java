@@ -3,20 +3,27 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.auth.api.dao.UserInfoDao">
   
-  <select id="selectMemberByEmail" resultType="MemberVo">
-    SELECT /* UserInfoDao.selectMemberByEmail */
-           email,
-           nickname
-    FROM   member a
-    WHERE  a.email = #{email}
+  <select id="selectNextId">
+    SELECT /* UserInfoDao.selectNextId */
+           TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0') AS id
   </select>
   
-  <select id="selectManagerByMgrId" resultType="ManagerVo">
-    SELECT /* UserInfoDao.selectManagerByMgrId */
-           mgr_id,
+  <select id="selectMemberById" resultType="MemberVo">
+    SELECT /* UserInfoDao.selectMemberById */
+           id,
+           login_id,
+           nickname
+    FROM   member a
+    WHERE  a.id = #{id}
+  </select>
+  
+  <select id="selectManagerById" resultType="ManagerVo">
+    SELECT /* UserInfoDao.selectManagerById */
+           id,
+           login_id,
            mgr_name
     FROM   manager a
-    WHERE  a.mgr_id = #{mgrId}
+    WHERE  a.id = #{id}
   </select>
   
 </mapper>

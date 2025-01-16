@@ -9,7 +9,7 @@ public class AuditVo {
 
   private LocalDateTime createDate;
   private LocalDateTime modifyDate;
-  private Integer createId;
-  private Integer modifyId;
+  private String createId;
+  private String modifyId;
   
 }

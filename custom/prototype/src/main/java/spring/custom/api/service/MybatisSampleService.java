@@ -16,15 +16,11 @@ public class MybatisSampleService {
   
   @Transactional
   public int addScientist(ScientistVo.AddVo addVo) {
-    addVo.setCreateId(1);
-    addVo.setModifyId(1);
     return mybatisSampleDao.addScientist(addVo);
   }
   
   @Transactional
   public int modifyScientistById(ScientistVo.ModifyVo modifyVo) {
-    modifyVo.setModifyId(1);
-    
     return mybatisSampleDao.modifyScientistById(modifyVo);
   }
   

@@ -95,7 +95,7 @@ public class MemberOAuth2Attribute {
     return MemberAuthVo.builder()
         .registrationId(registrationId)
         .oauth2Id(oauth2Id)
-        .email(email)
+        .loginId(email)
         .nickname(nickname)
         .build();
   }

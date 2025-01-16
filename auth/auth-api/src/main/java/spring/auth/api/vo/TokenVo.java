@@ -16,7 +16,7 @@ import spring.custom.common.enumcode.YN;
 public class TokenVo extends AuditVo {
   
   private String tokenId;
-  private String userId;
+  private String id;
   private String token;
   private String clientIp;
   private YN useYn;

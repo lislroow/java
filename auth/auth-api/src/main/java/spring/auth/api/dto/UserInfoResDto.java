@@ -8,13 +8,15 @@ public class UserInfoResDto {
   
   @Data
   public static class MemberInfo {
-    private String email;
+    private String id;
+    private String loginId;
     private String nickname;
   }
   
   @Data
   public static class ManagerInfo {
-    private String mgrId;
+    private String id;
+    private String loginId;
     private String mgrName;
   }
   

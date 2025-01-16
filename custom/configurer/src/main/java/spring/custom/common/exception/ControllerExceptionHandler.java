@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.enumcode.Error;
+import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
 
 @RestControllerAdvice
@@ -38,8 +38,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     /* for debug */ if (log.isDebugEnabled()) log.error("", e);
     
     HttpStatusCode status = null;
-    Error errorCode = Error.fromCode(e.getErrorCode()).orElse(Error.E999);
-    if (Error.isAuthError(errorCode)) {
+    ERROR errorCode = ERROR.fromCode(e.getErrorCode()).orElse(ERROR.E999);
+    if (ERROR.isAuthError(errorCode)) {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -59,7 +59,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     
     HttpStatusCode status = HttpStatus.FORBIDDEN;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
-        .title(Error.A403.code())
+        .title(ERROR.A403.code())
         .detail(e.getMessage())
         .status(status)
         .build();
@@ -72,7 +72,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     
     HttpStatusCode status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
-      .title(Error.E999.code())
+      .title(ERROR.E999.code())
       .detail(e.getCause() != null ? e.getCause().getMessage() : e.getMessage())
       .status(status)
       .build();

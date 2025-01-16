@@ -13,7 +13,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.client.ApiClient;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.Error;
+import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
 import spring.custom.common.util.IdGenerator;
@@ -50,7 +50,7 @@ public class TokenVerifyGatewayFilter extends AbstractGatewayFilterFactory<Token
         tokenId = tokenId.substring(7);
         /* for debug */ if (log.isDebugEnabled()) log.info("tokenId: {}", tokenId);
         
-        Error failCode = Error.A002;
+        ERROR failCode = ERROR.A002;
         TokenReqDto.Verify requestBody = new TokenReqDto.Verify();
         String clientIp = XffClientIpExtractor.getClientIp(request);
         String userAgent = request.getHeaders().get(Constant.HTTP_HEADER.USER_AGENT).get(0);

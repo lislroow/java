@@ -3,7 +3,6 @@ package spring.auth.api.dao;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import spring.custom.common.vo.ManagerVo;
 import spring.custom.common.vo.MemberVo;
@@ -11,8 +10,10 @@ import spring.custom.common.vo.MemberVo;
 @Mapper
 public interface UserInfoDao {
   
-  public Optional<MemberVo> selectMemberByEmail(@Param("email") String email);
+  public String selectNextId();
   
-  public Optional<ManagerVo> selectManagerByMgrId(@Param("mgrId") String mgrId);
+  public Optional<MemberVo> selectMemberById(String id);
+  
+  public Optional<ManagerVo> selectManagerById(String id);
   
 }

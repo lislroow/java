@@ -18,22 +18,24 @@ import spring.custom.common.security.AuthDetails;
 public class ManagerAuthVo implements AuthDetails {
   
   private static final long serialVersionUID = -5566207645876050761L;
-  
-  private String mgrId;
+
+  private String id;
+  private String loginId;
   private String password;
   private String mgrName;
   private String role;
   
   @Override
   public String getUsername() {
-    return this.mgrId;
+    return this.id;
   }
   
   @Override
   public Map<String, Object> toToken() {
     // AuthDao 의 결과값 > 'not null' 
     Map<String, Object> map = Map.ofEntries(
-        Map.entry("mgrId", this.mgrId),
+        Map.entry("id", this.id),
+        Map.entry("loginId", this.loginId),
         Map.entry("mgrName", this.mgrName)
         );
     return map;

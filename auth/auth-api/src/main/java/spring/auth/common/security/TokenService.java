@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 import spring.auth.api.dao.TokenDao;
 import spring.auth.api.vo.TokenVo;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.Error;
+import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
@@ -155,7 +155,7 @@ public class TokenService {
       case OPENAPI:
         TokenVo tokenVo = TokenVo.builder()
           .tokenId(rtkUuid)
-          .userId(username)
+          .id(username)
           .token(signedJWT.serialize())
           .build();
         tokenDao.insert(tokenVo);
@@ -163,13 +163,13 @@ public class TokenService {
       
     } catch (Exception e) { 
       log.error("message: {}", e);
-      throw new AppException(Error.A001, e);
+      throw new AppException(ERROR.A001, e);
     }
     return result;
   }
   
   public TokenResDto.Verify verifyToken(String tokenId, String clientIdent) {
-    TOKEN.USER userType = IdGenerator.getTokenUser(tokenId).orElseThrow(() -> new AppException(Error.A002));
+    TOKEN.USER userType = IdGenerator.getTokenUser(tokenId).orElseThrow(() -> new AppException(ERROR.A002));
     String token = null;
     switch (userType) {
     case MEMBER:
@@ -182,12 +182,12 @@ public class TokenService {
       TokenVo tokenVo = tokenDao.findByTokenId(tokenId)
           .orElseThrow(() -> new AccessTokenExpiredException());
       if (tokenVo.getUseYn() == YN.N) {
-        throw new AppException(Error.A002);
+        throw new AppException(ERROR.A002);
       }
       token = tokenVo.getToken();
       break;
     default:
-      throw new AppException(Error.A002);
+      throw new AppException(ERROR.A002);
     }
     
     TokenResDto.Verify resDto = new TokenResDto.Verify();
@@ -199,16 +199,16 @@ public class TokenService {
         resDto.setUsername(username);
         resDto.setAccessToken(token);
       } else {
-        throw new AppException(Error.A002);
+        throw new AppException(ERROR.A002);
       }
     } catch (JOSEException | ParseException e) {
-      throw new AppException(Error.A002, e);
+      throw new AppException(ERROR.A002, e);
     }
     return resDto;
   }
   
   public TokenResDto.Refresh refreshToken(String oldRtkUuid) {
-    TOKEN.USER userType = IdGenerator.getTokenUser(oldRtkUuid).orElseThrow(() -> new AppException(Error.A002));
+    TOKEN.USER userType = IdGenerator.getTokenUser(oldRtkUuid).orElseThrow(() -> new AppException(ERROR.A002));
     String clientIdent = IdGenerator.createClientIdent();
     String oldRedisKey = null;
     switch (userType) {
@@ -217,7 +217,7 @@ public class TokenService {
       oldRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, oldRtkUuid, clientIdent);
       break;
     default:
-      throw new AppException(Error.A004);
+      throw new AppException(ERROR.A004);
     }
     String oldRefreshToken = Optional.ofNullable(this.redisSupport.getValue(oldRedisKey))
         .orElseThrow(() -> new RefreshTokenExpiredException());
@@ -235,10 +235,10 @@ public class TokenService {
         attributes = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
         role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLE.code());
       } else {
-        throw new AppException(Error.A004);
+        throw new AppException(ERROR.A004);
       }
     } catch (JOSEException | ParseException e) {
-      throw new AppException(Error.A004, e);
+      throw new AppException(ERROR.A004, e);
     }
     
     String newRtkUuid = IdGenerator.createTokenId(userType);
@@ -296,7 +296,7 @@ public class TokenService {
       this.redisSupport.setValue(newAtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(ATK_EXPIRE_SEC));
       
     } catch (Exception e) { 
-      throw new AppException(Error.A004, e);
+      throw new AppException(ERROR.A004, e);
     }
     this.redisSupport.removeValue(oldRedisKey);
     return result;

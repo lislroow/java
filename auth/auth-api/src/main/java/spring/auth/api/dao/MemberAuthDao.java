@@ -10,7 +10,7 @@ import spring.auth.api.vo.MemberAuthVo;
 @Mapper
 public interface MemberAuthDao {
   
-  public Optional<MemberAuthVo> selectByEmail(@Param("email") String email);
+  public Optional<MemberAuthVo> selectByLoginId(@Param("loginId") String loginId);
   
   public int insert(MemberAuthVo param);
   

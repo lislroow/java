@@ -3,14 +3,26 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.auth.api.dao.ManagerAuthDao">
   
-  <select id="selectByMgrId" resultType="ManagerAuthVo">
-    SELECT /* ManagerAuthDao.selectByMgrId */
+  <select id="selectByLoginId" resultType="ManagerAuthVo">
+    SELECT /* ManagerAuthDao.selectByLoginId */
+           id,
            '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
            'ROLE_MANAGER' as role,
-           mgr_id,
+           login_id,
            mgr_name
-    FROM   manager a
-    WHERE  a.mgr_id = #{mgrId}
+    FROM   manager A
+    WHERE  A.login_id = #{loginId}
+  </select>
+  
+  <select id="selectById" resultType="ManagerAuthVo">
+    SELECT /* ManagerAuthDao.selectById */
+           id,
+           '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
+           'ROLE_MANAGER' as role,
+           login_id,
+           mgr_name
+    FROM   manager A
+    WHERE  A.id = #{id}
   </select>
   
 </mapper>

@@ -10,7 +10,7 @@ import spring.auth.api.dao.ManagerAuthDao;
 import spring.auth.api.dao.OpenapiAuthDao;
 import spring.auth.common.security.TokenService;
 import spring.auth.common.security.UserAuthentication;
-import spring.custom.common.enumcode.Error;
+import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.security.AuthDetails;
@@ -43,23 +43,23 @@ public class TokenController {
     return resDto;
   }
   
-  @PostMapping("/v1/token/create/{userType}/{userId}")
+  @PostMapping("/v1/token/create/{userType}/{id}")
   public TokenResDto.Create create(
       @PathVariable TOKEN.USER userType,
-      @PathVariable String userId) {
+      @PathVariable String id) {
     
     // 사용자 확인
     AuthDetails authVo = null;
     switch (userType) {
     case MEMBER:
-      throw new AppException(Error.A008);
+      throw new AppException(ERROR.A008);
     case MANAGER:
-      authVo = managerAuthDao.selectByMgrId(userId)
-        .orElseThrow(() -> new AppException(Error.A003));
+      authVo = managerAuthDao.selectById(id)
+        .orElseThrow(() -> new AppException(ERROR.A003));
       break;
     case OPENAPI:
-      authVo = opendataAuthDao.selectById(userId)
-      .orElseThrow(() -> new AppException(Error.A003));
+      authVo = opendataAuthDao.selectById(id)
+      .orElseThrow(() -> new AppException(ERROR.A003));
       break;
     }
     

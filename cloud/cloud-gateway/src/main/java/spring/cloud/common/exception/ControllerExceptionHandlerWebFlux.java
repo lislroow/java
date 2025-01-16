@@ -12,7 +12,7 @@ import org.springframework.web.reactive.resource.NoResourceFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
-import spring.custom.common.enumcode.Error;
+import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.ProblemDetailBuilder;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
@@ -56,7 +56,7 @@ public class ControllerExceptionHandlerWebFlux {
     
     HttpStatusCode status = e.getStatusCode(); // 503: SERVICE_UNAVAILABLE
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
-        .title(Error.E503.code())
+        .title(ERROR.E503.code())
         .detail(e.getMessage())
         .status(status)
         .build();
@@ -74,7 +74,7 @@ public class ControllerExceptionHandlerWebFlux {
     
     HttpStatusCode status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
-      .title(Error.E999.code())
+      .title(ERROR.E999.code())
       .detail(e.getMessage())
       .status(status)
       .build();

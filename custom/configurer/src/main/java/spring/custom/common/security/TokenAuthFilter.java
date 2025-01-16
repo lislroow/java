@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.enumcode.Error;
+import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.ManagerVo;
@@ -50,7 +50,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         SignedJWT signedJWT = SignedJWT.parse(accessToken);
         jwtClaimsSet = signedJWT.getJWTClaimsSet();
         TOKEN.USER userType = TOKEN.USER.fromCode(jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.USER_TYPE.code()).toString())
-            .orElseThrow(() -> new AppException(Error.A008));
+            .orElseThrow(() -> new AppException(ERROR.A008));
         /* for debug */ if (log.isDebugEnabled()) log.debug("jwtClaimsSet: {}", jwtClaimsSet);
         userAttr = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
         /* for debug */ if (log.isDebugEnabled()) log.debug("userAttr: {}", userAttr);
@@ -65,7 +65,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
           principal = OpenapiVo.ofToken(userAttr);
           break;
         default:
-          throw new AppException(Error.A008);
+          throw new AppException(ERROR.A008);
         }
         /* for debug */ if (log.isDebugEnabled()) log.debug("principal: {}", principal);
         role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLE.code());
@@ -78,9 +78,9 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         /* for debug */ log.error("attributes: {}", userAttr);
         /* for debug */ log.error("principal: {}", principal);
         /* for debug */ e.printStackTrace();
-        throw new AppException(Error.A006, e);
+        throw new AppException(ERROR.A006, e);
       } catch (Exception e) {
-        throw new AppException(Error.A006, e);
+        throw new AppException(ERROR.A006, e);
       }
       
       Object credentials = null;

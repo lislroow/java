@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.enumcode.Error;
+import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
 
 //@Component
@@ -44,7 +44,7 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
         }
         ResponseEntity<ProblemDetail> resDto = objectMapper.readValue(builder.toString(), ResponseEntity.class);
         String title = resDto.getBody().getTitle();
-        Error errorCode = Error.fromCode(title)
+        ERROR errorCode = ERROR.fromCode(title)
             .orElseThrow(() -> new IllegalArgumentException(String.format("'%s' not exist.", title)));
         throw new AppException(errorCode);
       } catch (Exception e) {

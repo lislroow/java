@@ -3,7 +3,7 @@ package spring.custom.common.enumcode;
 import java.util.Arrays;
 import java.util.Optional;
 
-public enum Error {
+public enum ERROR {
   
   /** 성공 */ S000("Success"),
   
@@ -24,6 +24,7 @@ public enum Error {
   /** authenticate token creation error */ A006("authenticate token creation error"),
   /** token check error */ A007("token check error"),
   /** invalid token user type */ A008("invalid token user type"),
+  /** invalid token id */ A009("invalid user id"),
   
   /** access denied */ A403("access denied"),
   
@@ -32,7 +33,7 @@ public enum Error {
   
   private String message;
 
-  Error(String message) {
+  ERROR(String message) {
     this.message = message;
   }
   
@@ -44,17 +45,17 @@ public enum Error {
     return this.name();
   }
   
-  public static Optional<Error> fromCode(String code) {
-      return Arrays.stream(Error.values())
+  public static Optional<ERROR> fromCode(String code) {
+      return Arrays.stream(ERROR.values())
           .filter(item -> item.code().equals(code))
           .findAny();
   }
   
-  public static boolean isAuthError(Error errorCode) {
+  public static boolean isAuthError(ERROR errorCode) {
     return errorCode.code().startsWith("A");
   }
   
-  public static boolean isServerError(Error errorCode) {
+  public static boolean isServerError(ERROR errorCode) {
     return errorCode.code().startsWith("E");
   }
   

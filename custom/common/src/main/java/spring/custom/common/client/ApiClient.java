@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.enumcode.Error;
+import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
 
@@ -53,9 +53,9 @@ public class ApiClient {
             e.getResponseBodyAsString(), 
             ProblemDetail.class
         );
-        Optional<Error> errorCode = Error.fromCode(problemDetail.getTitle());
+        Optional<ERROR> errorCode = ERROR.fromCode(problemDetail.getTitle());
         if (errorCode.isPresent()) {
-          if (errorCode.get() == Error.A100) {
+          if (errorCode.get() == ERROR.A100) {
             throw new AccessTokenExpiredException();
           } else {
             throw new AppException(errorCode.get());
@@ -65,11 +65,11 @@ public class ApiClient {
         }
       } catch (JsonProcessingException jsonException) {
         /* for debug */ if (log.isDebugEnabled()) System.err.println("Failed to parse response body to ProblemDetail: " + jsonException.getMessage());
-        throw new AppException(Error.E999.code(), jsonException.getMessage());
+        throw new AppException(ERROR.E999.code(), jsonException.getMessage());
       }
     } catch (RestClientException e) {
       /* for debug */ if (log.isDebugEnabled()) e.printStackTrace();
-      throw new AppException(Error.E999.code(), e);
+      throw new AppException(ERROR.E999.code(), e);
     }
     
     String body = resEntity.getBody();
@@ -78,7 +78,7 @@ public class ApiClient {
       result = objectMapper.readValue(body, responseType);
     } catch (JsonProcessingException e) {
       /* for debug */ if (log.isDebugEnabled()) System.err.println("Failed to parse response body to resDto: " + e.getMessage());
-      throw new AppException(Error.E999.code(), e);
+      throw new AppException(ERROR.E999.code(), e);
     }
     return result;
   }

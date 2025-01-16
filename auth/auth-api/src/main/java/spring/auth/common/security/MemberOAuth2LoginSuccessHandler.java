@@ -40,6 +40,12 @@ public class MemberOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
         .httpOnly(false)
         .maxAge(10)
         .build().toString());
+    response.addHeader(HttpHeaders.SET_COOKIE, ResponseCookie
+        .from(Constant.HTTP_HEADER.X_USRID, userAuthentication.getUsername())
+        .path("/")
+        .httpOnly(false)
+        .maxAge(10)
+        .build().toString());
     response.setHeader(HttpHeaders.LOCATION, "/login_after");
     response.setStatus(HttpStatus.FOUND.value());
   }

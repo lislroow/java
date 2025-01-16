@@ -23,7 +23,7 @@ public class MemberAuthVo implements AuthDetails {
   private String id;
   private String registrationId;
   private String oauth2Id;
-  private String email;
+  private String loginId;
   private String password;
   private String nickname;
   private String role;
@@ -33,16 +33,17 @@ public class MemberAuthVo implements AuthDetails {
   
   @Override
   public String getUsername() {
-    return this.email;
+    return this.id;
   }
   
   @Override
   public Map<String, Object> toToken() {
     // AuthDao 의 결과값 > 'not null'
     Map<String, Object> map = Map.ofEntries(
+        Map.entry("id", this.id),
         Map.entry("registrationId", this.registrationId),
         Map.entry("oauth2Id", this.oauth2Id),
-        Map.entry("email", this.email),
+        Map.entry("loginId", this.loginId),
         Map.entry("nickname", this.nickname)
         );
     return map;
