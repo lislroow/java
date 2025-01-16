@@ -5,33 +5,43 @@
   
   <select id="allScientists" resultType="ScientistVo">
     SELECT /* MybatisCrudDao.allScientists */
-           *
-    FROM   scientist
-    ORDER BY birth_year DESC
+           A.*,
+           J.cd_nmm AS fos_nm
+    FROM   scientist A
+      LEFT OUTER JOIN code J ON A.fos_cd = J.cd AND J.cd_grp = 'FOS'
+    ORDER BY A.birth_year DESC
   </select>
   
   <select id="findScientistById" resultType="ScientistVo">
     SELECT /* MybatisCrudDao.findScientistById */
-           *
-    FROM   scientist
-    WHERE  id = #{id}
+           A.*
+           , (SELECT S.cd_nm from code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
+    FROM   scientist A
+    WHERE  A.id = #{id}
   </select>
   
   <select id="findScientists">
     SELECT /* MybatisCrudDao.findScientists */
-           *
-    FROM   scientist
-    ORDER BY birth_year DESC
+           A.*
+           , (SELECT S.cd_nm from code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
+    FROM   scientist A
+    ORDER BY A.birth_year DESC
   </select>
   
   <select id="searchScientists" resultType="ScientistVo">
     SELECT /* MybatisCrudDao.searchScientists */
-           *
-    FROM   scientist
-    <if test="name != null and !''.equals(name)">
-      WHERE UPPER(name) LIKE '%' || UPPER(#{name}) || '%'
-    </if>
-    ORDER BY birth_year DESC
+           A.*
+           , (SELECT S.cd_nm from code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
+    FROM   scientist A
+    <where>
+      <if test="name != null and !''.equals(name)">
+        AND UPPER(A.name) LIKE '%' || UPPER(#{name}) || '%'
+      </if>
+      <if test="fosCd != null and !''.equals(fosCd)">
+        AND UPPER(A.fos_cd) LIKE '%' || UPPER(#{fosCd}) || '%'
+      </if>
+    </where>
+    ORDER BY A.birth_year DESC
   </select>
   
   <insert id="addScientist">
@@ -40,6 +50,7 @@
         name,
         birth_year,
         death_year,
+        fos_cd,
         create_date,
         modify_date,
         create_id,
@@ -48,6 +59,7 @@
         #{name},
         #{birthYear},
         #{deathYear},
+        #{fosCd},
         now(),
         now(),
         #{createId},
@@ -61,6 +73,7 @@
        SET name = #{name},
            birth_year = #{birthYear},
            death_year = #{deathYear},
+           fos_cd = #{fosCd},
            modify_date = now(),
            modify_id = #{modifyId}
      WHERE id = #{id}

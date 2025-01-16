@@ -15,6 +15,8 @@ public class MybatisSampleResDto {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
+    private String fosCd;
+    private String fosNm;
   }
   
   @Data

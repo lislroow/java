@@ -11,6 +11,7 @@ public class MybatisSampleReqDto {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
+    private String fosCd;
   }
   
   @Data
@@ -19,5 +20,6 @@ public class MybatisSampleReqDto {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
+    private String fosCd;
   }
 }

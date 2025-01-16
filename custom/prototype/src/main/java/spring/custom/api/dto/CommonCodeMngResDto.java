@@ -7,6 +7,8 @@ import spring.custom.common.mybatis.PageInfo;
 
 public class CommonCodeMngResDto {
   
+  private CommonCodeMngResDto() {}
+  
   @Data
   public static class CodeGroup {
     private String cdGrp;

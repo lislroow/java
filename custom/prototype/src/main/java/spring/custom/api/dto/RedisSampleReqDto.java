@@ -7,12 +7,7 @@ public class RedisSampleReqDto {
   private RedisSampleReqDto() { }
   
   @Data
-  public static class SearchSample {
-    private String name;
-  }
-  
-  @Data
-  public static class Add {
+  public static class AddRedis {
     private Integer id;
     private String name;
     private Integer age;

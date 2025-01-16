@@ -1,16 +1,3 @@
-DROP TABLE IF EXISTS scientist;
-CREATE TABLE IF NOT EXISTS scientist 
-(
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(255),
-  birth_year INT4 NOT NULL,
-  death_year INT4 NULL,
-  create_date TIMESTAMP DEFAULT NOW(),
-  modify_date TIMESTAMP DEFAULT NOW(),
-  create_id INT DEFAULT 1,
-  modify_id INT DEFAULT 1
-);
-
 DROP TABLE IF EXISTS code_group CASCADE;
 CREATE TABLE IF NOT EXISTS code_group
 (
@@ -41,6 +28,21 @@ CREATE TABLE IF NOT EXISTS code
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+DROP TABLE IF EXISTS scientist;
+CREATE TABLE IF NOT EXISTS scientist 
+(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  birth_year INT4 NOT NULL,
+  death_year INT4 NULL,
+  fos_cd VARCHAR(255) NULL,
+  create_date TIMESTAMP DEFAULT NOW(),
+  modify_date TIMESTAMP DEFAULT NOW(),
+  create_id INT DEFAULT 1,
+  modify_id INT DEFAULT 1
+);
+
 
 /* access_control */
 DROP TABLE IF EXISTS access_control;

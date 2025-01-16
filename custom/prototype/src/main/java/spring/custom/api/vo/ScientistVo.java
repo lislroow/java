@@ -18,6 +18,8 @@ public class ScientistVo extends AuditVo {
   private String name;
   private Integer birthYear;
   private Integer deathYear;
+  private String fosCd;
+  private String fosNm;
   
   @Data
   @EqualsAndHashCode(callSuper=false)
@@ -27,6 +29,7 @@ public class ScientistVo extends AuditVo {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
+    private String fosCd;
   }
   @Data
   @EqualsAndHashCode(callSuper=false)
@@ -38,6 +41,7 @@ public class ScientistVo extends AuditVo {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
+    private String fosCd;
   }
   
   @Data
@@ -50,5 +54,6 @@ public class ScientistVo extends AuditVo {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
+    private String fosCd;
   }
 }

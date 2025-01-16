@@ -38,17 +38,17 @@ public class RedisSampleController {
   final RedisSupport redisSupport;
   
   @PutMapping("/v1/redis-sample/item")
-  public ResponseEntity<?> addSample(@RequestBody RedisSampleReqDto.Add reqDto) {
+  public ResponseEntity<?> addSample(@RequestBody RedisSampleReqDto.AddRedis reqDto) {
     RedisSampleVo param = modelMapper.map(reqDto, RedisSampleVo.class);
     redisSampleService.addSample(param);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
   
   @GetMapping("/v1/redis-sample/item/{id}")
-  public ResponseEntity<RedisSampleResDto.Sample> findById(@PathVariable Integer id) {
+  public ResponseEntity<RedisSampleResDto.Redis> findById(@PathVariable Integer id) {
     Optional<RedisSampleVo> result = redisSampleRepository.findById(id);
     if (result.isPresent()) {
-      RedisSampleResDto.Sample resDto = modelMapper.map(result.get(), RedisSampleResDto.Sample.class);
+      RedisSampleResDto.Redis resDto = modelMapper.map(result.get(), RedisSampleResDto.Redis.class);
       return ResponseEntity.ok(resDto);
     } else {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -56,14 +56,14 @@ public class RedisSampleController {
   }
   
   @GetMapping("/v1/redis-sample/item/all")
-  public ResponseEntity<RedisSampleResDto.SampleList> findAll() {
+  public ResponseEntity<RedisSampleResDto.RedisList> findAll() {
     Iterable<RedisSampleVo> result = redisSampleRepository.findAll();
     
-    List<RedisSampleResDto.Sample> list = StreamSupport.stream(result.spliterator(), true)
-        .map(item -> modelMapper.map(item, RedisSampleResDto.Sample.class))
+    List<RedisSampleResDto.Redis> list = StreamSupport.stream(result.spliterator(), true)
+        .map(item -> modelMapper.map(item, RedisSampleResDto.Redis.class))
         .collect(Collectors.toList());
     if (!list.isEmpty()) {
-      RedisSampleResDto.SampleList resDto = new RedisSampleResDto.SampleList();
+      RedisSampleResDto.RedisList resDto = new RedisSampleResDto.RedisList();
       resDto.setList(list);
       return ResponseEntity.ok(resDto);
     } else {
@@ -72,16 +72,16 @@ public class RedisSampleController {
   }
   
   @GetMapping("/v1/redis-sample/item/search")
-  public ResponseEntity<RedisSampleResDto.SampleList> searchByName(
+  public ResponseEntity<RedisSampleResDto.RedisList> searchByName(
       @RequestParam(required = false) String name) {
     Iterable<RedisSampleVo> result = redisSampleRepository.findAll();
     
-    List<RedisSampleResDto.Sample> list = StreamSupport.stream(result.spliterator(), true)
+    List<RedisSampleResDto.Redis> list = StreamSupport.stream(result.spliterator(), true)
         .filter(item -> name == null || item.getName().indexOf(name) > -1)
-        .map(item -> modelMapper.map(item, RedisSampleResDto.Sample.class))
+        .map(item -> modelMapper.map(item, RedisSampleResDto.Redis.class))
         .collect(Collectors.toList());
     if (!list.isEmpty()) {
-      RedisSampleResDto.SampleList resDto = new RedisSampleResDto.SampleList();
+      RedisSampleResDto.RedisList resDto = new RedisSampleResDto.RedisList();
       resDto.setList(list);
       return ResponseEntity.ok(resDto);
     } else {

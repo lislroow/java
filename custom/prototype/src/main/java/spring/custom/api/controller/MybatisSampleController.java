@@ -60,10 +60,12 @@ public class MybatisSampleController {
   @GetMapping("/v1/mybatis-sample/scientists/search")
   public PageResponse<MybatisSampleResDto.Scientist> searchScientists(
       @RequestParam(required = false) String name,
+      @RequestParam(required = false) String fosCd,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     ScientistVo.SearchVo searchVo = ScientistVo.SearchVo.builder()
         .name(name)
+        .fosCd(fosCd)
         .build();
     PageResponse<ScientistVo> result = mybatisSampleDao.searchScientists(PageRequest.of(page, size), searchVo);
     

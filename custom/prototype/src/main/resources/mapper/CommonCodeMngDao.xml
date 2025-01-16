@@ -3,7 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.custom.api.dao.CommonCodeMngDao">
   
-  <select id="searchCodeGroups" resultType="spring.custom.api.vo.CommonCodeVo$CodeGroupVo">
+  <select id="searchCodeGroups" resultType="spring.custom.api.vo.CommonCodeMngVo$CodeGroupVo">
     SELECT /* CommonCodeMngDao.searchCodeGroups */
            A.*
     FROM   code_group A
@@ -15,7 +15,7 @@
     ORDER BY cd_grp ASC
   </select>
   
-  <select id="searchCodes" resultType="spring.custom.api.vo.CommonCodeVo$CodeVo">
+  <select id="searchCodes" resultType="spring.custom.api.vo.CommonCodeMngVo$CodeVo">
     SELECT /* CommonCodeMngDao.searchCodes */
            A.*,
            J.cd_grp_nm
@@ -23,22 +23,22 @@
       LEFT JOIN code_group J ON A.cd_grp = J.cd_grp
     <where>
       <if test="cdGrp != null and cdGrp != ''">
-        OR  UPPER(A.cd_grp) LIKE '%' || UPPER(#{cdGrp}) || '%'
+        AND  UPPER(A.cd_grp) LIKE UPPER(#{cdGrp}) || '%'
       </if>
       <if test="cdGrpNm != null and cdGrpNm != ''">
-        OR  UPPER(J.cd_grp_nm) LIKE '%' || UPPER(#{cdGrpNm}) || '%'
+        AND  UPPER(J.cd_grp_nm) LIKE '%' || UPPER(#{cdGrpNm}) || '%'
       </if>
       <if test="cd != null and cd != ''">
-        OR  UPPER(A.cd) LIKE '%' || UPPER(#{cd}) || '%'
+        AND  UPPER(A.cd) LIKE UPPER(#{cd}) || '%'
       </if>
       <if test="cdNm != null and cdNm != ''">
-        OR  UPPER(A.cd_nm) LIKE '%' || UPPER(#{cdNm}) || '%'
+        AND  UPPER(A.cd_nm) LIKE '%' || UPPER(#{cdNm}) || '%'
       </if>
       <if test="useYn != null and useYn != ''">
-        OR  A.use_yn = #{useYn}
+        AND  A.use_yn = #{useYn}
       </if>
     </where>
-    ORDER BY A.cd_grp, A.cd, A.seq
+    ORDER BY A.cd_grp, A.seq
   </select>
   
 </mapper>

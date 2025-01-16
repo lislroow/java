@@ -1,22 +1,12 @@
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Galileo Galilei', 1564, 1642);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Johannes Kepler', 1571, 1630);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Isaac Newton', 1643, 1727);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Dmitri Mendeleev', 1834, 1907);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Albert Einstein', 1879, 1955);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Stephen Hawking', 1942, 2018);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Nikola Tesla', 1856, 1943);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Niels Bohr', 1885, 1962);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Michael Faraday', 1791, 1867);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('James Clerk Maxwell', 1831, 1879);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Alan Turing', 1912, 1954);
-INSERT INTO scientist (name, birth_year, death_year) VALUES('Richard Feynman', 1918, 1988);
-
-
 /* code_group */
+INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('USE_YN', '사용 여부');
 INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('FOS', 'field of study');
 INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('FOSP', 'physics');
 
 /* code */
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('USE_YN', 'Y', 1, '사용');
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('USE_YN', 'N', 2, '미사용');
+
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOS', 'P', 1, 'physics');
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOS', 'C', 2, 'chemistry');
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOS', 'M', 3, 'mathematics');
@@ -27,6 +17,20 @@ INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOSP', 'CM', 1, 'Classical Mec
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOSP', 'EM', 2, 'Electromagnetic Mechanics');
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOSP', 'QM', 3, 'Quantum Mechanics');
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('FOSP', 'FM', 4, 'Fluid Mechanics');
+
+
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Galileo Galilei', 1564, 1642, 'P');
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Johannes Kepler', 1571, 1630, 'A');
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Isaac Newton', 1643, 1727, 'P');
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Dmitri Mendeleev', 1834, 1907, 'C');
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Albert Einstein', 1879, 1955, 'P');
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Stephen Hawking', 1942, 2018, 'P');
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Nikola Tesla', 1856, 1943, 'P');
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Niels Bohr', 1885, 1962, 'P');
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Michael Faraday', 1791, 1867, 'P');
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('James Clerk Maxwell', 1831, 1879, 'P');
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Alan Turing', 1912, 1954, NULL);
+INSERT INTO scientist (name, birth_year, death_year, fos_cd) VALUES('Richard Feynman', 1918, 1988, 'P');
 
 
 /* access_control */

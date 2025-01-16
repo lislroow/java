@@ -9,12 +9,12 @@ public class RedisSampleResDto {
   private RedisSampleResDto() { }
   
   @Data
-  public static class SampleList {
-    private List<Sample> list;
+  public static class RedisList {
+    private List<Redis> list;
   }
   
   @Data
-  public static class Sample {
+  public static class Redis {
     private Integer id;
     private String name;
     private Integer age;
