@@ -18,7 +18,7 @@ import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.CACHE;
 
 @Configuration
-@ConditionalOnProperty(prefix = "spring.data.redis", name = Constant.DISABLED, havingValue = "false", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "spring.cache.", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
 public class CacheConfig {
   
   @Autowired
@@ -35,29 +35,14 @@ public class CacheConfig {
   
   @Bean
   RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
-    Map<String, RedisCacheConfiguration> cacheConfigurations = Arrays.asList(CACHE.values()).stream()
-      .collect(Collectors.toMap(
+    Map<String, RedisCacheConfiguration> cacheConfigurations = 
+        Arrays.asList(CACHE.values()).stream().collect(Collectors.toMap(
           item -> item.cacheName(),
           item -> RedisCacheConfiguration.defaultCacheConfig()
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
+                new GenericJackson2JsonRedisSerializer()))
             .entryTtl(item.ttl())));
     return (builder) -> builder.withInitialCacheConfigurations(cacheConfigurations);
-    
-    /*
-    return (builder) -> builder
-        .withCacheConfiguration(
-            "cache:common-code",
-            RedisCacheConfiguration.defaultCacheConfig()
-              .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-              .entryTtl(Duration.ofMinutes(20))
-        )
-        .withCacheConfiguration(
-            "cache:scientist",
-            RedisCacheConfiguration.defaultCacheConfig()
-              .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-              .entryTtl(Duration.ofMinutes(10))
-        );
-    */
   }
   
 }
