@@ -9,7 +9,10 @@
            '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
            'ROLE_MANAGER' as role,
            login_id,
-           mgr_name
+           mgr_name,
+           disabled_yn,
+           locked_yn,
+           pwd_exp_time
     FROM   manager A
     WHERE  A.login_id = #{loginId}
   </select>

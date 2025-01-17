@@ -1,6 +1,9 @@
 package spring.auth.api.vo;
 
+import java.time.LocalDateTime;
 import java.util.Map;
+
+import org.springframework.util.ObjectUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -8,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import spring.custom.common.enumcode.YN;
 import spring.custom.common.security.AuthDetails;
 
 @Data
@@ -24,6 +28,9 @@ public class ManagerAuthVo implements AuthDetails {
   private String password;
   private String mgrName;
   private String role;
+  private YN disabledYn;
+  private YN lockedYn;
+  private LocalDateTime pwdExpTime;
   
   @Override
   public String getUsername() {
@@ -39,6 +46,24 @@ public class ManagerAuthVo implements AuthDetails {
         Map.entry("mgrName", this.mgrName)
         );
     return map;
+  }
+  
+  @Override
+  public boolean isCredentialsNonExpired() {
+    if (ObjectUtils.isEmpty(pwdExpTime)) {
+      return true;
+    }
+    return LocalDateTime.now().isBefore(pwdExpTime);
+  }
+  
+  @Override
+  public boolean isAccountNonLocked() {
+    return lockedYn.compareTo(YN.N) == 0;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return disabledYn.compareTo(YN.N) == 0;
   }
   
 }

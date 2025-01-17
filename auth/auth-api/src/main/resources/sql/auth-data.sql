@@ -1,6 +1,12 @@
-INSERT INTO manager (id, login_id, mgr_name, create_id, modify_id) VALUES(
+INSERT INTO manager (
+  id,
+  login_id, mgr_name, disabled_yn, locked_yn,
+  pwd_exp_time,
+  create_id, modify_id
+) VALUES (
   (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0')),
-  'myeonggu.kim@kakao.com', '김매니저',
+  'myeonggu.kim@kakao.com', '김매니저', 'N', 'N',
+  now() + INTERVAL '1 day',
   (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0')),
   (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0')));
 

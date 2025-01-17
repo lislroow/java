@@ -7,13 +7,16 @@ import java.util.Map;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.util.WebUtils;
 
 import jakarta.servlet.RequestDispatcher;
 import lombok.extern.slf4j.Slf4j;
+import spring.custom.common.enumcode.ERROR;
 
 @Component
 @Slf4j
@@ -54,6 +57,15 @@ public class ErrorAttributes extends DefaultErrorAttributes {
       AppException appException = (AppException) t;
       problemDetails.put("title", appException.getErrorCode());
       problemDetails.put("detail", appException.getErrorMessage());
+    } else if (t instanceof DisabledException) {
+      problemDetails.put("title", ERROR.A010.code());
+      problemDetails.put("detail", ERROR.A010.message());
+    } else if (t instanceof LockedException) {
+      problemDetails.put("title", ERROR.A011.code());
+      problemDetails.put("detail", ERROR.A011.message());
+    } else if (t instanceof CredentialsExpiredException) {
+      problemDetails.put("title", ERROR.A012.code());
+      problemDetails.put("detail", ERROR.A012.message());
     }
     
     Object exception = defaultErrorAttributes.get("exception");

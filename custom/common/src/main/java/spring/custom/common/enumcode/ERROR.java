@@ -25,6 +25,9 @@ public enum ERROR {
   /** token check error */ A007("token check error"),
   /** invalid token user type */ A008("invalid token user type"),
   /** invalid token id */ A009("invalid user id"),
+  /** account is disabled */ A010("account is disabled"),
+  /** account is locked */ A011("account is locked"),
+  /** credentials expired */ A012("credentials expired"),
   
   /** access denied */ A403("access denied"),
   
