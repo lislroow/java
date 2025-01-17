@@ -1,0 +1,62 @@
+package spring.custom.common.mybatis;
+
+import java.util.Properties;
+
+import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.plugin.Intercepts;
+import org.apache.ibatis.plugin.Invocation;
+import org.apache.ibatis.plugin.Plugin;
+import org.apache.ibatis.plugin.Signature;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import lombok.extern.slf4j.Slf4j;
+import spring.custom.common.audit.AuditVo;
+import spring.custom.common.enumcode.AUDIT;
+
+@Intercepts({
+  @Signature(type = Executor.class, method = "update", 
+      args = { MappedStatement.class, Object.class }
+  ),
+})
+@Slf4j
+public class AuditInterceptor implements Interceptor {
+  
+  @Override
+  public Object plugin(Object target) {
+    return Plugin.wrap(target, this);
+  }
+  
+  @Override
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public Object intercept(Invocation invocation) throws Throwable {
+    Object[] args = invocation.getArgs();
+    MappedStatement ms = (MappedStatement) args[0];
+    Object parameter = args[1];
+    
+    log.info("[SQL] {}", ms.getId());
+    
+    switch (ms.getSqlCommandType()) {
+    case SELECT:
+      break;
+    default:
+      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      if (authentication != null) {
+        if (parameter instanceof java.util.Map) {
+          java.util.Map parameterMap = ((java.util.Map) parameter);
+          parameterMap.put(AUDIT.CREATE_ID.getField(), authentication.getName());
+          parameterMap.put(AUDIT.MODIFY_ID.getField(), authentication.getName());
+        } else if (parameter instanceof AuditVo) {
+          AuditVo parameterObj = (AuditVo)parameter;
+          parameterObj.setCreateId(authentication.getName());
+          parameterObj.setModifyId(authentication.getName());
+        }
+      }
+      break;
+    }
+    return invocation.proceed();
+  }
+  
+}

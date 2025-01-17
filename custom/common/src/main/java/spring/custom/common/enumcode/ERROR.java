@@ -28,6 +28,8 @@ public enum ERROR {
   /** account is disabled */ A010("account is disabled"),
   /** account is locked */ A011("account is locked"),
   /** credentials expired */ A012("credentials expired"),
+  /** current password not matched */ A013("current password not matched"),
+  /** confirm password not matched */ A014("confirm password not matched"),
   
   /** access denied */ A403("access denied"),
   

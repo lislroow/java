@@ -3,6 +3,7 @@ package spring.custom.api.dto;
 import java.util.List;
 
 import lombok.Data;
+import spring.custom.common.audit.AuditVo;
 import spring.custom.common.mybatis.PageInfo;
 
 public class MybatisSampleResDto {
@@ -10,7 +11,7 @@ public class MybatisSampleResDto {
   private MybatisSampleResDto() { }
   
   @Data
-  public static class Scientist {
+  public static class Scientist extends AuditVo {
     private Integer id;
     private String name;
     private Integer birthYear;

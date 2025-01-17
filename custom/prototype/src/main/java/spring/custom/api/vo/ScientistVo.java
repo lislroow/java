@@ -3,13 +3,11 @@ package spring.custom.api.vo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import spring.custom.common.audit.AuditVo;
 import spring.custom.common.mybatis.PageRequest;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScientistVo extends AuditVo {
@@ -22,7 +20,6 @@ public class ScientistVo extends AuditVo {
   private String fosNm;
   
   @Data
-  @EqualsAndHashCode(callSuper=false)
   @Builder
   public static class SearchVo extends PageRequest {
     private Integer id;
@@ -33,7 +30,6 @@ public class ScientistVo extends AuditVo {
   }
   
   @Data
-  @EqualsAndHashCode(callSuper=false)
   @AllArgsConstructor
   @NoArgsConstructor
   @Builder
@@ -46,7 +42,6 @@ public class ScientistVo extends AuditVo {
   }
   
   @Data
-  @EqualsAndHashCode(callSuper=false)
   @AllArgsConstructor
   @NoArgsConstructor
   @Builder

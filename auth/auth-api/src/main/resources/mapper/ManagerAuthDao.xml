@@ -6,9 +6,9 @@
   <select id="selectByLoginId" resultType="ManagerAuthVo">
     SELECT /* ManagerAuthDao.selectByLoginId */
            id,
-           '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
            'ROLE_MANAGER' as role,
            login_id,
+           login_pwd,
            mgr_name,
            disabled_yn,
            locked_yn,
@@ -20,9 +20,9 @@
   <select id="selectById" resultType="ManagerAuthVo">
     SELECT /* ManagerAuthDao.selectById */
            id,
-           '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
            'ROLE_MANAGER' as role,
            login_id,
+           login_pwd,
            mgr_name
     FROM   manager A
     WHERE  A.id = #{id}

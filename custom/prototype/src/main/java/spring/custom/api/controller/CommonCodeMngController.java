@@ -26,10 +26,7 @@ public class CommonCodeMngController {
       @RequestParam(required = false) String cdGrp,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    CommonCodeMngVo.SearchCodeGroupVo searchVo = CommonCodeMngVo.SearchCodeGroupVo.builder()
-        .cdGrp(cdGrp)
-        .build();
-    PageResponse<CommonCodeMngVo.CodeGroupVo> result = commonCodeMngDao.searchCodeGroups(PageRequest.of(page, size), searchVo);
+    PageResponse<CommonCodeMngVo.CodeGroupVo> result = commonCodeMngDao.searchCodeGroups(PageRequest.of(page, size), cdGrp);
     
     PageResponse<CommonCodeMngResDto.CodeGroup> resDto = new PageResponse<CommonCodeMngResDto.CodeGroup>(
         result.stream()

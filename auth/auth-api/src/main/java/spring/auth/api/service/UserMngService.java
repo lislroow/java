@@ -29,4 +29,9 @@ public class UserMngService {
     return userMngDao.removeManagerById(id);
   }
   
+  @Transactional
+  public int changeManagerLoginPwdById(String id, String newLoginPwd) {
+    return userMngDao.changeManagerLoginPwdById(id, newLoginPwd);
+  }
+  
 }

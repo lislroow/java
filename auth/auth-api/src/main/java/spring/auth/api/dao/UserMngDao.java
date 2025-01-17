@@ -1,6 +1,7 @@
 package spring.auth.api.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,5 +26,9 @@ public interface UserMngDao {
   int modifyManagerById(UserMngVo.ModifyVo modifyVo);
   
   int removeManagerById(String id);
+  
+  Optional<String> findManagerLoginPwdById(String id);
+  
+  int changeManagerLoginPwdById(String id, String newLoginPwd);
   
 }

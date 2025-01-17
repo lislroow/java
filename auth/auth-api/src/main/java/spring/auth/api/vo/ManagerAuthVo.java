@@ -1,12 +1,9 @@
 package spring.auth.api.vo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.springframework.util.ObjectUtils;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,14 +16,13 @@ import spring.custom.common.security.AuthDetails;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIgnoreProperties("passwd")
 public class ManagerAuthVo implements AuthDetails {
   
   private static final long serialVersionUID = -5566207645876050761L;
-
+  
   private String id;
   private String loginId;
-  private String password;
+  private String loginPwd;
   private String mgrName;
   private String role;
   private YN disabledYn;
@@ -36,6 +32,11 @@ public class ManagerAuthVo implements AuthDetails {
   @Override
   public String getUsername() {
     return this.id;
+  }
+  
+  @Override
+  public String getPassword() {
+    return this.loginPwd;
   }
   
   @Override

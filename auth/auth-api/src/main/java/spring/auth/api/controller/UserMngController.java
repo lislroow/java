@@ -1,11 +1,13 @@
 package spring.auth.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +23,9 @@ import spring.auth.api.dto.UserMngReqDto;
 import spring.auth.api.dto.UserMngResDto;
 import spring.auth.api.service.UserMngService;
 import spring.auth.api.vo.UserMngVo;
+import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.YN;
+import spring.custom.common.exception.AppException;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
 
@@ -32,6 +36,7 @@ public class UserMngController {
   final ModelMapper modelMapper;
   final UserMngService userMngService;
   final UserMngDao userMngDao;
+  final BCryptPasswordEncoder bcryptPasswordEncoder;
   
   @GetMapping("/v1/user-mng/managers/all")
   public UserMngResDto.ManagerList allManagers() {
@@ -105,12 +110,40 @@ public class UserMngController {
   public ResponseEntity<?> modifyManagerById(
       @RequestBody UserMngReqDto.ModifyManager reqDto) {
     UserMngVo.ModifyVo modifyVo = modelMapper.map(reqDto, UserMngVo.ModifyVo.class);
+    
     int result = userMngService.modifyManagerById(modifyVo);
     
     if (result == 0) {
       return ResponseEntity.noContent().build();
     } else {
       return ResponseEntity.ok(modifyVo);
+    }
+  }
+  
+  @PutMapping("/v1/user-mng/manager/password")
+  public ResponseEntity<?> modifyManagerPasswordById(
+      @RequestBody UserMngReqDto.ModifyManagerPassword reqDto) {
+    Optional<String> optLoginPwd = userMngDao.findManagerLoginPwdById(reqDto.getId());
+    if (optLoginPwd.isPresent()) {
+      String loginPwd = optLoginPwd.get().substring(optLoginPwd.get().indexOf("}")+1);
+      if (!bcryptPasswordEncoder.matches(reqDto.getCurrentLoginPwd(), loginPwd)) {
+        throw new AppException(ERROR.A013);
+      }
+    }
+    
+    if (!reqDto.getNewLoginPwd().equals(reqDto.getConfirmLoginPwd())) {
+      throw new AppException(ERROR.A014);
+    }
+    
+    String id = reqDto.getId();
+    String newLoginPwd = bcryptPasswordEncoder.encode(reqDto.getNewLoginPwd());
+    newLoginPwd = String.format("{bcrypt}%s", newLoginPwd);
+    int result = userMngService.changeManagerLoginPwdById(id, newLoginPwd);
+    
+    if (result == 0) {
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.ok().build();
     }
   }
   

@@ -13,6 +13,12 @@
   <select id="findManagerById" resultType="UserMngVo">
     SELECT /* UserMngDao.findManagerById */
            A.*
+           , A.create_id
+           , A.create_time
+           , (SELECT mgr_name FROM manager WHERE id = A.create_id) AS create_name
+           , A.modify_id
+           , A.modify_time
+           , (SELECT mgr_name FROM manager WHERE id = A.modify_id) AS modify_name
     FROM   manager A
     WHERE  A.id = #{id}
   </select>
@@ -27,6 +33,12 @@
   <select id="searchManagers" resultType="UserMngVo">
     SELECT /* UserMngDao.searchManagers */
            A.*
+           , A.create_id
+           , A.create_time
+           , (SELECT mgr_name FROM manager WHERE id = A.create_id) AS create_name
+           , A.modify_id
+           , A.modify_time
+           , (SELECT mgr_name FROM manager WHERE id = A.modify_id) AS modify_name
     FROM   manager A
     <where>
       <if test="loginId != null and !''.equals(loginId)">
@@ -95,5 +107,22 @@
       FROM manager
      WHERE id = #{id}
   </delete>
+  
+  <select id="findManagerLoginPwdById">
+    SELECT /* UserMngDao.findManagerLoginPwdById */
+           A.login_pwd
+    FROM   manager A
+    WHERE  A.id = #{id}
+  </select>
+  
+  <update id="changeManagerLoginPwdById">
+    UPDATE /* UserMngDao.changeManagerLoginPwdById */
+           manager
+       SET login_pwd = #{newLoginPwd},
+           pwd_exp_date = CURRENT_DATE + INTERVAL '90 day',
+           modify_time = now(),
+           modify_id = #{modifyId}
+     WHERE id = #{id}
+  </update>
   
 </mapper>

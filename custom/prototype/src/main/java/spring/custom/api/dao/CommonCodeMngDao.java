@@ -18,7 +18,7 @@ public interface CommonCodeMngDao {
   //  2) PagingInterceptor 에서 'PageRequest + 일반Vo' 일 경우, Map 으로 파라미터를 전달하지 않고 단일 객체로 처리되도록 수정 
   //     org.apache.ibatis.reflection.ParamNameResolver.getNamedParams(Object[]) 에서 처리 과정 분석
   PageResponse<CommonCodeMngVo.CodeGroupVo> searchCodeGroups(
-      PageRequest pageRequest, CommonCodeMngVo.SearchCodeGroupVo searchVo);
+      PageRequest pageRequest, String cdGrp);
   
   PageResponse<CommonCodeMngVo.CodeVo> searchCodes(
       PageRequest pageRequest, CommonCodeMngVo.SearchCodeVo searchVo);

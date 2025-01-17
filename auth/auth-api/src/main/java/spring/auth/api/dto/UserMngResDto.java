@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
+import spring.custom.common.audit.AuditVo;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.mybatis.PageInfo;
 
@@ -12,7 +13,7 @@ public class UserMngResDto {
   private UserMngResDto() { }
   
   @Data
-  public static class Manager {
+  public static class Manager extends AuditVo {
     private String id;
     private String loginId;
     private String mgrName;

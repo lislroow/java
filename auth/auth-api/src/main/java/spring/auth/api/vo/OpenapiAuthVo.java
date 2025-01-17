@@ -2,8 +2,6 @@ package spring.auth.api.vo;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +12,6 @@ import spring.custom.common.security.AuthDetails;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIgnoreProperties("passwd")
 public class OpenapiAuthVo implements AuthDetails {
   
   private static final long serialVersionUID = -5566207645876050761L;

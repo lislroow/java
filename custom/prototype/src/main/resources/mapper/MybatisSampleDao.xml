@@ -16,6 +16,12 @@
     SELECT /* MybatisCrudDao.findScientistById */
            A.*
            , (SELECT S.cd_nm from code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
+           , A.create_id
+           , A.create_time
+           , (SELECT mgr_name FROM manager WHERE id = A.create_id) AS create_name
+           , A.modify_id
+           , A.modify_time
+           , (SELECT mgr_name FROM manager WHERE id = A.modify_id) AS modify_name
     FROM   scientist A
     WHERE  A.id = #{id}
   </select>
@@ -32,6 +38,12 @@
     SELECT /* MybatisCrudDao.searchScientists */
            A.*
            , (SELECT S.cd_nm from code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
+           , A.create_id
+           , A.create_time
+           , (SELECT mgr_name FROM manager WHERE id = A.create_id) AS create_name
+           , A.modify_id
+           , A.modify_time
+           , (SELECT mgr_name FROM manager WHERE id = A.modify_id) AS modify_name
     FROM   scientist A
     <where>
       <if test="name != null and !''.equals(name)">

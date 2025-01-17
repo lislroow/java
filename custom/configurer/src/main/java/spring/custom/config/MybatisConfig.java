@@ -18,6 +18,7 @@ import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
+import spring.custom.common.mybatis.AuditInterceptor;
 import spring.custom.common.mybatis.PagingInterceptor;
 
 @Configuration
@@ -54,7 +55,7 @@ public class MybatisConfig {
     configuration.setMapUnderscoreToCamelCase(config.getMapUnderscoreToCamelCase());
     sqlSessionFactoryBean.setConfiguration(configuration);
     
-    sqlSessionFactoryBean.setPlugins(new PagingInterceptor());
+    sqlSessionFactoryBean.setPlugins(new PagingInterceptor(), new AuditInterceptor());
     return sqlSessionFactoryBean;
   }
   

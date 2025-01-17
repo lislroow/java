@@ -16,6 +16,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -112,6 +113,12 @@ public class SecurityConfig {
           })
       );
     return http.build();
+  }
+  
+  @Bean
+  BCryptPasswordEncoder bcryptPasswordEncoder() {
+    BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder();
+    return bcryptPasswordEncoder;
   }
   
   @Bean
