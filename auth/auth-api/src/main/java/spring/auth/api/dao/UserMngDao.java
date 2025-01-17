@@ -13,7 +13,7 @@ public interface UserMngDao {
   
   List<UserMngVo> allManagers();
   
-  UserMngVo findManagerById(Integer id);
+  UserMngVo findManagerById(String id);
   
   PageResponse<UserMngVo> findManagers(PageRequest pageRequest);
   
@@ -24,6 +24,6 @@ public interface UserMngDao {
   
   int modifyManagerById(UserMngVo.ModifyVo modifyVo);
   
-  int removeManagerById(Integer id);
+  int removeManagerById(String id);
   
 }

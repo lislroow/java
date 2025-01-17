@@ -12,7 +12,7 @@
   
   <select id="findManagerById" resultType="UserMngVo">
     SELECT /* UserMngDao.findManagerById */
-           A.
+           A.*
     FROM   manager A
     WHERE  A.id = #{id}
   </select>

@@ -86,7 +86,7 @@ public class UserMngController {
   
   @GetMapping("/v1/user-mng/manager/{id}")
   public ResponseEntity<UserMngResDto.Manager> findManagerById(
-      @PathVariable Integer id) {
+      @PathVariable String id) {
     UserMngVo result = userMngDao.findManagerById(id);
     UserMngResDto.Manager resDto = modelMapper.map(result, UserMngResDto.Manager.class);
     return ResponseEntity.ok(resDto);
@@ -116,7 +116,7 @@ public class UserMngController {
   
   @DeleteMapping("/v1/user-mng/manager/{id}")
   public ResponseEntity<?> removeManagerById(
-      @PathVariable Integer id) {
+      @PathVariable String id) {
     userMngService.removeManagerById(id);
     
     return ResponseEntity.noContent().build();

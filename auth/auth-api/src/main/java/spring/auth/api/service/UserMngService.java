@@ -25,7 +25,7 @@ public class UserMngService {
   }
   
   @Transactional
-  public int removeManagerById(Integer id) {
+  public int removeManagerById(String id) {
     return userMngDao.removeManagerById(id);
   }
   
