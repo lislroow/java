@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.auth.api.dao.UserMngDao">
+  
+  <select id="allManagers" resultType="UserMngVo">
+    SELECT /* UserMngDao.allManagers */
+           A.*
+    FROM   manager A
+    ORDER BY A.id DESC
+  </select>
+  
+  <select id="findManagerById" resultType="UserMngVo">
+    SELECT /* UserMngDao.findManagerById */
+           A.
+    FROM   manager A
+    WHERE  A.id = #{id}
+  </select>
+  
+  <select id="findManagers">
+    SELECT /* UserMngDao.findManagers */
+           A.*
+    FROM   manager A
+    ORDER BY A.id DESC
+  </select>
+  
+  <select id="searchManagers" resultType="UserMngVo">
+    SELECT /* UserMngDao.searchManagers */
+           A.*
+    FROM   manager A
+    <where>
+      <if test="loginId != null and !''.equals(loginId)">
+        AND UPPER(A.login_id) LIKE UPPER(#{loginId}) || '%'
+      </if>
+      <if test="mgrName != null and !''.equals(mgrName)">
+        AND UPPER(A.mgr_name) LIKE UPPER(#{mgrName}) || '%'
+      </if>
+      <if test="role != null and !''.equals(role)">
+        AND A.role = #{role}
+      </if>
+      <if test="disabledYn != null and !''.equals(disabledYn)">
+        AND A.disabled_yn = #{disabledYn}
+      </if>
+      <if test="lockedYn != null and !''.equals(lockedYn)">
+        AND A.locked_yn = #{lockedYn}
+      </if>
+    </where>
+    ORDER BY A.id DESC
+  </select>
+  
+  <insert id="addManager">
+    INSERT /* UserMngDao.addManager */
+      INTO manager (
+        id,
+        login_id,
+        password,
+        mgr_name,
+        disabled_yn,
+        locked_yn,
+        pwd_exp_date,
+        create_date,
+        modify_date,
+        create_id,
+        modify_id
+      ) VALUES (
+        #{id},
+        #{loginId},
+        #{password},
+        #{mgrName},
+        #{role},
+        #{disabledYn},
+        #{lockedYn},
+        #{pwdExpDate},
+        now(),
+        now(),
+        #{createId},
+        #{modifyId}
+      )
+  </insert>
+  
+  <update id="modifyManagerById">
+    UPDATE /* UserMngDao.modifyManagerById */
+           manager
+       SET mgr_name = #{mgrName},
+           role = #{role},
+           disabled_yn = #{disabledYn},
+           locked_yn = #{lockedYn},
+           modify_date = now(),
+           modify_id = #{modifyId}
+     WHERE id = #{id}
+  </update>
+  
+  <delete id="removeManagerById">
+    DELETE /* UserMngDao.removeManagerById */
+      FROM manager
+     WHERE id = #{id}
+  </delete>
+  
+</mapper>

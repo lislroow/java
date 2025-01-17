@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS manager
   mgr_name VARCHAR(255),
   disabled_yn CHAR(1) DEFAULT 'N',
   locked_yn CHAR(1) DEFAULT 'N',
-  pwd_exp_time TIMESTAMP DEFAULT NOW() + INTERVAL '90 day',
+  pwd_exp_date DATE DEFAULT CURRENT_DATE + INTERVAL '90 day',
   create_date TIMESTAMP DEFAULT NOW(),
   modify_date TIMESTAMP DEFAULT NOW(),
   create_id VARCHAR(15) DEFAULT '1',

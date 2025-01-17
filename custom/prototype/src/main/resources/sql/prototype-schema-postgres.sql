@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS code_group CASCADE;
 CREATE TABLE IF NOT EXISTS code_group
 (
-  cd_grp VARCHAR(10),
+  cd_grp VARCHAR(20),
   cd_grp_nm VARCHAR(255),
   use_yn CHAR(1) NOT NULL CHECK (use_yn IN ('Y', 'N')) DEFAULT 'Y',
   create_date TIMESTAMP DEFAULT NOW(),
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS code_group
 DROP TABLE IF EXISTS code CASCADE;
 CREATE TABLE IF NOT EXISTS code
 (
-  cd_grp VARCHAR(10),
+  cd_grp VARCHAR(20),
   cd VARCHAR(10),
   seq INT2 NULL,
   cd_nm VARCHAR(255),

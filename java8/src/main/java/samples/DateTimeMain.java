@@ -1,6 +1,7 @@
 package samples;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +30,8 @@ public class DateTimeMain {
   
   public static void main(String[] args) {
     System.out.println(toStr(1717052518));
+    
+    //System.out.println(LocalDate.now().isEqual(LocalDate.now()));
   }
   
 }

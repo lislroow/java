@@ -1,5 +1,6 @@
 package spring.auth.api.vo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class ManagerAuthVo implements AuthDetails {
   private String role;
   private YN disabledYn;
   private YN lockedYn;
-  private LocalDateTime pwdExpTime;
+  private LocalDate pwdExpDate;
   
   @Override
   public String getUsername() {
@@ -50,10 +51,10 @@ public class ManagerAuthVo implements AuthDetails {
   
   @Override
   public boolean isCredentialsNonExpired() {
-    if (ObjectUtils.isEmpty(pwdExpTime)) {
+    if (ObjectUtils.isEmpty(pwdExpDate)) {
       return true;
     }
-    return LocalDateTime.now().isBefore(pwdExpTime);
+    return LocalDate.now().isBefore(pwdExpDate) || !LocalDate.now().isEqual(pwdExpDate);
   }
   
   @Override

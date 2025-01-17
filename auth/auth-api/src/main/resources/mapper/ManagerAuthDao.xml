@@ -12,7 +12,7 @@
            mgr_name,
            disabled_yn,
            locked_yn,
-           pwd_exp_time
+           pwd_exp_date
     FROM   manager A
     WHERE  A.login_id = #{loginId}
   </select>
