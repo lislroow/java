@@ -42,7 +42,7 @@ public class UserInfoController {
   public UserInfoResDto.MemberInfo managerMyInfo() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (!(authentication instanceof UsernamePasswordAuthenticationToken &&
-        authentication.getPrincipal() instanceof MemberVo)) {
+        authentication.getPrincipal() instanceof ManagerVo)) {
       throw new AppException(ERROR.A403);
     }
     
