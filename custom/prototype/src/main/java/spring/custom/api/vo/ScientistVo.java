@@ -31,6 +31,7 @@ public class ScientistVo extends AuditVo {
     private Integer deathYear;
     private String fosCd;
   }
+  
   @Data
   @EqualsAndHashCode(callSuper=false)
   @AllArgsConstructor
