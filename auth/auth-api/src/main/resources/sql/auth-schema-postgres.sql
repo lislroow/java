@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS member
   oauth2_id VARCHAR(255),
   login_id VARCHAR(255),
   nickname VARCHAR(255),
-  create_date TIMESTAMP DEFAULT NOW(),
-  modify_date TIMESTAMP DEFAULT NOW(),
+  create_time TIMESTAMP DEFAULT NOW(),
+  modify_time TIMESTAMP DEFAULT NOW(),
   create_id VARCHAR(15) DEFAULT '1',
   modify_id VARCHAR(15) DEFAULT '1',
   PRIMARY KEY (id)
@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS manager
   disabled_yn CHAR(1) DEFAULT 'N',
   locked_yn CHAR(1) DEFAULT 'N',
   pwd_exp_date DATE DEFAULT CURRENT_DATE + INTERVAL '90 day',
-  create_date TIMESTAMP DEFAULT NOW(),
-  modify_date TIMESTAMP DEFAULT NOW(),
+  create_time TIMESTAMP DEFAULT NOW(),
+  modify_time TIMESTAMP DEFAULT NOW(),
   create_id VARCHAR(15) DEFAULT '1',
   modify_id VARCHAR(15) DEFAULT '1',
   PRIMARY KEY (id)
@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS openapi_user
   id VARCHAR(15),
   login_id VARCHAR(255),
   user_name VARCHAR(255),
-  create_date TIMESTAMP DEFAULT NOW(),
-  modify_date TIMESTAMP DEFAULT NOW(),
+  create_time TIMESTAMP DEFAULT NOW(),
+  modify_time TIMESTAMP DEFAULT NOW(),
   create_id VARCHAR(15) DEFAULT '1',
   modify_id VARCHAR(15) DEFAULT '1',
   PRIMARY KEY (id)
@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS token
   client_ip VARCHAR(255),
   use_yn CHAR(1) DEFAULT 'N',
   token TEXT,
-  create_date TIMESTAMP DEFAULT NOW(),
-  modify_date TIMESTAMP DEFAULT NOW(),
+  create_time TIMESTAMP DEFAULT NOW(),
+  modify_time TIMESTAMP DEFAULT NOW(),
   create_id VARCHAR(15) DEFAULT '1',
   modify_id VARCHAR(15) DEFAULT '1',
   PRIMARY KEY (token_id)

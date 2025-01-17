@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class AuditVerticaVo {
 
-  private String createDate;
-  private String modifyDate;
+  private String createTime;
+  private String modifyTime;
   private String createId;
   private String modifyId;
 

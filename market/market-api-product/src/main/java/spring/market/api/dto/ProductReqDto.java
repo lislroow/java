@@ -12,7 +12,7 @@ import lombok.Data;
 public class ProductReqDto {
 
   @Data
-  @JsonIgnoreProperties({"createDate", "modifyDate"})
+  @JsonIgnoreProperties({"createTime", "modifyTime"})
   public static class ItemReq {
   
     private Integer id;
@@ -20,10 +20,10 @@ public class ProductReqDto {
     private String imgThumbUrl;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime createDate;
+    private LocalDateTime createTime;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime modifyDate;
+    private LocalDateTime modifyTime;
     
     private List<ItemCategory> categoryInfoList;
     

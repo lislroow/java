@@ -18,8 +18,8 @@ public class UserConsumer {
   //      .id(user.getId())
   //      .email(user.getEmail())
   //      .name(user.getNickname())
-  //      .createDate(LocalDateTime.now())
-  //      .modifyDate(LocalDateTime.now())
+  //      .createTime(LocalDateTime.now())
+  //      .modifyTime(LocalDateTime.now())
   //      .build();
   //  this.repository.save(entity);
   //}

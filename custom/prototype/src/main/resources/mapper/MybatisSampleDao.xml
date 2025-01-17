@@ -51,8 +51,8 @@
         birth_year,
         death_year,
         fos_cd,
-        create_date,
-        modify_date,
+        create_time,
+        modify_time,
         create_id,
         modify_id
       ) VALUES (
@@ -74,7 +74,7 @@
            birth_year = #{birthYear},
            death_year = #{deathYear},
            fos_cd = #{fosCd},
-           modify_date = now(),
+           modify_time = now(),
            modify_id = #{modifyId}
      WHERE id = #{id}
   </update>

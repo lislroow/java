@@ -23,8 +23,8 @@ public class MyTopicProducer {
     String id = UuidMain.create();
     data.put("id", id);
     data.put("name", names.get(new Random().nextInt(names.size())));
-    data.put("createDate", LocalDateTime.now());
-    data.put("modifyDate", LocalDateTime.now());
+    data.put("createTime", LocalDateTime.now());
+    data.put("modifyTime", LocalDateTime.now());
     data.put("createId", id);
     data.put("modifyId", id);
     new KafkaProducerMain().send(topicName, data);

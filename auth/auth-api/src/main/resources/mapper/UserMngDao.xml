@@ -58,8 +58,8 @@
         disabled_yn,
         locked_yn,
         pwd_exp_date,
-        create_date,
-        modify_date,
+        create_time,
+        modify_time,
         create_id,
         modify_id
       ) VALUES (
@@ -85,7 +85,7 @@
            role = #{role},
            disabled_yn = #{disabledYn},
            locked_yn = #{lockedYn},
-           modify_date = now(),
+           modify_time = now(),
            modify_id = #{modifyId}
      WHERE id = #{id}
   </update>

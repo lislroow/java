@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class AuditVo {
 
-  private LocalDateTime createDate;
-  private LocalDateTime modifyDate;
+  private LocalDateTime createTime;
+  private LocalDateTime modifyTime;
   private String createId;
   private String modifyId;
   

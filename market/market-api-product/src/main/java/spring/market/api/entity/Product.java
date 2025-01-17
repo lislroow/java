@@ -41,11 +41,11 @@ public class Product {
   
   @Column(columnDefinition = "datetime(6)")
   @ColumnDefault(value = "current_timestamp(6)")
-  private LocalDateTime createDate;
+  private LocalDateTime createTime;
   
   @Column(columnDefinition = "datetime(6)", nullable = false)
   @ColumnDefault(value = "current_timestamp(6)")
-  private LocalDateTime modifyDate;
+  private LocalDateTime modifyTime;
   
   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinTable(

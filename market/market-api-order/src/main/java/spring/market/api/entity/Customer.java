@@ -35,11 +35,11 @@ public class Customer {
   
   @Column(columnDefinition = "datetime(6)")
   @ColumnDefault(value = "current_timestamp(6)")
-  private LocalDateTime createDate;
+  private LocalDateTime createTime;
   
   @Column(columnDefinition = "datetime(6)", nullable = false)
   @ColumnDefault(value = "current_timestamp(6)")
-  private LocalDateTime modifyDate;
+  private LocalDateTime modifyTime;
   
   @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<Order> orders;

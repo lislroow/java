@@ -15,7 +15,7 @@ public class ProductDto {
 
   private Integer id;
   private String name;
-  private LocalDateTime createDate;
-  private LocalDateTime modifyDate;
+  private LocalDateTime createTime;
+  private LocalDateTime modifyTime;
   
 }

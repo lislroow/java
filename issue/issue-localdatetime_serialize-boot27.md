@@ -2,13 +2,13 @@
 ### 현상
 
 ```java
-LocalDateTime createDate;
+LocalDateTime createTime;
 ```
 
 - @EnableWebMvc 선언이 있을 경우 LocalDateTime 타입이 문자열로 serialize 되지 않음 
 
 ```json
-"createDate": [
+"createTime": [
   2024,
   11,
   12,
@@ -21,7 +21,7 @@ LocalDateTime createDate;
 - @EnableWebMvc 선언이 없을 경우 LocalDateTime 타입이 문자열로 serialize 됨
 
 ```json
-"createDate": "2024-11-12T10:36:13.933"
+"createTime": "2024-11-12T10:36:13.933"
 ```
 
 ### 접근

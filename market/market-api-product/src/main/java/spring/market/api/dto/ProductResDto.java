@@ -19,10 +19,10 @@ public class ProductResDto implements Serializable {
     private String imgThumbUrl;
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Seoul")
-    private LocalDateTime createDate;
+    private LocalDateTime createTime;
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Seoul")
-    private LocalDateTime modifyDate;
+    private LocalDateTime modifyTime;
     
     private List<ItemCategory> categoryInfoList;
     
