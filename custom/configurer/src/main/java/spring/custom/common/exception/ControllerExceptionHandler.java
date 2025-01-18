@@ -13,12 +13,26 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.ERROR;
+import spring.custom.common.exception.data.DataNotFoundException;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
 
 @RestControllerAdvice
 @AllArgsConstructor
 @Slf4j
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
+  
+  @ExceptionHandler({DataNotFoundException.class})
+  protected ResponseEntity<ProblemDetail> handleDataNotFoundException(DataNotFoundException e, WebRequest request) {
+    /* for debug */ if (log.isInfoEnabled()) log.info("data not found");
+    
+    HttpStatusCode status = HttpStatus.OK;
+    ProblemDetail problemDetail = ProblemDetailBuilder.builder()
+        .title(e.getErrorCode())
+        .detail(e.getErrorMessage())
+        .status(status)
+        .build();
+    return ResponseEntity.status(status).body(problemDetail);
+  }
   
   @ExceptionHandler({AccessTokenExpiredException.class})
   protected ResponseEntity<ProblemDetail> handleAccessTokenExpiredException(AccessTokenExpiredException e, WebRequest request) {

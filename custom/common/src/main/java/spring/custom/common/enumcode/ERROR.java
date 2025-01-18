@@ -7,6 +7,8 @@ public enum ERROR {
   
   /** 성공 */ S000("Success"),
   
+  /** data not found */ S001("data not found"),
+  
   /** server unavailable */ E503("server unavailable"),
   /** encrypt error */ E901("encrypt error"),
   /** illegal access */ E902("illegal access"),
