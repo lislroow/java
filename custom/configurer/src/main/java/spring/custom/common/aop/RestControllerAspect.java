@@ -36,16 +36,26 @@ public class RestControllerAspect {
     String method = request.getMethod();
     String contentType = request.getHeader("Content-Type");
     String ipAddr = XffClientIpExtractor.getClientIp(request);
-    /* for debug */ if (log.isInfoEnabled()) {
-      log.info("[COM] Class       : {}", joinPoint.getTarget().getClass().getName());
-      log.info("[COM] RequestURI  : {}", reqUri);
-      log.info("[COM] Method      : {}", method);
-      log.info("[COM] ContentType : {}", contentType);
-      log.info("[COM] ipAddr      : {}", ipAddr);
-    }
     
     MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
     Method refMethod = methodSignature.getMethod();
+    
+    /* for debug */ if (log.isInfoEnabled()) {
+      String text = String.format(
+              "request info\n%s: %s.%s" +
+              //"\n%s: %s" +
+              //"\n%s: %s" +
+              //"\n%s: %s" +
+              "\n%s: %s"
+              , "[COM] Class       ", joinPoint.getTarget().getClass().getName(), refMethod.getName()
+              , "[COM] RequestURI  ", reqUri
+              //, "[COM] Method      ", method
+              //, "[COM] ContentType ", contentType
+              //, "[COM] ipAddr      ", ipAddr
+              );
+      log.info(text);
+    }
+    
     Annotation[][] parameterAnnotations = refMethod.getParameterAnnotations();
     Login login = refMethod.getAnnotation(Login.class);
     Object[] args = joinPoint.getArgs();
@@ -63,10 +73,11 @@ public class RestControllerAspect {
       result = joinPoint.proceed(args);
     } catch (Throwable e) {
       throwable = e;
+      log.error("{}, error {}", joinPoint.getTarget().getClass().getName(), e.getMessage());
       throw e;
     }
     /* for debug */ if (log.isInfoEnabled()) {
-      
+      log.info("{}, normal", joinPoint.getTarget().getClass().getName());
     }
     return result;
   }
