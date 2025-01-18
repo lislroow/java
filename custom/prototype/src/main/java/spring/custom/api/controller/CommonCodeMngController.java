@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.api.dao.CommonCodeMngDao;
-import spring.custom.api.dto.CommonCodeMngResDto;
+import spring.custom.api.dto.CommonCodeMngDto;
 import spring.custom.api.vo.CommonCodeMngVo;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
@@ -22,22 +22,22 @@ public class CommonCodeMngController {
   final CommonCodeMngDao commonCodeMngDao;
   
   @GetMapping("/v1/common-code/mng/code-groups/search")
-  public PageResponse<CommonCodeMngResDto.CodeGroup> searchCodeGroups(
+  public PageResponse<CommonCodeMngDto.CodeGroupRes> searchCodeGroups(
       @RequestParam(required = false) String cdGrp,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     PageResponse<CommonCodeMngVo.CodeGroupVo> result = commonCodeMngDao.searchCodeGroups(PageRequest.of(page, size), cdGrp);
     
-    PageResponse<CommonCodeMngResDto.CodeGroup> resDto = new PageResponse<CommonCodeMngResDto.CodeGroup>(
+    PageResponse<CommonCodeMngDto.CodeGroupRes> resDto = new PageResponse<CommonCodeMngDto.CodeGroupRes>(
         result.stream()
-          .map(item -> modelMapper.map(item, CommonCodeMngResDto.CodeGroup.class))
+          .map(item -> modelMapper.map(item, CommonCodeMngDto.CodeGroupRes.class))
           .collect(Collectors.toList())
         , result.getPageInfo());
     return resDto;
   }
   
   @GetMapping("/v1/common-code/mng/codes/search")
-  public PageResponse<CommonCodeMngResDto.Code> searchCodes(
+  public PageResponse<CommonCodeMngDto.CodeRes> searchCodes(
       @RequestParam(required = false) String cdGrp,
       @RequestParam(required = false) String cdGrpNm,
       @RequestParam(required = false) String cd,
@@ -54,9 +54,9 @@ public class CommonCodeMngController {
         .build();
     PageResponse<CommonCodeMngVo.CodeVo> result = commonCodeMngDao.searchCodes(PageRequest.of(page, size), searchVo);
     
-    PageResponse<CommonCodeMngResDto.Code> resDto = new PageResponse<CommonCodeMngResDto.Code>(
+    PageResponse<CommonCodeMngDto.CodeRes> resDto = new PageResponse<CommonCodeMngDto.CodeRes>(
         result.stream()
-          .map(item -> modelMapper.map(item, CommonCodeMngResDto.Code.class))
+          .map(item -> modelMapper.map(item, CommonCodeMngDto.CodeRes.class))
           .collect(Collectors.toList())
         , result.getPageInfo());
     return resDto;

@@ -5,19 +5,19 @@ import java.util.List;
 import lombok.Data;
 import spring.custom.common.mybatis.PageInfo;
 
-public class CommonCodeMngResDto {
+public class CommonCodeMngDto {
   
-  private CommonCodeMngResDto() {}
+  private CommonCodeMngDto() {}
   
   @Data
-  public static class CodeGroup {
+  public static class CodeGroupRes {
     private String cdGrp;
     private String cdGrpNm;
     private String useYn;
   }
   
   @Data
-  public static class Code {
+  public static class CodeRes {
     private String cdGrp;
     private String cdGrpNm;
     private String cd;
@@ -27,9 +27,9 @@ public class CommonCodeMngResDto {
   }
   
   @Data
-  public static class PagedCodeGroupList {
+  public static class PagedCodeGroupListRes {
     private PageInfo paged;
-    private List<CodeGroup> list;
+    private List<CodeGroupRes> list;
   }
   
 }

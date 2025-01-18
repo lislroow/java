@@ -6,17 +6,17 @@ import lombok.Data;
 import spring.custom.api.vo.ScientistVo;
 import spring.custom.common.mybatis.PageInfo;
 
-public class MybatisMultipleDatasourceResDto {
+public class MybatisMultipleDatasourceDto {
 
   public static class Scientist extends ScientistVo { }
   
   @Data
-  public static class ScientistList {
+  public static class ScientistListRes {
     private List<Scientist> list;
   }
   
   @Data
-  public static class PagedScientistList {
+  public static class PagedScientistListRes {
     private PageInfo paged;
     private List<Scientist> list;
   }

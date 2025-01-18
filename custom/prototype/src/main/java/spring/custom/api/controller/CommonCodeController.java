@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.api.dao.CommonCodeDao;
-import spring.custom.api.dto.CommonCodeResDto;
+import spring.custom.api.dto.CommonCodeDto;
 import spring.custom.api.vo.CommonCodeVo;
 
 @RestController
@@ -23,12 +23,12 @@ public class CommonCodeController {
   
   @GetMapping("/v1/common-code/codes/find/{cdGrp}")
   @Cacheable(value = "cache:common-code", key = "#cdGrp")
-  public List<CommonCodeResDto.Code> findCodesByCdGrp(
+  public List<CommonCodeDto.CodeRes> findCodesByCdGrp(
       @PathVariable String cdGrp) {
     List<CommonCodeVo.CodeVo> result = commonCodeDao.findCodesByCdGrp(cdGrp);
     
-    List<CommonCodeResDto.Code> resDto = result.stream()
-        .map(item -> modelMapper.map(item, CommonCodeResDto.Code.class))
+    List<CommonCodeDto.CodeRes> resDto = result.stream()
+        .map(item -> modelMapper.map(item, CommonCodeDto.CodeRes.class))
         .collect(Collectors.toList());
     return resDto;
   }

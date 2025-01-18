@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.UserInfoDao;
-import spring.auth.api.dto.UserInfoResDto;
+import spring.auth.api.dto.UserInfoDto;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.ManagerVo;
@@ -25,7 +25,7 @@ public class UserInfoController {
   final ModelMapper modelMapper;
   
   @GetMapping("/v1/user/member/myinfo")
-  public UserInfoResDto.MemberInfo memberMyInfo() {
+  public UserInfoDto.MemberRes memberMyInfo() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (!(authentication instanceof UsernamePasswordAuthenticationToken &&
         authentication.getPrincipal() instanceof MemberVo)) {
@@ -34,12 +34,12 @@ public class UserInfoController {
     
     MemberVo result = memberDao.selectMemberById(authentication.getName())
         .orElseThrow(() -> new AppException(ERROR.A003));
-    UserInfoResDto.MemberInfo resDto = modelMapper.map(result, UserInfoResDto.MemberInfo.class);
+    UserInfoDto.MemberRes resDto = modelMapper.map(result, UserInfoDto.MemberRes.class);
     return resDto;
   }
   
   @GetMapping("/v1/user/manager/myinfo")
-  public UserInfoResDto.MemberInfo managerMyInfo() {
+  public UserInfoDto.MemberRes managerMyInfo() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (!(authentication instanceof UsernamePasswordAuthenticationToken &&
         authentication.getPrincipal() instanceof ManagerVo)) {
@@ -49,7 +49,7 @@ public class UserInfoController {
     ManagerVo result = memberDao.selectManagerById(authentication.getName())
         .orElseThrow(() -> new AppException(ERROR.A003));
     
-    UserInfoResDto.MemberInfo resDto = new UserInfoResDto.MemberInfo();
+    UserInfoDto.MemberRes resDto = new UserInfoDto.MemberRes();
     resDto.setId(result.getId());
     resDto.setLoginId(result.getLoginId());
     resDto.setNickname(result.getMgrName());
@@ -58,20 +58,20 @@ public class UserInfoController {
   
   @GetMapping("/v1/user/member/{id}")
   @PreAuthorize("#id == authentication.name")
-  public UserInfoResDto.MemberInfo memberInfo(@PathVariable String id) {
+  public UserInfoDto.MemberRes memberInfo(@PathVariable String id) {
     MemberVo result = memberDao.selectMemberById(id)
         .orElseThrow(() -> new AppException(ERROR.A003));
-    UserInfoResDto.MemberInfo resDto = modelMapper.map(result, UserInfoResDto.MemberInfo.class);
+    UserInfoDto.MemberRes resDto = modelMapper.map(result, UserInfoDto.MemberRes.class);
     return resDto;
   }
   
   @GetMapping("/v1/user/manager/{id}")
   @PreAuthorize("#id == authentication.name")
-  public UserInfoResDto.MemberInfo managerInfo(@PathVariable String id) {
+  public UserInfoDto.MemberRes managerInfo(@PathVariable String id) {
     ManagerVo result = memberDao.selectManagerById(id)
         .orElseThrow(() -> new AppException(ERROR.A003));
     
-    UserInfoResDto.MemberInfo resDto = new UserInfoResDto.MemberInfo();
+    UserInfoDto.MemberRes resDto = new UserInfoDto.MemberRes();
     resDto.setId(result.getId());
     resDto.setLoginId(result.getLoginId());
     resDto.setNickname(result.getMgrName());

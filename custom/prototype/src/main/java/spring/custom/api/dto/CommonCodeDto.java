@@ -2,12 +2,12 @@ package spring.custom.api.dto;
 
 import lombok.Data;
 
-public class CommonCodeResDto {
+public class CommonCodeDto {
   
-  private CommonCodeResDto() {}
+  private CommonCodeDto() {}
   
   @Data
-  public static class Code {
+  public static class CodeRes {
     private String cd;
     private Integer seq;
     private String cdNm;

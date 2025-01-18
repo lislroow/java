@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.dto.RuntimeResDto;
+import spring.custom.dto.RuntimeDto;
 import spring.custom.initial.Classpath;
 
 @RestController
@@ -15,9 +15,9 @@ import spring.custom.initial.Classpath;
 public class RuntimeController {
   
   @GetMapping("/v1/runtime/jars")
-  public ResponseEntity<RuntimeResDto.BootJar> findJars() {
+  public ResponseEntity<RuntimeDto.BootJarRes> findJars() {
     List<Classpath.BootJarVo> result = Classpath.getBootJars();
-    RuntimeResDto.BootJar resDto = new RuntimeResDto.BootJar();
+    RuntimeDto.BootJarRes resDto = new RuntimeDto.BootJarRes();
     resDto.setList(result);
     return ResponseEntity.ok(resDto);
   }

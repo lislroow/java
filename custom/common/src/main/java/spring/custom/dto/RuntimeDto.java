@@ -5,12 +5,12 @@ import java.util.List;
 import lombok.Data;
 import spring.custom.initial.Classpath;
 
-public class RuntimeResDto {
+public class RuntimeDto {
   
-  private RuntimeResDto() { }
+  private RuntimeDto() { }
   
   @Data
-  public static class BootJar {
+  public static class BootJarRes {
     private List<Classpath.BootJarVo> list;
   }
 }
