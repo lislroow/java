@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.TOKEN;
-import spring.custom.dto.TokenResDto;
+import spring.custom.dto.TokenDto;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class LoginEndpoint {
     // 사용자 체크
     
     // token 생성
-    TokenResDto.Create resDto = feignTokenController.create(TOKEN.USER.MANAGER, reqDto.userId);
+    TokenDto.CreateRes resDto = feignTokenController.create(TOKEN.USER.MANAGER, reqDto.userId);
     ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
         .path("/")
         .httpOnly(false)

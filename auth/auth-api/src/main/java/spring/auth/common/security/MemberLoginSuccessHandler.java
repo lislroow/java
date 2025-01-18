@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
-import spring.custom.dto.TokenResDto;
+import spring.custom.dto.TokenDto;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class MemberLoginSuccessHandler implements AuthenticationSuccessHandler {
     Assert.isTrue(authentication.getPrincipal() instanceof UserAuthentication, "authentication.getPrincipal() is not SessionUser type");
     
     UserAuthentication userAuthentication = (UserAuthentication) authentication.getPrincipal();
-    TokenResDto.Create resDto = tokenService.createToken(userAuthentication);
+    TokenDto.CreateRes resDto = tokenService.createToken(userAuthentication);
     
     response.addHeader(HttpHeaders.SET_COOKIE, ResponseCookie
         .from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())

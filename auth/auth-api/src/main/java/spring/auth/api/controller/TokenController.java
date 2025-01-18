@@ -14,8 +14,8 @@ import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.security.AuthDetails;
-import spring.custom.dto.TokenReqDto;
-import spring.custom.dto.TokenResDto;
+import spring.custom.dto.TokenDto;
+import spring.custom.dto.TokenDto;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,24 +27,24 @@ public class TokenController {
   
   
   @PostMapping("/v1/token/verify")
-  public TokenResDto.Verify verity(@RequestBody TokenReqDto.Verify reqDto) {
+  public TokenDto.VerifyRes verity(@RequestBody TokenDto.VerifyReq reqDto) {
     String tokenId = reqDto.getTokenId();
     String clientIdent = reqDto.getClientIdent(); // api gateway 에서 x-forward-for 로 생성한 clientIdent 값
     
-    TokenResDto.Verify resDto = tokenService.verifyToken(tokenId, clientIdent);
+    TokenDto.VerifyRes resDto = tokenService.verifyToken(tokenId, clientIdent);
     return resDto;
   }
   
   @PostMapping("/v1/token/refresh")
-  public TokenResDto.Refresh refresh(@RequestBody TokenReqDto.Refresh reqDto) {
+  public TokenDto.RefreshRes refresh(@RequestBody TokenDto.RefreshReq reqDto) {
     String rtkUuid = reqDto.getRtkUuid();
     
-    TokenResDto.Refresh resDto = tokenService.refreshToken(rtkUuid);
+    TokenDto.RefreshRes resDto = tokenService.refreshToken(rtkUuid);
     return resDto;
   }
   
   @PostMapping("/v1/token/create/{userType}/{id}")
-  public TokenResDto.Create create(
+  public TokenDto.CreateRes create(
       @PathVariable TOKEN.USER userType,
       @PathVariable String id) {
     
@@ -64,7 +64,7 @@ public class TokenController {
     }
     
     UserAuthentication userAuthentication = new UserAuthentication(userType, authVo);
-    TokenResDto.Create resDto = tokenService.createToken(userAuthentication);
+    TokenDto.CreateRes resDto = tokenService.createToken(userAuthentication);
     return resDto;
   }
   

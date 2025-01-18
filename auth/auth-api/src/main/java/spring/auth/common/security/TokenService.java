@@ -45,7 +45,7 @@ import spring.custom.common.exception.token.AccessTokenExpiredException;
 import spring.custom.common.exception.token.RefreshTokenExpiredException;
 import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.util.IdGenerator;
-import spring.custom.dto.TokenResDto;
+import spring.custom.dto.TokenDto;
 
 @Component
 @Slf4j
@@ -110,10 +110,10 @@ public class TokenService {
     }
   }
   
-  public TokenResDto.Create createToken(UserAuthentication userAuthentication) {
+  public TokenDto.CreateRes createToken(UserAuthentication userAuthentication) {
     TOKEN.USER userType = userAuthentication.getUserType();
     String username = userAuthentication.getUsername();
-    TokenResDto.Create result = new TokenResDto.Create();
+    TokenDto.CreateRes result = new TokenDto.CreateRes();
     Long rtkExpTime = System.currentTimeMillis() + RTK_EXPIRE_MILLS;
     try {
       JWTClaimsSet claimsSet;
@@ -168,7 +168,7 @@ public class TokenService {
     return result;
   }
   
-  public TokenResDto.Verify verifyToken(String tokenId, String clientIdent) {
+  public TokenDto.VerifyRes verifyToken(String tokenId, String clientIdent) {
     TOKEN.USER userType = TOKEN.USER.fromCode(tokenId.split(":")[0]).orElseThrow(() -> new AppException(ERROR.A002));
     String token = null;
     switch (userType) {
@@ -190,7 +190,7 @@ public class TokenService {
       throw new AppException(ERROR.A002);
     }
     
-    TokenResDto.Verify resDto = new TokenResDto.Verify();
+    TokenDto.VerifyRes resDto = new TokenDto.VerifyRes();
     try {
       SignedJWT signedJWT = SignedJWT.parse(token);
       if (signedJWT.verify(this.verifier)) {
@@ -207,7 +207,7 @@ public class TokenService {
     return resDto;
   }
   
-  public TokenResDto.Refresh refreshToken(String oldRtkUuid) {
+  public TokenDto.RefreshRes refreshToken(String oldRtkUuid) {
     TOKEN.USER userType = TOKEN.USER.fromCode(oldRtkUuid.split(":")[0]).orElseThrow(() -> new AppException(ERROR.A004));
     String clientIdent = IdGenerator.createClientIdent();
     String oldRedisKey = null;
@@ -244,7 +244,7 @@ public class TokenService {
     String newRtkUuid = IdGenerator.createTokenId(userType);
     String newAtkUuid = IdGenerator.createTokenId(userType);
     
-    TokenResDto.Refresh result = new TokenResDto.Refresh();
+    TokenDto.RefreshRes result = new TokenDto.RefreshRes();
     result.setRtkUuid(newRtkUuid);
     result.setAtkUuid(newAtkUuid);
     result.setClientSessionSec(CLIENT_SESSION_SEC);

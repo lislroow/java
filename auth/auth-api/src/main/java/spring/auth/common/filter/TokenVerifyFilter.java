@@ -18,7 +18,7 @@ import spring.auth.common.security.TokenService;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.util.IdGenerator;
 import spring.custom.common.util.XffClientIpExtractor;
-import spring.custom.dto.TokenResDto;
+import spring.custom.dto.TokenDto;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,7 +40,7 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
       String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
       String clientIdent = IdGenerator.createClientIdent(clientIp, userAgent);
       try {
-        TokenResDto.Verify result = tokenService.verifyToken(tokenId, clientIdent);
+        TokenDto.VerifyRes result = tokenService.verifyToken(tokenId, clientIdent);
         filterChain.doFilter(
             new TokenVerifyHttpServletRequest("Bearer " + result.getAccessToken(), request), response);
       } catch (Exception exception) {

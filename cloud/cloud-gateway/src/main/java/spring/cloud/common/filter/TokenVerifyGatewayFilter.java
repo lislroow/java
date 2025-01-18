@@ -18,8 +18,8 @@ import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
 import spring.custom.common.util.IdGenerator;
 import spring.custom.common.util.XffClientIpExtractor;
-import spring.custom.dto.TokenReqDto;
-import spring.custom.dto.TokenResDto;
+import spring.custom.dto.TokenDto;
+import spring.custom.dto.TokenDto;
 
 @Profile({"local", "dev"})
 @Component
@@ -51,14 +51,14 @@ public class TokenVerifyGatewayFilter extends AbstractGatewayFilterFactory<Token
         /* for debug */ if (log.isDebugEnabled()) log.info("tokenId: {}", tokenId);
         
         ERROR failCode = ERROR.A002;
-        TokenReqDto.Verify requestBody = new TokenReqDto.Verify();
+        TokenDto.VerifyReq requestBody = new TokenDto.VerifyReq();
         String clientIp = XffClientIpExtractor.getClientIp(request);
         String userAgent = request.getHeaders().get(Constant.HTTP_HEADER.USER_AGENT).get(0);
         requestBody.setClientIdent(IdGenerator.createClientIdent(clientIp, userAgent));
         requestBody.setTokenId(tokenId);
         try {
-          final TokenResDto.Verify vertifyDto = 
-              apiClient.postForEntity(AUTH_URL, requestBody, TokenResDto.Verify.class);
+          final TokenDto.VerifyRes vertifyDto = 
+              apiClient.postForEntity(AUTH_URL, requestBody, TokenDto.VerifyRes.class);
           exchange = exchange.mutate()
               .request(req -> 
                 req.header(HttpHeaders.AUTHORIZATION, "Bearer " + vertifyDto.getAccessToken()))
