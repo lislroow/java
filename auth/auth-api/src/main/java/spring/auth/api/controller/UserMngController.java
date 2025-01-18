@@ -44,6 +44,7 @@ import spring.custom.common.exception.data.DataNotFoundException;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
 import spring.custom.common.redis.RedisSupport;
+import spring.custom.common.util.HashUtil;
 
 @RestController
 @RequiredArgsConstructor
@@ -134,27 +135,20 @@ public class UserMngController {
     } catch (JsonProcessingException e) {
       throw new AppException(ERROR.A015.code(), e);
     }
-    MessageDigest digest;
+    
+    String registerCode;
     try {
-      digest = MessageDigest.getInstance("SHA-256");
+      registerCode = HashUtil.sha256(addVoJson);
     } catch (NoSuchAlgorithmException e) {
       throw new AppException(ERROR.A015.code(), e);
     }
-    byte[] encodedHash = digest.digest((addVoJson).getBytes(StandardCharsets.UTF_8));
-    StringBuilder registerCode = new StringBuilder();
-    for (byte b : encodedHash) {
-      String hex = Integer.toHexString(0xff & b);
-      if (hex.length() == 1) registerCode.append('0'); // 한 자리 수는 앞에 '0' 추가
-      registerCode.append(hex);
-    }
     Map.Entry<String, String> redisEntry = new AbstractMap.SimpleEntry<>(
-        "user:register-code:"+registerCode.toString(),
-        addVoJson);
+        "user:register-code:"+registerCode, addVoJson);
     this.redisSupport.setValue(redisEntry.getKey(), redisEntry.getValue(), Duration.ofDays(1));
     
     // email 발송
     String subject = String.format("[develop] '%s' manager registeration code", reqDto.getToName());
-    String text = String.format("http://localhost/user/manager-register/%s", registerCode.toString());
+    String text = String.format("http://localhost/user/manager-register/%s", registerCode);
     
     SimpleMailMessage message = new SimpleMailMessage();
     message.setTo(reqDto.getToEmail());

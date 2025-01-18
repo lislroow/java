@@ -1,9 +1,6 @@
 package spring.custom.common.util;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.web.context.request.RequestContextHolder;
@@ -34,21 +31,13 @@ public class IdGenerator {
   }
   
   public static String createClientIdent(String clientIp, String userAgent) {
-    MessageDigest digest;
+    String clientIdent;
     try {
-      digest = MessageDigest.getInstance("SHA-256");
+      clientIdent = HashUtil.sha256(clientIp + userAgent);
     } catch (NoSuchAlgorithmException e) {
       throw new AppException(ERROR.E901.code(), e);
     }
-    byte[] encodedHash = digest.digest((clientIp + userAgent).getBytes(StandardCharsets.UTF_8));
-    StringBuilder clientIdent = new StringBuilder();
-    for (byte b : encodedHash) {
-      String hex = Integer.toHexString(0xff & b);
-      if (hex.length() == 1) clientIdent.append('0'); // 한 자리 수는 앞에 '0' 추가
-      clientIdent.append(hex);
-    }
-    /* for test */ //clientIdent = new StringBuilder("a013e2bad0956321b787cf5cab9f229b02e739996b8c4c8116894a339ecdaf5c");
-    return clientIdent.toString();
+    return clientIdent;
   }
   
   public static String createJwtRedisKey(TOKEN.JWT jwtType, String tokenId, String clientIdent) {

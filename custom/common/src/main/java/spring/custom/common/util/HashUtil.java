@@ -4,19 +4,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import spring.custom.common.enumcode.ERROR;
-import spring.custom.common.exception.AppException;
-
-public class Encrypt {
-
+public class HashUtil {
   
-  /* move to TokenService */ private static String sha256(String plainText) {
-    MessageDigest digest;
-    try {
-      digest = MessageDigest.getInstance("SHA-256");
-    } catch (NoSuchAlgorithmException e) {
-      throw new AppException(ERROR.E901.code(), e.getMessage());
-    }
+  public static String sha256(String plainText) throws NoSuchAlgorithmException {
+    MessageDigest digest = MessageDigest.getInstance("SHA-256");
     byte[] encodedHash = digest.digest(plainText.getBytes(StandardCharsets.UTF_8));
     StringBuilder hexString = new StringBuilder();
     for (byte b : encodedHash) {

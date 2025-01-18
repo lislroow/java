@@ -15,7 +15,6 @@ import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.security.AuthDetails;
 import spring.custom.dto.TokenDto;
-import spring.custom.dto.TokenDto;
 
 @RestController
 @RequiredArgsConstructor
