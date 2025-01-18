@@ -1,8 +1,0 @@
-rootProject.name = 'market'
-include 'market-lib-common'
-include 'market-lib-api'
-include 'market-api-customer'
-include 'market-api-delivery'
-include 'market-api-inventory'
-include 'market-api-order'
-include 'market-api-product'
