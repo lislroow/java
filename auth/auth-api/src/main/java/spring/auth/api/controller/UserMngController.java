@@ -34,8 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.UserInfoDao;
 import spring.auth.api.dao.UserMngDao;
-import spring.auth.api.dto.UserMngReqDto;
-import spring.auth.api.dto.UserMngResDto;
+import spring.auth.api.dto.UserMngDto;
 import spring.auth.api.service.UserMngService;
 import spring.auth.api.vo.UserMngVo;
 import spring.custom.common.enumcode.ERROR;
@@ -60,35 +59,35 @@ public class UserMngController {
   final UserInfoDao userInfoDao;
   
   @GetMapping("/v1/user-mng/managers/all")
-  public UserMngResDto.ManagerList allManagers() {
+  public UserMngDto.ManagerListRes allManagers() {
     List<UserMngVo> result = userMngDao.allManagers();
     
-    UserMngResDto.ManagerList resDto = new UserMngResDto.ManagerList(
+    UserMngDto.ManagerListRes resDto = new UserMngDto.ManagerListRes(
         result.stream()
-          .map(item -> modelMapper.map(item, UserMngResDto.Manager.class))
+          .map(item -> modelMapper.map(item, UserMngDto.ManagerRes.class))
           .collect(Collectors.toList()));
     return resDto;
   }
   
   @GetMapping("/v1/user-mng/managers")
-  public PageResponse<UserMngResDto.Manager> findManagers(
+  public PageResponse<UserMngDto.ManagerRes> findManagers(
       @RequestParam(defaultValue = "1") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
     PageResponse<UserMngVo> result = userMngDao.findManagers(PageRequest.of(page, size));
     
-    PageResponse<UserMngResDto.Manager> resDto = new PageResponse<UserMngResDto.Manager>(
+    PageResponse<UserMngDto.ManagerRes> resDto = new PageResponse<UserMngDto.ManagerRes>(
         result.stream()
-          .map(item -> modelMapper.map(item, UserMngResDto.Manager.class))
+          .map(item -> modelMapper.map(item, UserMngDto.ManagerRes.class))
           .collect(Collectors.toList())
         , result.getPageInfo());
     return resDto;
   }
   
   @GetMapping("/v1/user-mng/managers/search")
-  public PageResponse<UserMngResDto.Manager> searchManagers(
+  public PageResponse<UserMngDto.ManagerRes> searchManagers(
       @RequestParam(required = false) String loginId,
       @RequestParam(required = false) String mgrName,
-      @RequestParam(required = false) String role,
+      @RequestParam(required = false) String roles,
       @RequestParam(required = false) YN disabledYn,
       @RequestParam(required = false) YN lockedYn,
       @RequestParam(required = false, defaultValue = "1") Integer page,
@@ -96,35 +95,35 @@ public class UserMngController {
     UserMngVo.SearchVo searchVo = UserMngVo.SearchVo.builder()
         .loginId(loginId)
         .mgrName(mgrName)
-        .role(role)
+        .roles(roles)
         .disabledYn(disabledYn)
         .lockedYn(lockedYn)
         .build();
     PageResponse<UserMngVo> result = userMngDao.searchManagers(PageRequest.of(page, size), searchVo);
     
-    PageResponse<UserMngResDto.Manager> resDto = new PageResponse<UserMngResDto.Manager>(
+    PageResponse<UserMngDto.ManagerRes> resDto = new PageResponse<UserMngDto.ManagerRes>(
         result.stream()
-          .map(item -> modelMapper.map(item, UserMngResDto.Manager.class))
+          .map(item -> modelMapper.map(item, UserMngDto.ManagerRes.class))
           .collect(Collectors.toList())
         , result.getPageInfo());
     return resDto;
   }
   
   @GetMapping("/v1/user-mng/manager/{id}")
-  public ResponseEntity<UserMngResDto.Manager> findManagerById(
+  public ResponseEntity<UserMngDto.ManagerRes> findManagerById(
       @PathVariable String id) {
     UserMngVo result = userMngDao.findManagerById(id);
-    UserMngResDto.Manager resDto = modelMapper.map(result, UserMngResDto.Manager.class);
+    UserMngDto.ManagerRes resDto = modelMapper.map(result, UserMngDto.ManagerRes.class);
     return ResponseEntity.ok(resDto);
   }
   
   @PostMapping("/v1/user-mng/manager/registration/send")
-  public ResponseEntity<?> sendRegisterCode(@RequestBody UserMngReqDto.SendRegistration reqDto) {
+  public ResponseEntity<?> sendRegisterCode(@RequestBody UserMngDto.SendRegistrationReq reqDto) {
     // redis 저장
     UserMngVo.AddVo addVo = UserMngVo.AddVo.builder()
         .loginId(reqDto.getToEmail())
         .mgrName(reqDto.getToName())
-        .roles(reqDto.getGrantRole())
+        .roles(reqDto.getGrantRoles())
         .build();
     
     String addVoJson;
@@ -165,7 +164,7 @@ public class UserMngController {
   }
   
   @PostMapping("/v1/user-mng/manager/registration")
-  public ResponseEntity<?> registeration(@RequestBody UserMngReqDto.Registeration reqDto) {
+  public ResponseEntity<?> registeration(@RequestBody UserMngDto.RegisterationReq reqDto) {
     if (!reqDto.getNewLoginPwd().equals(reqDto.getConfirmLoginPwd())) {
       throw new AppException(ERROR.A014);
     }
@@ -202,7 +201,7 @@ public class UserMngController {
   
   @PutMapping("/v1/user-mng/manager")
   public ResponseEntity<?> modifyManagerById(
-      @RequestBody UserMngReqDto.ModifyManager reqDto) {
+      @RequestBody UserMngDto.ModifyManagerReq reqDto) {
     UserMngVo.ModifyVo modifyVo = modelMapper.map(reqDto, UserMngVo.ModifyVo.class);
     
     int result = userMngService.modifyManagerById(modifyVo);
@@ -216,7 +215,7 @@ public class UserMngController {
   
   @PutMapping("/v1/user-mng/manager/password/change")
   public ResponseEntity<?> changeManagerPasswordById(
-      @RequestBody UserMngReqDto.ModifyManagerPassword reqDto) {
+      @RequestBody UserMngDto.ChangePasswordReq reqDto) {
     Optional<String> optLoginPwd = userMngDao.findManagerLoginPwdById(reqDto.getId());
     if (optLoginPwd.isPresent()) {
       String loginPwd = optLoginPwd.get().substring(optLoginPwd.get().indexOf("}")+1);

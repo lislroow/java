@@ -30,7 +30,7 @@ public class UserMngVo extends AuditVo {
   public static class SearchVo extends PageRequest {
     private String loginId;
     private String mgrName;
-    private String role;
+    private String roles;
     private YN disabledYn;
     private YN lockedYn;
   }
@@ -58,7 +58,7 @@ public class UserMngVo extends AuditVo {
     private String id;
     private String loginPwd;
     private String mgrName;
-    private String role;
+    private String roles;
     private YN disabledYn;
     private YN lockedYn;
   }

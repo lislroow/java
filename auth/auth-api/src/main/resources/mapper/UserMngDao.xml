@@ -60,8 +60,8 @@
       <if test="mgrName != null and !''.equals(mgrName)">
         AND UPPER(A.mgr_name) LIKE UPPER(#{mgrName}) || '%'
       </if>
-      <if test="role != null and !''.equals(role)">
-        AND A.role = #{role}
+      <if test="roles != null and !''.equals(roles)">
+        AND A.roles = #{roles}
       </if>
       <if test="disabledYn != null and !''.equals(disabledYn)">
         AND A.disabled_yn = #{disabledYn}
@@ -107,8 +107,7 @@
   <update id="modifyManagerById">
     UPDATE /* UserMngDao.modifyManagerById */
            manager
-       SET mgr_name = #{mgrName},
-           role = #{role},
+       SET roles = #{roles},
            disabled_yn = #{disabledYn},
            locked_yn = #{lockedYn},
            modify_time = now(),
