@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.auth.api.dao.TokenMngDao">
+  
+  <select id="searchTokens" resultType="TokenMngVo">
+    SELECT /* TokenMngDao.searchTokens */
+           A.token_id
+           , A.id
+           , A.client_ip
+           , A.use_yn
+           , A.create_id
+           , A.create_time
+           , (SELECT mgr_name FROM manager WHERE id = A.create_id) AS create_name
+           , A.modify_id
+           , A.modify_time
+           , (SELECT mgr_name FROM manager WHERE id = A.modify_id) AS modify_name
+    FROM   token A
+    <where>
+      <if test="tokenId != null and !''.equals(tokenId)">
+        AND UPPER(A.token_id) LIKE UPPER(#{tokenId}) || '%'
+      </if>
+      <if test="id != null and !''.equals(id)">
+        AND UPPER(A.id) LIKE UPPER(#{id}) || '%'
+      </if>
+      <if test="clientIp != null and !''.equals(clientIp)">
+        AND A.client_ip = #{clientIp}
+      </if>
+      <if test="useYn != null and !''.equals(useYn)">
+        AND A.use_yn = #{useYn}
+      </if>
+    </where>
+    ORDER BY A.id DESC
+  </select>
+  
+</mapper>
