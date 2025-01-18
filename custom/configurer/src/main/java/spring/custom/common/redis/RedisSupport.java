@@ -63,6 +63,10 @@ public class RedisSupport {
     return this.redisTemplate.opsForValue().get(key);
   }
   
+  public String getValueAndDelete(String key) {
+    return this.redisTemplate.opsForValue().getAndDelete(key);
+  }
+  
   public List<String> getList(String key) {
     String val = this.getValue(key);
     List<String> list = null;

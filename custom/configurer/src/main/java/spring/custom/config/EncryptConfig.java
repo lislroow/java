@@ -26,4 +26,5 @@ public class EncryptConfig {
     encryptor.setConfig(config);
     return encryptor;
   }
+  
 }

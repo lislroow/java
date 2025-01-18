@@ -1,13 +1,23 @@
 package spring.auth.api.controller;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.AbstractMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +27,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
+import spring.auth.api.dao.UserInfoDao;
 import spring.auth.api.dao.UserMngDao;
 import spring.auth.api.dto.UserMngReqDto;
 import spring.auth.api.dto.UserMngResDto;
@@ -28,6 +43,7 @@ import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
+import spring.custom.common.redis.RedisSupport;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +53,11 @@ public class UserMngController {
   final UserMngService userMngService;
   final UserMngDao userMngDao;
   final BCryptPasswordEncoder bcryptPasswordEncoder;
+  
+  final JavaMailSender mailSender;
+  final ObjectMapper objectMapper;
+  final RedisSupport redisSupport;
+  final UserInfoDao userInfoDao;
   
   @GetMapping("/v1/user-mng/managers/all")
   public UserMngResDto.ManagerList allManagers() {
@@ -97,13 +118,86 @@ public class UserMngController {
     return ResponseEntity.ok(resDto);
   }
   
-  @PostMapping("/v1/user-mng/manager")
-  public ResponseEntity<?> addManager(
-      @RequestBody UserMngReqDto.AddManager reqDto) {
-    UserMngVo.AddVo addVo = modelMapper.map(reqDto, UserMngVo.AddVo.class);
-    userMngService.addManager(addVo);
+  @PostMapping("/v1/user-mng/manager/registration/send")
+  public ResponseEntity<?> sendRegisterCode(@RequestBody UserMngReqDto.SendRegistration reqDto) {
+    // redis 저장
+    UserMngVo.AddVo addVo = UserMngVo.AddVo.builder()
+        .loginId(reqDto.getToEmail())
+        .mgrName(reqDto.getToName())
+        .roles(reqDto.getGrantRole())
+        .build();
     
-    return ResponseEntity.status(HttpStatus.CREATED).build(); // location 정보는 JPA 일 때 적합
+    String addVoJson;
+    try {
+      addVoJson = objectMapper.writeValueAsString(addVo);
+    } catch (JsonProcessingException e) {
+      throw new AppException(ERROR.A015.code(), e);
+    }
+    MessageDigest digest;
+    try {
+      digest = MessageDigest.getInstance("SHA-256");
+    } catch (NoSuchAlgorithmException e) {
+      throw new AppException(ERROR.A015.code(), e);
+    }
+    byte[] encodedHash = digest.digest((addVoJson).getBytes(StandardCharsets.UTF_8));
+    StringBuilder registerCode = new StringBuilder();
+    for (byte b : encodedHash) {
+      String hex = Integer.toHexString(0xff & b);
+      if (hex.length() == 1) registerCode.append('0'); // 한 자리 수는 앞에 '0' 추가
+      registerCode.append(hex);
+    }
+    Map.Entry<String, String> redisEntry = new AbstractMap.SimpleEntry<>(
+        "user:register-code:"+registerCode.toString(),
+        addVoJson);
+    this.redisSupport.setValue(redisEntry.getKey(), redisEntry.getValue(), Duration.ofDays(1));
+    
+    // email 발송
+    String subject = String.format("[develop] '%s' manager registeration code", reqDto.getToName());
+    String text = String.format("http://localhost/user/manager-register/%s", registerCode.toString());
+    
+    SimpleMailMessage message = new SimpleMailMessage();
+    message.setTo(reqDto.getToEmail());
+    message.setSubject(subject);
+    message.setText(text);
+    message.setFrom("lislroow@daum.net");
+    mailSender.send(message);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
+  
+  @PostMapping("/v1/user-mng/manager/registration")
+  public ResponseEntity<?> registeration(@RequestBody UserMngReqDto.Registeration reqDto) {
+    if (!reqDto.getNewLoginPwd().equals(reqDto.getConfirmLoginPwd())) {
+      throw new AppException(ERROR.A014);
+    }
+    String addVoJson = this.redisSupport.getValueAndDelete(
+        "user:register-code:"+reqDto.getRegisterCode());
+    if (ObjectUtils.isEmpty(addVoJson)) {
+      throw new AppException(ERROR.A016);
+    }
+    UserMngVo.AddVo addVo = null;
+    try {
+      addVo = objectMapper.readValue(addVoJson, UserMngVo.AddVo.class);
+    } catch (JsonMappingException e) {
+      throw new AppException(ERROR.A016, e);
+    } catch (JsonProcessingException e) {
+      throw new AppException(ERROR.A016, e);
+    }
+    
+    Optional<UserMngVo> optUserMngVo = userMngDao.findManagerByLoginId(addVo.getLoginId());
+    if (optUserMngVo.isPresent()) {
+      throw new AppException(ERROR.A018.code(), "'"+addVo.getLoginId() + "'" + ERROR.A018.message());
+    }
+    
+    String id = userInfoDao.selectNextId();
+    addVo.setId(id);
+    addVo.setLoginPwd(bcryptPasswordEncoder.encode(reqDto.getNewLoginPwd()));
+    addVo.setDisabledYn(YN.N);
+    addVo.setLockedYn(YN.N);
+    addVo.setPwdExpDate(LocalDate.now().plusDays(90));
+    addVo.setCreateId(id);
+    addVo.setModifyId(id);
+    userMngDao.addManager(addVo);
+    return ResponseEntity.ok().build();
   }
   
   @PutMapping("/v1/user-mng/manager")
@@ -120,8 +214,8 @@ public class UserMngController {
     }
   }
   
-  @PutMapping("/v1/user-mng/manager/password")
-  public ResponseEntity<?> modifyManagerPasswordById(
+  @PutMapping("/v1/user-mng/manager/password/change")
+  public ResponseEntity<?> changeManagerPasswordById(
       @RequestBody UserMngReqDto.ModifyManagerPassword reqDto) {
     Optional<String> optLoginPwd = userMngDao.findManagerLoginPwdById(reqDto.getId());
     if (optLoginPwd.isPresent()) {
@@ -137,7 +231,6 @@ public class UserMngController {
     
     String id = reqDto.getId();
     String newLoginPwd = bcryptPasswordEncoder.encode(reqDto.getNewLoginPwd());
-    newLoginPwd = String.format("{bcrypt}%s", newLoginPwd);
     int result = userMngService.changeManagerLoginPwdById(id, newLoginPwd);
     
     if (result == 0) {

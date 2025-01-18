@@ -23,6 +23,19 @@
     WHERE  A.id = #{id}
   </select>
   
+  <select id="findManagerByLoginId" resultType="UserMngVo">
+    SELECT /* UserMngDao.findManagerByLoginId */
+           A.*
+           , A.create_id
+           , A.create_time
+           , (SELECT mgr_name FROM manager WHERE id = A.create_id) AS create_name
+           , A.modify_id
+           , A.modify_time
+           , (SELECT mgr_name FROM manager WHERE id = A.modify_id) AS modify_name
+    FROM   manager A
+    WHERE  A.login_id = #{loginId}
+  </select>
+  
   <select id="findManagers">
     SELECT /* UserMngDao.findManagers */
            A.*
@@ -65,8 +78,9 @@
       INTO manager (
         id,
         login_id,
-        password,
+        login_pwd,
         mgr_name,
+        roles,
         disabled_yn,
         locked_yn,
         pwd_exp_date,
@@ -77,9 +91,9 @@
       ) VALUES (
         #{id},
         #{loginId},
-        #{password},
+        #{loginPwd},
         #{mgrName},
-        #{role},
+        #{roles},
         #{disabledYn},
         #{lockedYn},
         #{pwdExpDate},

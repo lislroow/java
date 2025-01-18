@@ -125,8 +125,8 @@ public class SecurityConfig {
   DaoAuthenticationProvider daoAuthenticationProvider() {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
     provider.setUserDetailsService(memberLoginService);
-    provider.setPasswordEncoder(new UserPasswordEncoder()); // no check
-    // provider.setPasswordEncoder(new BCryptPasswordEncoder()); // {bcrypt}, PasswordEncoderFactories, DelegatingPasswordEncoder
+    //provider.setPasswordEncoder(new UserPasswordEncoder()); // no check
+    provider.setPasswordEncoder(new BCryptPasswordEncoder()); // {bcrypt}, PasswordEncoderFactories, DelegatingPasswordEncoder
     return provider;
   }
   

@@ -1,13 +1,13 @@
 INSERT INTO manager (
   id,
   login_id, login_pwd,
-  mgr_name, disabled_yn, locked_yn,
+  roles, mgr_name, disabled_yn, locked_yn,
   pwd_exp_date,
   create_id, modify_id
 ) VALUES (
   (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0')),
-  'myeonggu.kim@kakao.com', '{bcrypt}$2a$10$Bt6i86KPki5d2F0a8qvLTu8amelkSknno8U5iYJqaS0RDnI34TqIq',
-  '김매니저', 'N', 'N',
+  'myeonggu.kim@kakao.com', '$2a$10$Bt6i86KPki5d2F0a8qvLTu8amelkSknno8U5iYJqaS0RDnI34TqIq',
+  'ADMIN,MANAGER', '김매니저', 'N', 'N',
   CURRENT_DATE + INTERVAL '90 day',
   (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0')),
   (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0')));

@@ -169,7 +169,7 @@ public class TokenService {
   }
   
   public TokenResDto.Verify verifyToken(String tokenId, String clientIdent) {
-    TOKEN.USER userType = IdGenerator.getTokenUser(tokenId).orElseThrow(() -> new AppException(ERROR.A002));
+    TOKEN.USER userType = TOKEN.USER.fromCode(tokenId.split(":")[0]).orElseThrow(() -> new AppException(ERROR.A002));
     String token = null;
     switch (userType) {
     case MEMBER:
@@ -208,7 +208,7 @@ public class TokenService {
   }
   
   public TokenResDto.Refresh refreshToken(String oldRtkUuid) {
-    TOKEN.USER userType = IdGenerator.getTokenUser(oldRtkUuid).orElseThrow(() -> new AppException(ERROR.A002));
+    TOKEN.USER userType = TOKEN.USER.fromCode(oldRtkUuid.split(":")[0]).orElseThrow(() -> new AppException(ERROR.A004));
     String clientIdent = IdGenerator.createClientIdent();
     String oldRedisKey = null;
     switch (userType) {

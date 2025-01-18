@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS manager
 (
   id VARCHAR(15),
   login_id VARCHAR(255),
-  login_pwd VARCHAR(70),
+  login_pwd VARCHAR(60),
+  roles VARCHAR(255),
   mgr_name VARCHAR(255),
   disabled_yn CHAR(1) DEFAULT 'N',
   locked_yn CHAR(1) DEFAULT 'N',

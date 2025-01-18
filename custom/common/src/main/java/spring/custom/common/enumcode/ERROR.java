@@ -30,6 +30,10 @@ public enum ERROR {
   /** credentials expired */ A012("credentials expired"),
   /** current password not matched */ A013("current password not matched"),
   /** confirm password not matched */ A014("confirm password not matched"),
+  /** send register code error */ A015("send register code error"),
+  /** invalid register code */ A016("invalid register code"),
+  /** bad credentials */ A017("bad credentials"),
+  /** already registered loginId */ A018("already registered"),
   
   /** access denied */ A403("access denied"),
   

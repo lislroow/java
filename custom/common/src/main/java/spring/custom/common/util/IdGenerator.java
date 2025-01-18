@@ -17,22 +17,13 @@ import spring.custom.common.exception.AppException;
 
 public class IdGenerator {
   
-  public static final String TOKEN_SEPARATOR = ":";
-  
   public static String createTokenId(TOKEN.USER tokenUser) {
     String tokenId = null;
     if (tokenUser == null) {
       throw new AppException(ERROR.A001.code(), "token user is null");
     }
-    tokenId = tokenUser.code() + IdGenerator.TOKEN_SEPARATOR + UUID.randomUUID().toString().replaceAll("-", "");
+    tokenId = tokenUser.code() + ":" + UUID.randomUUID().toString().replaceAll("-", "");
     return tokenId;
-  }
-  
-  public static Optional<TOKEN.USER> getTokenUser(String tokenId) {
-    if (tokenId == null) {
-      throw new AppException(ERROR.A007);
-    }
-    return TOKEN.USER.fromCode(tokenId.split(TOKEN_SEPARATOR)[0]);
   }
   
   public static String createClientIdent() {

@@ -15,6 +15,7 @@ public interface UserMngDao {
   List<UserMngVo> allManagers();
   
   UserMngVo findManagerById(String id);
+  Optional<UserMngVo> findManagerByLoginId(String loginId);
   
   PageResponse<UserMngVo> findManagers(PageRequest pageRequest);
   

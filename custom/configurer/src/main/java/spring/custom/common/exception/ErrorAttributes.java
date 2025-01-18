@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -57,6 +58,9 @@ public class ErrorAttributes extends DefaultErrorAttributes {
       AppException appException = (AppException) t;
       problemDetails.put("title", appException.getErrorCode());
       problemDetails.put("detail", appException.getErrorMessage());
+    } else if (t instanceof BadCredentialsException) {
+      problemDetails.put("title", ERROR.A017.code());
+      problemDetails.put("detail", ERROR.A017.message());
     } else if (t instanceof DisabledException) {
       problemDetails.put("title", ERROR.A010.code());
       problemDetails.put("detail", ERROR.A010.message());

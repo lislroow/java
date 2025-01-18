@@ -15,7 +15,8 @@ public class UserMngService {
   private UserMngDao userMngDao;
   
   @Transactional
-  public int addManager(UserMngVo.AddVo addVo) {
+  public int sendRegisterCode(UserMngVo.AddVo addVo) {
+    
     return userMngDao.addManager(addVo);
   }
   
