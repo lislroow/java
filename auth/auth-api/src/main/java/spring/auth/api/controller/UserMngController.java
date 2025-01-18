@@ -40,6 +40,7 @@ import spring.auth.api.vo.UserMngVo;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.exception.data.DataNotFoundException;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
 import spring.custom.common.redis.RedisSupport;
@@ -112,7 +113,8 @@ public class UserMngController {
   @GetMapping("/v1/user-mng/manager/{id}")
   public ResponseEntity<UserMngDto.ManagerRes> findManagerById(
       @PathVariable String id) {
-    UserMngVo result = userMngDao.findManagerById(id);
+    UserMngVo result = userMngDao.findManagerById(id)
+        .orElseThrow(() -> new DataNotFoundException());;
     UserMngDto.ManagerRes resDto = modelMapper.map(result, UserMngDto.ManagerRes.class);
     return ResponseEntity.ok(resDto);
   }
