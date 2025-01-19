@@ -7,7 +7,7 @@
     SELECT /* MybatisCrudDao.allScientists */
            A.*,
            J.cd_nmm AS fos_nm
-    FROM   scientist A
+    FROM   pt_scientist A
       LEFT OUTER JOIN sy_code J ON A.fos_cd = J.cd AND J.cd_grp = 'FOS'
     ORDER BY A.birth_year DESC
   </select>
@@ -22,7 +22,7 @@
            , A.modify_id
            , A.modify_time
            , (SELECT mgr_name FROM au_manager WHERE id = A.modify_id) AS modify_name
-    FROM   scientist A
+    FROM   pt_scientist A
     WHERE  A.id = #{id}
   </select>
   
@@ -30,7 +30,7 @@
     SELECT /* MybatisCrudDao.findScientists */
            A.*
            , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
-    FROM   scientist A
+    FROM   pt_scientist A
     ORDER BY A.birth_year DESC
   </select>
   
@@ -44,7 +44,7 @@
            , A.modify_id
            , A.modify_time
            , (SELECT mgr_name FROM au_manager WHERE id = A.modify_id) AS modify_name
-    FROM   scientist A
+    FROM   pt_scientist A
     <where>
       <if test="name != null and !''.equals(name)">
         AND UPPER(A.name) LIKE '%' || UPPER(#{name}) || '%'
@@ -58,7 +58,7 @@
   
   <insert id="addScientist">
     INSERT /* MybatisCrudDao.addScientist */
-      INTO scientist (
+      INTO pt_scientist (
         name,
         birth_year,
         death_year,

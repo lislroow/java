@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS scientist;
-CREATE TABLE IF NOT EXISTS scientist 
+CREATE TABLE IF NOT EXISTS pt_scientist 
 (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255),
@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS scientist
   modify_id INT DEFAULT 1
 );
 
-/* access_control */
-DROP TABLE IF EXISTS access_control;
-CREATE TABLE IF NOT EXISTS access_control 
+/*  pt_access_control  */
+DROP TABLE IF EXISTS  pt_access_control ;
+CREATE TABLE IF NOT EXISTS  pt_access_control  
 (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   ip_addr VARCHAR(15),
@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS access_control
 );
 
 
-/* card */
+/* pt_card */
 DROP TABLE IF EXISTS card;
-CREATE TABLE IF NOT EXISTS card 
+CREATE TABLE IF NOT EXISTS pt_card 
 (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   card_no VARCHAR(16),
@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS card
 );
 
 
-/* card_payment */
+/* pt_card_payment */
 DROP TABLE IF EXISTS card_payment;
-CREATE TABLE IF NOT EXISTS card_payment 
+CREATE TABLE IF NOT EXISTS pt_card_payment 
 (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   card_no VARCHAR(16),

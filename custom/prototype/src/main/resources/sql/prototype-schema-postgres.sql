@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS sy_code_group CASCADE;
+DROP TABLE IF EXISTS sy_code_group CASCADE ;
 CREATE TABLE IF NOT EXISTS sy_code_group
 (
   cd_grp VARCHAR(20),
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS sy_code_group
   PRIMARY KEY (cd_grp)
 );
 
-DROP TABLE IF EXISTS sy_code CASCADE;
+DROP TABLE IF EXISTS sy_code CASCADE ;
 CREATE TABLE IF NOT EXISTS sy_code
 (
   cd_grp VARCHAR(20),
@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS sy_code
     ON UPDATE CASCADE
 );
 
-DROP TABLE IF EXISTS scientist;
-CREATE TABLE IF NOT EXISTS scientist 
+DROP TABLE IF EXISTS pt_scientist CASCADE ;
+CREATE TABLE IF NOT EXISTS pt_scientist 
 (
   id SERIAL,
   name VARCHAR(255),
@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS scientist
 );
 
 
-/* access_control */
-DROP TABLE IF EXISTS access_control;
-CREATE TABLE IF NOT EXISTS access_control 
+/*  pt_access_control  */
+DROP TABLE IF EXISTS  pt_access_control CASCADE ;
+CREATE TABLE IF NOT EXISTS  pt_access_control
 (
   id SERIAL,
   ip_addr VARCHAR(15),
@@ -57,9 +57,9 @@ CREATE TABLE IF NOT EXISTS access_control
 );
 
 
-/* card */
-DROP TABLE IF EXISTS card;
-CREATE TABLE IF NOT EXISTS card 
+/* pt_card */
+DROP TABLE IF EXISTS pt_card CASCADE ;
+CREATE TABLE IF NOT EXISTS pt_card 
 (
   id SERIAL,
   card_no VARCHAR(16),
@@ -69,9 +69,9 @@ CREATE TABLE IF NOT EXISTS card
 );
 
 
-/* card_payment */
-DROP TABLE IF EXISTS card_payment;
-CREATE TABLE IF NOT EXISTS card_payment 
+/* pt_card_payment */
+DROP TABLE IF EXISTS pt_card_payment CASCADE ;
+CREATE TABLE IF NOT EXISTS pt_card_payment 
 (
   id SERIAL,
   card_no VARCHAR(16),
