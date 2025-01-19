@@ -23,7 +23,7 @@ public class CommonCodeController {
   final CommonCodeDao commonCodeDao;
   
   @GetMapping("/v1/common/codes/all")
-  @Cacheable(value = "cache:common-code", key = "all")
+  @Cacheable(value = "cache:common-code")
   public List<CommonCodeDto.AllCodeRes> allCodes() {
     List<CommonCodeVo.AllCodeVo> result = commonCodeDao.allCodes();
     
@@ -42,7 +42,6 @@ public class CommonCodeController {
   }
   
   @GetMapping("/v1/common/codes/{cdGrp}")
-  @Cacheable(value = "cache:common-code", key = "#cdGrp")
   public List<CommonCodeDto.CodeRes> findCodesByCdGrp(
       @PathVariable String cdGrp) {
     List<CommonCodeVo.CodeVo> result = commonCodeDao.findCodesByCdGrp(cdGrp);
