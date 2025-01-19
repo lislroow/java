@@ -24,8 +24,8 @@ public class ManagerAuthVo implements AuthDetails {
   private String loginId;
   private String loginPwd;
   private String mgrName;
-  private String role;
-  private YN disabledYn;
+  private String roles;
+  private YN enableYn;
   private YN lockedYn;
   private LocalDate pwdExpDate;
   
@@ -65,7 +65,7 @@ public class ManagerAuthVo implements AuthDetails {
 
   @Override
   public boolean isEnabled() {
-    return disabledYn.compareTo(YN.N) == 0;
+    return enableYn.compareTo(YN.Y) == 0;
   }
   
 }

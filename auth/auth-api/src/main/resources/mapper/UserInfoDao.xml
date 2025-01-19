@@ -5,7 +5,7 @@
   
   <select id="selectNextId">
     SELECT /* UserInfoDao.selectNextId */
-           TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0') AS id
+           #{idprefix}||TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0') AS id
   </select>
   
   <select id="selectMemberById" resultType="MemberVo">
@@ -13,7 +13,7 @@
            id,
            login_id,
            nickname
-    FROM   member a
+    FROM   au_member a
     WHERE  a.id = #{id}
   </select>
   
@@ -22,7 +22,7 @@
            id,
            login_id,
            mgr_name
-    FROM   manager a
+    FROM   au_manager a
     WHERE  a.id = #{id}
   </select>
   

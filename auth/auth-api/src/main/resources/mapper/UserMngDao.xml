@@ -6,7 +6,7 @@
   <select id="allManagers" resultType="UserMngVo">
     SELECT /* UserMngDao.allManagers */
            A.*
-    FROM   manager A
+    FROM   au_manager A
     ORDER BY A.id DESC
   </select>
   
@@ -15,11 +15,11 @@
            A.*
            , A.create_id
            , A.create_time
-           , (SELECT mgr_name FROM manager WHERE id = A.create_id) AS create_name
+           , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
            , A.modify_id
            , A.modify_time
-           , (SELECT mgr_name FROM manager WHERE id = A.modify_id) AS modify_name
-    FROM   manager A
+           , (SELECT mgr_name FROM au_manager WHERE id = A.modify_id) AS modify_name
+    FROM   au_manager A
     WHERE  A.id = #{id}
   </select>
   
@@ -28,18 +28,18 @@
            A.*
            , A.create_id
            , A.create_time
-           , (SELECT mgr_name FROM manager WHERE id = A.create_id) AS create_name
+           , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
            , A.modify_id
            , A.modify_time
-           , (SELECT mgr_name FROM manager WHERE id = A.modify_id) AS modify_name
-    FROM   manager A
+           , (SELECT mgr_name FROM au_manager WHERE id = A.modify_id) AS modify_name
+    FROM   au_manager A
     WHERE  A.login_id = #{loginId}
   </select>
   
   <select id="findManagers">
     SELECT /* UserMngDao.findManagers */
            A.*
-    FROM   manager A
+    FROM   au_manager A
     ORDER BY A.id DESC
   </select>
   
@@ -48,11 +48,11 @@
            A.*
            , A.create_id
            , A.create_time
-           , (SELECT mgr_name FROM manager WHERE id = A.create_id) AS create_name
+           , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
            , A.modify_id
            , A.modify_time
-           , (SELECT mgr_name FROM manager WHERE id = A.modify_id) AS modify_name
-    FROM   manager A
+           , (SELECT mgr_name FROM au_manager WHERE id = A.modify_id) AS modify_name
+    FROM   au_manager A
     <where>
       <if test="loginId != null and !''.equals(loginId)">
         AND UPPER(A.login_id) LIKE UPPER(#{loginId}) || '%'
@@ -63,8 +63,8 @@
       <if test="roles != null and !''.equals(roles)">
         AND A.roles = #{roles}
       </if>
-      <if test="disabledYn != null and !''.equals(disabledYn)">
-        AND A.disabled_yn = #{disabledYn}
+      <if test="enableYn != null and !''.equals(enableYn)">
+        AND A.enable_yn = #{enableYn}
       </if>
       <if test="lockedYn != null and !''.equals(lockedYn)">
         AND A.locked_yn = #{lockedYn}
@@ -75,13 +75,13 @@
   
   <insert id="addManager">
     INSERT /* UserMngDao.addManager */
-      INTO manager (
+      INTO au_manager (
         id,
         login_id,
         login_pwd,
         mgr_name,
         roles,
-        disabled_yn,
+        enable_yn,
         locked_yn,
         pwd_exp_date,
         create_time,
@@ -94,7 +94,7 @@
         #{loginPwd},
         #{mgrName},
         #{roles},
-        #{disabledYn},
+        #{enableYn},
         #{lockedYn},
         #{pwdExpDate},
         now(),
@@ -106,9 +106,9 @@
   
   <update id="modifyManagerById">
     UPDATE /* UserMngDao.modifyManagerById */
-           manager
+           au_manager
        SET roles = #{roles},
-           disabled_yn = #{disabledYn},
+           enable_yn = #{enableYn},
            locked_yn = #{lockedYn},
            modify_time = now(),
            modify_id = #{modifyId}
@@ -117,20 +117,20 @@
   
   <delete id="removeManagerById">
     DELETE /* UserMngDao.removeManagerById */
-      FROM manager
+      FROM au_manager
      WHERE id = #{id}
   </delete>
   
   <select id="findManagerLoginPwdById">
     SELECT /* UserMngDao.findManagerLoginPwdById */
            A.login_pwd
-    FROM   manager A
+    FROM   au_manager A
     WHERE  A.id = #{id}
   </select>
   
   <update id="changeManagerLoginPwdById">
     UPDATE /* UserMngDao.changeManagerLoginPwdById */
-           manager
+           au_manager
        SET login_pwd = #{newLoginPwd},
            pwd_exp_date = CURRENT_DATE + INTERVAL '90 day',
            modify_time = now(),

@@ -61,7 +61,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         case MANAGER:
           principal = ManagerVo.ofToken(userAttr);
           break;
-        case OPENAPI:
+        case CLIENT:
           principal = OpenapiVo.ofToken(userAttr);
           break;
         default:

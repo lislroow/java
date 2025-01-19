@@ -11,10 +11,10 @@
            , A.use_yn
            , A.create_id
            , A.create_time
-           , (SELECT mgr_name FROM manager WHERE id = A.create_id) AS create_name
+           , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
            , A.modify_id
            , A.modify_time
-           , (SELECT mgr_name FROM manager WHERE id = A.modify_id) AS modify_name
+           , (SELECT mgr_name FROM au_manager WHERE id = A.modify_id) AS modify_name
     FROM   token A
     <where>
       <if test="tokenId != null and !''.equals(tokenId)">

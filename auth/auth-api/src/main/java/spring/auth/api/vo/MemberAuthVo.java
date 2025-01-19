@@ -1,5 +1,6 @@
 package spring.auth.api.vo;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -18,19 +19,27 @@ public class MemberAuthVo implements AuthDetails {
   private static final long serialVersionUID = -5171902992965983740L;
   
   private String id;
+  private String loginId;
+  private String loginPwd;
+  private String roles;
+  private String realname;
   private String registrationId;
   private String oauth2Id;
-  private String loginId;
-  private String password;
   private String nickname;
-  private String role;
   private String ip;
   private String userAgent;
-  private YN memberYn;
+  private YN enableYn;
+  private YN lockedYn;
+  private LocalDate pwdExpDate;
   
   @Override
   public String getUsername() {
     return this.id;
+  }
+  
+  @Override
+  public String getPassword() {
+    return this.loginPwd;
   }
   
   @Override
@@ -44,6 +53,16 @@ public class MemberAuthVo implements AuthDetails {
         Map.entry("nickname", this.nickname)
         );
     return map;
+  }
+  
+  @Override
+  public boolean isAccountNonLocked() {
+    return lockedYn.compareTo(YN.N) == 0;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return enableYn.compareTo(YN.Y) == 0;
   }
   
 }

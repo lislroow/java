@@ -1,6 +1,7 @@
 /* code_group */
 INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('USE_YN', '사용 여부');
 INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('LOCKED_YN', '잠김 여부');
+INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('ENABLE_YN', '활성화 여부');
 INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('DISABLED_YN', '비활성화 여부');
 INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('FOS', 'field of study');
 INSERT INTO code_group (cd_grp, cd_grp_nm) VALUES('FOSP', 'physics');
@@ -10,6 +11,8 @@ INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('USE_YN', 'Y', 1, '사용');
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('USE_YN', 'N', 2, '미사용');
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('LOCKED_YN', 'Y', 1, '잠김');
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('LOCKED_YN', 'N', 2, '정상');
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('ENABLE_YN', 'Y', 1, '활성');
+INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('ENABLE_YN', 'N', 2, '비활성');
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('DISABLED_YN', 'Y', 1, '비활성');
 INSERT INTO code (cd_grp, cd, seq, cd_nm) VALUES('DISABLED_YN', 'N', 2, '정상');
 

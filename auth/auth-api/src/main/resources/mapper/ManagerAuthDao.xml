@@ -6,25 +6,25 @@
   <select id="selectByLoginId" resultType="ManagerAuthVo">
     SELECT /* ManagerAuthDao.selectByLoginId */
            id,
-           'ROLE_MANAGER' as role,
            login_id,
            login_pwd,
+           roles,
            mgr_name,
-           disabled_yn,
+           enable_yn,
            locked_yn,
            pwd_exp_date
-    FROM   manager A
+    FROM   au_manager A
     WHERE  A.login_id = #{loginId}
   </select>
   
   <select id="selectById" resultType="ManagerAuthVo">
     SELECT /* ManagerAuthDao.selectById */
            id,
-           'ROLE_MANAGER' as role,
            login_id,
            login_pwd,
+           roles,
            mgr_name
-    FROM   manager A
+    FROM   au_manager A
     WHERE  A.id = #{id}
   </select>
   

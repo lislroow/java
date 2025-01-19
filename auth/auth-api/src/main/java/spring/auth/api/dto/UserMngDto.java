@@ -20,7 +20,7 @@ public class UserMngDto {
     private String loginId;
     private String mgrName;
     private String roles;
-    private YN disabledYn;
+    private YN enableYn;
     private YN lockedYn;
     private LocalDate pwdExpDate;
   }
@@ -61,7 +61,7 @@ public class UserMngDto {
   public static class ModifyManagerReq {
     private String id;
     private String roles;
-    private YN disabledYn;
+    private YN enableYn;
     private YN lockedYn;
   }
   

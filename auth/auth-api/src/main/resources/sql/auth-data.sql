@@ -1,24 +1,30 @@
-INSERT INTO manager (
+INSERT INTO au_manager (
   id,
   login_id, login_pwd,
-  roles, mgr_name, disabled_yn, locked_yn,
+  roles, mgr_name, enable_yn, locked_yn,
   pwd_exp_date,
   create_id, modify_id
 ) VALUES (
-  (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0')),
+  (select 1||TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0')),
   'myeonggu.kim@kakao.com', '$2a$10$Bt6i86KPki5d2F0a8qvLTu8amelkSknno8U5iYJqaS0RDnI34TqIq',
-  'ADMIN,MANAGER', '김매니저', 'N', 'N',
+  'ADMIN,MANAGER', '김매니저', 'Y', 'N',
   CURRENT_DATE + INTERVAL '90 day',
-  (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0')),
-  (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0')));
+  (select 1||TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0')),
+  (select 1||TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0'))
+);
 
 
 
-INSERT INTO openapi_user (id, login_id, user_name, create_id, modify_id) VALUES(
-  (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0')),
-  'lislroow@daum.net', '김길동',
-  (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0')),
-  (select TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0')));
+INSERT INTO au_client (
+  id,
+  client_name, client_ip,
+  create_id, modify_id
+) VALUES(
+  (select 4||TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0')),
+  '데이터 수집기', '::1',
+  (select 4||TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0')),
+  (select 4||TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(CURRVAL('sq_user_id')||'', 5, '0'))
+);
 
 
 /*

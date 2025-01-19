@@ -6,31 +6,23 @@
   <select id="selectByLoginId" resultType="MemberAuthVo">
     SELECT /* MemberAuthDao.selectByLoginId */
            id,
-           '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
-           'ROLE_MEMBER' as role,
-           'Y' as memberYn,
-           registration_id,
-           oauth2_id,
            login_id,
-           nickname
-    FROM   member A
+           login_pwd,
+           roles
+    FROM   au_member A
     WHERE  A.login_id = #{loginId}
     UNION ALL
     SELECT id,
-           '{bcrypt}$2a$10$N3gf.ZvWGhen86NCWDdnmenUQqLBmAN1rQWeMJQHMr.sz3SF9..EW' as password,
-           'ROLE_MANAGER' as role,
-           'N' as memberYn,
-           '' as registration_id,
-           '' as oauth2_id,
            login_id,
-           mgr_name as nickname
-    FROM   manager A
+           login_pwd,
+           roles
+    FROM   au_manager A
     WHERE  A.login_id = #{loginId}
   </select>
   
   <insert id="insert">
     INSERT /* MemberAuthDao.insert */
-      INTO member (
+      INTO au_member (
       id,
       registration_id,
       oauth2_id,

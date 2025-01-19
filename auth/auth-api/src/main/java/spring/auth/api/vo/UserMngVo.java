@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import spring.custom.common.audit.AuditVo;
-import spring.custom.common.enumcode.ROLE;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.mybatis.PageRequest;
 
@@ -21,7 +20,7 @@ public class UserMngVo extends AuditVo {
   private String loginPwd;
   private String mgrName;
   private String roles;
-  private YN disabledYn;
+  private YN enableYn;
   private YN lockedYn;
   private LocalDate pwdExpDate;
   
@@ -31,7 +30,7 @@ public class UserMngVo extends AuditVo {
     private String loginId;
     private String mgrName;
     private String roles;
-    private YN disabledYn;
+    private YN enableYn;
     private YN lockedYn;
   }
   
@@ -45,7 +44,7 @@ public class UserMngVo extends AuditVo {
     private String loginPwd;
     private String mgrName;
     private String roles;
-    private YN disabledYn;
+    private YN enableYn;
     private YN lockedYn;
     private LocalDate pwdExpDate;
   }
@@ -59,7 +58,7 @@ public class UserMngVo extends AuditVo {
     private String loginPwd;
     private String mgrName;
     private String roles;
-    private YN disabledYn;
+    private YN enableYn;
     private YN lockedYn;
   }
   

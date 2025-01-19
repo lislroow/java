@@ -16,6 +16,7 @@ public class TokenVo {
   private String id;
   private String token;
   private String clientIp;
-  private YN useYn;
+  private YN enableYn;
+  private YN lockedYn;
   
 }

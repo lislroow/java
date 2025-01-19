@@ -56,7 +56,7 @@ public class TokenController {
       authVo = managerAuthDao.selectById(id)
         .orElseThrow(() -> new AppException(ERROR.A003));
       break;
-    case OPENAPI:
+    case CLIENT:
       authVo = opendataAuthDao.selectById(id)
       .orElseThrow(() -> new AppException(ERROR.A003));
       break;

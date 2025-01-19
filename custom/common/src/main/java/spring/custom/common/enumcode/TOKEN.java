@@ -39,20 +39,26 @@ public class TOKEN {
   }
   
   public enum USER {
-    MEMBER("member"),
-    MANAGER("manager"),
-    OPENAPI("openapi"),
-    GUEST("guest")
+    MANAGER(1, "manager"),
+    MEMBER(2, "member"),
+    CLIENT(3, "client"),
+    GUEST(null, "guest")
     ;
     
+    private Integer idprefix;
     private String code;
     
-    private USER(String code) {
+    private USER(Integer idprefix, String code) {
+      this.idprefix = idprefix;
       this.code = code;
     }
-    public String code() {
     
+    public String code() {
       return this.code;
+    }
+    
+    public Integer idprefix() {
+      return this.idprefix;
     }
     
     public static Optional<TOKEN.USER> fromCode(String code) {

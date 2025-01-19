@@ -28,7 +28,7 @@ public class TokenEndpoint {
     // token 발행 요청 정보 조회
     
     // token 발행 처리
-    TokenDto.CreateRes resDto = feignTokenController.create(TOKEN.USER.OPENAPI, reqDto.userId);
+    TokenDto.CreateRes resDto = feignTokenController.create(TOKEN.USER.CLIENT, reqDto.userId);
     
     // token 발행 상태 갱신
     String mgrId = SecurityContextHolder.getContext().getAuthentication().getName();

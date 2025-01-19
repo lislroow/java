@@ -16,23 +16,24 @@ public class UserAuthentication implements OAuth2User, UserDetails {
   
   private static final long serialVersionUID = 2501815366855398147L;
   
-  private AuthDetails tokenUserDetails;
+  private AuthDetails authDetails;
   
   private transient TOKEN.USER userType;
-  private transient String role;
+  private transient String roles;
   private transient Map<String, Object> userAttr;
   
-  public UserAuthentication(TOKEN.USER userType, AuthDetails tokenUserDetails) {
+  public UserAuthentication(TOKEN.USER userType, AuthDetails authDetails) {
     this.userType = userType;
-    this.tokenUserDetails = tokenUserDetails;
-    this.role = tokenUserDetails.getRole();
-    this.userAttr = tokenUserDetails.toToken();
+    this.authDetails = authDetails;
+    
+    this.roles = authDetails.getRoles();
+    this.userAttr = authDetails.toToken();
   }
   
   // [OAuth2User, UserDetails]
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return tokenUserDetails.getAuthorities();
+    return authDetails.getAuthorities();
   }
   // --[OAuth2User, UserDetails]
   
@@ -46,7 +47,7 @@ public class UserAuthentication implements OAuth2User, UserDetails {
   // [AuthenticatedPrincipal]
   @Override
   public String getName() {
-    return tokenUserDetails.getUsername();
+    return authDetails.getUsername();
   }
   // --[AuthenticatedPrincipal]
   
@@ -54,11 +55,11 @@ public class UserAuthentication implements OAuth2User, UserDetails {
   // [UserDetails]
   @Override
   public String getPassword() {
-    return tokenUserDetails.getPassword();
+    return authDetails.getPassword();
   }
   @Override
   public String getUsername() {
-    return tokenUserDetails.getUsername();
+    return authDetails.getUsername();
   }
   @Override
   public boolean isAccountNonExpired() {
@@ -66,15 +67,15 @@ public class UserAuthentication implements OAuth2User, UserDetails {
   }
   @Override
   public boolean isAccountNonLocked() {
-    return tokenUserDetails.isAccountNonLocked();
+    return authDetails.isAccountNonLocked();
   }
   @Override
   public boolean isCredentialsNonExpired() {
-    return tokenUserDetails.isCredentialsNonExpired();
+    return authDetails.isCredentialsNonExpired();
   }
   @Override
   public boolean isEnabled() {
-    return tokenUserDetails.isEnabled();
+    return authDetails.isEnabled();
   }
   // --[UserDetails]
 }

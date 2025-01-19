@@ -90,7 +90,7 @@ public class UserMngController {
       @RequestParam(required = false) String loginId,
       @RequestParam(required = false) String mgrName,
       @RequestParam(required = false) String roles,
-      @RequestParam(required = false) YN disabledYn,
+      @RequestParam(required = false) YN enableYn,
       @RequestParam(required = false) YN lockedYn,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
@@ -98,7 +98,7 @@ public class UserMngController {
         .loginId(loginId)
         .mgrName(mgrName)
         .roles(roles)
-        .disabledYn(disabledYn)
+        .enableYn(enableYn)
         .lockedYn(lockedYn)
         .build();
     PageResponse<UserMngVo> result = userMngDao.searchManagers(PageRequest.of(page, size), searchVo);
@@ -186,7 +186,7 @@ public class UserMngController {
     String id = userInfoDao.selectNextId();
     addVo.setId(id);
     addVo.setLoginPwd(bcryptPasswordEncoder.encode(reqDto.getNewLoginPwd()));
-    addVo.setDisabledYn(YN.N);
+    addVo.setEnableYn(YN.Y);
     addVo.setLockedYn(YN.N);
     addVo.setPwdExpDate(LocalDate.now().plusDays(90));
     addVo.setCreateId(id);

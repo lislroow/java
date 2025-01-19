@@ -5,14 +5,14 @@
   
   <select id="findByTokenId" resultType="TokenVo">
     SELECT /* TokenDao.findByTokenId */
-           token_id, token, client_ip, use_yn
-    FROM   token
+           token_id, token, client_ip, enable_yn, locked_yn
+    FROM   au_client_token
     WHERE  token_id = #{tokenId}
   </select>
   
   <insert id="insert">
     INSERT /* TokenDao.insert */
-      INTO token (
+      INTO au_client_token (
       token_id,
       user_id,
       token

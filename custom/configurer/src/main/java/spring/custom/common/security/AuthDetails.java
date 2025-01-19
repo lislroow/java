@@ -13,10 +13,10 @@ public interface AuthDetails extends UserDetails {
   
   Map<String, Object> toToken();
   
-  String getRole();
+  String getRoles();
   
   default Collection<? extends GrantedAuthority> getAuthorities() {
-    return Arrays.stream(this.getRole().split(","))
+    return Arrays.stream(this.getRoles().split(","))
         .map(String::trim)
         .filter(role -> !role.isEmpty())
         .map(role -> new SimpleGrantedAuthority("ROLE_" + role))

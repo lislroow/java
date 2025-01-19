@@ -19,7 +19,7 @@ public class OpenapiAuthVo implements AuthDetails {
   private String id;
   private String userId;
   private String userName;
-  private String role;
+  private String roles;
   
   @Override
   public String getUsername() {

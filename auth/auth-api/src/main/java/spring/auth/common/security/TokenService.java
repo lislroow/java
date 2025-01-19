@@ -123,7 +123,7 @@ public class TokenService {
           .issuer(ISSUER)
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userAuthentication.getUserType().code())
           .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), userAuthentication.getUserAttr())
-          .claim(TOKEN.JWT_CLAIM.ROLE.code(), userAuthentication.getRole())
+          .claim(TOKEN.JWT_CLAIM.ROLE.code(), userAuthentication.getRoles())
           .expirationTime(new Date(rtkExpTime))
           .build();
       
@@ -152,7 +152,7 @@ public class TokenService {
         this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
         //this.redisSupport.setHash(username, clientIdent, rtkRedisKey, Duration.ofSeconds(RTK_EXPIRE_SEC));
         break;
-      case OPENAPI:
+      case CLIENT:
         TokenVo tokenVo = TokenVo.builder()
           .tokenId(rtkUuid)
           .id(username)
@@ -178,10 +178,13 @@ public class TokenService {
       token = Optional.ofNullable(this.redisSupport.getValue(redisKey))
           .orElseThrow(() -> new AccessTokenExpiredException());
       break;
-    case OPENAPI:
+    case CLIENT:
       TokenVo tokenVo = tokenDao.findByTokenId(tokenId)
           .orElseThrow(() -> new AccessTokenExpiredException());
-      if (tokenVo.getUseYn() == YN.N) {
+      if (tokenVo.getEnableYn() != YN.Y) {
+        throw new AppException(ERROR.A002);
+      }
+      if (tokenVo.getLockedYn() != YN.N) {
         throw new AppException(ERROR.A002);
       }
       token = tokenVo.getToken();
