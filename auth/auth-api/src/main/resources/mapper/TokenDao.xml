@@ -5,7 +5,7 @@
   
   <select id="findByTokenId" resultType="TokenVo">
     SELECT /* TokenDao.findByTokenId */
-           token_id, token, client_ip, enable_yn, locked_yn
+           token_id, token, client_id, enable_yn, locked_yn
     FROM   au_client_token
     WHERE  token_id = #{tokenId}
   </select>

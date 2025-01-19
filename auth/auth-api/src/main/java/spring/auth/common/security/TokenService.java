@@ -155,7 +155,7 @@ public class TokenService {
       case CLIENT:
         TokenVo tokenVo = TokenVo.builder()
           .tokenId(rtkUuid)
-          .id(username)
+          .clientId(username)
           .token(signedJWT.serialize())
           .build();
         tokenDao.insert(tokenVo);

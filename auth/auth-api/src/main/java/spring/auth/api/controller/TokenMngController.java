@@ -25,16 +25,16 @@ public class TokenMngController {
   @GetMapping("/v1/token-mng/search")
   public PageResponse<TokenMngDto.TokenRes> searchTokens(
       @RequestParam(required = false) String tokenId,
-      @RequestParam(required = false) String id,
-      @RequestParam(required = false) String clientIp,
-      @RequestParam(required = false) YN useYn,
+      @RequestParam(required = false) String clientId,
+      @RequestParam(required = false) YN enableYn,
+      @RequestParam(required = false) YN lockedYn,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     TokenMngVo.SearchVo searchVo = TokenMngVo.SearchVo.builder()
         .tokenId(tokenId)
-        .id(id)
-        .clientIp(clientIp)
-        .useYn(useYn)
+        .clientId(clientId)
+        .enableYn(enableYn)
+        .lockedYn(lockedYn)
         .build();
     PageResponse<TokenMngVo> result = tokenMngDao.searchTokens(PageRequest.of(page, size), searchVo);
     

@@ -13,9 +13,8 @@ import spring.custom.common.enumcode.YN;
 public class TokenVo {
   
   private String tokenId;
-  private String id;
+  private String clientId;
   private String token;
-  private String clientIp;
   private YN enableYn;
   private YN lockedYn;
   

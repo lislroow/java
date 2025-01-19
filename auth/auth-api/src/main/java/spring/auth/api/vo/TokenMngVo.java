@@ -14,18 +14,18 @@ import spring.custom.common.mybatis.PageRequest;
 public class TokenMngVo extends AuditVo {
 
   private String tokenId;
-  private String id;
-  private String clientIp;
-  private YN useYn;
+  private String clientId;
+  private YN enableYn;
+  private YN lockedYn;
   private String token;
   
   @Data
   @Builder
   public static class SearchVo extends PageRequest {
     private String tokenId;
-    private String id;
-    private String clientIp;
-    private YN useYn;
+    private String clientId;
+    private YN enableYn;
+    private YN lockedYn;
   }
   
 }
