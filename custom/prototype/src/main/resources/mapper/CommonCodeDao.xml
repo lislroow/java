@@ -6,7 +6,7 @@
   <select id="findCodesByCdGrp" resultType="spring.custom.api.vo.CommonCodeVo$CodeVo">
     SELECT /* CommonCodeDao.findCodesByCdGrp */
            A.*
-    FROM   code A
+    FROM   sy_code A
     <where>
       AND  A.cd_grp = #{cdGrp}
       AND  A.use_yn = 'Y'

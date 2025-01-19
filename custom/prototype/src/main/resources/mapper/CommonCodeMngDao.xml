@@ -6,7 +6,7 @@
   <select id="searchCodeGroups" resultType="spring.custom.api.vo.CommonCodeMngVo$CodeGroupVo">
     SELECT /* CommonCodeMngDao.searchCodeGroups */
            A.*
-    FROM   code_group A
+    FROM   sy_code_group A
     <where>
       <if test="cdGrp != null and cdGrp != ''">
         UPPER(A.cd_grp) LIKE '%' || UPPER(#{cdGrp}) || '%'
@@ -19,8 +19,8 @@
     SELECT /* CommonCodeMngDao.searchCodes */
            A.*,
            J.cd_grp_nm
-    FROM   code A
-      LEFT JOIN code_group J ON A.cd_grp = J.cd_grp
+    FROM   sy_code A
+      LEFT JOIN sy_code_group J ON A.cd_grp = J.cd_grp
     <where>
       <if test="cdGrp != null and cdGrp != ''">
         AND  UPPER(A.cd_grp) LIKE UPPER(#{cdGrp}) || '%'

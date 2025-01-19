@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS code_group CASCADE;
-CREATE TABLE IF NOT EXISTS code_group
+DROP TABLE IF EXISTS sy_code_group CASCADE;
+CREATE TABLE IF NOT EXISTS sy_code_group
 (
   cd_grp VARCHAR(20),
   cd_grp_nm VARCHAR(255),
@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS code_group
   PRIMARY KEY (cd_grp)
 );
 
-DROP TABLE IF EXISTS code CASCADE;
-CREATE TABLE IF NOT EXISTS code
+DROP TABLE IF EXISTS sy_code CASCADE;
+CREATE TABLE IF NOT EXISTS sy_code
 (
   cd_grp VARCHAR(20),
   cd VARCHAR(10),
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS code
   create_id VARCHAR(15) DEFAULT '1',
   modify_id VARCHAR(15) DEFAULT '1',
   PRIMARY KEY (cd, cd_grp),
-  CONSTRAINT fk_code_cd_grp FOREIGN KEY (cd_grp)
-    REFERENCES code_group (cd_grp)
+  CONSTRAINT fk_sy_code_cd_grp FOREIGN KEY (cd_grp)
+    REFERENCES sy_code_group (cd_grp)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
