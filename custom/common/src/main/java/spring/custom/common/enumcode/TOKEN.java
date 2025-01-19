@@ -22,9 +22,9 @@ public class TOKEN {
   }
   
   public enum JWT_CLAIM {
-    USER_ATTR("user_attr"),
     USER_TYPE("user_type"),
-    ROLE("role")
+    PRINCIPAL("principal"),
+    ROLES("roles")
     ;
     
     private String code;
@@ -38,17 +38,16 @@ public class TOKEN {
     }
   }
   
-  public enum USER {
+  public enum USER_TYPE {
     MANAGER(1, "manager"),
     MEMBER(2, "member"),
-    CLIENT(3, "client"),
-    GUEST(null, "guest")
+    CLIENT(3, "client")
     ;
     
     private Integer idprefix;
     private String code;
     
-    private USER(Integer idprefix, String code) {
+    private USER_TYPE(Integer idprefix, String code) {
       this.idprefix = idprefix;
       this.code = code;
     }
@@ -61,8 +60,14 @@ public class TOKEN {
       return this.idprefix;
     }
     
-    public static Optional<TOKEN.USER> fromCode(String code) {
-        return Arrays.stream(TOKEN.USER.values())
+    public static Optional<TOKEN.USER_TYPE> fromIdprefix(Integer idprefix) {
+      return Arrays.stream(TOKEN.USER_TYPE.values())
+          .filter(item -> item.idprefix() == idprefix)
+          .findAny();
+    }
+    
+    public static Optional<TOKEN.USER_TYPE> fromCode(String code) {
+        return Arrays.stream(TOKEN.USER_TYPE.values())
             .filter(item -> item.code().equalsIgnoreCase(code))
             .findAny();
     }

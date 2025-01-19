@@ -6,14 +6,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.auth.api.dao.ManagerAuthDao;
-import spring.auth.api.dao.OpenapiAuthDao;
+import spring.auth.api.dao.UserLoginDao;
 import spring.auth.common.security.TokenService;
 import spring.auth.common.security.UserAuthentication;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.security.AuthDetails;
+import spring.custom.common.security.LoginDetails;
 import spring.custom.dto.TokenDto;
 
 @RestController
@@ -21,8 +20,7 @@ import spring.custom.dto.TokenDto;
 public class TokenController {
   
   final TokenService tokenService;
-  final ManagerAuthDao managerAuthDao;
-  final OpenapiAuthDao opendataAuthDao;
+  final UserLoginDao userLoginDao;
   
   
   @PostMapping("/v1/token/verify")
@@ -42,6 +40,7 @@ public class TokenController {
     return resDto;
   }
   
+  /*
   @PostMapping("/v1/token/create/{userType}/{id}")
   public TokenDto.CreateRes create(
       @PathVariable TOKEN.USER userType,
@@ -51,20 +50,21 @@ public class TokenController {
     AuthDetails authVo = null;
     switch (userType) {
     case MEMBER:
-      throw new AppException(ERROR.A008);
+      authVo = userLoginDao.selectForMemberTokenById(id)
+        .orElseThrow(() -> new AppException(ERROR.A003));
     case MANAGER:
-      authVo = managerAuthDao.selectById(id)
+      authVo = userLoginDao.selectForManagerTokenById(id)
         .orElseThrow(() -> new AppException(ERROR.A003));
       break;
-    case CLIENT:
-      authVo = opendataAuthDao.selectById(id)
-      .orElseThrow(() -> new AppException(ERROR.A003));
-      break;
+    //case CLIENT:
+    //  authVo = opendataAuthDao.selectById(id)
+    //    .orElseThrow(() -> new AppException(ERROR.A003));
+    //  break;
     }
     
     UserAuthentication userAuthentication = new UserAuthentication(userType, authVo);
     TokenDto.CreateRes resDto = tokenService.createToken(userAuthentication);
     return resDto;
   }
-  
+  */
 }

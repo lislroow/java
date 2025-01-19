@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="spring.auth.api.dao.UserInfoDao">
-  
-  <select id="selectNextId">
-    SELECT /* UserInfoDao.selectNextId */
-           #{idprefix}||TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0') AS id
-  </select>
+<mapper namespace="spring.auth.api.dao.UserDao">
   
   <select id="selectMemberById" resultType="MemberVo">
-    SELECT /* UserInfoDao.selectMemberById */
+    SELECT /* UserDao.selectMemberById */
            id,
+           roles,
            login_id,
            nickname
     FROM   au_member a
@@ -18,8 +14,9 @@
   </select>
   
   <select id="selectManagerById" resultType="ManagerVo">
-    SELECT /* UserInfoDao.selectManagerById */
+    SELECT /* UserDao.selectManagerById */
            id,
+           roles,
            login_id,
            mgr_name
     FROM   au_manager a

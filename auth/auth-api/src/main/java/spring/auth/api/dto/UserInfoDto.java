@@ -7,17 +7,11 @@ public class UserInfoDto {
   private UserInfoDto() {}
   
   @Data
-  public static class MemberRes {
+  public static class UserRes {
     private String id;
+    private String roles;
     private String loginId;
-    private String nickname;
-  }
-  
-  @Data
-  public static class ManagerRes {
-    private String id;
-    private String loginId;
-    private String mgrName;
+    private String username;
   }
   
 }

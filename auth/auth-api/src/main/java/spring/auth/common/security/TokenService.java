@@ -110,20 +110,20 @@ public class TokenService {
     }
   }
   
-  public TokenDto.CreateRes createToken(UserAuthentication userAuthentication) {
-    TOKEN.USER userType = userAuthentication.getUserType();
-    String username = userAuthentication.getUsername();
+  public TokenDto.CreateRes createToken(UserAuthentication<?, ?> userAuthentication) {
+    TOKEN.USER_TYPE userType = userAuthentication.getUserType();
+    String subject = userAuthentication.getUsername();
     TokenDto.CreateRes result = new TokenDto.CreateRes();
     Long rtkExpTime = System.currentTimeMillis() + RTK_EXPIRE_MILLS;
     try {
       JWTClaimsSet claimsSet;
       SignedJWT signedJWT;
       claimsSet = new JWTClaimsSet.Builder()
-          .subject(username)
+          .subject(subject)
           .issuer(ISSUER)
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userAuthentication.getUserType().code())
-          .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), userAuthentication.getUserAttr())
-          .claim(TOKEN.JWT_CLAIM.ROLE.code(), userAuthentication.getRoles())
+          .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), userAuthentication.getPrincipal())
+          .claim(TOKEN.JWT_CLAIM.ROLES.code(), userAuthentication.getRoles())
           .expirationTime(new Date(rtkExpTime))
           .build();
       
@@ -155,7 +155,7 @@ public class TokenService {
       case CLIENT:
         TokenVo tokenVo = TokenVo.builder()
           .tokenId(rtkUuid)
-          .clientId(username)
+          .clientId(subject)
           .token(signedJWT.serialize())
           .build();
         tokenDao.insert(tokenVo);
@@ -169,7 +169,7 @@ public class TokenService {
   }
   
   public TokenDto.VerifyRes verifyToken(String tokenId, String clientIdent) {
-    TOKEN.USER userType = TOKEN.USER.fromCode(tokenId.split(":")[0]).orElseThrow(() -> new AppException(ERROR.A002));
+    TOKEN.USER_TYPE userType = TOKEN.USER_TYPE.fromCode(tokenId.split(":")[0]).orElseThrow(() -> new AppException(ERROR.A002));
     String token = null;
     switch (userType) {
     case MEMBER:
@@ -211,7 +211,7 @@ public class TokenService {
   }
   
   public TokenDto.RefreshRes refreshToken(String oldRtkUuid) {
-    TOKEN.USER userType = TOKEN.USER.fromCode(oldRtkUuid.split(":")[0]).orElseThrow(() -> new AppException(ERROR.A004));
+    TOKEN.USER_TYPE userType = TOKEN.USER_TYPE.fromCode(oldRtkUuid.split(":")[0]).orElseThrow(() -> new AppException(ERROR.A004));
     String clientIdent = IdGenerator.createClientIdent();
     String oldRedisKey = null;
     switch (userType) {
@@ -226,17 +226,17 @@ public class TokenService {
         .orElseThrow(() -> new RefreshTokenExpiredException());
     /* for debug */ if (log.isDebugEnabled()) log.info("refresh token (old): {}", oldRedisKey);
     Date rtkExpireTime = null;
-    String username = null;
-    Map<String, Object> attributes = null;
+    String subject = null;
+    Map<String, Object> userAttr = null;
     String role = null;
     try {
       SignedJWT signedJWT = SignedJWT.parse(oldRefreshToken);
       if (signedJWT.verify(this.verifier)) {
         JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
         rtkExpireTime = jwtClaimsSet.getExpirationTime();
-        username = signedJWT.getJWTClaimsSet().getSubject();
-        attributes = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
-        role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLE.code());
+        subject = signedJWT.getJWTClaimsSet().getSubject();
+        userAttr = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code());
+        role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLES.code());
       } else {
         throw new AppException(ERROR.A004);
       }
@@ -264,12 +264,12 @@ public class TokenService {
       
       // refreshToken 생성
       claimsSet = new JWTClaimsSet.Builder()
-          .subject(username)
+          .subject(subject)
           .issuer(ISSUER)
           .expirationTime(rtkExpireTime)
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
-          .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), attributes)
-          .claim(TOKEN.JWT_CLAIM.ROLE.code(), role)
+          .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), userAttr)
+          .claim(TOKEN.JWT_CLAIM.ROLES.code(), role)
           .build();
       signedJWT = new SignedJWT(
           new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),
@@ -283,12 +283,12 @@ public class TokenService {
       
       // accessToken 생성
       claimsSet = new JWTClaimsSet.Builder()
-          .subject(username)
+          .subject(subject)
           .issuer(ISSUER)
           .expirationTime(new Date(System.currentTimeMillis() + ATK_EXPIRE_MILLS))
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
-          .claim(TOKEN.JWT_CLAIM.USER_ATTR.code(), attributes)
-          .claim(TOKEN.JWT_CLAIM.ROLE.code(), role)
+          .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), userAttr)
+          .claim(TOKEN.JWT_CLAIM.ROLES.code(), role)
           .build();
       signedJWT = new SignedJWT(
           new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),

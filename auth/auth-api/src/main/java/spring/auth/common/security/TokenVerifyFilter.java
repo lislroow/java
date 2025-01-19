@@ -1,4 +1,4 @@
-package spring.auth.common.filter;
+package spring.auth.common.security;
 
 import java.io.IOException;
 
@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.auth.common.security.TokenService;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.util.IdGenerator;
 import spring.custom.common.util.XffClientIpExtractor;

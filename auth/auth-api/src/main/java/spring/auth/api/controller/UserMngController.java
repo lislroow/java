@@ -1,7 +1,5 @@
 package spring.auth.api.controller;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -32,7 +30,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import spring.auth.api.dao.UserInfoDao;
 import spring.auth.api.dao.UserMngDao;
 import spring.auth.api.dto.UserMngDto;
 import spring.auth.api.service.UserMngService;
@@ -58,7 +55,6 @@ public class UserMngController {
   final JavaMailSender mailSender;
   final ObjectMapper objectMapper;
   final RedisSupport redisSupport;
-  final UserInfoDao userInfoDao;
   
   @GetMapping("/v1/user-mng/managers/all")
   public UserMngDto.ManagerListRes allManagers() {
@@ -183,7 +179,7 @@ public class UserMngController {
       throw new AppException(ERROR.A018.code(), "'"+addVo.getLoginId() + "'" + ERROR.A018.message());
     }
     
-    String id = userInfoDao.selectNextId();
+    String id = userMngDao.selectNextId();
     addVo.setId(id);
     addVo.setLoginPwd(bcryptPasswordEncoder.encode(reqDto.getNewLoginPwd()));
     addVo.setEnableYn(YN.Y);

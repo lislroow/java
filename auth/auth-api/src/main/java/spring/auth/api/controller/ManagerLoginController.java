@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.auth.api.dao.ManagerAuthDao;
-import spring.auth.api.vo.ManagerAuthVo;
+import spring.auth.api.dao.UserLoginDao;
+import spring.auth.api.vo.ManagerLoginVo;
 import spring.auth.common.security.TokenService;
 import spring.auth.common.security.UserAuthentication;
 import spring.custom.common.constant.Constant;
@@ -23,7 +23,7 @@ import spring.custom.dto.TokenDto;
 @RequiredArgsConstructor
 public class ManagerLoginController {
 
-  final ManagerAuthDao managerAuthDao;
+  final UserLoginDao userLoginDao;
   final TokenService tokenService;
   final BCryptPasswordEncoder bcryptPasswordEncoder;
   
@@ -31,13 +31,13 @@ public class ManagerLoginController {
   public ResponseEntity<?> managerLogin(
       @RequestParam String username,
       @RequestParam String password) {
-    ManagerAuthVo managerAuthVo = managerAuthDao.selectByLoginId(username)
+    ManagerLoginVo loginVo = userLoginDao.selectManagerByLoginId(username)
         .orElseThrow(() -> new AppException(ERROR.A003));
-    if (!bcryptPasswordEncoder.matches(password, managerAuthVo.getLoginPwd())) {
+    if (!bcryptPasswordEncoder.matches(password, loginVo.getLoginPwd())) {
       throw new AppException(ERROR.A017);
     }
     
-    UserAuthentication userAuthentication = new UserAuthentication(TOKEN.USER.MANAGER, managerAuthVo);
+    UserAuthentication<?, ?> userAuthentication = new UserAuthentication(TOKEN.USER_TYPE.MANAGER, loginVo);
     TokenDto.CreateRes result = tokenService.createToken(userAuthentication);
     
     HttpHeaders headers = new HttpHeaders();

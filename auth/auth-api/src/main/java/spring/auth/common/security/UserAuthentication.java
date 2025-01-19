@@ -9,45 +9,49 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import lombok.Data;
 import spring.custom.common.enumcode.TOKEN;
-import spring.custom.common.security.AuthDetails;
+import spring.custom.common.security.LoginDetails;
+import spring.custom.common.vo.TokenPrincipal;
 
 @Data
-public class UserAuthentication implements OAuth2User, UserDetails {
+public class UserAuthentication<T extends TokenPrincipal, S extends LoginDetails<?>> 
+    implements OAuth2User, UserDetails {
   
   private static final long serialVersionUID = 2501815366855398147L;
   
-  private AuthDetails authDetails;
+  private S loginDetails;
   
-  private transient TOKEN.USER userType;
-  private transient String roles;
-  private transient Map<String, Object> userAttr;
+  private transient TOKEN.USER_TYPE userType;
+  private transient T principal;
   
-  public UserAuthentication(TOKEN.USER userType, AuthDetails authDetails) {
+  @SuppressWarnings("unchecked")
+  public UserAuthentication(TOKEN.USER_TYPE userType, S loginDetails) {
     this.userType = userType;
-    this.authDetails = authDetails;
-    
-    this.roles = authDetails.getRoles();
-    this.userAttr = authDetails.toToken();
+    this.loginDetails = loginDetails;
+    this.principal = (T) loginDetails.toPrincipal();
+  }
+  
+  public String getRoles() {
+    return loginDetails.getRoles();
   }
   
   // [OAuth2User, UserDetails]
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return authDetails.getAuthorities();
+    return loginDetails.getAuthorities();
   }
   // --[OAuth2User, UserDetails]
   
   // [OAuth2User]
   @Override
   public Map<String, Object> getAttributes() {
-    return this.userAttr;
+    return null;
   }
   // --[OAuth2User]
   
   // [AuthenticatedPrincipal]
   @Override
   public String getName() {
-    return authDetails.getUsername();
+    return loginDetails.getUsername();
   }
   // --[AuthenticatedPrincipal]
   
@@ -55,11 +59,11 @@ public class UserAuthentication implements OAuth2User, UserDetails {
   // [UserDetails]
   @Override
   public String getPassword() {
-    return authDetails.getPassword();
+    return loginDetails.getPassword();
   }
   @Override
   public String getUsername() {
-    return authDetails.getUsername();
+    return loginDetails.getUsername();
   }
   @Override
   public boolean isAccountNonExpired() {
@@ -67,15 +71,15 @@ public class UserAuthentication implements OAuth2User, UserDetails {
   }
   @Override
   public boolean isAccountNonLocked() {
-    return authDetails.isAccountNonLocked();
+    return loginDetails.isAccountNonLocked();
   }
   @Override
   public boolean isCredentialsNonExpired() {
-    return authDetails.isCredentialsNonExpired();
+    return loginDetails.isCredentialsNonExpired();
   }
   @Override
   public boolean isEnabled() {
-    return authDetails.isEnabled();
+    return loginDetails.isEnabled();
   }
   // --[UserDetails]
 }

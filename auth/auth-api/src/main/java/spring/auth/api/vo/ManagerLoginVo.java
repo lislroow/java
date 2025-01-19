@@ -1,33 +1,30 @@
 package spring.auth.api.vo;
 
 import java.time.LocalDate;
-import java.util.Map;
+
+import org.springframework.util.ObjectUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import spring.custom.common.enumcode.YN;
-import spring.custom.common.security.AuthDetails;
+import spring.custom.common.security.LoginDetails;
+import spring.custom.common.vo.ManagerVo;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberAuthVo implements AuthDetails {
+public class ManagerLoginVo implements LoginDetails<ManagerVo> {
   
-  private static final long serialVersionUID = -5171902992965983740L;
+  private static final long serialVersionUID = -5566207645876050761L;
   
   private String id;
   private String loginId;
   private String loginPwd;
+  private String mgrName;
   private String roles;
-  private String realname;
-  private String registrationId;
-  private String oauth2Id;
-  private String nickname;
-  private String ip;
-  private String userAgent;
   private YN enableYn;
   private YN lockedYn;
   private LocalDate pwdExpDate;
@@ -43,16 +40,22 @@ public class MemberAuthVo implements AuthDetails {
   }
   
   @Override
-  public Map<String, Object> toToken() {
-    // AuthDao 의 결과값 > 'not null'
-    Map<String, Object> map = Map.ofEntries(
-        Map.entry("id", this.id),
-        Map.entry("registrationId", this.registrationId),
-        Map.entry("oauth2Id", this.oauth2Id),
-        Map.entry("loginId", this.loginId),
-        Map.entry("nickname", this.nickname)
-        );
-    return map;
+  public ManagerVo toPrincipal() {
+    ManagerVo memberVo = ManagerVo.builder()
+        .id(id)
+        .roles(roles)
+        .loginId(loginId)
+        .mgrName(mgrName)
+        .build();
+    return memberVo;
+  }
+  
+  @Override
+  public boolean isCredentialsNonExpired() {
+    if (ObjectUtils.isEmpty(pwdExpDate)) {
+      return true;
+    }
+    return LocalDate.now().isBefore(pwdExpDate) || !LocalDate.now().isEqual(pwdExpDate);
   }
   
   @Override

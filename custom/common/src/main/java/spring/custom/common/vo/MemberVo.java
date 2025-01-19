@@ -1,49 +1,34 @@
 package spring.custom.common.vo;
 
-import java.util.Map;
-
-import org.springframework.security.core.AuthenticatedPrincipal;
-import org.springframework.util.ObjectUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import spring.custom.common.enumcode.ERROR;
-import spring.custom.common.exception.AppException;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberVo implements AuthenticatedPrincipal {
+public class MemberVo implements TokenPrincipal {
   
   private String id;
+  private String roles;
+  private String loginId;
+  private String nickname;
   private String registrationId;
   private String oauth2Id;
-  private String loginId;
-  private String password;
-  private String nickname;
-  private String role;
-  private String ip;
-  private String userAgent;
   
   @Override
+  @JsonIgnore
   public String getName() {
     return this.id;
   }
   
-  public static MemberVo ofToken(Map<String, Object> userAttr) {
-    if (ObjectUtils.isEmpty(userAttr.containsKey("id"))) {
-      throw new AppException(ERROR.A009);
-    }
-    return MemberVo.builder()
-        .id(userAttr.get("id").toString())
-        .registrationId(userAttr.getOrDefault("registrationId", "").toString())
-        .oauth2Id(userAttr.getOrDefault("oauth2Id", "").toString())
-        .loginId(userAttr.getOrDefault("loginId", "").toString())
-        .nickname(userAttr.getOrDefault("nickname", "").toString())
-        .build();
+  @Override
+  public String getUsername() {
+    return this.nickname;
   }
   
 }

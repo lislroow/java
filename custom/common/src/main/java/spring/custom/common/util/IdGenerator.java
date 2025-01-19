@@ -14,7 +14,7 @@ import spring.custom.common.exception.AppException;
 
 public class IdGenerator {
   
-  public static String createTokenId(TOKEN.USER tokenUser) {
+  public static String createTokenId(TOKEN.USER_TYPE tokenUser) {
     String tokenId = null;
     if (tokenUser == null) {
       throw new AppException(ERROR.A001.code(), "token user is null");

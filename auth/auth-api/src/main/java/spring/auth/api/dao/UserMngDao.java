@@ -12,6 +12,8 @@ import spring.custom.common.mybatis.PageResponse;
 @Mapper
 public interface UserMngDao {
   
+  String selectNextId();
+  
   List<UserMngVo> allManagers();
   
   Optional<UserMngVo> findManagerById(String id);

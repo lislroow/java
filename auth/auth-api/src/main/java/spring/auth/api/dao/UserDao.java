@@ -8,9 +8,7 @@ import spring.custom.common.vo.ManagerVo;
 import spring.custom.common.vo.MemberVo;
 
 @Mapper
-public interface UserInfoDao {
-  
-  public String selectNextId();
+public interface UserDao {
   
   public Optional<MemberVo> selectMemberById(String id);
   

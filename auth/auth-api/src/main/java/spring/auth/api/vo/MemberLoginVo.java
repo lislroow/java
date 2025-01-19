@@ -1,30 +1,33 @@
 package spring.auth.api.vo;
 
 import java.time.LocalDate;
-import java.util.Map;
-
-import org.springframework.util.ObjectUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import spring.custom.common.enumcode.YN;
-import spring.custom.common.security.AuthDetails;
+import spring.custom.common.security.LoginDetails;
+import spring.custom.common.vo.MemberVo;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ManagerAuthVo implements AuthDetails {
+public class MemberLoginVo implements LoginDetails<MemberVo> {
   
-  private static final long serialVersionUID = -5566207645876050761L;
+  private static final long serialVersionUID = -5171902992965983740L;
   
   private String id;
   private String loginId;
   private String loginPwd;
-  private String mgrName;
   private String roles;
+  private String realname;
+  private String registrationId;
+  private String oauth2Id;
+  private String nickname;
+  private String ip;
+  private String userAgent;
   private YN enableYn;
   private YN lockedYn;
   private LocalDate pwdExpDate;
@@ -40,22 +43,16 @@ public class ManagerAuthVo implements AuthDetails {
   }
   
   @Override
-  public Map<String, Object> toToken() {
-    // AuthDao 의 결과값 > 'not null' 
-    Map<String, Object> map = Map.ofEntries(
-        Map.entry("id", this.id),
-        Map.entry("loginId", this.loginId),
-        Map.entry("mgrName", this.mgrName)
-        );
-    return map;
-  }
-  
-  @Override
-  public boolean isCredentialsNonExpired() {
-    if (ObjectUtils.isEmpty(pwdExpDate)) {
-      return true;
-    }
-    return LocalDate.now().isBefore(pwdExpDate) || !LocalDate.now().isEqual(pwdExpDate);
+  public MemberVo toPrincipal() {
+    MemberVo memberVo = MemberVo.builder()
+        .id(id)
+        .roles(roles)
+        .loginId(loginId)
+        .registrationId(registrationId)
+        .oauth2Id(oauth2Id)
+        .nickname(nickname)
+        .build();
+    return memberVo;
   }
   
   @Override

@@ -13,7 +13,7 @@ public interface FeignTokenController {
   
   @PostMapping("/v1/token/create/{userType}/{userId}")
   public TokenDto.CreateRes create(
-      @PathVariable TOKEN.USER userType,
+      @PathVariable TOKEN.USER_TYPE userType,
       @PathVariable String userId);
   
 }

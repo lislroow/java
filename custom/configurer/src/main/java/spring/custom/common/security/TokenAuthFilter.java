@@ -2,12 +2,14 @@ package spring.custom.common.security;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,7 +28,6 @@ import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.ManagerVo;
 import spring.custom.common.vo.MemberVo;
-import spring.custom.common.vo.OpenapiVo;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -43,39 +44,50 @@ public class TokenAuthFilter extends OncePerRequestFilter {
       String accessToken = authorization.substring(7);
       /* for debug */ if (log.isDebugEnabled()) log.debug("accessToken: {}", accessToken);
       JWTClaimsSet jwtClaimsSet = null;
-      Map<String, Object> userAttr = null;
-      String role = null;
-      Object principal = null;
+      String roles = null;
+      AuthenticatedPrincipal principal = null;
       try {
         SignedJWT signedJWT = SignedJWT.parse(accessToken);
         jwtClaimsSet = signedJWT.getJWTClaimsSet();
-        TOKEN.USER userType = TOKEN.USER.fromCode(jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.USER_TYPE.code()).toString())
-            .orElseThrow(() -> new AppException(ERROR.A008));
         /* for debug */ if (log.isDebugEnabled()) log.debug("jwtClaimsSet: {}", jwtClaimsSet);
-        userAttr = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.USER_ATTR.code());
-        /* for debug */ if (log.isDebugEnabled()) log.debug("userAttr: {}", userAttr);
+        
+        // userType
+        TOKEN.USER_TYPE userType = jwtClaimsSet.toType((claims) -> {
+          String val = null;
+          try {
+            val = claims.getStringClaim(TOKEN.JWT_CLAIM.USER_TYPE.code());
+          } catch (ParseException e) {
+            throw new AppException(ERROR.A008, e);
+          }
+          return TOKEN.USER_TYPE.fromCode(val).orElseThrow(() -> new AppException(ERROR.A008));
+        });
+        
+        // principal
         switch (userType) {
         case MEMBER:
-          principal = MemberVo.ofToken(userAttr);
+          principal = jwtClaimsSet.toType((claims) -> {
+            return modelMapper.map(claims.getClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code()), MemberVo.class);
+          });
           break;
         case MANAGER:
-          principal = ManagerVo.ofToken(userAttr);
+          principal = jwtClaimsSet.toType((claims) -> {
+            return modelMapper.map(claims.getClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code()), ManagerVo.class);
+          });
           break;
         case CLIENT:
-          principal = OpenapiVo.ofToken(userAttr);
-          break;
         default:
           throw new AppException(ERROR.A008);
         }
         /* for debug */ if (log.isDebugEnabled()) log.debug("principal: {}", principal);
-        role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLE.code());
-        /* for debug */ if (log.isDebugEnabled()) log.debug("role: {}", role);
+        
+        // principal
+        roles = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLES.code());
+        /* for debug */ if (log.isDebugEnabled()) log.debug("roles: {}", roles);
       } catch (AppException e) {
         throw e;
       } catch (ParseException e) {
         /* for debug */ log.error("accessToken: {}", accessToken);
         /* for debug */ log.error("jwtClaimsSet: {}", jwtClaimsSet);
-        /* for debug */ log.error("attributes: {}", userAttr);
         /* for debug */ log.error("principal: {}", principal);
         /* for debug */ e.printStackTrace();
         throw new AppException(ERROR.A006, e);
@@ -85,9 +97,14 @@ public class TokenAuthFilter extends OncePerRequestFilter {
       
       Object credentials = null;
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-          principal, 
+          principal,
           credentials,
-          Collections.singleton(new SimpleGrantedAuthority(role)));
+          Arrays.stream(roles.split(","))
+            .map(String::trim)
+            .filter(role -> !role.isEmpty())
+            .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+            .collect(Collectors.toList())
+          );
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
     

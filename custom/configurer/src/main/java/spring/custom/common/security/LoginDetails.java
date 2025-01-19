@@ -2,16 +2,17 @@ package spring.custom.common.security;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public interface AuthDetails extends UserDetails {
+import spring.custom.common.vo.TokenPrincipal;
+
+public interface LoginDetails<T extends TokenPrincipal> extends UserDetails {
   
-  Map<String, Object> toToken();
+  T toPrincipal();
   
   String getRoles();
   
