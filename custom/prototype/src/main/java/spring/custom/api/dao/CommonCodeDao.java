@@ -9,6 +9,8 @@ import spring.custom.api.vo.CommonCodeVo;
 @Mapper
 public interface CommonCodeDao {
   
+  List<CommonCodeVo.AllCodeVo> allCodes();
+  
   List<CommonCodeVo.CodeVo> findCodesByCdGrp(String cdGrp);
   
 }
