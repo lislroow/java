@@ -3,17 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.auth.api.dao.UserLoginDao">
   
-  <select id="selectMemberByLoginId" resultType="MemberLoginVo">
-    SELECT /* UserLoginDao.selectMemberByLoginId */
-           id,
-           login_id,
-           login_pwd,
-           roles
-    FROM   au_member A
-    WHERE  A.login_id = #{loginId}
-  </select>
-  
-  <select id="selectManagerByLoginId" resultType="ManagerLoginVo">
+  <select id="selectManagerByLoginId" resultType="spring.auth.api.vo.LoginVo$ManagerLoginVo">
     SELECT /* UserLoginDao.selectManagerByLoginId */
            id,
            login_id,
@@ -27,6 +17,16 @@
     <where>
        AND A.login_id = #{loginId}
     </where>
+  </select>
+  
+  <select id="selectMemberByLoginId" resultType="spring.auth.api.vo.LoginVo$MemberLoginVo">
+    SELECT /* UserLoginDao.selectMemberByLoginId */
+           id,
+           login_id,
+           login_pwd,
+           roles
+    FROM   au_member A
+    WHERE  A.login_id = #{loginId}
   </select>
   
 </mapper>

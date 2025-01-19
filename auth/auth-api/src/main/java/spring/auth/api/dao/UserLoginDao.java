@@ -4,13 +4,13 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import spring.auth.api.vo.ManagerLoginVo;
-import spring.auth.api.vo.MemberLoginVo;
+import spring.auth.api.vo.LoginVo;
 
 @Mapper
 public interface UserLoginDao {
 
-  public Optional<MemberLoginVo> selectMemberByLoginId(String loginId);
-  public Optional<ManagerLoginVo> selectManagerByLoginId(String loginId);
+  public Optional<LoginVo.ManagerLoginVo> selectManagerByLoginId(String loginId);
+  
+  public Optional<LoginVo.MemberLoginVo> selectMemberByLoginId(String loginId);
   
 }

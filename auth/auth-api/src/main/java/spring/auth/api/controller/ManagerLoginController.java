@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.UserLoginDao;
-import spring.auth.api.vo.ManagerLoginVo;
+import spring.auth.api.vo.LoginVo;
 import spring.auth.common.security.TokenService;
 import spring.auth.common.security.UserAuthentication;
 import spring.custom.common.constant.Constant;
@@ -31,7 +31,7 @@ public class ManagerLoginController {
   public ResponseEntity<?> managerLogin(
       @RequestParam String username,
       @RequestParam String password) {
-    ManagerLoginVo loginVo = userLoginDao.selectManagerByLoginId(username)
+    LoginVo.ManagerLoginVo loginVo = userLoginDao.selectManagerByLoginId(username)
         .orElseThrow(() -> new AppException(ERROR.A003));
     if (!bcryptPasswordEncoder.matches(password, loginVo.getLoginPwd())) {
       throw new AppException(ERROR.A017);

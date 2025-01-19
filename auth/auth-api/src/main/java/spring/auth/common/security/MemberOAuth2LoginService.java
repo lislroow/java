@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.UserDao;
 import spring.auth.api.dao.UserLoginDao;
-import spring.auth.api.vo.MemberLoginVo;
+import spring.auth.api.vo.LoginVo;
 import spring.custom.common.enumcode.TOKEN;
 
 @Service
@@ -33,8 +33,8 @@ public class MemberOAuth2LoginService implements OAuth2UserService<OAuth2UserReq
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
     String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
     MemberOAuth2Attribute attributes = MemberOAuth2Attribute.of(registrationId, userNameAttributeName, loadedUser.getAttributes());
-    MemberLoginVo vo = attributes.toMemberAuthVo();
-    Optional<MemberLoginVo> optLoginVo = userLoginDao.selectMemberByLoginId(vo.getLoginId());
+    LoginVo.MemberLoginVo vo = attributes.toLoginVo();
+    Optional<LoginVo.MemberLoginVo> optLoginVo = userLoginDao.selectMemberByLoginId(vo.getLoginId());
     if (optLoginVo.isPresent()) {
       return new UserAuthentication(TOKEN.USER_TYPE.MEMBER, optLoginVo.get());
     }
