@@ -16,8 +16,8 @@ public class CommonCodeVo {
   
   @Data
   public static class CodeVo {
-    private String cd;
     private Integer seq;
+    private String cd;
     private String cdNm;
   }
   

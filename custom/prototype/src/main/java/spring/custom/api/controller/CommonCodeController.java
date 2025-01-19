@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import spring.custom.api.dao.CommonCodeDao;
 import spring.custom.api.dto.CommonCodeDto;
 import spring.custom.api.vo.CommonCodeVo;
+import spring.custom.api.vo.CommonCodeVo.AllCodeVo;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,19 +28,27 @@ public class CommonCodeController {
     List<CommonCodeVo.AllCodeVo> result = commonCodeDao.allCodes();
     
     List<CommonCodeDto.AllCodeRes> resDto = result.stream()
-        .map(item -> modelMapper.map(item, CommonCodeDto.AllCodeRes.class))
+        .collect(Collectors.groupingBy(AllCodeVo::getCdGrp))
+        .entrySet().stream()
+        .map(entry -> {
+          String key = entry.getKey();
+          List<CommonCodeDto.CodeRes> value = entry.getValue().stream()
+              .map(vo -> modelMapper.map(vo, CommonCodeDto.CodeRes.class))
+              .toList();
+          return new CommonCodeDto.AllCodeRes(key, value);
+        })
         .collect(Collectors.toList());
     return resDto;
   }
   
   @GetMapping("/v1/common-code/codes/find/{cdGrp}")
   @Cacheable(value = "cache:common-code", key = "#cdGrp")
-  public List<CommonCodeDto.FindCodeRes> findCodesByCdGrp(
+  public List<CommonCodeDto.CodeRes> findCodesByCdGrp(
       @PathVariable String cdGrp) {
     List<CommonCodeVo.CodeVo> result = commonCodeDao.findCodesByCdGrp(cdGrp);
     
-    List<CommonCodeDto.FindCodeRes> resDto = result.stream()
-        .map(item -> modelMapper.map(item, CommonCodeDto.FindCodeRes.class))
+    List<CommonCodeDto.CodeRes> resDto = result.stream()
+        .map(item -> modelMapper.map(item, CommonCodeDto.CodeRes.class))
         .collect(Collectors.toList());
     return resDto;
   }
