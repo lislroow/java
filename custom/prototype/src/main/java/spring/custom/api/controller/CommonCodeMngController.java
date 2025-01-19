@@ -21,7 +21,7 @@ public class CommonCodeMngController {
   final ModelMapper modelMapper;
   final CommonCodeMngDao commonCodeMngDao;
   
-  @GetMapping("/v1/common-code/mng/code-groups/search")
+  @GetMapping("/v1/common/code-mng/code-groups/search")
   public PageResponse<CommonCodeMngDto.CodeGroupRes> searchCodeGroups(
       @RequestParam(required = false) String cdGrp,
       @RequestParam(required = false, defaultValue = "1") Integer page,
@@ -36,7 +36,7 @@ public class CommonCodeMngController {
     return resDto;
   }
   
-  @GetMapping("/v1/common-code/mng/codes/search")
+  @GetMapping("/v1/common/code-mng/codes/search")
   public PageResponse<CommonCodeMngDto.CodeRes> searchCodes(
       @RequestParam(required = false) String cdGrp,
       @RequestParam(required = false) String cdGrpNm,
