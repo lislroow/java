@@ -50,37 +50,6 @@ spring:
           enabled: false
           lower-case-service-id: true
       routes:
-        # boot23
-        - id: boot23-app
-          predicates:
-            - Path=/boot23-app/**
-          uri: lb://boot23-app
-          filters:
-            - RewritePathFilter
-          
-        - id: boot23-soap
-          predicates:
-            - Path=/boot23-soap/**
-          uri: lb://boot23-soap
-          filters:
-            - RewritePathFilter
-        
-        # boot27
-        - id: boot27-app
-          predicates:
-            - Path=/boot27-app/**
-          uri: lb://boot27-app
-          filters:
-            - RewritePathFilter
-        
-        # boot34
-        - id: boot34-app
-          predicates:
-            - Path=/boot34-app/**
-          uri: lb://boot34-app
-          filters:
-            - RewritePathFilter
-        
         # story
         - id: story-api
           predicates:
@@ -98,42 +67,6 @@ spring:
           filters:
             - RewritePathFilter
             - TokenVerifyGatewayFilter
-        
-        # market
-        - id: market-api-customer
-          predicates:
-            - Path=/customer/**
-          uri: lb://market-api-customer
-          filters:
-            - RewritePathFilter
-          
-        - id: market-api-delivery
-          predicates:
-            - Path=/delivery/**
-          uri: lb://market-api-delivery
-          filters:
-            - RewritePathFilter
-          
-        - id: market-api-inventory
-          predicates:
-            - Path=/inventory/**
-          uri: lb://market-api-inventory
-          filters:
-            - RewritePathFilter
-          
-        - id: market-api-order
-          predicates:
-            - Path=/order/**
-          uri: lb://market-api-order
-          filters:
-            - RewritePathFilter
-          
-        - id: market-api-product
-          predicates:
-            - Path=/product/**
-          uri: lb://market-api-product
-          filters:
-            - RewritePathFilter
 
 springdoc:
   api-docs:
@@ -142,34 +75,10 @@ springdoc:
     default-models-expand-depth: -1
     #try-it-out-enabled: false
     urls:
-      - name: Spring Boot 2.3.x APP (boot23-app)
-        url: /boot23-app/v3/api-docs
-        
-      - name: Spring Boot 2.7.x APP (boot27-app)
-        url: /boot27-app/v3/api-docs
-        
-      - name: Spring Boot 3.4.x APP (boot34-app)
-        url: /boot34-app/v3/api-docs
-        
-      - name: Market Customer API (market-api-customer)
-        url: /market-api-customer/v3/api-docs
-        
-      - name: Market Delivery API (market-api-delivery)
-        url: /market-api-delivery/v3/api-docs
-        
-      - name: Market Inventory API (market-api-inventory)
-        url: /market-api-inventory/v3/api-docs
-        
-      - name: Market Order API (market-api-order)
-        url: /market-api-order/v3/api-docs
-        
-      - name: Market Product API (market-api-product)
-        url: /market-api-product/v3/api-docs
-        
-      - name: Story API (story-api)
+      - name: 1. Story API (story-api)
         url: /story-api/v3/api-docs
         
-      - name: Opendata API (opendata-api)
+      - name: 2. Opendata API (opendata-api)
         url: /opendata-api/v3/api-docs
 
 #cloud.gateway.filter.auth-url: http://localhost/auth-api/v1/token/verify
@@ -210,5 +119,5 @@ springdoc:
     default-models-expand-depth: -1
     #try-it-out-enabled: false
     urls:
-      - name: Auth API (auth-api)
+      - name: 1. Auth API (auth-api)
         url: /auth-api/v3/api-docs
