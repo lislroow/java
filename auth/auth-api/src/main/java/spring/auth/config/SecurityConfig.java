@@ -27,13 +27,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import jakarta.servlet.RequestDispatcher;
 import lombok.RequiredArgsConstructor;
-import spring.auth.common.security.MemberLoginService;
-import spring.auth.common.security.MemberLoginSuccessHandler;
-import spring.auth.common.security.MemberLogoutService;
-import spring.auth.common.security.MemberOAuth2LoginSuccessHandler;
-import spring.auth.common.security.TokenService;
-import spring.auth.common.security.TokenVerifyFilter;
-import spring.auth.common.security.UserPasswordEncoder;
+import spring.auth.common.login.MemberLoginService;
+import spring.auth.common.login.MemberLoginSuccessHandler;
+import spring.auth.common.login.MemberLogoutService;
+import spring.auth.common.login.MemberOAuth2LoginSuccessHandler;
+import spring.auth.common.login.TokenService;
+import spring.auth.common.login.TokenVerifyFilter;
+//import spring.auth.common.login.UserPasswordEncoder;
 import spring.custom.common.enumcode.SECURITY;
 import spring.custom.common.security.TokenAuthFilter;
 

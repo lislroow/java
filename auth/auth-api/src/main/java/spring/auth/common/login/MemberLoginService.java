@@ -1,4 +1,4 @@
-package spring.auth.common.security;
+package spring.auth.common.login;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import spring.auth.api.dao.UserLoginDao;
 import spring.auth.api.vo.LoginVo;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;

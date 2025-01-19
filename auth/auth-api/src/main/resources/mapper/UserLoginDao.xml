@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="spring.auth.api.dao.UserLoginDao">
+<mapper namespace="spring.auth.common.login.UserLoginDao">
   
   <select id="selectManagerByLoginId" resultType="spring.auth.api.vo.LoginVo$ManagerLoginVo">
     SELECT /* UserLoginDao.selectManagerByLoginId */

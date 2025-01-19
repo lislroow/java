@@ -1,4 +1,4 @@
-package spring.auth.api.dao;
+package spring.auth.common.login;
 
 import java.util.Optional;
 

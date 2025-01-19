@@ -1,9 +1,8 @@
-package spring.auth.common.security;
+package spring.auth.common.login;
 
 import java.io.IOException;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -19,8 +18,8 @@ import spring.custom.dto.TokenDto;
 
 @Slf4j
 @RequiredArgsConstructor
-public class MemberOAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
-  
+public class MemberLoginSuccessHandler implements AuthenticationSuccessHandler {
+
   private final TokenService tokenService;
   
   @Override
@@ -46,8 +45,6 @@ public class MemberOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
         .httpOnly(false)
         .maxAge(10)
         .build().toString());
-    response.setHeader(HttpHeaders.LOCATION, "/login_after");
-    response.setStatus(HttpStatus.FOUND.value());
   }
   
 }

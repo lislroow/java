@@ -1,4 +1,4 @@
-package spring.auth.common.security;
+package spring.auth.common.login;
 
 import java.util.Optional;
 
@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.UserDao;
-import spring.auth.api.dao.UserLoginDao;
 import spring.auth.api.vo.LoginVo;
 import spring.custom.common.enumcode.TOKEN;
 

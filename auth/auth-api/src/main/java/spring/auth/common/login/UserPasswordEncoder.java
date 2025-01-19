@@ -1,4 +1,4 @@
-package spring.auth.common.security;
+package spring.auth.common.login;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 

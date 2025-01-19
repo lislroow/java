@@ -1,4 +1,4 @@
-package spring.auth.common.security;
+package spring.auth.common.login;
 
 import java.util.Collection;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package spring.auth.api.controller;
+package spring.auth.common.login;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import spring.auth.api.dao.UserLoginDao;
 import spring.auth.api.vo.LoginVo;
-import spring.auth.common.security.TokenService;
-import spring.auth.common.security.UserAuthentication;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;

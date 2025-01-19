@@ -1,4 +1,4 @@
-package spring.auth.common.security;
+package spring.auth.common.login;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
