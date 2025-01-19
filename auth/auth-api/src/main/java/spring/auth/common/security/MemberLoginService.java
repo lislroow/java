@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.ManagerAuthDao;
 import spring.auth.api.dao.MemberAuthDao;
-import spring.auth.api.vo.ManagerAuthVo;
 import spring.auth.api.vo.MemberAuthVo;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
@@ -28,13 +27,7 @@ public class MemberLoginService implements UserDetailsService {
     // 로그인 이후, `UserAuthentication` 사용되는 username 과는 다름
     MemberAuthVo authVo = memberAuthDao.selectByLoginId(username)
         .orElseThrow(() -> new AppException(ERROR.A003));
-    if (authVo.getId().startsWith("1")) {
-      ManagerAuthVo managerAuthVo = managerAuthDao.selectByLoginId(username)
-          .orElseThrow(() -> new AppException(ERROR.A003));
-      return new UserAuthentication(TOKEN.USER.MANAGER, managerAuthVo);
-    } else {
-      return new UserAuthentication(TOKEN.USER.MEMBER, authVo);
-    }
+    return new UserAuthentication(TOKEN.USER.MEMBER, authVo);
   }
   
 }

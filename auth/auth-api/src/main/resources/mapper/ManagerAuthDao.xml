@@ -14,7 +14,9 @@
            locked_yn,
            pwd_exp_date
     FROM   au_manager A
-    WHERE  A.login_id = #{loginId}
+    <where>
+       AND A.login_id = #{loginId}
+    </where>
   </select>
   
   <select id="selectById" resultType="ManagerAuthVo">
@@ -25,7 +27,9 @@
            roles,
            mgr_name
     FROM   au_manager A
-    WHERE  A.id = #{id}
+    <where>
+       AND A.id = #{id}
+    </where>
   </select>
   
 </mapper>

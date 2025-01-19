@@ -79,6 +79,8 @@ public class SecurityConfig {
             "/v1/member/login/oauth2/code/**",
             "/v1/member/login",
             "/v1/member/logout",
+            "/v1/manager/login",
+            "/v1/manager/logout",
             "/v1/token/**");
         permitList.stream().forEach(item -> {
           config.requestMatchers(item).permitAll();
