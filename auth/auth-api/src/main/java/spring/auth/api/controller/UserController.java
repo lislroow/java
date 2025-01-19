@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.UserDao;
-import spring.auth.api.dto.UserInfoDto;
+import spring.auth.api.dto.UserDto;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
@@ -23,7 +23,7 @@ public class UserController {
   final ModelMapper modelMapper;
   
   @GetMapping("/v1/user/info")
-  public UserInfoDto.UserRes managerMyInfo() {
+  public UserDto.InfoRes info() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (!(authentication instanceof UsernamePasswordAuthenticationToken &&
         authentication.getPrincipal() instanceof TokenPrincipal)) {
@@ -45,7 +45,7 @@ public class UserController {
     default:
       throw new AppException(ERROR.A403);
     }
-    UserInfoDto.UserRes resDto = modelMapper.map(result, UserInfoDto.UserRes.class);
+    UserDto.InfoRes resDto = modelMapper.map(result, UserDto.InfoRes.class);
     return resDto;
   }
   

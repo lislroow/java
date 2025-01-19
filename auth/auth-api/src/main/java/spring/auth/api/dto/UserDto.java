@@ -2,12 +2,12 @@ package spring.auth.api.dto;
 
 import lombok.Data;
 
-public class UserInfoDto {
+public class UserDto {
   
-  private UserInfoDto() {}
+  private UserDto() {}
   
   @Data
-  public static class UserRes {
+  public static class InfoRes {
     private String id;
     private String roles;
     private String loginId;
