@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="spring.auth.common.login.UserLoginDao">
+<mapper namespace="spring.auth.common.login.dao.UserLoginDao">
   
-  <select id="selectManagerByLoginId" resultType="spring.auth.common.login.LoginVo$ManagerLoginVo">
+  <select id="selectManagerByLoginId" resultType="spring.auth.common.login.vo.LoginVo$ManagerLoginVo">
     SELECT /* UserLoginDao.selectManagerByLoginId */
            id,
            login_id,
@@ -19,7 +19,7 @@
     </where>
   </select>
   
-  <select id="selectMemberByLoginId" resultType="spring.auth.common.login.LoginVo$MemberLoginVo">
+  <select id="selectMemberByLoginId" resultType="spring.auth.common.login.vo.LoginVo$MemberLoginVo">
     SELECT /* UserLoginDao.selectMemberByLoginId */
            id,
            login_id,
@@ -34,7 +34,7 @@
     WHERE  login_id = #{loginId}
   </select>
   
-  <select id="selectMemberById" resultType="spring.auth.common.login.LoginVo$MemberLoginVo">
+  <select id="selectMemberById" resultType="spring.auth.common.login.vo.LoginVo$MemberLoginVo">
     SELECT /* UserLoginDao.selectMemberById */
            id,
            login_id,

@@ -1,4 +1,4 @@
-package spring.auth.common.login;
+package spring.auth.common.login.vo;
 
 import java.time.LocalDate;
 

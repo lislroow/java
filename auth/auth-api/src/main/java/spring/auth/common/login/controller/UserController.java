@@ -1,15 +1,14 @@
-package spring.auth.api.controller;
+package spring.auth.common.login.controller;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import spring.auth.api.dao.UserDao;
-import spring.auth.api.dto.UserDto;
+import spring.auth.common.login.dao.UserDao;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
@@ -21,9 +20,17 @@ public class UserController {
   
   final UserDao userDao;
   final ModelMapper modelMapper;
+
+  @Data
+  public static class InfoRes {
+    private String id;
+    private String roles;
+    private String loginId;
+    private String username;
+  }
   
   @GetMapping("/v1/user/info")
-  public UserDto.InfoRes info() {
+  public InfoRes info() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //    SecurityContextHolder.setStrategyName()
     // authentication: UsernamePasswordAuthenticationToken, OAuth2AuthenticationToken
@@ -46,7 +53,7 @@ public class UserController {
     default:
       throw new AppException(ERROR.A403);
     }
-    UserDto.InfoRes resDto = modelMapper.map(result, UserDto.InfoRes.class);
+    InfoRes resDto = modelMapper.map(result, InfoRes.class);
     return resDto;
   }
   

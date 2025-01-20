@@ -1,8 +1,10 @@
-package spring.auth.common.login;
+package spring.auth.common.login.dao;
 
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import spring.auth.common.login.vo.LoginVo;
 
 @Mapper
 public interface UserLoginDao {

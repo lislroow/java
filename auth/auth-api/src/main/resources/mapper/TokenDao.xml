@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" 
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="spring.auth.api.dao.TokenDao">
+<mapper namespace="spring.auth.common.login.dao.TokenDao">
   
-  <select id="findClientTokenByTokenKey" resultType="spring.auth.common.login.TokenVo$ClientToken">
+  <select id="findClientTokenByTokenKey" resultType="spring.auth.common.login.vo.TokenVo$ClientToken">
     SELECT /* TokenDao.findClientTokenByTokenKey */
            A.client_id
            , A.token_key

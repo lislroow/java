@@ -1,4 +1,4 @@
-package spring.auth.common.login;
+package spring.auth.common.login.controller;
 
 import java.util.Map;
 
@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import spring.auth.common.login.TokenService;
+import spring.auth.common.login.dao.UserLoginDao;
+import spring.auth.common.login.vo.LoginVo;
+import spring.auth.common.login.vo.LoginVo.ManagerLoginVo;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;

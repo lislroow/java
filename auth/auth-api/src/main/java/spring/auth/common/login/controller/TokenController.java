@@ -1,4 +1,4 @@
-package spring.auth.api.controller;
+package spring.auth.common.login.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.auth.common.login.TokenService;
-import spring.auth.common.login.UserLoginDao;
+import spring.auth.common.login.dao.UserLoginDao;
 import spring.custom.dto.TokenDto;
 
 @RestController

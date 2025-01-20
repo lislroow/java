@@ -1,10 +1,10 @@
-package spring.auth.api.dao;
+package spring.auth.common.login.dao;
 
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import spring.auth.common.login.TokenVo;
+import spring.auth.common.login.vo.TokenVo;
 
 @Mapper
 public interface TokenDao {
