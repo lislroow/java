@@ -57,8 +57,7 @@ public class TokenMngController {
   public ResponseEntity<?> addClientToken(
       @RequestBody TokenMngDto.AddTokenClientReq reqDto) {
     TokenMngVo.AddTokenClient addVo = modelMapper.map(reqDto, TokenMngVo.AddTokenClient.class);
-    LocalDate expDate = reqDto.getExpDate();
-    tokenMngService.addClientToken(addVo, expDate);
+    tokenMngService.addClientToken(addVo);
     
     return ResponseEntity.ok().build();
   }

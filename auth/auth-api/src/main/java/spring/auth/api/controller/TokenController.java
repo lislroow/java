@@ -17,7 +17,7 @@ public class TokenController {
   final UserLoginDao userLoginDao;
   
   
-  @PostMapping("/v1/token/verify")
+  @PostMapping("/v1/token/verify-token")
   public TokenDto.VerifyRes verity(@RequestBody TokenDto.VerifyReq reqDto) {
     String atk = reqDto.getAtk();
     String clientIdent = reqDto.getClientIdent(); // api gateway 에서 x-forward-for 로 생성한 clientIdent 값
@@ -26,7 +26,7 @@ public class TokenController {
     return resDto;
   }
   
-  @PostMapping("/v1/token/refresh")
+  @PostMapping("/v1/token/refresh-token")
   public TokenDto.RefreshRes refresh(@RequestBody TokenDto.RefreshReq reqDto) {
     String rtk = reqDto.getRtk();
     

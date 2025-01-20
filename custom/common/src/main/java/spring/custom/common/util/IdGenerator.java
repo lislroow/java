@@ -1,8 +1,10 @@
 package spring.custom.common.util;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -14,12 +16,20 @@ import spring.custom.common.exception.AppException;
 
 public class IdGenerator {
   
-  public static String createTokenId(TOKEN.USER_TYPE tokenUser) {
+  public static Optional<TOKEN.USER_TYPE> parseTokenKey(String tokenKey) {
+    if (ObjectUtils.isEmpty(tokenKey)) {
+      throw new AppException(ERROR.A009);
+    }
+    String idprefix = tokenKey.substring(0, 1);
+    return TOKEN.USER_TYPE.fromIdprefix(Integer.parseInt(idprefix));
+  }
+  
+  public static String createTokenKey(TOKEN.USER_TYPE tokenUser) {
     String tokenId = null;
     if (tokenUser == null) {
       throw new AppException(ERROR.A001.code(), "token user is null");
     }
-    tokenId = tokenUser.code() + ":" + UUID.randomUUID().toString().replaceAll("-", "");
+    tokenId = tokenUser.idprefix() + UUID.randomUUID().toString().replaceAll("-", "");
     return tokenId;
   }
   

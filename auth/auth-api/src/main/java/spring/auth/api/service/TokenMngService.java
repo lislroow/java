@@ -1,6 +1,5 @@
 package spring.auth.api.service;
 
-import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -23,12 +22,12 @@ public class TokenMngService {
   final TokenService tokenService;
   
   @Transactional
-  public void addClientToken(TokenMngVo.AddTokenClient addVo, LocalDate expDate) {
+  public void addClientToken(TokenMngVo.AddTokenClient addVo) {
     LoginDetails<ClientVo> loginVo = ClientLoginVo.builder()
         .clientId(addVo.getClientId())
         .roles(addVo.getRoles())
         .clientName(addVo.getClientName())
-        .expDate(expDate)
+        .expDate(addVo.getExpDate())
         .build();
     
     Map.Entry<String, String> result = tokenService.createRtk(TOKEN.USER_TYPE.CLIENT, loginVo);

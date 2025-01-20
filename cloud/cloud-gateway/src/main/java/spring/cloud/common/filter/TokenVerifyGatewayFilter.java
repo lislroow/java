@@ -26,7 +26,7 @@ import spring.custom.dto.TokenDto;
 @Slf4j
 public class TokenVerifyGatewayFilter extends AbstractGatewayFilterFactory<TokenVerifyGatewayFilter.Config> {
   
-  @Value("${cloud.gateway.filter.auth-url:http://localhost/auth-api/v1/token/verify}")
+  @Value("${cloud.gateway.filter.auth-url:http://localhost/auth-api/v1/token/verify-token}")
   private String AUTH_URL;
   
   @Autowired

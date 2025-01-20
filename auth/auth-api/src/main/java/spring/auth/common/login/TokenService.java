@@ -120,7 +120,7 @@ public class TokenService {
       throw new AppException(ERROR.A001, e);
     }
     
-    String rtk = IdGenerator.createTokenId(userType);
+    String rtk = IdGenerator.createTokenKey(userType);
     String refreshToken = signedJWT.serialize();
     switch (userType) {
     case MANAGER, MEMBER:
@@ -139,7 +139,7 @@ public class TokenService {
   }
 
   public TokenDto.VerifyRes verifyAtk(String atk, String clientIdent) {
-    TOKEN.USER_TYPE userType = TOKEN.USER_TYPE.fromCode(atk.split(":")[0])
+    TOKEN.USER_TYPE userType = IdGenerator.parseTokenKey(atk)
         .orElseThrow(() -> new AppException(ERROR.A002));
     String accessToken = null;
     switch (userType) {
@@ -180,7 +180,7 @@ public class TokenService {
   }
 
   public TokenDto.RefreshRes refreshToken(String oldRtk) {
-    TOKEN.USER_TYPE userType = TOKEN.USER_TYPE.fromCode(oldRtk.split(":")[0])
+    TOKEN.USER_TYPE userType = IdGenerator.parseTokenKey(oldRtk)
         .orElseThrow(() -> new AppException(ERROR.A004));
     String clientIdent = IdGenerator.createClientIdent();
     String oldRtkRedis = null;
@@ -216,8 +216,8 @@ public class TokenService {
       throw new AppException(ERROR.A004, e);
     }
 
-    String newRtk = IdGenerator.createTokenId(userType);
-    String newAtk = IdGenerator.createTokenId(userType);
+    String newRtk = IdGenerator.createTokenKey(userType);
+    String newAtk = IdGenerator.createTokenKey(userType);
 
     TokenDto.RefreshRes result = new TokenDto.RefreshRes();
     result.setRtk(newRtk);

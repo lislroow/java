@@ -81,7 +81,7 @@ springdoc:
       - name: 2. Opendata API (opendata-api)
         url: /opendata-api/v3/api-docs
 
-#cloud.gateway.filter.auth-url: http://localhost/auth-api/v1/token/verify
+#cloud.gateway.filter.auth-url: http://localhost/auth-api/v1/token/verify-token
 
 ---
 server:
