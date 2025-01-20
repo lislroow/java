@@ -11,6 +11,9 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.AbstractMap;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -35,7 +38,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.auth.api.dao.TokenDao;
-import spring.auth.api.vo.TokenVo;
+import spring.auth.api.vo.ClientTokenVo;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
@@ -45,6 +48,7 @@ import spring.custom.common.exception.token.AccessTokenExpiredException;
 import spring.custom.common.exception.token.RefreshTokenExpiredException;
 import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.util.IdGenerator;
+import spring.custom.common.vo.ClientVo;
 import spring.custom.dto.TokenDto;
 
 @Component
@@ -112,6 +116,14 @@ public class TokenService {
   
   public TokenDto.CreateRes createToken(UserAuthentication<?, ?> userAuthentication) {
     TOKEN.USER_TYPE userType = userAuthentication.getUserType();
+    switch (userType) {
+      case MANAGER, MEMBER:
+      break;
+      case CLIENT:
+      default:
+        throw new AppException(ERROR.A906);
+    }
+    
     String subject = userAuthentication.getUsername();
     TokenDto.CreateRes result = new TokenDto.CreateRes();
     Long rtkExpTime = System.currentTimeMillis() + RTK_EXPIRE_MILLS;
@@ -133,38 +145,60 @@ public class TokenService {
           );
       signedJWT.sign(this.signer);
       String rtkUuid = IdGenerator.createTokenId(userType);
+      
       result.setRtkUuid(rtkUuid);
       String clientIdent = IdGenerator.createClientIdent();
       String rtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, rtkUuid, clientIdent);
       /* for debug */ if (log.isDebugEnabled()) log.info("create token: {}", rtkRedisKey);
-      
-      switch (userType) {
-      case MEMBER:
-      case MANAGER:
-        // update redis - RTR 일 경우, 잦은 업데이트 빈도로 인해 성능 이슈가 예상됨
-        //Map<String, String> hash = this.redisSupport.getHash(username);
-        //hash.entrySet().forEach(entry -> {
-        //  if (clientIp.equals(entry.getKey())) {
-        //    this.redisSupport.removeValue(entry.getValue());
-        //    this.redisSupport.removeHash(username, clientIdent);
-        //  }
-        //});
-        this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
-        //this.redisSupport.setHash(username, clientIdent, rtkRedisKey, Duration.ofSeconds(RTK_EXPIRE_SEC));
-        break;
-      case CLIENT:
-        TokenVo tokenVo = TokenVo.builder()
-          .tokenId(rtkUuid)
-          .clientId(subject)
-          .token(signedJWT.serialize())
-          .build();
-        tokenDao.insert(tokenVo);
-      }
+      // update redis - RTR 일 경우, 잦은 업데이트 빈도로 인해 성능 이슈가 예상됨
+      //Map<String, String> hash = this.redisSupport.getHash(username);
+      //hash.entrySet().forEach(entry -> {
+      //  if (clientIp.equals(entry.getKey())) {
+      //    this.redisSupport.removeValue(entry.getValue());
+      //    this.redisSupport.removeHash(username, clientIdent);
+      //  }
+      //});
+      this.redisSupport.setValue(rtkRedisKey, signedJWT.serialize(), Duration.ofSeconds(RTK_EXPIRE_SEC));
+      //this.redisSupport.setHash(username, clientIdent, rtkRedisKey, Duration.ofSeconds(RTK_EXPIRE_SEC));
       
     } catch (Exception e) { 
       log.error("message: {}", e);
       throw new AppException(ERROR.A001, e);
     }
+    return result;
+  }
+  
+  public Map.Entry<String, String> createClientToken(TOKEN.USER_TYPE userType, ClientVo principal, LocalDate expDate) {
+    String subject = principal.getUsername();
+    Long rtkExpTime = expDate.plusDays(1)
+        .atStartOfDay(ZoneId.systemDefault())
+        .toInstant()
+        .toEpochMilli();
+    
+    JWTClaimsSet claimsSet;
+    SignedJWT signedJWT;
+    claimsSet = new JWTClaimsSet.Builder()
+        .subject(subject)
+        .issuer(ISSUER)
+        .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType.code())
+        .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), principal)
+        .claim(TOKEN.JWT_CLAIM.ROLES.code(), principal.getRoles())
+        .expirationTime(new Date(rtkExpTime))
+        .build();
+    
+    signedJWT = new SignedJWT(
+        new JWSHeader.Builder(JWSAlgorithm.RS256).type(JOSEObjectType.JWT).build(),
+        claimsSet
+        );
+    try {
+      signedJWT.sign(this.signer);
+    } catch (JOSEException e) {
+      throw new AppException(ERROR.A001, e);
+    }
+    
+    String rtkUuid = IdGenerator.createTokenId(userType);
+    Map.Entry<String, String> result = new AbstractMap.SimpleEntry<>(
+        rtkUuid, signedJWT.serialize());
     return result;
   }
   
@@ -179,15 +213,13 @@ public class TokenService {
           .orElseThrow(() -> new AccessTokenExpiredException());
       break;
     case CLIENT:
-      TokenVo tokenVo = tokenDao.findByTokenId(tokenId)
-          .orElseThrow(() -> new AccessTokenExpiredException());
-      if (tokenVo.getEnableYn() != YN.Y) {
-        throw new AppException(ERROR.A002);
+      ClientTokenVo.VerifyToken clientTokenVo = tokenDao.findClientTokenByTokenKey(tokenId)
+          .orElseThrow(() -> new AppException(ERROR.A005));
+      if (clientTokenVo.getEnableYn() != YN.Y) {
+        throw new AppException(ERROR.A010);
       }
-      if (tokenVo.getLockedYn() != YN.N) {
-        throw new AppException(ERROR.A002);
-      }
-      token = tokenVo.getToken();
+      // IP 체크: clientTokenVo.getClientIp()
+      token = clientTokenVo.getTokenValue();
       break;
     default:
       throw new AppException(ERROR.A002);
@@ -219,6 +251,8 @@ public class TokenService {
     case MANAGER:
       oldRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, oldRtkUuid, clientIdent);
       break;
+    case CLIENT:
+      throw new AppException(ERROR.A906);
     default:
       throw new AppException(ERROR.A004);
     }

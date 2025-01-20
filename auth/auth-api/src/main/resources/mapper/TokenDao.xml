@@ -3,24 +3,19 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.auth.api.dao.TokenDao">
   
-  <select id="findByTokenId" resultType="TokenVo">
-    SELECT /* TokenDao.findByTokenId */
-           token_id, token, client_id, enable_yn, locked_yn
-    FROM   au_client_token
-    WHERE  token_id = #{tokenId}
+  <select id="findClientTokenByTokenKey" resultType="spring.auth.api.vo.ClientTokenVo$VerifyToken">
+    SELECT /* TokenDao.findClientTokenByTokenKey */
+           A.client_id
+           , A.token_key
+           , A.token_value
+           , A.enable_yn
+           , A.client_ip
+           , A.exp_date
+    FROM   au_client A
+      LEFT JOIN au_client_token B ON A.client_id = B.id
+    <where>
+       AND A.token_key = #{tokenKey}
+    </where>
   </select>
-  
-  <insert id="insert">
-    INSERT /* TokenDao.insert */
-      INTO au_client_token (
-      token_id,
-      user_id,
-      token
-    ) VALUES (
-      #{tokenId},
-      #{userId},
-      #{token}
-    )
-  </insert>
   
 </mapper>

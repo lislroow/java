@@ -3,7 +3,6 @@ package spring.custom.common.security;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -26,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.vo.ClientVo;
 import spring.custom.common.vo.ManagerVo;
 import spring.custom.common.vo.MemberVo;
 
@@ -75,6 +75,9 @@ public class TokenAuthFilter extends OncePerRequestFilter {
           });
           break;
         case CLIENT:
+          principal = jwtClaimsSet.toType((claims) -> {
+            return modelMapper.map(claims.getClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code()), ClientVo.class);
+          });
         default:
           throw new AppException(ERROR.A008);
         }

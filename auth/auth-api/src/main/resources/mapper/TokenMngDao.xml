@@ -3,34 +3,76 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.auth.api.dao.TokenMngDao">
   
-  <select id="searchTokens" resultType="TokenMngVo">
-    SELECT /* TokenMngDao.searchTokens */
-           A.token_id
+  <select id="searchClientTokens" resultType="spring.auth.api.vo.TokenMngVo$SearchResult">
+    SELECT /* TokenMngDao.searchClientTokens */
+           B.contact_name
+           , B.contact_email
+           , A.token_key
            , A.client_id
+           , A.client_ip
+           , A.client_name
+           , A.roles
            , A.enable_yn
-           , A.locked_yn
-           , A.create_id
-           , A.create_time
-           , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
+           , A.exp_date
            , A.modify_id
            , A.modify_time
            , (SELECT mgr_name FROM au_manager WHERE id = A.modify_id) AS modify_name
     FROM   au_client_token A
+      LEFT JOIN au_client B ON A.client_id = B.id
     <where>
-      <if test="tokenId != null and !''.equals(tokenId)">
-        AND UPPER(A.token_id) LIKE UPPER(#{tokenId}) || '%'
-      </if>
       <if test="clientId != null and !''.equals(clientId)">
         AND UPPER(A.client_id) LIKE UPPER(#{clientId}) || '%'
+      </if>
+      <if test="tokenKey != null and !''.equals(tokenKey)">
+        AND UPPER(A.token_key) LIKE UPPER(#{tokenKey}) || '%'
+      </if>
+      <if test="contactName != null and !''.equals(contactName)">
+        AND UPPER(B.contact_name) LIKE UPPER(#{contactName}) || '%'
       </if>
       <if test="enableYn != null and !''.equals(enableYn)">
         AND A.enable_yn = #{enableYn}
       </if>
-      <if test="lockedYn != null and !''.equals(lockedYn)">
-        AND A.locked_yn = #{lockedYn}
-      </if>
     </where>
     ORDER BY A.create_time DESC
   </select>
+  
+  <insert id="addClientToken">
+    INSERT /* TokenMngDao.addClientToken */
+      INTO au_client_token (
+        token_key,
+        client_id,
+        client_name,
+        client_ip,
+        roles,
+        enable_yn,
+        exp_date,
+        token_value,
+        create_time,
+        modify_time,
+        create_id,
+        modify_id
+      ) VALUES (
+        #{tokenKey},
+        #{clientId},
+        #{clientName},
+        #{clientIp},
+        #{roles},
+        #{enableYn},
+        #{expDate},
+        #{tokenValue},
+        now(),
+        now(),
+        #{createId},
+        #{modifyId}
+      )
+  </insert>
+  
+  <update id="modifyClientToken">
+    UPDATE /* TokenMngDao.modifyClientToken */
+           au_client_token
+       SET enable_yn = #{enableYn},
+           exp_date = #{expDate}
+     WHERE token_key = #{tokenKey}
+  </update>
   
 </mapper>

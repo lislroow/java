@@ -1,5 +1,6 @@
 package spring.auth.api.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
@@ -12,26 +13,48 @@ public class TokenMngDto {
   private TokenMngDto() { }
   
   @Data
-  public static class TokenRes extends AuditVo {
-    private String tokenId;
-    private String id;
+  public static class ClientTokenRes extends AuditVo {
+    private String contactName;
+    private String contactEmail;
+    private String tokenKey;
+    private String clientId;
     private String clientIp;
-    private YN useYn;
+    private String clientName;
+    private String roles;
+    private YN enableYn;
+    private LocalDate expDate;
   }
   
   @Data
-  public static class TokenListRes {
-    private List<TokenRes> list;
+  public static class ClientTokenListRes {
+    private List<ClientTokenRes> list;
     
-    public TokenListRes(List<TokenRes> list) {
+    public ClientTokenListRes(List<ClientTokenRes> list) {
       this.list = list;
     }
   }
   
   @Data
-  public static class PagedTokenListRes {
+  public static class PagedClientTokenListRes {
     private PageInfo paged;
-    private List<TokenRes> list;
+    private List<ClientTokenRes> list;
+  }
+  
+  @Data
+  public static class AddTokenClientReq {
+    private String clientId;
+    private String clientName;
+    private String clientIp;
+    private String roles;
+    private YN enableYn;
+    private LocalDate expDate;
+  }
+  
+  @Data
+  public static class ModifyTokenClientReq {
+    private String tokenKey;
+    private YN enableYn;
+    private LocalDate expDate;
   }
   
 }

@@ -10,12 +10,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.security.LoginDetails;
+import spring.custom.common.vo.ClientVo;
 import spring.custom.common.vo.ManagerVo;
 import spring.custom.common.vo.MemberVo;
 
 
 public class LoginVo {
-
+  
+  private LoginVo() { }
+  
+  // for login
+  
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
@@ -126,6 +131,42 @@ public class LoginVo {
     
   }
   
+  /*
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class ClientLoginVo implements LoginDetails<ClientVo> {
+  
+    private static final long serialVersionUID = -671188874363049769L;
+    
+    private String clientId;
+    private String roles;
+    private String clientName;
+    
+    @Override
+    public String getPassword() {
+      return null;
+    }
+    
+    @Override
+    public String getUsername() {
+      return this.clientId;
+    }
+    
+    @Override
+    public ClientVo toPrincipal() {
+      ClientVo clientVo = ClientVo.builder()
+          .clientId(clientId)
+          .roles(roles)
+          .clientName(clientName)
+          .build();
+      return clientVo;
+    }
+  }
+  */
+  
+  // no login
   
   @Data
   @NoArgsConstructor

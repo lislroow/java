@@ -1,15 +1,21 @@
 package spring.auth.api.controller;
 
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.TokenMngDao;
 import spring.auth.api.dto.TokenMngDto;
+import spring.auth.api.service.TokenMngService;
 import spring.auth.api.vo.TokenMngVo;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.mybatis.PageRequest;
@@ -21,29 +27,52 @@ public class TokenMngController {
 
   final ModelMapper modelMapper;
   final TokenMngDao tokenMngDao;
+  final TokenMngService tokenMngService;
   
   @GetMapping("/v1/token-mng/search")
-  public PageResponse<TokenMngDto.TokenRes> searchTokens(
-      @RequestParam(required = false) String tokenId,
+  public PageResponse<TokenMngDto.ClientTokenRes> searchClientTokens(
       @RequestParam(required = false) String clientId,
+      @RequestParam(required = false) String tokenKey,
+      @RequestParam(required = false) String contactName,
       @RequestParam(required = false) YN enableYn,
-      @RequestParam(required = false) YN lockedYn,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    TokenMngVo.SearchVo searchVo = TokenMngVo.SearchVo.builder()
-        .tokenId(tokenId)
+    TokenMngVo.SearchParam searchVo = TokenMngVo.SearchParam.builder()
         .clientId(clientId)
+        .tokenKey(tokenKey)
+        .contactName(contactName)
         .enableYn(enableYn)
-        .lockedYn(lockedYn)
         .build();
-    PageResponse<TokenMngVo> result = tokenMngDao.searchTokens(PageRequest.of(page, size), searchVo);
+    PageResponse<TokenMngVo.SearchResult> result = tokenMngDao.searchClientTokens(PageRequest.of(page, size), searchVo);
     
-    PageResponse<TokenMngDto.TokenRes> resDto = new PageResponse<TokenMngDto.TokenRes>(
+    PageResponse<TokenMngDto.ClientTokenRes> resDto = new PageResponse<TokenMngDto.ClientTokenRes>(
         result.stream()
-          .map(item -> modelMapper.map(item, TokenMngDto.TokenRes.class))
+          .map(item -> modelMapper.map(item, TokenMngDto.ClientTokenRes.class))
           .collect(Collectors.toList())
         , result.getPageInfo());
     return resDto;
   }
   
+  @PostMapping("/v1/token-mng/token-client")
+  public ResponseEntity<?> addClientToken(
+      @RequestBody TokenMngDto.AddTokenClientReq reqDto) {
+    TokenMngVo.AddTokenClient addVo = modelMapper.map(reqDto, TokenMngVo.AddTokenClient.class);
+    LocalDate expDate = reqDto.getExpDate();
+    tokenMngService.addClientToken(addVo, expDate);
+    
+    return ResponseEntity.ok().build();
+  }
+  
+  @PutMapping("/v1/token-mng/token-client")
+  public ResponseEntity<?> modifyClientToken(
+      @RequestBody TokenMngDto.ModifyTokenClientReq reqDto) {
+    TokenMngVo.ModifyTokenClient modifyVo = modelMapper.map(reqDto, TokenMngVo.ModifyTokenClient.class);
+    int result = tokenMngService.modifyClientToken(modifyVo);
+    
+    if (result == 0) {
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.ok(modifyVo);
+    }
+  }
 }

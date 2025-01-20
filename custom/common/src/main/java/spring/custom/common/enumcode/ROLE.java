@@ -8,6 +8,8 @@ public enum ROLE {
   ADMIN,
   MANAGER,
   MEMBER,
-  OPENDATA;
+  AGENT,
+  OPENAPI
+  ;
   
 }

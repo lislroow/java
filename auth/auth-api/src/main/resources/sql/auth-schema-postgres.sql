@@ -67,8 +67,8 @@ DROP TABLE IF EXISTS au_client CASCADE ;
 CREATE TABLE IF NOT EXISTS au_client
 (
   id VARCHAR(16),
-  client_name VARCHAR(50),
-  client_ip VARCHAR(255),
+  contact_name VARCHAR(255),
+  contact_email VARCHAR(255),
   create_time TIMESTAMP DEFAULT NOW(),
   modify_time TIMESTAMP DEFAULT NOW(),
   create_id VARCHAR(16) DEFAULT '1',
@@ -79,18 +79,22 @@ CREATE TABLE IF NOT EXISTS au_client
 DROP TABLE IF EXISTS au_client_token CASCADE ;
 CREATE TABLE IF NOT EXISTS au_client_token
 (
-  token_id VARCHAR(40),
+  token_key VARCHAR(40),
   client_id VARCHAR(16),
+  client_name VARCHAR(50),
+  client_ip VARCHAR(255),
+  roles VARCHAR(255) NOT NULL,
   enable_yn CHAR(1) DEFAULT 'Y',
-  locked_yn CHAR(1) DEFAULT 'N',
-  token TEXT,
+  exp_date DATE DEFAULT CURRENT_DATE + INTERVAL '90 day',
+  token_value TEXT NOT NULL,
   create_time TIMESTAMP DEFAULT NOW(),
   modify_time TIMESTAMP DEFAULT NOW(),
   create_id VARCHAR(16) DEFAULT '1',
   modify_id VARCHAR(16) DEFAULT '1',
-  PRIMARY KEY (token_id, client_id),
+  PRIMARY KEY (token_key, client_id),
   CONSTRAINT fk_au_client_id FOREIGN KEY (client_id)
     REFERENCES au_client (id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+

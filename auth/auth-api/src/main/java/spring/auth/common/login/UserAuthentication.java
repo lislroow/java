@@ -1,7 +1,6 @@
 package spring.auth.common.login;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;

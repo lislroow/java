@@ -17,13 +17,24 @@ INSERT INTO au_manager (
 
 INSERT INTO au_client (
   id,
-  client_name, client_ip,
+  contact_name, contact_email,
   create_id, modify_id
 ) VALUES(
-  (select 4||TO_CHAR(NOW(), 'YYYYMM') || LPAD(NEXTVAL('sq_user_id')||'', 9, '0')),
-  '데이터 수집기', '::1',
-  (select 4||TO_CHAR(NOW(), 'YYYYMM') || LPAD(CURRVAL('sq_user_id')||'', 9, '0')),
-  (select 4||TO_CHAR(NOW(), 'YYYYMM') || LPAD(CURRVAL('sq_user_id')||'', 9, '0'))
+  (select 3||TO_CHAR(NOW(), 'YYYYMM') || LPAD(NEXTVAL('sq_user_id')||'', 9, '0')),
+  '홍길동', 'hi@mgkim.net',
+  (select 3||TO_CHAR(NOW(), 'YYYYMM') || LPAD(CURRVAL('sq_user_id')||'', 9, '0')),
+  (select 3||TO_CHAR(NOW(), 'YYYYMM') || LPAD(CURRVAL('sq_user_id')||'', 9, '0'))
+);
+
+INSERT INTO au_client (
+  id,
+  contact_name, contact_email,
+  create_id, modify_id
+) VALUES(
+  (select 3||TO_CHAR(NOW(), 'YYYYMM') || LPAD(NEXTVAL('sq_user_id')||'', 9, '0')),
+  '김철수', 'lislroow@daum.net',
+  (select 3||TO_CHAR(NOW(), 'YYYYMM') || LPAD(CURRVAL('sq_user_id')||'', 9, '0')),
+  (select 3||TO_CHAR(NOW(), 'YYYYMM') || LPAD(CURRVAL('sq_user_id')||'', 9, '0'))
 );
 
 
