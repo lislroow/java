@@ -35,7 +35,6 @@ public class Constant {
     public static final String X_FORWARDED_FOR = "X-Forwarded-For";
     public static final String X_ATKID = "X-ATKID";
     public static final String X_RTKID = "X-RTKID";
-    public static final String X_USRID = "X-USRID";
     public static final String X_RTKEX = "X-RTKEX";
     public static final String X_CAPTCHA_EC = "X-CAPTCHA-EC";
     public static final String X_CAPTCHA_ANSWER = "X-CAPTCHA-ANSWER";
