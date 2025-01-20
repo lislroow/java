@@ -39,12 +39,6 @@ public class MemberLoginSuccessHandler implements AuthenticationSuccessHandler {
         .httpOnly(false)
         .maxAge(10)
         .build().toString());
-    response.addHeader(HttpHeaders.SET_COOKIE, ResponseCookie
-        .from(Constant.HTTP_HEADER.X_USRID, userAuthentication.getUsername())
-        .path("/")
-        .httpOnly(false)
-        .maxAge(10)
-        .build().toString());
   }
   
 }

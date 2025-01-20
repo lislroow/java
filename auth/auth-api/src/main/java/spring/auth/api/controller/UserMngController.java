@@ -35,6 +35,7 @@ import spring.auth.api.dto.UserMngDto;
 import spring.auth.api.service.UserMngService;
 import spring.auth.api.vo.UserMngVo;
 import spring.custom.common.enumcode.ERROR;
+import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.data.DataNotFoundException;
@@ -179,7 +180,7 @@ public class UserMngController {
       throw new AppException(ERROR.A018.code(), "'"+addVo.getLoginId() + "'" + ERROR.A018.message());
     }
     
-    String id = userMngDao.selectNextId();
+    String id = userMngDao.selectNextId(TOKEN.USER_TYPE.MANAGER.idprefix());
     addVo.setId(id);
     addVo.setLoginPwd(bcryptPasswordEncoder.encode(reqDto.getNewLoginPwd()));
     addVo.setEnableYn(YN.Y);

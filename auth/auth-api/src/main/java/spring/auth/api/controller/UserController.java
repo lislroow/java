@@ -25,8 +25,9 @@ public class UserController {
   @GetMapping("/v1/user/info")
   public UserDto.InfoRes info() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (!(authentication instanceof UsernamePasswordAuthenticationToken &&
-        authentication.getPrincipal() instanceof TokenPrincipal)) {
+//    SecurityContextHolder.setStrategyName()
+    // authentication: UsernamePasswordAuthenticationToken, OAuth2AuthenticationToken
+    if (!(authentication.getPrincipal() instanceof TokenPrincipal)) {
       throw new AppException(ERROR.A403);
     }
     TokenPrincipal principal = (TokenPrincipal) authentication.getPrincipal();

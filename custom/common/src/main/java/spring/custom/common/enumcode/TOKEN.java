@@ -39,21 +39,20 @@ public class TOKEN {
   }
   
   public enum USER_TYPE {
-    MANAGER(1, "manager"),
-    MEMBER(2, "member"),
-    CLIENT(3, "client")
+    MANAGER(1),
+    MEMBER(2),
+    CLIENT(3),
+    SNS(4),
     ;
     
     private Integer idprefix;
-    private String code;
     
-    private USER_TYPE(Integer idprefix, String code) {
+    private USER_TYPE(Integer idprefix) {
       this.idprefix = idprefix;
-      this.code = code;
     }
     
     public String code() {
-      return this.code;
+      return this.name().toLowerCase();
     }
     
     public Integer idprefix() {
@@ -73,4 +72,20 @@ public class TOKEN {
     }
   }
   
+  public enum SNS_TYPE {
+    GOOGLE,
+    KAKAO,
+    NAVER
+    ;
+    
+    public String code() {
+      return this.name().toLowerCase();
+    }
+    
+    public static Optional<TOKEN.SNS_TYPE> fromCode(String registrationId) {
+        return Arrays.stream(TOKEN.SNS_TYPE.values())
+            .filter(item -> item.code().equalsIgnoreCase(registrationId))
+            .findAny();
+    }
+  }
 }

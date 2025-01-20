@@ -90,6 +90,9 @@ public class SecurityConfig {
         });
         config.anyRequest().authenticated();
       })
+      .sessionManagement(config -> 
+        config.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // NEVER: 기존 세션이 있으면 사용하지만, 새로운 세션을 생성하지 않음
+      )
       .oauth2Login(config ->
         config.permitAll()
           .authorizationEndpoint(authorizationEndpointCustomizer -> 
@@ -100,9 +103,6 @@ public class SecurityConfig {
             redirectionEndpointCustomizer.baseUri("/v1/member/login/oauth2/code/*") // OAuth2LoginAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI = "/login/oauth2/code/*";
           )
           .successHandler(new MemberOAuth2LoginSuccessHandler(tokenService))
-      )
-      .sessionManagement(config -> 
-        config.sessionCreationPolicy(SessionCreationPolicy.NEVER)
       )
       .logout(logout ->
         logout.logoutUrl("/v1/member/logout")

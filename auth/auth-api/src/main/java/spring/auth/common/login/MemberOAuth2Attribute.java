@@ -91,11 +91,11 @@ public class MemberOAuth2Attribute {
             .build();
   }
   
-  public LoginVo.MemberLoginVo toLoginVo() {
-    return LoginVo.MemberLoginVo.builder()
-        .registrationId(registrationId)
+  public LoginVo.MemberSnsVo toMemberSnsVo() {
+    return LoginVo.MemberSnsVo.builder()
         .oauth2Id(oauth2Id)
-        .loginId(email)
+        .registrationId(registrationId)
+        .email(email)
         .nickname(nickname)
         .build();
   }

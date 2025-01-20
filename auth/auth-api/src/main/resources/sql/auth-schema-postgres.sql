@@ -31,17 +31,35 @@ CREATE TABLE IF NOT EXISTS au_member
   login_pwd VARCHAR(60),
   roles VARCHAR(255),
   realname VARCHAR(255),
-  registration_id VARCHAR(255),
-  oauth2_id VARCHAR(255),
   nickname VARCHAR(255),
   enable_yn CHAR(1) DEFAULT 'Y',
   locked_yn CHAR(1) DEFAULT 'N',
   pwd_exp_date DATE DEFAULT CURRENT_DATE + INTERVAL '90 day',
+  email_verify_yn CHAR(1) DEFAULT 'N',
   create_time TIMESTAMP DEFAULT NOW(),
   modify_time TIMESTAMP DEFAULT NOW(),
   create_id VARCHAR(16) DEFAULT '1',
   modify_id VARCHAR(16) DEFAULT '1',
   PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS au_member_oauth CASCADE ;
+CREATE TABLE IF NOT EXISTS au_member_oauth 
+(
+  id VARCHAR(16),
+  oauth2_id VARCHAR(50),
+  registration_id VARCHAR(255),
+  email VARCHAR(255),
+  nickname VARCHAR(255),
+  create_time TIMESTAMP DEFAULT NOW(),
+  modify_time TIMESTAMP DEFAULT NOW(),
+  create_id VARCHAR(16) DEFAULT '1',
+  modify_id VARCHAR(16) DEFAULT '1',
+  PRIMARY KEY (id, oauth2_id),
+  CONSTRAINT fk_au_client_id FOREIGN KEY (id)
+    REFERENCES au_member (id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 );
 
 

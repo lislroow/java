@@ -50,7 +50,7 @@ public class SecurityConfig {
         })
       )
       .sessionManagement(config -> 
-        config.sessionCreationPolicy(SessionCreationPolicy.NEVER)
+        config.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
       );
     return http.build();
   }

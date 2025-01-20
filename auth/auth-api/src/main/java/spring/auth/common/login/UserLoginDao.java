@@ -9,8 +9,15 @@ import spring.auth.api.vo.LoginVo;
 @Mapper
 public interface UserLoginDao {
 
-  public Optional<LoginVo.ManagerLoginVo> selectManagerByLoginId(String loginId);
+  Optional<LoginVo.ManagerLoginVo> selectManagerByLoginId(String loginId);
   
-  public Optional<LoginVo.MemberLoginVo> selectMemberByLoginId(String loginId);
+  Optional<LoginVo.MemberLoginVo> selectMemberByLoginId(String loginId);
   
+  Optional<String> selectMemberIdByOauth2Id(String oauth2Id);
+  
+  Optional<LoginVo.MemberLoginVo> selectMemberById(String loginId);
+  
+  int insertMemberOauth(LoginVo.MemberSnsVo memberSnsVo);
+  
+  int insertMember(LoginVo.MemberRegisterVo memberRegisterVo);
 }

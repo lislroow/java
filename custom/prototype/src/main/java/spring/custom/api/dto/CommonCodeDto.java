@@ -4,6 +4,7 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 public class CommonCodeDto {
   
@@ -11,6 +12,7 @@ public class CommonCodeDto {
   
   @Data
   @AllArgsConstructor
+  @NoArgsConstructor
   public static class AllCodeRes {
     private String cdGrp;
     List<CodeRes> list;

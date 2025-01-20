@@ -1,9 +1,11 @@
 package spring.auth.common.login;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -24,6 +26,11 @@ public class UserAuthentication<T extends TokenPrincipal, S extends LoginDetails
   private transient T principal;
   
   @SuppressWarnings("unchecked")
+  public UserAuthentication(TOKEN.USER_TYPE userType) {
+    this.userType = userType;
+  }
+  
+  @SuppressWarnings("unchecked")
   public UserAuthentication(TOKEN.USER_TYPE userType, S loginDetails) {
     this.userType = userType;
     this.loginDetails = loginDetails;
@@ -37,7 +44,7 @@ public class UserAuthentication<T extends TokenPrincipal, S extends LoginDetails
   // [OAuth2User, UserDetails]
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return loginDetails.getAuthorities();
+    return loginDetails == null ? AuthorityUtils.NO_AUTHORITIES : loginDetails.getAuthorities();
   }
   // --[OAuth2User, UserDetails]
   

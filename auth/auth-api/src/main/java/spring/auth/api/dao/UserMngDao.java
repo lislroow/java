@@ -12,7 +12,7 @@ import spring.custom.common.mybatis.PageResponse;
 @Mapper
 public interface UserMngDao {
   
-  String selectNextId();
+  String selectNextId(Integer idprefix);
   
   List<UserMngVo> allManagers();
   

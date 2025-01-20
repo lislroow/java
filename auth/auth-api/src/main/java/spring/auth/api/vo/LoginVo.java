@@ -73,8 +73,8 @@ public class LoginVo {
     }
     
   }
-
-
+  
+  
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
@@ -88,11 +88,7 @@ public class LoginVo {
     private String loginPwd;
     private String roles;
     private String realname;
-    private String registrationId;
-    private String oauth2Id;
     private String nickname;
-    private String ip;
-    private String userAgent;
     private YN enableYn;
     private YN lockedYn;
     private LocalDate pwdExpDate;
@@ -113,8 +109,6 @@ public class LoginVo {
           .id(id)
           .roles(roles)
           .loginId(loginId)
-          .registrationId(registrationId)
-          .oauth2Id(oauth2Id)
           .nickname(nickname)
           .build();
       return memberVo;
@@ -130,6 +124,35 @@ public class LoginVo {
       return enableYn.compareTo(YN.Y) == 0;
     }
     
+  }
+  
+  
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class MemberSnsVo {
+    private String id;
+    private String oauth2Id;
+    private String registrationId;
+    private String email;
+    private String nickname;
+  }
+  
+  
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class MemberRegisterVo {
+    private String id;
+    private String loginId;
+    private String roles;
+    private String email;
+    private String nickname;
+    private YN enableYn;
+    private YN lockedYn;
+    private LocalDate pwdExpDate;
   }
 
 }

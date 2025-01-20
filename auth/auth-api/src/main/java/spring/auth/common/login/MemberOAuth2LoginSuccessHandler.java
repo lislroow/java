@@ -33,20 +33,13 @@ public class MemberOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
     
     UserAuthentication userAuthentication = (UserAuthentication) authentication.getPrincipal();
     TokenDto.CreateRes resDto = tokenService.createToken(userAuthentication);
-    
     response.addHeader(HttpHeaders.SET_COOKIE, ResponseCookie
         .from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
         .path("/")
         .httpOnly(false)
         .maxAge(10)
         .build().toString());
-    response.addHeader(HttpHeaders.SET_COOKIE, ResponseCookie
-        .from(Constant.HTTP_HEADER.X_USRID, userAuthentication.getUsername())
-        .path("/")
-        .httpOnly(false)
-        .maxAge(10)
-        .build().toString());
-    response.setHeader(HttpHeaders.LOCATION, "/login_after");
+    response.setHeader(HttpHeaders.LOCATION, "/");
     response.setStatus(HttpStatus.FOUND.value());
   }
   
