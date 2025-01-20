@@ -35,11 +35,11 @@ public class UserController {
     TOKEN.USER_TYPE userType = principal.getUserType().orElseThrow(() -> new AppException(ERROR.A403));
     switch (userType) {
     case MANAGER:
-      result = userDao.selectManagerById(authentication.getName())
+      result = userDao.selectManagerInfoById(authentication.getName())
         .orElseThrow(() -> new AppException(ERROR.A003));
       break;
     case MEMBER:
-      result = userDao.selectMemberById(authentication.getName())
+      result = userDao.selectMemberInfoById(authentication.getName())
         .orElseThrow(() -> new AppException(ERROR.A003));
       break;
     case CLIENT:

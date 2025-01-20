@@ -4,11 +4,11 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import spring.auth.api.vo.ClientTokenVo;
+import spring.auth.common.login.TokenVo;
 
 @Mapper
 public interface TokenDao {
   
-  Optional<ClientTokenVo.VerifyToken> findClientTokenByTokenKey(String tokenId);
+  Optional<TokenVo.ClientToken> findClientTokenByTokenKey(String tokenId);
   
 }

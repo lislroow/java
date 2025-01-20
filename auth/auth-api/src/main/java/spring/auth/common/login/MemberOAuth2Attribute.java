@@ -4,7 +4,6 @@ import java.util.Map;
 
 import lombok.Builder;
 import lombok.Getter;
-import spring.auth.api.vo.LoginVo;
 
 @Getter
 public class MemberOAuth2Attribute {

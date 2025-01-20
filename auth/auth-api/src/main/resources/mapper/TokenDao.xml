@@ -3,7 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.auth.api.dao.TokenDao">
   
-  <select id="findClientTokenByTokenKey" resultType="spring.auth.api.vo.ClientTokenVo$VerifyToken">
+  <select id="findClientTokenByTokenKey" resultType="spring.auth.common.login.TokenVo$ClientToken">
     SELECT /* TokenDao.findClientTokenByTokenKey */
            A.client_id
            , A.token_key

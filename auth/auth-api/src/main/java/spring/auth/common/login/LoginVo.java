@@ -1,4 +1,4 @@
-package spring.auth.api.vo;
+package spring.auth.common.login;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

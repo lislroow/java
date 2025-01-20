@@ -36,7 +36,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.auth.api.dao.TokenDao;
-import spring.auth.api.vo.ClientTokenVo;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
@@ -150,7 +149,7 @@ public class TokenService {
           .orElseThrow(() -> new AccessTokenExpiredException());
       break;
     case CLIENT:
-      ClientTokenVo.VerifyToken clientTokenVo = tokenDao.findClientTokenByTokenKey(atk)
+      TokenVo.ClientToken clientTokenVo = tokenDao.findClientTokenByTokenKey(atk)
           .orElseThrow(() -> new AppException(ERROR.A005));
       if (clientTokenVo.getEnableYn() != YN.Y) {
         throw new AppException(ERROR.A010);

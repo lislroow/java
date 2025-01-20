@@ -1,4 +1,4 @@
-package spring.auth.api.vo;
+package spring.auth.common.login;
 
 import java.time.LocalDate;
 
@@ -6,12 +6,12 @@ import lombok.Data;
 import spring.custom.common.enumcode.YN;
 
 
-public class ClientTokenVo {
+public class TokenVo {
   
-  private ClientTokenVo() { }
+  private TokenVo() { }
   
   @Data
-  public static class VerifyToken {
+  public static class ClientToken {
     private String clientId;
     private String tokenKey;  // condition
     private String tokenValue;

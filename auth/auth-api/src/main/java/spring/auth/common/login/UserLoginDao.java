@@ -4,8 +4,6 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import spring.auth.api.vo.LoginVo;
-
 @Mapper
 public interface UserLoginDao {
 

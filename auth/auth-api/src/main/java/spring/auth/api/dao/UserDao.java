@@ -10,8 +10,8 @@ import spring.custom.common.vo.MemberVo;
 @Mapper
 public interface UserDao {
   
-  public Optional<MemberVo> selectMemberById(String id);
+  public Optional<MemberVo> selectMemberInfoById(String id);
   
-  public Optional<ManagerVo> selectManagerById(String id);
+  public Optional<ManagerVo> selectManagerInfoById(String id);
   
 }

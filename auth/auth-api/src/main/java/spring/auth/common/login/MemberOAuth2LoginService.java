@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.UserMngDao;
-import spring.auth.api.vo.LoginVo;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.ROLE;
 import spring.custom.common.enumcode.TOKEN;
