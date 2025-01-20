@@ -1,6 +1,7 @@
 package spring.auth.api.vo;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 import org.springframework.util.ObjectUtils;
 
@@ -8,7 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import spring.custom.common.constant.Constant;
+import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.YN;
+import spring.custom.common.exception.AppException;
 import spring.custom.common.security.LoginDetails;
 import spring.custom.common.vo.ClientVo;
 import spring.custom.common.vo.ManagerVo;
@@ -76,6 +80,16 @@ public class LoginVo {
     public boolean isEnabled() {
       return enableYn.compareTo(YN.Y) == 0;
     }
+
+    @Override
+    public Long getRefreshExpireTime() {
+      return System.currentTimeMillis() + Constant.TOKEN.RTK_EXPIRE_MILLS;
+    }
+
+    @Override
+    public Long getAccessExpireTime() {
+      return System.currentTimeMillis() + Constant.TOKEN.ATK_EXPIRE_MILLS;
+    }
     
   }
   
@@ -129,9 +143,18 @@ public class LoginVo {
       return enableYn.compareTo(YN.Y) == 0;
     }
     
+    @Override
+    public Long getRefreshExpireTime() {
+      return System.currentTimeMillis() + Constant.TOKEN.RTK_EXPIRE_MILLS;
+    }
+
+    @Override
+    public Long getAccessExpireTime() {
+      return System.currentTimeMillis() + Constant.TOKEN.ATK_EXPIRE_MILLS;
+    }
   }
   
-  /*
+  
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
@@ -142,6 +165,7 @@ public class LoginVo {
     
     private String clientId;
     private String roles;
+    private LocalDate expDate;
     private String clientName;
     
     @Override
@@ -163,8 +187,21 @@ public class LoginVo {
           .build();
       return clientVo;
     }
+    
+    @Override
+    public Long getRefreshExpireTime() {
+      return this.expDate.plusDays(1)
+          .atStartOfDay(ZoneId.systemDefault())
+          .toInstant()
+          .toEpochMilli();
+    }
+    
+    @Override
+    public Long getAccessExpireTime() {
+      throw new AppException(ERROR.E902);
+    }
   }
-  */
+  
   
   // no login
   

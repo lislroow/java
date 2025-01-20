@@ -12,6 +12,15 @@ public class Constant {
   public static final String CUSTOM = "custom";
   public static final Long MILLS = 1000L;
   
+  public static class TOKEN {
+    public static final Integer RTK_EXPIRE_SEC = 86400;
+    public static final Long RTK_EXPIRE_MILLS = RTK_EXPIRE_SEC * Constant.MILLS;
+    public static final Integer ATK_EXPIRE_SEC = 60;
+    public static final Long ATK_EXPIRE_MILLS = ATK_EXPIRE_SEC * Constant.MILLS;
+    public static final Integer CLIENT_SESSION_SEC = 600;
+    public static final Long CLIENT_SESSION_MILLS = CLIENT_SESSION_SEC * Constant.MILLS;
+  }
+  
   public static class PAGE {
     public static final Integer PAGE_NUMBER = 1; // 페이지 시작은 '1' 부터
     public static final Integer PAGE_SIZE = 10;
@@ -33,9 +42,8 @@ public class Constant {
   public static class HTTP_HEADER {
     public static final String USER_AGENT = "User-Agent";
     public static final String X_FORWARDED_FOR = "X-Forwarded-For";
-    public static final String X_ATKID = "X-ATKID";
-    public static final String X_RTKID = "X-RTKID";
-    public static final String X_RTKEX = "X-RTKEX";
+    public static final String X_ATK = "X-ATK";
+    public static final String X_RTK = "X-RTK";
     public static final String X_CAPTCHA_EC = "X-CAPTCHA-EC";
     public static final String X_CAPTCHA_ANSWER = "X-CAPTCHA-ANSWER";
   }

@@ -1,7 +1,5 @@
 package spring.custom.common.vo;
 
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -27,7 +25,7 @@ public class ClientVo implements TokenPrincipal {
   
   @Override
   public String getUsername() {
-    return this.clientId;
+    return this.clientName;
   }
   
   @Override

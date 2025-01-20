@@ -9,26 +9,26 @@ public class TokenDto {
   
   @Data
   public static class CreateRes {
-    private String rtkUuid;
+    private String rtk;
   }
   
   
   @Data
   public static class RefreshReq {
-    private String rtkUuid;
+    private String rtk;
   }
   
   @Data
   public static class RefreshRes {
-    private String rtkUuid;
-    private String atkUuid;
-    private Integer clientSessionSec;
+    private String rtk;
+    private String atk;
+    private Integer session;
   }
   
   
   @Data
   public static class VerifyReq {
-    private String tokenId;
+    private String atk;
     private String clientIdent;
   }
   

@@ -1,5 +1,7 @@
 package spring.auth.common.login;
 
+import java.util.Map;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,6 @@ import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
-import spring.custom.dto.TokenDto;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,18 +29,18 @@ public class ManagerLoginController {
   public ResponseEntity<?> managerLogin(
       @RequestParam String username,
       @RequestParam String password) {
-    LoginVo.ManagerLoginVo loginVo = userLoginDao.selectManagerByLoginId(username)
+    LoginVo.ManagerLoginVo managerLoginVo = userLoginDao.selectManagerByLoginId(username)
         .orElseThrow(() -> new AppException(ERROR.A003));
-    if (!bcryptPasswordEncoder.matches(password, loginVo.getLoginPwd())) {
+    if (!bcryptPasswordEncoder.matches(password, managerLoginVo.getLoginPwd())) {
       throw new AppException(ERROR.A017);
     }
     
-    UserAuthentication<?, ?> userAuthentication = new UserAuthentication(TOKEN.USER_TYPE.MANAGER, loginVo);
-    TokenDto.CreateRes result = tokenService.createToken(userAuthentication);
+    Map.Entry<String, String> refreshToken = 
+        tokenService.createRtk(TOKEN.USER_TYPE.MANAGER, managerLoginVo);
     
     HttpHeaders headers = new HttpHeaders();
     headers.add(HttpHeaders.SET_COOKIE, ResponseCookie
-        .from(Constant.HTTP_HEADER.X_RTKID, result.getRtkUuid())
+        .from(Constant.HTTP_HEADER.X_RTK, refreshToken.getKey())
         .path("/")
         .httpOnly(false)
         .maxAge(10)

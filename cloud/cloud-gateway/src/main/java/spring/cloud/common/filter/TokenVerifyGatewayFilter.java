@@ -45,17 +45,17 @@ public class TokenVerifyGatewayFilter extends AbstractGatewayFilterFactory<Token
         log.debug(uri);
       }
       ServerHttpRequest request = exchange.getRequest();
-      String tokenId = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-      if (tokenId != null && (tokenId.startsWith("Bearer") || tokenId.startsWith("bearer"))) {
-        tokenId = tokenId.substring(7);
-        /* for debug */ if (log.isDebugEnabled()) log.info("tokenId: {}", tokenId);
+      String atk = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+      if (atk != null && (atk.startsWith("Bearer") || atk.startsWith("bearer"))) {
+        atk = atk.substring(7);
+        /* for debug */ if (log.isDebugEnabled()) log.info("tokenId: {}", atk);
         
         ERROR failCode = ERROR.A002;
         TokenDto.VerifyReq requestBody = new TokenDto.VerifyReq();
         String clientIp = XffClientIpExtractor.getClientIp(request);
         String userAgent = request.getHeaders().get(Constant.HTTP_HEADER.USER_AGENT).get(0);
         requestBody.setClientIdent(IdGenerator.createClientIdent(clientIp, userAgent));
-        requestBody.setTokenId(tokenId);
+        requestBody.setAtk(atk);
         try {
           final TokenDto.VerifyRes vertifyDto = 
               apiClient.postForEntity(AUTH_URL, requestBody, TokenDto.VerifyRes.class);

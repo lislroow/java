@@ -8,13 +8,13 @@ import spring.custom.common.enumcode.TOKEN;
 
 
 public interface TokenPrincipal extends AuthenticatedPrincipal {
-
+  
   String getId();
   String getRoles();
   String getLoginId();
   String getUsername();
   
-  default public Optional<TOKEN.USER_TYPE> getUserType() {
+  default Optional<TOKEN.USER_TYPE> getUserType() {
     Integer idprefix = Integer.parseInt(this.getId().substring(0, 1));
     return TOKEN.USER_TYPE.fromIdprefix(idprefix);
   }

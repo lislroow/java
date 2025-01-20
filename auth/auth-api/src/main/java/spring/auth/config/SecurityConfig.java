@@ -35,6 +35,7 @@ import spring.auth.common.login.TokenService;
 import spring.auth.common.login.TokenVerifyFilter;
 //import spring.auth.common.login.UserPasswordEncoder;
 import spring.custom.common.enumcode.SECURITY;
+import spring.custom.common.redis.RedisSupport;
 import spring.custom.common.security.TokenAuthFilter;
 
 @Configuration
@@ -46,6 +47,7 @@ public class SecurityConfig {
   final MemberLoginService memberLoginService;
   final TokenService tokenService;
   final ModelMapper modelMapper;
+  final RedisSupport redisSupport;
   
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -102,7 +104,7 @@ public class SecurityConfig {
           .redirectionEndpoint(redirectionEndpointCustomizer ->
             redirectionEndpointCustomizer.baseUri("/v1/member/login/oauth2/code/*") // OAuth2LoginAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI = "/login/oauth2/code/*";
           )
-          .successHandler(new MemberOAuth2LoginSuccessHandler(tokenService))
+          .successHandler(new MemberOAuth2LoginSuccessHandler(tokenService, redisSupport))
       )
       .logout(logout ->
         logout.logoutUrl("/v1/member/logout")

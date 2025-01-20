@@ -19,18 +19,18 @@ public class TokenController {
   
   @PostMapping("/v1/token/verify")
   public TokenDto.VerifyRes verity(@RequestBody TokenDto.VerifyReq reqDto) {
-    String tokenId = reqDto.getTokenId();
+    String atk = reqDto.getAtk();
     String clientIdent = reqDto.getClientIdent(); // api gateway 에서 x-forward-for 로 생성한 clientIdent 값
     
-    TokenDto.VerifyRes resDto = tokenService.verifyToken(tokenId, clientIdent);
+    TokenDto.VerifyRes resDto = tokenService.verifyAtk(atk, clientIdent);
     return resDto;
   }
   
   @PostMapping("/v1/token/refresh")
   public TokenDto.RefreshRes refresh(@RequestBody TokenDto.RefreshReq reqDto) {
-    String rtkUuid = reqDto.getRtkUuid();
+    String rtk = reqDto.getRtk();
     
-    TokenDto.RefreshRes resDto = tokenService.refreshToken(rtkUuid);
+    TokenDto.RefreshRes resDto = tokenService.refreshToken(rtk);
     return resDto;
   }
   

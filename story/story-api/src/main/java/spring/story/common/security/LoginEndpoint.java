@@ -31,7 +31,7 @@ public class LoginEndpoint {
     
     // token 생성
     TokenDto.CreateRes resDto = feignTokenController.create(TOKEN.USER_TYPE.MANAGER, reqDto.userId);
-    ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTKID, resDto.getRtkUuid())
+    ResponseCookie rtkCookie = ResponseCookie.from(Constant.HTTP_HEADER.X_RTK, resDto.getRtk())
         .path("/")
         .httpOnly(false)
         .maxAge(10)

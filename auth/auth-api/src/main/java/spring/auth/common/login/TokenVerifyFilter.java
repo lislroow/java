@@ -39,7 +39,7 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
       String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
       String clientIdent = IdGenerator.createClientIdent(clientIp, userAgent);
       try {
-        TokenDto.VerifyRes result = tokenService.verifyToken(tokenId, clientIdent);
+        TokenDto.VerifyRes result = tokenService.verifyAtk(tokenId, clientIdent);
         filterChain.doFilter(
             new TokenVerifyHttpServletRequest("Bearer " + result.getAccessToken(), request), response);
       } catch (Exception exception) {
