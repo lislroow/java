@@ -6,8 +6,8 @@ import java.util.Optional;
 public class TOKEN {
   
   public enum TOKEN_TYPE {
-    REFRESH_TOKEN("rtk", "a"),
-    ACCESS_TOKEN("atk", "r")
+    REFRESH_TOKEN("rtk", "r"),
+    ACCESS_TOKEN("atk", "a")
     ;
     
     private String code;

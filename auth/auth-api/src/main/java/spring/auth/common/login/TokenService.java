@@ -122,7 +122,7 @@ public class TokenService {
     Map.Entry<String, String> result = new AbstractMap.SimpleEntry<>(rtk, refreshToken);
     switch (userType) {
     case MANAGER, MEMBER:
-      this.store(rtk, refreshToken, expiration);
+      this.saveRedis(rtk, refreshToken, expiration);
       break;
     default:
       /* for debug */ if (log.isInfoEnabled()) log.info("skip token storing");
@@ -137,9 +137,7 @@ public class TokenService {
     String accessToken = null;
     switch (userType) {
     case MANAGER, MEMBER:
-      String redisKey = idProvider.createRedisKey(atk);
-      accessToken = Optional.ofNullable(this.redisClient.getValue(redisKey))
-          .orElseThrow(() -> new AccessTokenExpiredException());
+      accessToken = this.getRedis(atk).orElseThrow(() -> new AccessTokenExpiredException());
       break;
     case CLIENT:
       TokenVo.ClientToken clientTokenVo = tokenDao.findClientTokenByTokenKey(atk)
@@ -154,7 +152,6 @@ public class TokenService {
       throw new AppException(ERROR.A002);
     }
     
-    
     try {
       SignedJWT signedJWT = SignedJWT.parse(accessToken);
       if (signedJWT.verify(this.verifier)) {
@@ -167,8 +164,98 @@ public class TokenService {
     return accessToken;
   }
   
+  public TokenDto.RefreshTokenRes refreshToken(String oldRtk) {
+    TOKEN.USER_TYPE userType = idProvider.parseUserType(oldRtk)
+        .orElseThrow(() -> new AppException(ERROR.A004));
+    String oldRefreshToken = null;
+    switch (userType) {
+    case MANAGER, MEMBER:
+      oldRefreshToken = this.getRedis(oldRtk).orElseThrow(() -> new RefreshTokenExpiredException());
+      /* for debug */ if (log.isDebugEnabled()) log.info("refresh token (old): {}", oldRtk);
+      break;
+    case CLIENT:
+      throw new AppException(ERROR.A906);
+    default:
+      throw new AppException(ERROR.A004);
+    }
+    
+    // verify old refresh token
+    Date rtkExpiration = null;
+    String subject = null;
+    Map<String, Object> principal = null;
+    String roles = null;
+    try {
+      SignedJWT signedJWT = SignedJWT.parse(oldRefreshToken);
+      if (signedJWT.verify(this.verifier)) {
+        JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
+        rtkExpiration = jwtClaimsSet.getExpirationTime();
+        subject = signedJWT.getJWTClaimsSet().getSubject();
+        principal = jwtClaimsSet.getJSONObjectClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code());
+        roles = jwtClaimsSet.getStringClaim(TOKEN.CLAIM_ATTR.ROLES.code());
+      } else {
+        throw new AppException(ERROR.A004);
+      }
+    } catch (JOSEException | ParseException e) {
+      throw new AppException(ERROR.A004, e);
+    }
+    
+    // create refresh and access token
+    String newRtk = idProvider.createTokenId(userType, TOKEN.TOKEN_TYPE.REFRESH_TOKEN);
+    String newAtk = idProvider.createTokenId(userType, TOKEN.TOKEN_TYPE.ACCESS_TOKEN);
+    
+    TokenDto.RefreshTokenRes result = new TokenDto.RefreshTokenRes();
+    result.setRtk(newRtk);
+    result.setAtk(newAtk);
+    result.setSession(Constant.TOKEN.CLIENT_SESSION_SEC);
+    
+    // 10 분 남았을 경우 refresh token 의 만료 시간을 연장
+    Long clientSessionTime = System.currentTimeMillis() + Constant.TOKEN.CLIENT_SESSION_MILLS;
+    if (clientSessionTime > rtkExpiration.getTime()) {
+      /* for debug */ if (log.isInfoEnabled())
+        log.info("apply additional time to expiration time of refresh token.");
+      rtkExpiration = new Date(clientSessionTime);
+    }
+    try {
+      // refreshToken 생성
+      JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+          .subject(subject)
+          .issuer(Constant.TOKEN.ISSUER)
+          .expirationTime(rtkExpiration)
+          .claim(TOKEN.CLAIM_ATTR.USER_TYPE.code(), userType)
+          .claim(TOKEN.CLAIM_ATTR.PRINCIPAL.code(), principal)
+          .claim(TOKEN.CLAIM_ATTR.ROLES.code(), roles)
+          .build();
+      SignedJWT signedJWT = new SignedJWT(this.header, claimsSet);
+      signedJWT.sign(this.signer);
+      String newRefreshToken = signedJWT.serialize();
+      this.saveRedis(newRtk, newRefreshToken, rtkExpiration);
+      
+      // accessToken 생성
+      Date atkExpiration = new Date(System.currentTimeMillis() + Constant.TOKEN.ATK_EXPIRE_MILLS);
+      claimsSet = new JWTClaimsSet.Builder()
+          .subject(subject)
+          .issuer(Constant.TOKEN.ISSUER)
+          .expirationTime(atkExpiration)
+          .claim(TOKEN.CLAIM_ATTR.USER_TYPE.code(), userType)
+          .claim(TOKEN.CLAIM_ATTR.PRINCIPAL.code(), principal)
+          .claim(TOKEN.CLAIM_ATTR.ROLES.code(), roles)
+          .build();
+      signedJWT = new SignedJWT(this.header, claimsSet);
+      signedJWT.sign(this.signer);
+      String newAccessToken = signedJWT.serialize();
+      this.saveRedis(newAtk, newAccessToken, atkExpiration);
+    } catch (Exception e) {
+      throw new AppException(ERROR.A004, e);
+    }
+    
+    // remove old refresh token
+    this.removeRedis(oldRtk);
+    return result;
+  }
   
-  private void store(String tokenId, String tokenValue, Date expiration) {
+  
+  
+  private void saveRedis(String tokenId, String tokenValue, Date expiration) {
     TOKEN.USER_TYPE userType = idProvider.parseUserType(tokenId)
         .orElseThrow(() -> new AppException(ERROR.A001));
     switch (userType) {
@@ -185,102 +272,42 @@ public class TokenService {
     }
   }
   
-  private String restore(String tokenId) {
-    return null;
+  private Optional<String> getRedis(String tokenId) {
+    String tokenValue = null;
+    TOKEN.USER_TYPE userType = idProvider.parseUserType(tokenId)
+        .orElseThrow(() -> new AppException(ERROR.A001));
+    switch (userType) {
+    case MANAGER, MEMBER: {
+      String redisKey = idProvider.createRedisKey(tokenId);
+      /* for debug */ if (log.isDebugEnabled()) log.info("redisKey: {}", redisKey);
+      tokenValue = this.redisClient.getValue(redisKey);
+      break;
+    }
+    default:
+      /* for debug */ if (log.isInfoEnabled()) log.info("skip token restoring");
+      break;
+    }
+    return Optional.of(tokenValue);
   }
   
-  public TokenDto.RefreshTokenRes refreshToken(String oldRtk) {
-    TOKEN.USER_TYPE userType = idProvider.parseUserType(oldRtk)
-        .orElseThrow(() -> new AppException(ERROR.A004));
-    String oldRtkRedis = null;
+  private void removeRedis(String tokenId) {
+    TOKEN.USER_TYPE userType = idProvider.parseUserType(tokenId)
+        .orElseThrow(() -> new AppException(ERROR.A001));
     switch (userType) {
-    case MANAGER, MEMBER:
-      oldRtkRedis = idProvider.createRedisKey(oldRtk);
+    case MANAGER, MEMBER: {
+      String redisKey = idProvider.createRedisKey(tokenId);
+      /* for debug */ if (log.isDebugEnabled()) log.info("redisKey: {}", redisKey);
+      this.redisClient.removeValue(redisKey);
       break;
-    case CLIENT:
-      throw new AppException(ERROR.A906);
+    }
     default:
-      throw new AppException(ERROR.A004);
+      /* for debug */ if (log.isInfoEnabled()) log.info("skip token clearing");
+      break;
     }
-    String oldRefreshToken = Optional.ofNullable(this.redisClient.getValue(oldRtkRedis))
-        .orElseThrow(() -> new RefreshTokenExpiredException());
-    /* for debug */ if (log.isDebugEnabled()) log.info("refresh token (old): {}", oldRtkRedis);
-    Date rtkExpireTime = null;
-    String subject = null;
-    Map<String, Object> principal = null;
-    String roles = null;
-    try {
-      SignedJWT signedJWT = SignedJWT.parse(oldRefreshToken);
-      if (signedJWT.verify(this.verifier)) {
-        JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
-        rtkExpireTime = jwtClaimsSet.getExpirationTime();
-        subject = signedJWT.getJWTClaimsSet().getSubject();
-        principal = jwtClaimsSet.getJSONObjectClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code());
-        roles = jwtClaimsSet.getStringClaim(TOKEN.CLAIM_ATTR.ROLES.code());
-      } else {
-        throw new AppException(ERROR.A004);
-      }
-    } catch (JOSEException | ParseException e) {
-      throw new AppException(ERROR.A004, e);
-    }
-    
-    String newRtk = idProvider.createTokenId(userType, TOKEN.TOKEN_TYPE.REFRESH_TOKEN);
-    String newAtk = idProvider.createTokenId(userType, TOKEN.TOKEN_TYPE.ACCESS_TOKEN);
-    
-    TokenDto.RefreshTokenRes result = new TokenDto.RefreshTokenRes();
-    result.setRtk(newRtk);
-    result.setAtk(newAtk);
-    result.setSession(Constant.TOKEN.CLIENT_SESSION_SEC);
-
-    // 10 분 남았을 경우 refresh token 의 만료 시간을 연장
-    Long clientSessionTime = System.currentTimeMillis() + Constant.TOKEN.CLIENT_SESSION_MILLS;
-    if (clientSessionTime > rtkExpireTime.getTime()) {
-      /* for debug */ if (log.isInfoEnabled())
-        log.info("apply additional time to expiration time of refresh token.");
-      rtkExpireTime = new Date(clientSessionTime);
-    }
-    try {
-      // refreshToken 생성
-      JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-          .subject(subject)
-          .issuer(Constant.TOKEN.ISSUER)
-          .expirationTime(rtkExpireTime)
-          .claim(TOKEN.CLAIM_ATTR.USER_TYPE.code(), userType)
-          .claim(TOKEN.CLAIM_ATTR.PRINCIPAL.code(), principal)
-          .claim(TOKEN.CLAIM_ATTR.ROLES.code(), roles)
-          .build();
-      SignedJWT signedJWT = new SignedJWT(this.header, claimsSet);
-      signedJWT.sign(this.signer);
-      String newRefreshToken = signedJWT.serialize();
-      String redisKey = idProvider.createRedisKey(newRtk);
-      long rtkExpireSec = (rtkExpireTime.getTime() - System.currentTimeMillis()) / 1000L;
-      /* for debug */ if (log.isDebugEnabled())
-        log.info("refresh token (new): {}", redisKey);
-      this.redisClient.setValue(redisKey, newRefreshToken, Duration.ofSeconds(rtkExpireSec));
-      
-      // accessToken 생성
-      claimsSet = new JWTClaimsSet.Builder()
-          .subject(subject)
-          .issuer(Constant.TOKEN.ISSUER)
-          .expirationTime(new Date(System.currentTimeMillis() + Constant.TOKEN.ATK_EXPIRE_MILLS))
-          .claim(TOKEN.CLAIM_ATTR.USER_TYPE.code(), userType)
-          .claim(TOKEN.CLAIM_ATTR.PRINCIPAL.code(), principal)
-          .claim(TOKEN.CLAIM_ATTR.ROLES.code(), roles)
-          .build();
-      signedJWT = new SignedJWT(this.header, claimsSet);
-      signedJWT.sign(this.signer);
-      String newAccessToken = signedJWT.serialize();
-      redisKey = idProvider.createRedisKey(newAtk);
-      this.redisClient.setValue(redisKey, newAccessToken, Duration.ofSeconds(Constant.TOKEN.ATK_EXPIRE_SEC));
-    } catch (Exception e) {
-      throw new AppException(ERROR.A004, e);
-    }
-    this.redisClient.removeValue(oldRtkRedis);
-    return result;
   }
+  
   
   final class IdProvider {
-    
     Optional<TOKEN.TOKEN_TYPE> parseTokenType(String tokenId) {
       if (ObjectUtils.isEmpty(tokenId)) {
         throw new AppException(ERROR.A009);
