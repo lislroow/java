@@ -135,7 +135,7 @@ public class TokenService {
     return result;
   }
 
-  public TokenDto.VerifyRes verifyAtk(String atk, String clientIdent) {
+  public String verifyAtk(String atk, String clientIdent) {
     TOKEN.USER_TYPE userType = IdGenerator.parseTokenKey(atk)
         .orElseThrow(() -> new AppException(ERROR.A002));
     String accessToken = null;
@@ -158,22 +158,18 @@ public class TokenService {
     default:
       throw new AppException(ERROR.A002);
     }
-
-    TokenDto.VerifyRes resDto = new TokenDto.VerifyRes();
+    
+    
     try {
       SignedJWT signedJWT = SignedJWT.parse(accessToken);
       if (signedJWT.verify(this.verifier)) {
-        String username = signedJWT.getJWTClaimsSet().getSubject();
-        resDto.setValid(true);
-        resDto.setUsername(username);
-        resDto.setAccessToken(accessToken);
       } else {
         throw new AppException(ERROR.A002);
       }
     } catch (JOSEException | ParseException e) {
       throw new AppException(ERROR.A002, e);
     }
-    return resDto;
+    return accessToken;
   }
 
   public TokenDto.RefreshRes refreshToken(String oldRtk) {

@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.util.IdGenerator;
 import spring.custom.common.util.XffClientIpExtractor;
-import spring.custom.dto.TokenDto;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,9 +38,9 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
       String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
       String clientIdent = IdGenerator.createClientIdent(clientIp, userAgent);
       try {
-        TokenDto.VerifyRes result = tokenService.verifyAtk(tokenId, clientIdent);
+        String accessToken = tokenService.verifyAtk(tokenId, clientIdent);
         filterChain.doFilter(
-            new TokenVerifyHttpServletRequest("Bearer " + result.getAccessToken(), request), response);
+            new TokenVerifyHttpServletRequest("Bearer " + accessToken, request), response);
       } catch (Exception exception) {
         request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI, request.getRequestURI());
         request.setAttribute(RequestDispatcher.ERROR_EXCEPTION, exception);

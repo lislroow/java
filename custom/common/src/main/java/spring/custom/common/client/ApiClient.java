@@ -41,7 +41,7 @@ public class ApiClient {
     return result;
   }
   
-  public <T> T postForEntity(String url, Object requestBody, Class<T> responseType) {
+  public String postForEntity(String url, Object requestBody) {
     ResponseEntity<String> resEntity = null;
     try {
       resEntity = restTemplate.postForEntity(url, requestBody, String.class);
@@ -72,15 +72,7 @@ public class ApiClient {
       throw new AppException(ERROR.E999.code(), e);
     }
     
-    String body = resEntity.getBody();
-    T result = null;
-    try {
-      result = objectMapper.readValue(body, responseType);
-    } catch (JsonProcessingException e) {
-      /* for debug */ if (log.isDebugEnabled()) System.err.println("Failed to parse response body to resDto: " + e.getMessage());
-      throw new AppException(ERROR.E999.code(), e);
-    }
-    return result;
+    return resEntity.getBody();
   }
   
 }

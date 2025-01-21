@@ -16,14 +16,13 @@ public class TokenController {
   final TokenService tokenService;
   final UserLoginDao userLoginDao;
   
-  
   @PostMapping("/v1/token/verify-token")
-  public TokenDto.VerifyRes verity(@RequestBody TokenDto.VerifyReq reqDto) {
+  public String verity(@RequestBody TokenDto.VerifyReq reqDto) {
     String atk = reqDto.getAtk();
     String clientIdent = reqDto.getClientIdent(); // api gateway 에서 x-forward-for 로 생성한 clientIdent 값
     
-    TokenDto.VerifyRes resDto = tokenService.verifyAtk(atk, clientIdent);
-    return resDto;
+    String accessToken = tokenService.verifyAtk(atk, clientIdent);
+    return accessToken;
   }
   
   @PostMapping("/v1/token/refresh-token")
@@ -34,31 +33,4 @@ public class TokenController {
     return resDto;
   }
   
-  /*
-  @PostMapping("/v1/token/create/{userType}/{id}")
-  public TokenDto.CreateRes create(
-      @PathVariable TOKEN.USER userType,
-      @PathVariable String id) {
-    
-    // 사용자 확인
-    AuthDetails authVo = null;
-    switch (userType) {
-    case MEMBER:
-      authVo = userLoginDao.selectForMemberTokenById(id)
-        .orElseThrow(() -> new AppException(ERROR.A003));
-    case MANAGER:
-      authVo = userLoginDao.selectForManagerTokenById(id)
-        .orElseThrow(() -> new AppException(ERROR.A003));
-      break;
-    //case CLIENT:
-    //  authVo = opendataAuthDao.selectById(id)
-    //    .orElseThrow(() -> new AppException(ERROR.A003));
-    //  break;
-    }
-    
-    UserAuthentication userAuthentication = new UserAuthentication(userType, authVo);
-    TokenDto.CreateRes resDto = tokenService.createToken(userAuthentication);
-    return resDto;
-  }
-  */
 }

@@ -19,7 +19,6 @@ import spring.custom.common.exception.token.AccessTokenExpiredException;
 import spring.custom.common.util.IdGenerator;
 import spring.custom.common.util.XffClientIpExtractor;
 import spring.custom.dto.TokenDto;
-import spring.custom.dto.TokenDto;
 
 @Profile({"local", "dev"})
 @Component
@@ -57,11 +56,10 @@ public class TokenVerifyGatewayFilter extends AbstractGatewayFilterFactory<Token
         requestBody.setClientIdent(IdGenerator.createClientIdent(clientIp, userAgent));
         requestBody.setAtk(atk);
         try {
-          final TokenDto.VerifyRes vertifyDto = 
-              apiClient.postForEntity(AUTH_URL, requestBody, TokenDto.VerifyRes.class);
+          final String accessToken = apiClient.postForEntity(AUTH_URL, requestBody);
           exchange = exchange.mutate()
               .request(req -> 
-                req.header(HttpHeaders.AUTHORIZATION, "Bearer " + vertifyDto.getAccessToken()))
+                req.header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
               .build();
         } catch (AccessTokenExpiredException e) {
           throw e;

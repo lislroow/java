@@ -12,7 +12,6 @@ public class TokenDto {
     private String rtk;
   }
   
-  
   @Data
   public static class RefreshReq {
     private String rtk;
@@ -25,18 +24,10 @@ public class TokenDto {
     private Integer session;
   }
   
-  
   @Data
   public static class VerifyReq {
     private String atk;
     private String clientIdent;
-  }
-  
-  @Data
-  public static class VerifyRes {
-    private Boolean valid;
-    private String username;
-    private String accessToken;
   }
   
 }
