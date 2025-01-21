@@ -9,7 +9,7 @@ import spring.custom.common.mybatis.PageResponse;
 @Mapper
 public interface TokenMngDao {
 
-  PageResponse<TokenMngVo.SearchResult> searchClientTokens(
+  PageResponse<TokenMngVo.ResultTokenClient> searchClientTokens(
       PageRequest pageRequest, TokenMngVo.SearchParam searchVo);
   
   int addClientToken(TokenMngVo.AddTokenClient addVo);

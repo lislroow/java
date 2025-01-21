@@ -15,13 +15,13 @@ public class UserMngService {
   private UserMngDao userMngDao;
   
   @Transactional
-  public int sendRegisterCode(UserMngVo.AddVo addVo) {
+  public int sendRegisterCode(UserMngVo.AddManager addVo) {
     
     return userMngDao.addManager(addVo);
   }
   
   @Transactional
-  public int modifyManagerById(UserMngVo.ModifyVo modifyVo) {
+  public int modifyManagerById(UserMngVo.ModifyManager modifyVo) {
     return userMngDao.modifyManagerById(modifyVo);
   }
   

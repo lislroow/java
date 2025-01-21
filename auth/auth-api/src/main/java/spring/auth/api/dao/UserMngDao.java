@@ -14,19 +14,19 @@ public interface UserMngDao {
   
   String selectNextId(Integer idprefix);
   
-  List<UserMngVo> allManagers();
+  List<UserMngVo.ResultManager> allManagers();
   
-  Optional<UserMngVo> findManagerById(String id);
-  Optional<UserMngVo> findManagerByLoginId(String loginId);
+  Optional<UserMngVo.ResultManager> findManagerById(String id);
+  Optional<UserMngVo.ResultManager> findManagerByLoginId(String loginId);
   
-  PageResponse<UserMngVo> findManagers(PageRequest pageRequest);
+  PageResponse<UserMngVo.ResultManager> findManagers(PageRequest pageRequest);
   
-  PageResponse<UserMngVo> searchManagers(
-      PageRequest pageRequest, UserMngVo.SearchVo searchVo);
+  PageResponse<UserMngVo.ResultManager> searchManagers(
+      PageRequest pageRequest, UserMngVo.SearchParam searchVo);
   
-  int addManager(UserMngVo.AddVo addVo);
+  int addManager(UserMngVo.AddManager addVo);
   
-  int modifyManagerById(UserMngVo.ModifyVo modifyVo);
+  int modifyManagerById(UserMngVo.ModifyManager modifyVo);
   
   int removeManagerById(String id);
   

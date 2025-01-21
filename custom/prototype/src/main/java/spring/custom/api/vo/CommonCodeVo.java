@@ -7,7 +7,7 @@ public class CommonCodeVo {
   private CommonCodeVo() {}
   
   @Data
-  public static class AllCodeVo {
+  public static class ResultAllCode {
     private String cdGrp;
     private String cd;
     private Integer seq;
@@ -15,7 +15,7 @@ public class CommonCodeVo {
   }
   
   @Data
-  public static class CodeVo {
+  public static class ResultCode {
     private Integer seq;
     private String cd;
     private String cdNm;

@@ -59,7 +59,7 @@ public class UserMngController {
   
   @GetMapping("/v1/user-mng/managers/all")
   public UserMngDto.ManagerListRes allManagers() {
-    List<UserMngVo> result = userMngDao.allManagers();
+    List<UserMngVo.ResultManager> result = userMngDao.allManagers();
     
     UserMngDto.ManagerListRes resDto = new UserMngDto.ManagerListRes(
         result.stream()
@@ -72,7 +72,7 @@ public class UserMngController {
   public PageResponse<UserMngDto.ManagerRes> findManagers(
       @RequestParam(defaultValue = "1") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
-    PageResponse<UserMngVo> result = userMngDao.findManagers(PageRequest.of(page, size));
+    PageResponse<UserMngVo.ResultManager> result = userMngDao.findManagers(PageRequest.of(page, size));
     
     PageResponse<UserMngDto.ManagerRes> resDto = new PageResponse<UserMngDto.ManagerRes>(
         result.stream()
@@ -91,14 +91,14 @@ public class UserMngController {
       @RequestParam(required = false) YN lockedYn,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    UserMngVo.SearchVo searchVo = UserMngVo.SearchVo.builder()
+    UserMngVo.SearchParam searchVo = UserMngVo.SearchParam.builder()
         .loginId(loginId)
         .mgrName(mgrName)
         .roles(roles)
         .enableYn(enableYn)
         .lockedYn(lockedYn)
         .build();
-    PageResponse<UserMngVo> result = userMngDao.searchManagers(PageRequest.of(page, size), searchVo);
+    PageResponse<UserMngVo.ResultManager> result = userMngDao.searchManagers(PageRequest.of(page, size), searchVo);
     
     PageResponse<UserMngDto.ManagerRes> resDto = new PageResponse<UserMngDto.ManagerRes>(
         result.stream()
@@ -111,7 +111,7 @@ public class UserMngController {
   @GetMapping("/v1/user-mng/manager/{id}")
   public ResponseEntity<UserMngDto.ManagerRes> findManagerById(
       @PathVariable String id) {
-    UserMngVo result = userMngDao.findManagerById(id)
+    UserMngVo.ResultManager result = userMngDao.findManagerById(id)
         .orElseThrow(() -> new DataNotFoundException());;
     UserMngDto.ManagerRes resDto = modelMapper.map(result, UserMngDto.ManagerRes.class);
     return ResponseEntity.ok(resDto);
@@ -120,7 +120,7 @@ public class UserMngController {
   @PostMapping("/v1/user-mng/manager/registration/send")
   public ResponseEntity<?> sendRegisterCode(@RequestBody UserMngDto.SendRegistrationReq reqDto) {
     // redis 저장
-    UserMngVo.AddVo addVo = UserMngVo.AddVo.builder()
+    UserMngVo.AddManager addVo = UserMngVo.AddManager.builder()
         .loginId(reqDto.getToEmail())
         .mgrName(reqDto.getToName())
         .roles(reqDto.getGrantRoles())
@@ -166,16 +166,16 @@ public class UserMngController {
     if (ObjectUtils.isEmpty(addVoJson)) {
       throw new AppException(ERROR.A016);
     }
-    UserMngVo.AddVo addVo = null;
+    UserMngVo.AddManager addVo = null;
     try {
-      addVo = objectMapper.readValue(addVoJson, UserMngVo.AddVo.class);
+      addVo = objectMapper.readValue(addVoJson, UserMngVo.AddManager.class);
     } catch (JsonMappingException e) {
       throw new AppException(ERROR.A016, e);
     } catch (JsonProcessingException e) {
       throw new AppException(ERROR.A016, e);
     }
     
-    Optional<UserMngVo> optUserMngVo = userMngDao.findManagerByLoginId(addVo.getLoginId());
+    Optional<UserMngVo.ResultManager> optUserMngVo = userMngDao.findManagerByLoginId(addVo.getLoginId());
     if (optUserMngVo.isPresent()) {
       throw new AppException(ERROR.A018.code(), "'"+addVo.getLoginId() + "'" + ERROR.A018.message());
     }
@@ -195,7 +195,7 @@ public class UserMngController {
   @PutMapping("/v1/user-mng/manager")
   public ResponseEntity<?> modifyManagerById(
       @RequestBody UserMngDto.ModifyManagerReq reqDto) {
-    UserMngVo.ModifyVo modifyVo = modelMapper.map(reqDto, UserMngVo.ModifyVo.class);
+    UserMngVo.ModifyManager modifyVo = modelMapper.map(reqDto, UserMngVo.ModifyManager.class);
     
     int result = userMngService.modifyManagerById(modifyVo);
     

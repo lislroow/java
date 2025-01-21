@@ -34,7 +34,7 @@ public class MybatisSampleController {
   
   @GetMapping("/v1/mybatis-sample/scientists/all")
   public MybatisSampleDto.ScientistListRes allScientists() {
-    List<ScientistVo.SearchResult> result = mybatisSampleDao.allScientists();
+    List<ScientistVo.ResultVo> result = mybatisSampleDao.allScientists();
     
     MybatisSampleDto.ScientistListRes resDto = new MybatisSampleDto.ScientistListRes(
         result.stream()
@@ -47,7 +47,7 @@ public class MybatisSampleController {
   public PageResponse<MybatisSampleDto.ScientistRes> findScientists(
       @RequestParam(defaultValue = "1") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
-    PageResponse<ScientistVo.SearchResult> result = mybatisSampleDao.findScientists(PageRequest.of(page, size));
+    PageResponse<ScientistVo.ResultVo> result = mybatisSampleDao.findScientists(PageRequest.of(page, size));
     
     PageResponse<MybatisSampleDto.ScientistRes> resDto = new PageResponse<MybatisSampleDto.ScientistRes>(
         result.stream()
@@ -67,7 +67,7 @@ public class MybatisSampleController {
         .name(name)
         .fosCd(fosCd)
         .build();
-    PageResponse<ScientistVo.SearchResult> result = mybatisSampleDao.searchScientists(PageRequest.of(page, size), searchVo);
+    PageResponse<ScientistVo.ResultVo> result = mybatisSampleDao.searchScientists(PageRequest.of(page, size), searchVo);
     
     PageResponse<MybatisSampleDto.ScientistRes> resDto = new PageResponse<MybatisSampleDto.ScientistRes>(
         result.stream()
@@ -80,7 +80,7 @@ public class MybatisSampleController {
   @GetMapping("/v1/mybatis-sample/scientist/{id}")
   public ResponseEntity<MybatisSampleDto.ScientistRes> findScientistById(
       @PathVariable Integer id) {
-    ScientistVo.SearchResult result = mybatisSampleDao.findScientistById(id)
+    ScientistVo.ResultVo result = mybatisSampleDao.findScientistById(id)
         .orElseThrow(() -> new DataNotFoundException());
     MybatisSampleDto.ScientistRes resDto = modelMapper.map(result, MybatisSampleDto.ScientistRes.class);
     return ResponseEntity.ok(resDto);

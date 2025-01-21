@@ -3,9 +3,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.custom.api.dao.CommonCodeMngDao">
   
-  <select id="searchCodeGroups" resultType="spring.custom.api.vo.CommonCodeMngVo$CodeGroupVo">
+  <select id="searchCodeGroups">
     SELECT /* CommonCodeMngDao.searchCodeGroups */
-           A.*
+           A.cd_grp
+           , A.cd_grp_nm
+           , A.use_yn
     FROM   sy_code_group A
     <where>
       <if test="cdGrp != null and cdGrp != ''">
@@ -15,10 +17,14 @@
     ORDER BY cd_grp ASC
   </select>
   
-  <select id="searchCodes" resultType="spring.custom.api.vo.CommonCodeMngVo$CodeVo">
+  <select id="searchCodes">
     SELECT /* CommonCodeMngDao.searchCodes */
-           A.*,
-           J.cd_grp_nm
+           A.cd_grp
+           , J.cd_grp_nm
+           , A.cd
+           , A.seq
+           , A.cd_nm
+           , A.use_yn
     FROM   sy_code A
       LEFT JOIN sy_code_group J ON A.cd_grp = J.cd_grp
     <where>

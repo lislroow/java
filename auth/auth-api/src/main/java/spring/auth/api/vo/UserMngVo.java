@@ -10,23 +10,13 @@ import spring.custom.common.audit.AuditVo;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.mybatis.PageRequest;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserMngVo extends AuditVo {
+public class UserMngVo {
   
-  private String id;
-  private String loginId;
-  private String loginPwd;
-  private String mgrName;
-  private String roles;
-  private YN enableYn;
-  private YN lockedYn;
-  private LocalDate pwdExpDate;
+  private UserMngVo() { }
   
   @Data
   @Builder
-  public static class SearchVo extends PageRequest {
+  public static class SearchParam extends PageRequest {
     private String loginId;
     private String mgrName;
     private String roles;
@@ -35,10 +25,9 @@ public class UserMngVo extends AuditVo {
   }
   
   @Data
-  @Builder
   @AllArgsConstructor
   @NoArgsConstructor
-  public static class AddVo extends AuditVo {
+  public static class ResultManager extends AuditVo {
     private String id;
     private String loginId;
     private String loginPwd;
@@ -53,7 +42,22 @@ public class UserMngVo extends AuditVo {
   @Builder
   @AllArgsConstructor
   @NoArgsConstructor
-  public static class ModifyVo extends AuditVo {
+  public static class AddManager extends AuditVo {
+    private String id;
+    private String loginId;
+    private String loginPwd;
+    private String mgrName;
+    private String roles;
+    private YN enableYn;
+    private YN lockedYn;
+    private LocalDate pwdExpDate;
+  }
+  
+  @Data
+  @Builder
+  @AllArgsConstructor
+  @NoArgsConstructor
+  public static class ModifyManager extends AuditVo {
     private String id;
     private String loginPwd;
     private String mgrName;

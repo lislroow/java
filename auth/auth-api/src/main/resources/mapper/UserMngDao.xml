@@ -5,19 +5,40 @@
   
   <select id="selectNextId">
     SELECT /* UserDao.selectNextId */
-           #{idprefix}||TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0') AS id
+           #{idprefix}||TO_CHAR(NOW(), 'YYYYMMDDHH') || LPAD(NEXTVAL('sq_user_id')||'', 5, '0')
+            AS id
   </select>
   
-  <select id="allManagers" resultType="UserMngVo">
+  <select id="allManagers">
     SELECT /* UserMngDao.allManagers */
-           A.*
+           A.id
+           , A.login_id
+           , A.login_pwd
+           , A.mgr_name
+           , A.roles
+           , A.enable_yn
+           , A.locked_yn
+           , A.pwd_exp_date
+           , A.create_id
+           , A.create_time
+           , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
+           , A.modify_id
+           , A.modify_time
+           , (SELECT mgr_name FROM au_manager WHERE id = A.modify_id) AS modify_name
     FROM   au_manager A
     ORDER BY A.id DESC
   </select>
   
-  <select id="findManagerById" resultType="UserMngVo">
+  <select id="findManagerById">
     SELECT /* UserMngDao.findManagerById */
-           A.*
+           A.id
+           , A.login_id
+           , A.login_pwd
+           , A.mgr_name
+           , A.roles
+           , A.enable_yn
+           , A.locked_yn
+           , A.pwd_exp_date
            , A.create_id
            , A.create_time
            , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
@@ -28,9 +49,16 @@
     WHERE  A.id = #{id}
   </select>
   
-  <select id="findManagerByLoginId" resultType="UserMngVo">
+  <select id="findManagerByLoginId">
     SELECT /* UserMngDao.findManagerByLoginId */
-           A.*
+           A.id
+           , A.login_id
+           , A.login_pwd
+           , A.mgr_name
+           , A.roles
+           , A.enable_yn
+           , A.locked_yn
+           , A.pwd_exp_date
            , A.create_id
            , A.create_time
            , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
@@ -43,14 +71,34 @@
   
   <select id="findManagers">
     SELECT /* UserMngDao.findManagers */
-           A.*
+           A.id
+           , A.login_id
+           , A.login_pwd
+           , A.mgr_name
+           , A.roles
+           , A.enable_yn
+           , A.locked_yn
+           , A.pwd_exp_date
+           , A.create_id
+           , A.create_time
+           , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
+           , A.modify_id
+           , A.modify_time
+           , (SELECT mgr_name FROM au_manager WHERE id = A.modify_id) AS modify_name
     FROM   au_manager A
     ORDER BY A.id DESC
   </select>
   
-  <select id="searchManagers" resultType="UserMngVo">
+  <select id="searchManagers">
     SELECT /* UserMngDao.searchManagers */
-           A.*
+           A.id
+           , A.login_id
+           , A.login_pwd
+           , A.mgr_name
+           , A.roles
+           , A.enable_yn
+           , A.locked_yn
+           , A.pwd_exp_date
            , A.create_id
            , A.create_time
            , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name

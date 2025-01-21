@@ -1,7 +1,5 @@
 package spring.custom.api.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import spring.custom.api.vo.CommonCodeMngVo;
@@ -17,10 +15,10 @@ public interface CommonCodeMngDao {
   //  1) ThreadLocal 사용 > 해당 sql 에 binding 되는 페이징 변수인지 명확하지가 않음
   //  2) PagingInterceptor 에서 'PageRequest + 일반Vo' 일 경우, Map 으로 파라미터를 전달하지 않고 단일 객체로 처리되도록 수정 
   //     org.apache.ibatis.reflection.ParamNameResolver.getNamedParams(Object[]) 에서 처리 과정 분석
-  PageResponse<CommonCodeMngVo.CodeGroupVo> searchCodeGroups(
+  PageResponse<CommonCodeMngVo.ResultCodeGroup> searchCodeGroups(
       PageRequest pageRequest, String cdGrp);
   
-  PageResponse<CommonCodeMngVo.CodeVo> searchCodes(
-      PageRequest pageRequest, CommonCodeMngVo.SearchCodeVo searchVo);
+  PageResponse<CommonCodeMngVo.ResultCode> searchCodes(
+      PageRequest pageRequest, CommonCodeMngVo.SearchParam searchVo);
   
 }

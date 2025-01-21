@@ -12,19 +12,6 @@ public class ScientistVo {
   private ScientistVo() { }
   
   @Data
-  @AllArgsConstructor
-  @NoArgsConstructor
-  @Builder
-  public static class SearchResult extends AuditVo {
-    private Integer id;
-    private String name;
-    private Integer birthYear;
-    private Integer deathYear;
-    private String fosCd;
-    private String fosNm;
-  }
-  
-  @Data
   @Builder
   public static class SearchParam extends PageRequest {
     private Integer id;
@@ -32,6 +19,19 @@ public class ScientistVo {
     private Integer birthYear;
     private Integer deathYear;
     private String fosCd;
+  }
+  
+  @Data
+  @AllArgsConstructor
+  @NoArgsConstructor
+  @Builder
+  public static class ResultVo extends AuditVo {
+    private Integer id;
+    private String name;
+    private Integer birthYear;
+    private Integer deathYear;
+    private String fosCd;
+    private String fosNm;
   }
   
   @Data

@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import spring.custom.api.dao.CommonCodeDao;
 import spring.custom.api.dto.CommonCodeDto;
 import spring.custom.api.vo.CommonCodeVo;
-import spring.custom.api.vo.CommonCodeVo.AllCodeVo;
+import spring.custom.api.vo.CommonCodeVo.ResultAllCode;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,10 +25,10 @@ public class CommonCodeController {
   @GetMapping("/v1/common/codes/all")
   @Cacheable(value = "cache:common-code:all")
   public List<CommonCodeDto.AllCodeRes> allCodes() {
-    List<CommonCodeVo.AllCodeVo> result = commonCodeDao.allCodes();
+    List<CommonCodeVo.ResultAllCode> result = commonCodeDao.allCodes();
     
     List<CommonCodeDto.AllCodeRes> resDto = result.stream()
-        .collect(Collectors.groupingBy(AllCodeVo::getCdGrp))
+        .collect(Collectors.groupingBy(ResultAllCode::getCdGrp))
         .entrySet().stream()
         .map(entry -> {
           String key = entry.getKey();
@@ -44,7 +44,7 @@ public class CommonCodeController {
   @GetMapping("/v1/common/codes/{cdGrp}")
   public List<CommonCodeDto.CodeRes> findCodesByCdGrp(
       @PathVariable String cdGrp) {
-    List<CommonCodeVo.CodeVo> result = commonCodeDao.findCodesByCdGrp(cdGrp);
+    List<CommonCodeVo.ResultCode> result = commonCodeDao.findCodesByCdGrp(cdGrp);
     
     List<CommonCodeDto.CodeRes> resDto = result.stream()
         .map(item -> modelMapper.map(item, CommonCodeDto.CodeRes.class))

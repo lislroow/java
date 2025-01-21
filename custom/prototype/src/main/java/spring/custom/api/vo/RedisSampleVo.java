@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class RedisSampleVo implements java.io.Serializable {
   
+  private static final long serialVersionUID = 131930057243248105L;
+
   @Id
   private Integer id;
   

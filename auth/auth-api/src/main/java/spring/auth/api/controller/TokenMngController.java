@@ -42,7 +42,7 @@ public class TokenMngController {
         .contactName(contactName)
         .enableYn(enableYn)
         .build();
-    PageResponse<TokenMngVo.SearchResult> result = tokenMngDao.searchClientTokens(PageRequest.of(page, size), searchVo);
+    PageResponse<TokenMngVo.ResultTokenClient> result = tokenMngDao.searchClientTokens(PageRequest.of(page, size), searchVo);
     
     PageResponse<TokenMngDto.ClientTokenRes> resDto = new PageResponse<TokenMngDto.ClientTokenRes>(
         result.stream()
