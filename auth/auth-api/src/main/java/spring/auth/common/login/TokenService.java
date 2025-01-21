@@ -42,6 +42,7 @@ import spring.auth.common.login.vo.TokenVo;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
+import spring.custom.common.enumcode.TOKEN.USER_TYPE;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
@@ -100,11 +101,11 @@ public class TokenService {
   
   public Map.Entry<String, String> createRtk(TOKEN.USER_TYPE userType, LoginDetails loginVo) {
     String subject = loginVo.getUsername();
-    Long expirationTime = loginVo.getRefreshExpireTime();
+    Date expiration = new Date(loginVo.getRefreshExpireTime());
     JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
         .subject(subject)
         .issuer(Constant.TOKEN.ISSUER)
-        .expirationTime(new Date(expirationTime))
+        .expirationTime(expiration)
         .claim(TOKEN.CLAIM_ATTR.USER_TYPE.code(), userType.code())
         .claim(TOKEN.CLAIM_ATTR.PRINCIPAL.code(), loginVo.toPrincipal())
         .claim(TOKEN.CLAIM_ATTR.ROLES.code(), loginVo.getRoles())
@@ -119,21 +120,17 @@ public class TokenService {
     String rtk = idProvider.createTokenId(userType, TOKEN.TOKEN_TYPE.REFRESH_TOKEN);
     String refreshToken = signedJWT.serialize();
     Map.Entry<String, String> result = new AbstractMap.SimpleEntry<>(rtk, refreshToken);
-    
     switch (userType) {
     case MANAGER, MEMBER:
-      String rtkRedisKey = idProvider.createRedisKey(rtk);
-      /* for debug */ if (log.isDebugEnabled())
-        log.info("create token: {}", rtkRedisKey);
-      this.redisClient.setValue(rtkRedisKey, refreshToken, Duration.ofSeconds(Constant.TOKEN.RTK_EXPIRE_SEC));
+      this.store(rtk, refreshToken, expiration);
       break;
     default:
+      /* for debug */ if (log.isInfoEnabled()) log.info("skip token storing");
       break;
     }
-    
     return result;
   }
-
+  
   public String verifyAtk(String atk) {
     TOKEN.USER_TYPE userType = idProvider.parseUserType(atk)
         .orElseThrow(() -> new AppException(ERROR.A002));
@@ -170,6 +167,28 @@ public class TokenService {
     return accessToken;
   }
   
+  
+  private void store(String tokenId, String tokenValue, Date expiration) {
+    TOKEN.USER_TYPE userType = idProvider.parseUserType(tokenId)
+        .orElseThrow(() -> new AppException(ERROR.A001));
+    switch (userType) {
+    case MANAGER, MEMBER: {
+      String redisKey = idProvider.createRedisKey(tokenId);
+      /* for debug */ if (log.isDebugEnabled()) log.info("redisKey: {}", redisKey);
+      long ttl = expiration.getTime() - System.currentTimeMillis();
+      this.redisClient.setValue(redisKey, tokenValue, Duration.ofMillis(ttl));
+      break;
+    }
+    default:
+      /* for debug */ if (log.isInfoEnabled()) log.info("skip token storing");
+      break;
+    }
+  }
+  
+  private String restore(String tokenId) {
+    return null;
+  }
+  
   public TokenDto.RefreshTokenRes refreshToken(String oldRtk) {
     TOKEN.USER_TYPE userType = idProvider.parseUserType(oldRtk)
         .orElseThrow(() -> new AppException(ERROR.A004));
@@ -204,10 +223,10 @@ public class TokenService {
     } catch (JOSEException | ParseException e) {
       throw new AppException(ERROR.A004, e);
     }
-
+    
     String newRtk = idProvider.createTokenId(userType, TOKEN.TOKEN_TYPE.REFRESH_TOKEN);
     String newAtk = idProvider.createTokenId(userType, TOKEN.TOKEN_TYPE.ACCESS_TOKEN);
-
+    
     TokenDto.RefreshTokenRes result = new TokenDto.RefreshTokenRes();
     result.setRtk(newRtk);
     result.setAtk(newAtk);
@@ -260,7 +279,6 @@ public class TokenService {
     return result;
   }
   
-  
   final class IdProvider {
     
     Optional<TOKEN.TOKEN_TYPE> parseTokenType(String tokenId) {
@@ -305,7 +323,6 @@ public class TokenService {
       }
       return redisKey;
     }
-    
   }
   
 }
