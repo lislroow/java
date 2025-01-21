@@ -26,11 +26,11 @@ public interface MybatisMultipleDatasourceDao {
   PageResponse<ScientistVo> findScientists(PageRequest pageRequest);
   
   PageResponse<ScientistVo> searchScientists(
-      PageRequest pageRequest, ScientistVo.SearchVo searchVo);
+      PageRequest pageRequest, ScientistVo.SearchParam searchVo);
   
-  int addScientist(ScientistVo.AddVo addVo);
+  int addScientist(ScientistVo.AddScientist addVo);
   
-  int modifyScientistById(ScientistVo.ModifyVo modifyVo);
+  int modifyScientistById(ScientistVo.ModifyScientist modifyVo);
   
   int removeScientistById(Integer id);
   

@@ -7,21 +7,26 @@ import lombok.NoArgsConstructor;
 import spring.custom.common.audit.AuditVo;
 import spring.custom.common.mybatis.PageRequest;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ScientistVo extends AuditVo {
+public class ScientistVo {
   
-  private Integer id;
-  private String name;
-  private Integer birthYear;
-  private Integer deathYear;
-  private String fosCd;
-  private String fosNm;
+  private ScientistVo() { }
+  
+  @Data
+  @AllArgsConstructor
+  @NoArgsConstructor
+  @Builder
+  public static class SearchResult extends AuditVo {
+    private Integer id;
+    private String name;
+    private Integer birthYear;
+    private Integer deathYear;
+    private String fosCd;
+    private String fosNm;
+  }
   
   @Data
   @Builder
-  public static class SearchVo extends PageRequest {
+  public static class SearchParam extends PageRequest {
     private Integer id;
     private String name;
     private Integer birthYear;
@@ -33,7 +38,7 @@ public class ScientistVo extends AuditVo {
   @AllArgsConstructor
   @NoArgsConstructor
   @Builder
-  public static class AddVo extends AuditVo {
+  public static class AddScientist extends AuditVo {
     private Integer id;
     private String name;
     private Integer birthYear;
@@ -45,7 +50,7 @@ public class ScientistVo extends AuditVo {
   @AllArgsConstructor
   @NoArgsConstructor
   @Builder
-  public static class ModifyVo extends AuditVo {
+  public static class ModifyScientist extends AuditVo {
     private Integer id;
     private String name;
     private Integer birthYear;

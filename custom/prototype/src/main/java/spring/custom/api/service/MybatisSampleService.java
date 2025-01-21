@@ -15,12 +15,12 @@ public class MybatisSampleService {
   private MybatisSampleDao mybatisSampleDao;
   
   @Transactional
-  public int addScientist(ScientistVo.AddVo addVo) {
+  public int addScientist(ScientistVo.AddScientist addVo) {
     return mybatisSampleDao.addScientist(addVo);
   }
   
   @Transactional
-  public int modifyScientistById(ScientistVo.ModifyVo modifyVo) {
+  public int modifyScientistById(ScientistVo.ModifyScientist modifyVo) {
     return mybatisSampleDao.modifyScientistById(modifyVo);
   }
   

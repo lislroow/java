@@ -34,7 +34,7 @@ public class MybatisSampleController {
   
   @GetMapping("/v1/mybatis-sample/scientists/all")
   public MybatisSampleDto.ScientistListRes allScientists() {
-    List<ScientistVo> result = mybatisSampleDao.allScientists();
+    List<ScientistVo.SearchResult> result = mybatisSampleDao.allScientists();
     
     MybatisSampleDto.ScientistListRes resDto = new MybatisSampleDto.ScientistListRes(
         result.stream()
@@ -47,7 +47,7 @@ public class MybatisSampleController {
   public PageResponse<MybatisSampleDto.ScientistRes> findScientists(
       @RequestParam(defaultValue = "1") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
-    PageResponse<ScientistVo> result = mybatisSampleDao.findScientists(PageRequest.of(page, size));
+    PageResponse<ScientistVo.SearchResult> result = mybatisSampleDao.findScientists(PageRequest.of(page, size));
     
     PageResponse<MybatisSampleDto.ScientistRes> resDto = new PageResponse<MybatisSampleDto.ScientistRes>(
         result.stream()
@@ -63,11 +63,11 @@ public class MybatisSampleController {
       @RequestParam(required = false) String fosCd,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    ScientistVo.SearchVo searchVo = ScientistVo.SearchVo.builder()
+    ScientistVo.SearchParam searchVo = ScientistVo.SearchParam.builder()
         .name(name)
         .fosCd(fosCd)
         .build();
-    PageResponse<ScientistVo> result = mybatisSampleDao.searchScientists(PageRequest.of(page, size), searchVo);
+    PageResponse<ScientistVo.SearchResult> result = mybatisSampleDao.searchScientists(PageRequest.of(page, size), searchVo);
     
     PageResponse<MybatisSampleDto.ScientistRes> resDto = new PageResponse<MybatisSampleDto.ScientistRes>(
         result.stream()
@@ -80,7 +80,7 @@ public class MybatisSampleController {
   @GetMapping("/v1/mybatis-sample/scientist/{id}")
   public ResponseEntity<MybatisSampleDto.ScientistRes> findScientistById(
       @PathVariable Integer id) {
-    ScientistVo result = mybatisSampleDao.findScientistById(id)
+    ScientistVo.SearchResult result = mybatisSampleDao.findScientistById(id)
         .orElseThrow(() -> new DataNotFoundException());
     MybatisSampleDto.ScientistRes resDto = modelMapper.map(result, MybatisSampleDto.ScientistRes.class);
     return ResponseEntity.ok(resDto);
@@ -89,7 +89,7 @@ public class MybatisSampleController {
   @PostMapping("/v1/mybatis-sample/scientist")
   public ResponseEntity<?> addScientist(
       @RequestBody MybatisSampleDto.AddScientistReq reqDto) {
-    ScientistVo.AddVo addVo = modelMapper.map(reqDto, ScientistVo.AddVo.class);
+    ScientistVo.AddScientist addVo = modelMapper.map(reqDto, ScientistVo.AddScientist.class);
     mybatisSampleService.addScientist(addVo);
     
     return ResponseEntity.status(HttpStatus.CREATED).build(); // location 정보는 JPA 일 때 적합
@@ -98,7 +98,7 @@ public class MybatisSampleController {
   @PutMapping("/v1/mybatis-sample/scientist")
   public ResponseEntity<?> modifyScientistById(
       @RequestBody MybatisSampleDto.ModifyScientistReq reqDto) {
-    ScientistVo.ModifyVo modifyVo = modelMapper.map(reqDto, ScientistVo.ModifyVo.class);
+    ScientistVo.ModifyScientist modifyVo = modelMapper.map(reqDto, ScientistVo.ModifyScientist.class);
     int result = mybatisSampleService.modifyScientistById(modifyVo);
     
     if (result == 0) {

@@ -18,7 +18,7 @@ public interface MybatisMultipleDatasourceVerticaDao {
   PageResponse<ScientistVerticaVo> findScientists(PageRequest pageRequest);
   
   PageResponse<ScientistVerticaVo> searchScientists(
-      PageRequest pageRequest, ScientistVo.SearchVo searchVo);
+      PageRequest pageRequest, ScientistVo.SearchParam searchVo);
   
   int addScientist(ScientistVerticaVo.AddVo addVo);
   

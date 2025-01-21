@@ -3,18 +3,26 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.custom.api.dao.MybatisSampleDao">
   
-  <select id="allScientists" resultType="ScientistVo">
-    SELECT /* MybatisCrudDao.allScientists */
-           A.*,
-           J.cd_nmm AS fos_nm
+  <select id="allScientists">
+    SELECT /* MybatisSampleDao.allScientists */
+           A.id
+           , A.name
+           , A.birth_year
+           , A.death_year
+           , A.fos_cd
+           , J.cd_nmm AS fos_nm
     FROM   pt_scientist A
       LEFT OUTER JOIN sy_code J ON A.fos_cd = J.cd AND J.cd_grp = 'FOS'
     ORDER BY A.birth_year DESC
   </select>
   
-  <select id="findScientistById" resultType="ScientistVo">
-    SELECT /* MybatisCrudDao.findScientistById */
-           A.*
+  <select id="findScientistById">
+    SELECT /* MybatisSampleDao.findScientistById */
+           A.id
+           , A.name
+           , A.birth_year
+           , A.death_year
+           , A.fos_cd
            , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
            , A.create_id
            , A.create_time
@@ -27,16 +35,24 @@
   </select>
   
   <select id="findScientists">
-    SELECT /* MybatisCrudDao.findScientists */
-           A.*
+    SELECT /* MybatisSampleDao.findScientists */
+           A.id
+           , A.name
+           , A.birth_year
+           , A.death_year
+           , A.fos_cd
            , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
     FROM   pt_scientist A
     ORDER BY A.birth_year DESC
   </select>
   
-  <select id="searchScientists" resultType="ScientistVo">
-    SELECT /* MybatisCrudDao.searchScientists */
-           A.*
+  <select id="searchScientists">
+    SELECT /* MybatisSampleDao.searchScientists */
+           A.id
+           , A.name
+           , A.birth_year
+           , A.death_year
+           , A.fos_cd
            , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
            , A.create_id
            , A.create_time
@@ -57,7 +73,7 @@
   </select>
   
   <insert id="addScientist">
-    INSERT /* MybatisCrudDao.addScientist */
+    INSERT /* MybatisSampleDao.addScientist */
       INTO pt_scientist (
         name,
         birth_year,
@@ -80,7 +96,7 @@
   </insert>
   
   <update id="modifyScientistById">
-    UPDATE /* MybatisCrudDao.modifyScientistById */
+    UPDATE /* MybatisSampleDao.modifyScientistById */
            scientist
        SET name = #{name},
            birth_year = #{birthYear},
@@ -92,7 +108,7 @@
   </update>
   
   <delete id="removeScientistById">
-    DELETE /* MybatisCrudDao.removeScientistById */
+    DELETE /* MybatisSampleDao.removeScientistById */
       FROM scientist
      WHERE id = #{id}
   </delete>

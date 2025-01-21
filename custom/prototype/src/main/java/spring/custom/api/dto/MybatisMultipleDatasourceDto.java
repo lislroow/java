@@ -3,22 +3,30 @@ package spring.custom.api.dto;
 import java.util.List;
 
 import lombok.Data;
-import spring.custom.api.vo.ScientistVo;
+import spring.custom.common.audit.AuditVo;
 import spring.custom.common.mybatis.PageInfo;
 
 public class MybatisMultipleDatasourceDto {
-
-  public static class Scientist extends ScientistVo { }
+  
+  @Data
+  public static class ScientistRes extends AuditVo {
+    private Integer id;
+    private String name;
+    private Integer birthYear;
+    private Integer deathYear;
+    private String fosCd;
+    private String fosNm;
+  }
   
   @Data
   public static class ScientistListRes {
-    private List<Scientist> list;
+    private List<ScientistRes> list;
   }
   
   @Data
   public static class PagedScientistListRes {
     private PageInfo paged;
-    private List<Scientist> list;
+    private List<ScientistRes> list;
   }
   
 }
