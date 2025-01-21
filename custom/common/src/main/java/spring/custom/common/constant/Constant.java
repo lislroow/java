@@ -13,6 +13,7 @@ public class Constant {
   public static final Long MILLS = 1000L;
   
   public static class TOKEN {
+    public static final String ISSUER = "develop.mgkim.net";
     public static final Integer RTK_EXPIRE_SEC = 86400;
     public static final Long RTK_EXPIRE_MILLS = RTK_EXPIRE_SEC * Constant.MILLS;
     public static final Integer ATK_EXPIRE_SEC = 60;

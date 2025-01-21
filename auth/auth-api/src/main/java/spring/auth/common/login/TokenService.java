@@ -63,9 +63,6 @@ public class TokenService {
   @Value("${auth.token.public-key-file-path:config/cert/star.develop.net.crt}")
   private String PUBLIC_KEY_FILE_PATH;
 
-  @Value("${auth.token.issuer:develop.mgkim.net}")
-  private String ISSUER;
-
   private JWSSigner signer;
   private RSASSAVerifier verifier;
   private JWSHeader header;
@@ -106,7 +103,7 @@ public class TokenService {
     SignedJWT signedJWT;
     claimsSet = new JWTClaimsSet.Builder()
         .subject(subject)
-        .issuer(ISSUER)
+        .issuer(Constant.TOKEN.ISSUER)
         .expirationTime(new Date(expirationTime))
         .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType.code())
         .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), loginVo.toPrincipal())
@@ -238,7 +235,7 @@ public class TokenService {
       // refreshToken 생성
       claimsSet = new JWTClaimsSet.Builder()
           .subject(subject)
-          .issuer(ISSUER)
+          .issuer(Constant.TOKEN.ISSUER)
           .expirationTime(rtkExpireTime)
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
           .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), userAttr)
@@ -255,7 +252,7 @@ public class TokenService {
       // accessToken 생성
       claimsSet = new JWTClaimsSet.Builder()
           .subject(subject)
-          .issuer(ISSUER)
+          .issuer(Constant.TOKEN.ISSUER)
           .expirationTime(new Date(System.currentTimeMillis() + Constant.TOKEN.ATK_EXPIRE_MILLS))
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
           .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), userAttr)
