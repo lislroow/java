@@ -5,16 +5,16 @@
   
   <select id="findClientTokenByTokenKey">
     SELECT /* TokenDao.findClientTokenByTokenKey */
-           A.client_id
-           , A.token_key
-           , A.token_value
-           , A.enable_yn
-           , A.client_ip
-           , A.exp_date
+           B.client_id
+           , B.token_key
+           , B.token_value
+           , B.enable_yn
+           , B.client_ip
+           , B.exp_date
     FROM   au_client A
-      LEFT JOIN au_client_token B ON A.client_id = B.id
+      LEFT JOIN au_client_token B ON B.client_id = A.id
     <where>
-       AND A.token_key = #{tokenKey}
+       AND B.token_key = #{tokenKey}
     </where>
   </select>
   

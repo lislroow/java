@@ -99,9 +99,7 @@ public class TokenService {
   public Map.Entry<String, String> createRtk(TOKEN.USER_TYPE userType, LoginDetails loginVo) {
     String subject = loginVo.getUsername();
     Long expirationTime = loginVo.getRefreshExpireTime();
-    JWTClaimsSet claimsSet;
-    SignedJWT signedJWT;
-    claimsSet = new JWTClaimsSet.Builder()
+    JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
         .subject(subject)
         .issuer(Constant.TOKEN.ISSUER)
         .expirationTime(new Date(expirationTime))
@@ -109,8 +107,7 @@ public class TokenService {
         .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), loginVo.toPrincipal())
         .claim(TOKEN.JWT_CLAIM.ROLES.code(), loginVo.getRoles())
         .build();
-    
-    signedJWT = new SignedJWT(this.header, claimsSet);
+    SignedJWT signedJWT = new SignedJWT(this.header, claimsSet);
     try {
       signedJWT.sign(this.signer);
     } catch (JOSEException e) {
@@ -192,16 +189,16 @@ public class TokenService {
     /* for debug */ if (log.isDebugEnabled()) log.info("refresh token (old): {}", oldRtkRedis);
     Date rtkExpireTime = null;
     String subject = null;
-    Map<String, Object> userAttr = null;
-    String role = null;
+    Map<String, Object> principal = null;
+    String roles = null;
     try {
       SignedJWT signedJWT = SignedJWT.parse(oldRefreshToken);
       if (signedJWT.verify(this.verifier)) {
         JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
         rtkExpireTime = jwtClaimsSet.getExpirationTime();
         subject = signedJWT.getJWTClaimsSet().getSubject();
-        userAttr = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code());
-        role = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLES.code());
+        principal = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code());
+        roles = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLES.code());
       } else {
         throw new AppException(ERROR.A004);
       }
@@ -225,41 +222,38 @@ public class TokenService {
       rtkExpireTime = new Date(clientSessionTime);
     }
     try {
-      JWTClaimsSet claimsSet;
-      SignedJWT signedJWT;
-
       // refreshToken 생성
-      claimsSet = new JWTClaimsSet.Builder()
+      JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
           .subject(subject)
           .issuer(Constant.TOKEN.ISSUER)
           .expirationTime(rtkExpireTime)
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
-          .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), userAttr)
-          .claim(TOKEN.JWT_CLAIM.ROLES.code(), role)
+          .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), principal)
+          .claim(TOKEN.JWT_CLAIM.ROLES.code(), roles)
           .build();
-      signedJWT = new SignedJWT(this.header, claimsSet);
+      SignedJWT signedJWT = new SignedJWT(this.header, claimsSet);
       signedJWT.sign(this.signer);
-      String newRtkRedis = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, newRtk, clientIdent);
+      String newRefreshToken = signedJWT.serialize();
+      String redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, newRtk, clientIdent);
       long rtkExpireSec = (rtkExpireTime.getTime() - System.currentTimeMillis()) / 1000L;
       /* for debug */ if (log.isDebugEnabled())
-        log.info("refresh token (new): {}", newRtkRedis);
-      this.redisClient.setValue(newRtkRedis, signedJWT.serialize(), Duration.ofSeconds(rtkExpireSec));
-
+        log.info("refresh token (new): {}", redisKey);
+      this.redisClient.setValue(redisKey, newRefreshToken, Duration.ofSeconds(rtkExpireSec));
+      
       // accessToken 생성
       claimsSet = new JWTClaimsSet.Builder()
           .subject(subject)
           .issuer(Constant.TOKEN.ISSUER)
           .expirationTime(new Date(System.currentTimeMillis() + Constant.TOKEN.ATK_EXPIRE_MILLS))
           .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
-          .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), userAttr)
-          .claim(TOKEN.JWT_CLAIM.ROLES.code(), role)
+          .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), principal)
+          .claim(TOKEN.JWT_CLAIM.ROLES.code(), roles)
           .build();
       signedJWT = new SignedJWT(this.header, claimsSet);
       signedJWT.sign(this.signer);
-      String newAtkRedis = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, newAtk, clientIdent);
-      this.redisClient.setValue(newAtkRedis, signedJWT.serialize(),
-          Duration.ofSeconds(Constant.TOKEN.ATK_EXPIRE_SEC));
-
+      String newAccessToken = signedJWT.serialize();
+      redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, newAtk, clientIdent);
+      this.redisClient.setValue(redisKey, newAccessToken, Duration.ofSeconds(Constant.TOKEN.ATK_EXPIRE_SEC));
     } catch (Exception e) {
       throw new AppException(ERROR.A004, e);
     }

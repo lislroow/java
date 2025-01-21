@@ -66,9 +66,9 @@ public class TOKEN {
     }
     
     public static Optional<TOKEN.USER_TYPE> fromCode(String code) {
-        return Arrays.stream(TOKEN.USER_TYPE.values())
-            .filter(item -> item.code().equalsIgnoreCase(code))
-            .findAny();
+      return Arrays.stream(TOKEN.USER_TYPE.values())
+          .filter(item -> item.code().equalsIgnoreCase(code))
+          .findAny();
     }
   }
   

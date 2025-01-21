@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -38,7 +39,9 @@ public class TokenAuthFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-
+    
+    /* for debug */ if (log.isDebugEnabled()) log.info("{}", request.getRequestURL());
+    
     String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
     if (authorization != null && authorization.startsWith("Bearer ")) {
       String accessToken = authorization.substring(7);
@@ -78,6 +81,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
           principal = jwtClaimsSet.toType((claims) -> {
             return modelMapper.map(claims.getClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code()), ClientVo.class);
           });
+          break;
         default:
           throw new AppException(ERROR.A008);
         }
@@ -102,12 +106,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
           principal,
           credentials,
-          Arrays.stream(roles.split(","))
-            .map(String::trim)
-            .filter(role -> !role.isEmpty())
-            .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-            .collect(Collectors.toList())
-          );
+          AuthorityUtils.commaSeparatedStringToAuthorityList(roles));
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
     
