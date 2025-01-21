@@ -30,7 +30,7 @@ public class TokenMngService {
         .expDate(addVo.getExpDate())
         .build();
     
-    Map.Entry<String, String> result = tokenService.createRtk(TOKEN.USER_TYPE.CLIENT, loginVo);
+    Map.Entry<String, String> result = tokenService.createPtk(TOKEN.USER_TYPE.CLIENT, loginVo);
     addVo.setTokenKey(result.getKey());
     addVo.setTokenValue(result.getValue());
     tokenMngDao.addClientToken(addVo);

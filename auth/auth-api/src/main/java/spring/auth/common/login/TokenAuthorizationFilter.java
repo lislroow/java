@@ -26,11 +26,12 @@ public class TokenAuthorizationFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
     String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
     if (authorization != null && authorization.startsWith("Bearer ")) {
-      String atk = authorization.substring(7);
-      /* for debug */ if (log.isDebugEnabled()) log.debug("atk: {}", atk);
+      String tokenId = authorization.substring(7);
+      
+      /* for debug */ if (log.isDebugEnabled()) log.debug("tokenId: {}", tokenId);
       try {
-        String accessToken = tokenService.verifyAtk(atk);
-        AuthorizationRequestWrapper requestWrapper = new AuthorizationRequestWrapper("Bearer " + accessToken, request);
+        String tokenValue = tokenService.verifyTokenId(tokenId);
+        AuthorizationRequestWrapper requestWrapper = new AuthorizationRequestWrapper("Bearer " + tokenValue, request);
         filterChain.doFilter(requestWrapper, response);
       } catch (Exception exception) {
         request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI, request.getRequestURI());

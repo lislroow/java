@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import spring.custom.common.constant.Constant;
+import spring.auth.common.login.TokenService;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
@@ -80,15 +80,15 @@ public class LoginVo {
     public boolean isEnabled() {
       return enableYn.compareTo(YN.Y) == 0;
     }
-
+    
     @Override
     public Long getRefreshExpireTime() {
-      return System.currentTimeMillis() + Constant.TOKEN.RTK_EXPIRE_MILLS;
+      return System.currentTimeMillis() + TokenService.RTK_EXPIRE_MILLS;
     }
-
+    
     @Override
     public Long getAccessExpireTime() {
-      return System.currentTimeMillis() + Constant.TOKEN.ATK_EXPIRE_MILLS;
+      return System.currentTimeMillis() + TokenService.ATK_EXPIRE_MILLS;
     }
     
   }
@@ -145,12 +145,12 @@ public class LoginVo {
     
     @Override
     public Long getRefreshExpireTime() {
-      return System.currentTimeMillis() + Constant.TOKEN.RTK_EXPIRE_MILLS;
+      return System.currentTimeMillis() + TokenService.RTK_EXPIRE_MILLS;
     }
-
+    
     @Override
     public Long getAccessExpireTime() {
-      return System.currentTimeMillis() + Constant.TOKEN.ATK_EXPIRE_MILLS;
+      return System.currentTimeMillis() + TokenService.ATK_EXPIRE_MILLS;
     }
   }
   

@@ -6,6 +6,7 @@ import java.util.Optional;
 public class TOKEN {
   
   public enum TOKEN_TYPE {
+    PERMANENT_TOKEN("ptk", "p"),
     REFRESH_TOKEN("rtk", "r"),
     ACCESS_TOKEN("atk", "a")
     ;
@@ -30,23 +31,6 @@ public class TOKEN {
       return Arrays.stream(TOKEN.TOKEN_TYPE.values())
           .filter(item -> item.cd().equalsIgnoreCase(cd))
           .findAny();
-    }
-  }
-  
-  public enum CLAIM_ATTR {
-    USER_TYPE("user_type"),
-    PRINCIPAL("principal"),
-    ROLES("roles")
-    ;
-    
-    private String code;
-    
-    private CLAIM_ATTR(String code) {
-      this.code = code;
-    }
-    
-    public String code() {
-      return this.code;
     }
   }
   
@@ -81,6 +65,23 @@ public class TOKEN {
       return Arrays.stream(TOKEN.USER_TYPE.values())
           .filter(item -> item.code().equalsIgnoreCase(code))
           .findAny();
+    }
+  }
+  
+  public enum CLAIM_ATTR {
+    USER_TYPE("user_type"),
+    PRINCIPAL("principal"),
+    ROLES("roles")
+    ;
+    
+    private String code;
+    
+    private CLAIM_ATTR(String code) {
+      this.code = code;
+    }
+    
+    public String code() {
+      return this.code;
     }
   }
   

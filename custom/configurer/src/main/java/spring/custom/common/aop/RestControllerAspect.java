@@ -73,11 +73,11 @@ public class RestControllerAspect {
       result = joinPoint.proceed(args);
     } catch (Throwable e) {
       throwable = e;
-      log.error("{}, error {}", joinPoint.getTarget().getClass().getName(), e.getMessage());
+      log.error("[error] {}, {}", joinPoint.getTarget().getClass().getName(), e.getMessage());
       throw e;
     }
     /* for debug */ if (log.isInfoEnabled()) {
-      log.info("{}, normal", joinPoint.getTarget().getClass().getName());
+      log.info("[normal] {}", joinPoint.getTarget().getClass().getName());
     }
     return result;
   }
