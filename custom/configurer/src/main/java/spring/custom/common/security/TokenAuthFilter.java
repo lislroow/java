@@ -58,7 +58,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         TOKEN.USER_TYPE userType = jwtClaimsSet.toType((claims) -> {
           String val = null;
           try {
-            val = claims.getStringClaim(TOKEN.JWT_CLAIM.USER_TYPE.code());
+            val = claims.getStringClaim(TOKEN.CLAIM_ATTR.USER_TYPE.code());
           } catch (ParseException e) {
             throw new AppException(ERROR.A008, e);
           }
@@ -69,17 +69,17 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         switch (userType) {
         case MEMBER:
           principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code()), MemberVo.class);
+            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), MemberVo.class);
           });
           break;
         case MANAGER:
           principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code()), ManagerVo.class);
+            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), ManagerVo.class);
           });
           break;
         case CLIENT:
           principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code()), ClientVo.class);
+            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), ClientVo.class);
           });
           break;
         default:
@@ -88,7 +88,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         /* for debug */ if (log.isDebugEnabled()) log.debug("principal: {}", principal);
         
         // principal
-        roles = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLES.code());
+        roles = jwtClaimsSet.getStringClaim(TOKEN.CLAIM_ATTR.ROLES.code());
         /* for debug */ if (log.isDebugEnabled()) log.debug("roles: {}", roles);
       } catch (AppException e) {
         throw e;

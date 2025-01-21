@@ -4,6 +4,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import jakarta.servlet.http.HttpServletRequest;
+import spring.custom.common.constant.Constant;
+
 public class HashUtil {
   
   public static String sha256(String plainText) throws NoSuchAlgorithmException {
@@ -17,5 +23,16 @@ public class HashUtil {
     }
     return hexString.toString();
   }
+
+  public static String createClientIdent() throws NoSuchAlgorithmException {
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    String clientIp = XffClientIpExtractor.getClientIp(request);
+    String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
+    return HashUtil.createClientIdent(clientIp, userAgent);
+  }
   
+  public static String createClientIdent(String clientIp, String userAgent) throws NoSuchAlgorithmException {
+    return HashUtil.sha256(clientIp + userAgent);
+  }
+
 }

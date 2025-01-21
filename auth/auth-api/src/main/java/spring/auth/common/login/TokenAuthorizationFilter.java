@@ -14,33 +14,24 @@ import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.constant.Constant;
-import spring.custom.common.util.IdGenerator;
-import spring.custom.common.util.XffClientIpExtractor;
 
 @Slf4j
 @RequiredArgsConstructor
-public class TokenVerifyFilter extends OncePerRequestFilter {
+public class TokenAuthorizationFilter extends OncePerRequestFilter {
   
   final TokenService tokenService;
   
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-    
     String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
     if (authorization != null && authorization.startsWith("Bearer ")) {
-      String tokenId = authorization.substring(7);
-      /* for debug */ if (log.isDebugEnabled()) log.debug("tokenId: {}", tokenId);
-      
-      String clientIp = XffClientIpExtractor.getClientIp(request);
-      // String userAgent = request.getHeaders().get(Constant.HTTP_HEADER.USER_AGENT).get(0);
-      String userAgent = request.getHeader(Constant.HTTP_HEADER.USER_AGENT);
-      String clientIdent = IdGenerator.createClientIdent(clientIp, userAgent);
+      String atk = authorization.substring(7);
+      /* for debug */ if (log.isDebugEnabled()) log.debug("atk: {}", atk);
       try {
-        String accessToken = tokenService.verifyAtk(tokenId, clientIdent);
-        filterChain.doFilter(
-            new TokenVerifyHttpServletRequest("Bearer " + accessToken, request), response);
+        String accessToken = tokenService.verifyAtk(atk);
+        AuthorizationRequestWrapper requestWrapper = new AuthorizationRequestWrapper("Bearer " + accessToken, request);
+        filterChain.doFilter(requestWrapper, response);
       } catch (Exception exception) {
         request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI, request.getRequestURI());
         request.setAttribute(RequestDispatcher.ERROR_EXCEPTION, exception);
@@ -53,11 +44,10 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
     }
   }
   
-  private class TokenVerifyHttpServletRequest extends HttpServletRequestWrapper {
-    
+  private class AuthorizationRequestWrapper extends HttpServletRequestWrapper {
     private final String authorization;
     
-    public TokenVerifyHttpServletRequest(String authorization, HttpServletRequest request) {
+    public AuthorizationRequestWrapper(String authorization, HttpServletRequest request) {
       super(request);
       this.authorization = authorization;
     }

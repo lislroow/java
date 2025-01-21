@@ -5,23 +5,35 @@ import java.util.Optional;
 
 public class TOKEN {
   
-  public enum JWT {
-    REFRESH_TOKEN("rtk"),
-    ACCESS_TOKEN("atk")
+  public enum TOKEN_TYPE {
+    REFRESH_TOKEN("rtk", "a"),
+    ACCESS_TOKEN("atk", "r")
     ;
     
     private String code;
+    private String cd;
     
-    private JWT(String code) {
+    private TOKEN_TYPE(String code, String cd) {
+      this.cd = cd;
       this.code = code;
     }
     
     public String code() {
       return this.code;
     }
+    
+    public String cd() {
+      return this.cd;
+    }
+    
+    public static Optional<TOKEN.TOKEN_TYPE> fromCd(String cd) {
+      return Arrays.stream(TOKEN.TOKEN_TYPE.values())
+          .filter(item -> item.cd().equalsIgnoreCase(cd))
+          .findAny();
+    }
   }
   
-  public enum JWT_CLAIM {
+  public enum CLAIM_ATTR {
     USER_TYPE("user_type"),
     PRINCIPAL("principal"),
     ROLES("roles")
@@ -29,7 +41,7 @@ public class TOKEN {
     
     private String code;
     
-    private JWT_CLAIM(String code) {
+    private CLAIM_ATTR(String code) {
       this.code = code;
     }
     
@@ -72,20 +84,4 @@ public class TOKEN {
     }
   }
   
-  public enum SNS_TYPE {
-    GOOGLE,
-    KAKAO,
-    NAVER
-    ;
-    
-    public String code() {
-      return this.name().toLowerCase();
-    }
-    
-    public static Optional<TOKEN.SNS_TYPE> fromCode(String registrationId) {
-        return Arrays.stream(TOKEN.SNS_TYPE.values())
-            .filter(item -> item.code().equalsIgnoreCase(registrationId))
-            .findAny();
-    }
-  }
 }

@@ -32,7 +32,7 @@ import spring.auth.common.login.MemberLoginSuccessHandler;
 import spring.auth.common.login.MemberLogoutService;
 import spring.auth.common.login.MemberOAuth2LoginSuccessHandler;
 import spring.auth.common.login.TokenService;
-import spring.auth.common.login.TokenVerifyFilter;
+import spring.auth.common.login.TokenAuthorizationFilter;
 //import spring.auth.common.login.UserPasswordEncoder;
 import spring.custom.common.enumcode.SECURITY;
 import spring.custom.common.redis.RedisClient;
@@ -67,7 +67,7 @@ public class SecurityConfig {
           .successHandler(new MemberLoginSuccessHandler(tokenService))
       )
       .addFilterBefore(new TokenAuthFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
-      .addFilterBefore(new TokenVerifyFilter(tokenService), TokenAuthFilter.class)
+      .addFilterBefore(new TokenAuthorizationFilter(tokenService), TokenAuthFilter.class)
       .exceptionHandling(config -> 
         config.authenticationEntryPoint((request, response, authException) -> {
           HttpStatus status = HttpStatus.FORBIDDEN;

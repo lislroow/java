@@ -17,19 +17,14 @@ public class TokenController {
   final UserLoginDao userLoginDao;
   
   @PostMapping("/v1/token/verify-token")
-  public String verity(@RequestBody TokenDto.VerifyReq reqDto) {
-    String atk = reqDto.getAtk();
-    String clientIdent = reqDto.getClientIdent(); // api gateway 에서 x-forward-for 로 생성한 clientIdent 값
-    
-    String accessToken = tokenService.verifyAtk(atk, clientIdent);
+  public String verity(@RequestBody String atk) { // restTemplate 일 경우에는 기본형으로 받을 수 있음
+    String accessToken = tokenService.verifyAtk(atk);
     return accessToken;
   }
   
   @PostMapping("/v1/token/refresh-token")
-  public TokenDto.RefreshRes refresh(@RequestBody TokenDto.RefreshReq reqDto) {
-    String rtk = reqDto.getRtk();
-    
-    TokenDto.RefreshRes resDto = tokenService.refreshToken(rtk);
+  public TokenDto.RefreshTokenRes refresh(@RequestBody TokenDto.RefreshTokenReq reqDto) {
+    TokenDto.RefreshTokenRes resDto = tokenService.refreshToken(reqDto.getRtk());
     return resDto;
   }
   

@@ -15,12 +15,14 @@ import java.util.AbstractMap;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JOSEObjectType;
@@ -46,7 +48,6 @@ import spring.custom.common.exception.token.AccessTokenExpiredException;
 import spring.custom.common.exception.token.RefreshTokenExpiredException;
 import spring.custom.common.redis.RedisClient;
 import spring.custom.common.security.LoginDetails;
-import spring.custom.common.util.IdGenerator;
 import spring.custom.dto.TokenDto;
 
 @Component
@@ -56,6 +57,7 @@ public class TokenService {
 
   final RedisClient redisClient;
   final TokenDao tokenDao;
+  final IdProvider idProvider = new IdProvider();
 
   @Value("${auth.token.private-key-file-path:config/cert/star.develop.net.key}")
   private String PRIVATE_KEY_FILE_PATH;
@@ -103,9 +105,9 @@ public class TokenService {
         .subject(subject)
         .issuer(Constant.TOKEN.ISSUER)
         .expirationTime(new Date(expirationTime))
-        .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType.code())
-        .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), loginVo.toPrincipal())
-        .claim(TOKEN.JWT_CLAIM.ROLES.code(), loginVo.getRoles())
+        .claim(TOKEN.CLAIM_ATTR.USER_TYPE.code(), userType.code())
+        .claim(TOKEN.CLAIM_ATTR.PRINCIPAL.code(), loginVo.toPrincipal())
+        .claim(TOKEN.CLAIM_ATTR.ROLES.code(), loginVo.getRoles())
         .build();
     SignedJWT signedJWT = new SignedJWT(this.header, claimsSet);
     try {
@@ -114,12 +116,13 @@ public class TokenService {
       throw new AppException(ERROR.A001, e);
     }
     
-    String rtk = IdGenerator.createTokenKey(userType);
+    String rtk = idProvider.createTokenId(userType, TOKEN.TOKEN_TYPE.REFRESH_TOKEN);
     String refreshToken = signedJWT.serialize();
+    Map.Entry<String, String> result = new AbstractMap.SimpleEntry<>(rtk, refreshToken);
+    
     switch (userType) {
     case MANAGER, MEMBER:
-      String clientIdent = IdGenerator.createClientIdent();
-      String rtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, rtk, clientIdent);
+      String rtkRedisKey = idProvider.createRedisKey(rtk);
       /* for debug */ if (log.isDebugEnabled())
         log.info("create token: {}", rtkRedisKey);
       this.redisClient.setValue(rtkRedisKey, refreshToken, Duration.ofSeconds(Constant.TOKEN.RTK_EXPIRE_SEC));
@@ -128,18 +131,16 @@ public class TokenService {
       break;
     }
     
-    Map.Entry<String, String> result = new AbstractMap.SimpleEntry<>(rtk, refreshToken);
     return result;
   }
 
-  public String verifyAtk(String atk, String clientIdent) {
-    TOKEN.USER_TYPE userType = IdGenerator.parseTokenKey(atk)
+  public String verifyAtk(String atk) {
+    TOKEN.USER_TYPE userType = idProvider.parseUserType(atk)
         .orElseThrow(() -> new AppException(ERROR.A002));
     String accessToken = null;
     switch (userType) {
-    case MEMBER:
-    case MANAGER:
-      String redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, atk, clientIdent);
+    case MANAGER, MEMBER:
+      String redisKey = idProvider.createRedisKey(atk);
       accessToken = Optional.ofNullable(this.redisClient.getValue(redisKey))
           .orElseThrow(() -> new AccessTokenExpiredException());
       break;
@@ -168,16 +169,14 @@ public class TokenService {
     }
     return accessToken;
   }
-
-  public TokenDto.RefreshRes refreshToken(String oldRtk) {
-    TOKEN.USER_TYPE userType = IdGenerator.parseTokenKey(oldRtk)
+  
+  public TokenDto.RefreshTokenRes refreshToken(String oldRtk) {
+    TOKEN.USER_TYPE userType = idProvider.parseUserType(oldRtk)
         .orElseThrow(() -> new AppException(ERROR.A004));
-    String clientIdent = IdGenerator.createClientIdent();
     String oldRtkRedis = null;
     switch (userType) {
-    case MEMBER:
-    case MANAGER:
-      oldRtkRedis = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, oldRtk, clientIdent);
+    case MANAGER, MEMBER:
+      oldRtkRedis = idProvider.createRedisKey(oldRtk);
       break;
     case CLIENT:
       throw new AppException(ERROR.A906);
@@ -197,8 +196,8 @@ public class TokenService {
         JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
         rtkExpireTime = jwtClaimsSet.getExpirationTime();
         subject = signedJWT.getJWTClaimsSet().getSubject();
-        principal = jwtClaimsSet.getJSONObjectClaim(TOKEN.JWT_CLAIM.PRINCIPAL.code());
-        roles = jwtClaimsSet.getStringClaim(TOKEN.JWT_CLAIM.ROLES.code());
+        principal = jwtClaimsSet.getJSONObjectClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code());
+        roles = jwtClaimsSet.getStringClaim(TOKEN.CLAIM_ATTR.ROLES.code());
       } else {
         throw new AppException(ERROR.A004);
       }
@@ -206,10 +205,10 @@ public class TokenService {
       throw new AppException(ERROR.A004, e);
     }
 
-    String newRtk = IdGenerator.createTokenKey(userType);
-    String newAtk = IdGenerator.createTokenKey(userType);
+    String newRtk = idProvider.createTokenId(userType, TOKEN.TOKEN_TYPE.REFRESH_TOKEN);
+    String newAtk = idProvider.createTokenId(userType, TOKEN.TOKEN_TYPE.ACCESS_TOKEN);
 
-    TokenDto.RefreshRes result = new TokenDto.RefreshRes();
+    TokenDto.RefreshTokenRes result = new TokenDto.RefreshTokenRes();
     result.setRtk(newRtk);
     result.setAtk(newAtk);
     result.setSession(Constant.TOKEN.CLIENT_SESSION_SEC);
@@ -227,14 +226,14 @@ public class TokenService {
           .subject(subject)
           .issuer(Constant.TOKEN.ISSUER)
           .expirationTime(rtkExpireTime)
-          .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
-          .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), principal)
-          .claim(TOKEN.JWT_CLAIM.ROLES.code(), roles)
+          .claim(TOKEN.CLAIM_ATTR.USER_TYPE.code(), userType)
+          .claim(TOKEN.CLAIM_ATTR.PRINCIPAL.code(), principal)
+          .claim(TOKEN.CLAIM_ATTR.ROLES.code(), roles)
           .build();
       SignedJWT signedJWT = new SignedJWT(this.header, claimsSet);
       signedJWT.sign(this.signer);
       String newRefreshToken = signedJWT.serialize();
-      String redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, newRtk, clientIdent);
+      String redisKey = idProvider.createRedisKey(newRtk);
       long rtkExpireSec = (rtkExpireTime.getTime() - System.currentTimeMillis()) / 1000L;
       /* for debug */ if (log.isDebugEnabled())
         log.info("refresh token (new): {}", redisKey);
@@ -245,14 +244,14 @@ public class TokenService {
           .subject(subject)
           .issuer(Constant.TOKEN.ISSUER)
           .expirationTime(new Date(System.currentTimeMillis() + Constant.TOKEN.ATK_EXPIRE_MILLS))
-          .claim(TOKEN.JWT_CLAIM.USER_TYPE.code(), userType)
-          .claim(TOKEN.JWT_CLAIM.PRINCIPAL.code(), principal)
-          .claim(TOKEN.JWT_CLAIM.ROLES.code(), roles)
+          .claim(TOKEN.CLAIM_ATTR.USER_TYPE.code(), userType)
+          .claim(TOKEN.CLAIM_ATTR.PRINCIPAL.code(), principal)
+          .claim(TOKEN.CLAIM_ATTR.ROLES.code(), roles)
           .build();
       signedJWT = new SignedJWT(this.header, claimsSet);
       signedJWT.sign(this.signer);
       String newAccessToken = signedJWT.serialize();
-      redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, newAtk, clientIdent);
+      redisKey = idProvider.createRedisKey(newAtk);
       this.redisClient.setValue(redisKey, newAccessToken, Duration.ofSeconds(Constant.TOKEN.ATK_EXPIRE_SEC));
     } catch (Exception e) {
       throw new AppException(ERROR.A004, e);
@@ -260,5 +259,53 @@ public class TokenService {
     this.redisClient.removeValue(oldRtkRedis);
     return result;
   }
-
+  
+  
+  final class IdProvider {
+    
+    Optional<TOKEN.TOKEN_TYPE> parseTokenType(String tokenId) {
+      if (ObjectUtils.isEmpty(tokenId)) {
+        throw new AppException(ERROR.A009);
+      }
+      String cd = tokenId.substring(0, 1);
+      return TOKEN.TOKEN_TYPE.fromCd(cd);
+    }
+    
+    Optional<TOKEN.USER_TYPE> parseUserType(String tokenId) {
+      if (ObjectUtils.isEmpty(tokenId)) {
+        throw new AppException(ERROR.A009);
+      }
+      String idprefix = tokenId.substring(1, 2);
+      return TOKEN.USER_TYPE.fromIdprefix(Integer.parseInt(idprefix));
+    }
+    
+    String createTokenId(TOKEN.USER_TYPE userType, TOKEN.TOKEN_TYPE tokenType) {
+      String tokenKey = null;
+      if (userType == null) {
+        throw new AppException(ERROR.A001.code(), "token user is null");
+      }
+      tokenKey = tokenType.cd() + userType.idprefix() + UUID.randomUUID().toString().replaceAll("-", "");
+      return tokenKey;
+    }
+    
+    String createRedisKey(String tokenId) {
+      String cd = tokenId.substring(0, 1);
+      TOKEN.TOKEN_TYPE tokenType = TOKEN.TOKEN_TYPE.fromCd(cd)
+          .orElseThrow(() -> new AppException(ERROR.A001));
+      String redisKey = null;
+      switch (tokenType) {
+      case REFRESH_TOKEN:
+        redisKey = String.format("token:rtk:%s", tokenId);
+        break;
+      case ACCESS_TOKEN:
+        redisKey = String.format("token:atk:%s", tokenId);
+        break;
+      default:
+        throw new AppException(ERROR.A001);
+      }
+      return redisKey;
+    }
+    
+  }
+  
 }

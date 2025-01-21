@@ -8,26 +8,20 @@ public class TokenDto {
   private TokenDto() {}
   
   @Data
-  public static class CreateRes {
+  public static class CreateTokenRes {
     private String rtk;
   }
   
   @Data
-  public static class RefreshReq {
+  public static class RefreshTokenReq {
     private String rtk;
   }
   
   @Data
-  public static class RefreshRes {
+  public static class RefreshTokenRes {
     private String rtk;
     private String atk;
     private Integer session;
-  }
-  
-  @Data
-  public static class VerifyReq {
-    private String atk;
-    private String clientIdent;
   }
   
 }

@@ -37,6 +37,7 @@ public enum ERROR {
   /** invalid register code */ A016("invalid register code"),
   /** bad credentials */ A017("bad credentials"),
   /** already registered loginId */ A018("already registered"),
+  /** invalid token type */ A019("invalid token type"),
   
   /** access denied */ A403("access denied"),
   
