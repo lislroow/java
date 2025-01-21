@@ -5,111 +5,111 @@
   
   <select id="selectManagerByLoginId">
     SELECT /* UserLoginDao.selectManagerByLoginId */
-           id,
-           login_id,
-           login_pwd,
-           roles,
-           mgr_name,
-           enable_yn,
-           locked_yn,
-           pwd_exp_date
-    FROM   au_manager
+           A.id
+           , A.login_id
+           , A.login_pwd
+           , A.roles
+           , A.mgr_name
+           , A.enable_yn
+           , A.locked_yn
+           , A.pwd_exp_date
+    FROM   au_manager A
     <where>
-       AND login_id = #{loginId}
+       AND A.login_id = #{loginId}
     </where>
   </select>
   
   <select id="selectMemberByLoginId">
     SELECT /* UserLoginDao.selectMemberByLoginId */
-           id,
-           login_id,
-           login_pwd,
-           roles,
-           realname,
-           nickname,
-           enable_yn,
-           locked_yn,
-           pwd_exp_date
-    FROM   au_member
-    WHERE  login_id = #{loginId}
+           A.id
+           , A.login_id
+           , A.login_pwd
+           , A.roles
+           , A.realname
+           , A.nickname
+           , A.enable_yn
+           , A.locked_yn
+           , A.pwd_exp_date
+    FROM   au_member A
+    WHERE  A.login_id = #{loginId}
   </select>
   
   <select id="selectMemberById">
     SELECT /* UserLoginDao.selectMemberById */
-           id,
-           login_id,
-           login_pwd,
-           roles,
-           realname,
-           nickname,
-           enable_yn,
-           locked_yn,
-           pwd_exp_date
-    FROM   au_member
-    WHERE  id = #{id}
+           A.id
+           , A.login_id
+           , A.login_pwd
+           , A.roles
+           , A.realname
+           , A.nickname
+           , A.enable_yn
+           , A.locked_yn
+           , A.pwd_exp_date
+    FROM   au_member A
+    WHERE  A.id = #{id}
   </select>
   
   <select id="selectMemberIdByOauth2Id">
     SELECT /* UserLoginDao.selectMemberOauthByOauth2Id */
-           id
-    FROM   au_member_oauth
+           A.id
+    FROM   au_member_oauth A
     <where>
-       AND oauth2_id = #{oauth2Id}
+       AND A.oauth2_id = #{oauth2Id}
     </where>
   </select>
   
   <insert id="insertMember">
     INSERT /* UserLoginDao.insertMember */
       INTO au_member (
-      id,
-      login_id,
-      roles,
-      nickname,
-      enable_yn,
-      locked_yn,
-      pwd_exp_date,
-      create_time,
-      modify_time,
-      create_id,
-      modify_id
-    ) VALUES (
-      #{id},
-      #{loginId},
-      #{roles},
-      #{nickname},
-      #{enableYn},
-      #{lockedYn},
-      CURRENT_DATE,
-      now(),
-      now(),
-      #{id},
-      #{id}
-    )
+        id
+        , login_id
+        , roles
+        , nickname
+        , enable_yn
+        , locked_yn
+        , pwd_exp_date
+        , create_time
+        , modify_time
+        , create_id
+        , modify_id
+      ) VALUES (
+        #{id}
+        , #{loginId}
+        , #{roles}
+        , #{nickname}
+        , #{enableYn}
+        , #{lockedYn}
+        , CURRENT_DATE
+        , now()
+        , now()
+        , #{id}
+        , #{id}
+      )
   </insert>
   
   <insert id="insertMemberOauth">
     INSERT /* UserLoginDao.insertMemberOauth */
       INTO au_member_oauth (
-      id,
-      oauth2_id,
-      registration_id,
-      email,
-      nickname,
-      create_time,
-      modify_time,
-      create_id,
-      modify_id
-    ) VALUES (
-      #{id},
-      #{oauth2Id},
-      #{registrationId},
-      #{email},
-      #{nickname},
-      now(),
-      now(),
-      #{id},
-      #{id}
-    )
+        id
+        , oauth2_id
+        , registration_id
+        , email
+        , nickname
+        , create_time
+        , modify_time
+        , create_id
+        , modify_id
+      ) VALUES (
+        #{id}
+        , #{oauth2Id}
+        , #{registrationId}
+        , #{email}
+        , #{nickname}
+        , now()
+        , now()
+        , #{id}
+        , #{id}
+      )
   </insert>
   
 </mapper>

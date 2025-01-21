@@ -129,42 +129,42 @@
   <insert id="addManager">
     INSERT /* UserMngDao.addManager */
       INTO au_manager (
-        id,
-        login_id,
-        login_pwd,
-        mgr_name,
-        roles,
-        enable_yn,
-        locked_yn,
-        pwd_exp_date,
-        create_time,
-        modify_time,
-        create_id,
-        modify_id
+        id
+        , login_id
+        , login_pwd
+        , mgr_name
+        , roles
+        , enable_yn
+        , locked_yn
+        , pwd_exp_date
+        , create_time
+        , modify_time
+        , create_id
+        , modify_id
       ) VALUES (
-        #{id},
-        #{loginId},
-        #{loginPwd},
-        #{mgrName},
-        #{roles},
-        #{enableYn},
-        #{lockedYn},
-        #{pwdExpDate},
-        now(),
-        now(),
-        #{createId},
-        #{modifyId}
+        #{id}
+        , #{loginId}
+        , #{loginPwd}
+        , #{mgrName}
+        , #{roles}
+        , #{enableYn}
+        , #{lockedYn}
+        , #{pwdExpDate}
+        , now()
+        , now()
+        , #{createId}
+        , #{modifyId}
       )
   </insert>
   
   <update id="modifyManagerById">
     UPDATE /* UserMngDao.modifyManagerById */
            au_manager
-       SET roles = #{roles},
-           enable_yn = #{enableYn},
-           locked_yn = #{lockedYn},
-           modify_time = now(),
-           modify_id = #{modifyId}
+       SET roles = #{roles}
+           , enable_yn = #{enableYn}
+           , locked_yn = #{lockedYn}
+           , modify_time = now()
+           , modify_id = #{modifyId}
      WHERE id = #{id}
   </update>
   
@@ -184,10 +184,10 @@
   <update id="changeManagerLoginPwdById">
     UPDATE /* UserMngDao.changeManagerLoginPwdById */
            au_manager
-       SET login_pwd = #{newLoginPwd},
-           pwd_exp_date = CURRENT_DATE + INTERVAL '90 day',
-           modify_time = now(),
-           modify_id = #{modifyId}
+       SET login_pwd = #{newLoginPwd}
+           , pwd_exp_date = CURRENT_DATE + INTERVAL '90 day'
+           , modify_time = now()
+           , modify_id = #{modifyId}
      WHERE id = #{id}
   </update>
   

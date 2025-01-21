@@ -75,35 +75,35 @@
   <insert id="addScientist">
     INSERT /* MybatisSampleDao.addScientist */
       INTO pt_scientist (
-        name,
-        birth_year,
-        death_year,
-        fos_cd,
-        create_time,
-        modify_time,
-        create_id,
-        modify_id
+        name
+        , birth_year
+        , death_year
+        , fos_cd
+        , create_time
+        , modify_time
+        , create_id
+        , modify_id
       ) VALUES (
-        #{name},
-        #{birthYear},
-        #{deathYear},
-        #{fosCd},
-        now(),
-        now(),
-        #{createId},
-        #{modifyId}
+        #{name}
+        , #{birthYear}
+        , #{deathYear}
+        , #{fosCd}
+        , now()
+        , now()
+        , #{createId}
+        , #{modifyId}
       )
   </insert>
   
   <update id="modifyScientistById">
     UPDATE /* MybatisSampleDao.modifyScientistById */
            scientist
-       SET name = #{name},
-           birth_year = #{birthYear},
-           death_year = #{deathYear},
-           fos_cd = #{fosCd},
-           modify_time = now(),
-           modify_id = #{modifyId}
+       SET name = #{name}
+           , birth_year = #{birthYear}
+           , death_year = #{deathYear}
+           , fos_cd = #{fosCd}
+           , modify_time = now()
+           , modify_id = #{modifyId}
      WHERE id = #{id}
   </update>
   

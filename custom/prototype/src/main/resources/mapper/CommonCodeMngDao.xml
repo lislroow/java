@@ -14,7 +14,7 @@
         UPPER(A.cd_grp) LIKE '%' || UPPER(#{cdGrp}) || '%'
       </if>
     </where>
-    ORDER BY cd_grp ASC
+    ORDER BY A.cd_grp ASC
   </select>
   
   <select id="searchCodes">

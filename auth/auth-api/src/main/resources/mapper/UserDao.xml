@@ -5,22 +5,22 @@
   
   <select id="selectMemberInfoById" resultType="MemberVo">
     SELECT /* UserDao.selectMemberInfoById */
-           id,
-           roles,
-           login_id,
-           nickname
-    FROM   au_member a
-    WHERE  a.id = #{id}
+           A.id
+           , A.roles
+           , A.login_id
+           , A.nickname
+    FROM   au_member A
+    WHERE  A.id = #{id}
   </select>
   
   <select id="selectManagerInfoById" resultType="ManagerVo">
     SELECT /* UserDao.selectManagerInfoById */
-           id,
-           roles,
-           login_id,
-           mgr_name
-    FROM   au_manager a
-    WHERE  a.id = #{id}
+           A.id
+           , A.roles
+           , A.login_id
+           , A.mgr_name
+    FROM   au_manager A
+    WHERE  A.id = #{id}
   </select>
   
 </mapper>

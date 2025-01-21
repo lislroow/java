@@ -39,39 +39,39 @@
   <insert id="addClientToken">
     INSERT /* TokenMngDao.addClientToken */
       INTO au_client_token (
-        token_key,
-        client_id,
-        client_name,
-        client_ip,
-        roles,
-        enable_yn,
-        exp_date,
-        token_value,
-        create_time,
-        modify_time,
-        create_id,
-        modify_id
+        token_key
+        , client_id
+        , client_name
+        , client_ip
+        , roles
+        , enable_yn
+        , exp_date
+        , token_value
+        , create_time
+        , modify_time
+        , create_id
+        , modify_id
       ) VALUES (
-        #{tokenKey},
-        #{clientId},
-        #{clientName},
-        #{clientIp},
-        #{roles},
-        #{enableYn},
-        #{expDate},
-        #{tokenValue},
-        now(),
-        now(),
-        #{createId},
-        #{modifyId}
+        #{tokenKey}
+        , #{clientId}
+        , #{clientName}
+        , #{clientIp}
+        , #{roles}
+        , #{enableYn}
+        , #{expDate}
+        , #{tokenValue}
+        , now()
+        , now()
+        , #{createId}
+        , #{modifyId}
       )
   </insert>
   
   <update id="modifyClientToken">
     UPDATE /* TokenMngDao.modifyClientToken */
            au_client_token
-       SET enable_yn = #{enableYn},
-           exp_date = #{expDate}
+       SET enable_yn = #{enableYn}
+           , exp_date = #{expDate}
      WHERE token_key = #{tokenKey}
   </update>
   
