@@ -97,7 +97,7 @@
   
   <update id="modifyScientistById">
     UPDATE /* MybatisSampleDao.modifyScientistById */
-           scientist
+           pt_scientist
        SET name = #{name}
            , birth_year = #{birthYear}
            , death_year = #{deathYear}
@@ -109,7 +109,7 @@
   
   <delete id="removeScientistById">
     DELETE /* MybatisSampleDao.removeScientistById */
-      FROM scientist
+      FROM pt_scientist
      WHERE id = #{id}
   </delete>
   

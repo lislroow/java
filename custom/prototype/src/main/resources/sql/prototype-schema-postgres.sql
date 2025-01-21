@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS sy_code_group
   use_yn CHAR(1) NOT NULL CHECK (use_yn IN ('Y', 'N')) DEFAULT 'Y',
   create_time TIMESTAMP DEFAULT NOW(),
   modify_time TIMESTAMP DEFAULT NOW(),
-  create_id VARCHAR(15) DEFAULT '1',
-  modify_id VARCHAR(15) DEFAULT '1',
+  create_id VARCHAR(16) DEFAULT '1',
+  modify_id VARCHAR(16) DEFAULT '1',
   PRIMARY KEY (cd_grp)
 );
 
@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS sy_code
   use_yn CHAR(1) NOT NULL CHECK (use_yn IN ('Y', 'N')) DEFAULT 'Y',
   create_time TIMESTAMP DEFAULT NOW(),
   modify_time TIMESTAMP DEFAULT NOW(),
-  create_id VARCHAR(15) DEFAULT '1',
-  modify_id VARCHAR(15) DEFAULT '1',
+  create_id VARCHAR(16) DEFAULT '1',
+  modify_id VARCHAR(16) DEFAULT '1',
   PRIMARY KEY (cd, cd_grp),
   CONSTRAINT fk_sy_code_cd_grp FOREIGN KEY (cd_grp)
     REFERENCES sy_code_group (cd_grp)
@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS pt_scientist
   fos_cd VARCHAR(255) NULL,
   create_time TIMESTAMP DEFAULT NOW(),
   modify_time TIMESTAMP DEFAULT NOW(),
-  create_id VARCHAR(15) DEFAULT '1',
-  modify_id VARCHAR(15) DEFAULT '1',
+  create_id VARCHAR(16) DEFAULT '1',
+  modify_id VARCHAR(16) DEFAULT '1',
   PRIMARY KEY (id)
 );
 
