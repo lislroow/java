@@ -59,10 +59,10 @@ public class UserMngController {
   
   @GetMapping("/v1/user-mng/managers/all")
   public UserMngDto.ManagerListRes allManagers() {
-    List<UserMngVo.ResultManager> result = userMngDao.allManagers();
+    List<UserMngVo.ResultManager> resultVo = userMngDao.allManagers();
     
     UserMngDto.ManagerListRes resDto = new UserMngDto.ManagerListRes(
-        result.stream()
+        resultVo.stream()
           .map(item -> modelMapper.map(item, UserMngDto.ManagerRes.class))
           .collect(Collectors.toList()));
     return resDto;
@@ -72,13 +72,13 @@ public class UserMngController {
   public PageResponse<UserMngDto.ManagerRes> findManagers(
       @RequestParam(defaultValue = "1") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
-    PageResponse<UserMngVo.ResultManager> result = userMngDao.findManagers(PageRequest.of(page, size));
+    PageResponse<UserMngVo.ResultManager> resultVo = userMngDao.findManagers(PageRequest.of(page, size));
     
     PageResponse<UserMngDto.ManagerRes> resDto = new PageResponse<UserMngDto.ManagerRes>(
-        result.stream()
+        resultVo.stream()
           .map(item -> modelMapper.map(item, UserMngDto.ManagerRes.class))
           .collect(Collectors.toList())
-        , result.getPageInfo());
+        , resultVo.getPageInfo());
     return resDto;
   }
   
@@ -98,22 +98,22 @@ public class UserMngController {
         .enableYn(enableYn)
         .lockedYn(lockedYn)
         .build();
-    PageResponse<UserMngVo.ResultManager> result = userMngDao.searchManagers(PageRequest.of(page, size), searchVo);
+    PageResponse<UserMngVo.ResultManager> resultVo = userMngDao.searchManagers(PageRequest.of(page, size), searchVo);
     
     PageResponse<UserMngDto.ManagerRes> resDto = new PageResponse<UserMngDto.ManagerRes>(
-        result.stream()
+        resultVo.stream()
           .map(item -> modelMapper.map(item, UserMngDto.ManagerRes.class))
           .collect(Collectors.toList())
-        , result.getPageInfo());
+        , resultVo.getPageInfo());
     return resDto;
   }
   
   @GetMapping("/v1/user-mng/manager/{id}")
   public ResponseEntity<UserMngDto.ManagerRes> findManagerById(
       @PathVariable String id) {
-    UserMngVo.ResultManager result = userMngDao.findManagerById(id)
-        .orElseThrow(() -> new DataNotFoundException());;
-    UserMngDto.ManagerRes resDto = modelMapper.map(result, UserMngDto.ManagerRes.class);
+    UserMngVo.ResultManager resultVo = userMngDao.findManagerById(id)
+        .orElseThrow(() -> new DataNotFoundException());
+    UserMngDto.ManagerRes resDto = modelMapper.map(resultVo, UserMngDto.ManagerRes.class);
     return ResponseEntity.ok(resDto);
   }
   
@@ -197,9 +197,9 @@ public class UserMngController {
       @RequestBody UserMngDto.ModifyManagerReq reqDto) {
     UserMngVo.ModifyManager modifyVo = modelMapper.map(reqDto, UserMngVo.ModifyManager.class);
     
-    int result = userMngService.modifyManagerById(modifyVo);
+    int cnt = userMngService.modifyManagerById(modifyVo);
     
-    if (result == 0) {
+    if (cnt == 0) {
       return ResponseEntity.noContent().build();
     } else {
       return ResponseEntity.ok(modifyVo);
@@ -223,9 +223,9 @@ public class UserMngController {
     
     String id = reqDto.getId();
     String newLoginPwd = bcryptPasswordEncoder.encode(reqDto.getNewLoginPwd());
-    int result = userMngService.changeManagerLoginPwdById(id, newLoginPwd);
+    int cnt = userMngService.changeManagerLoginPwdById(id, newLoginPwd);
     
-    if (result == 0) {
+    if (cnt == 0) {
       return ResponseEntity.noContent().build();
     } else {
       return ResponseEntity.ok().build();

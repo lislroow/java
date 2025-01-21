@@ -38,22 +38,22 @@ public class UserController {
       throw new AppException(ERROR.A403);
     }
     TokenPrincipal principal = (TokenPrincipal) authentication.getPrincipal();
-    TokenPrincipal result = null;
+    TokenPrincipal resultVo = null;
     TOKEN.USER_TYPE userType = principal.getUserType().orElseThrow(() -> new AppException(ERROR.A403));
     switch (userType) {
     case MANAGER:
-      result = userDao.selectManagerInfoById(authentication.getName())
+      resultVo = userDao.selectManagerInfoById(authentication.getName())
         .orElseThrow(() -> new AppException(ERROR.A003));
       break;
     case MEMBER:
-      result = userDao.selectMemberInfoById(authentication.getName())
+      resultVo = userDao.selectMemberInfoById(authentication.getName())
         .orElseThrow(() -> new AppException(ERROR.A003));
       break;
     case CLIENT:
     default:
       throw new AppException(ERROR.A403);
     }
-    InfoRes resDto = modelMapper.map(result, InfoRes.class);
+    InfoRes resDto = modelMapper.map(resultVo, InfoRes.class);
     return resDto;
   }
   

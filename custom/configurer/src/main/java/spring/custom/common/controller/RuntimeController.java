@@ -16,9 +16,9 @@ public class RuntimeController {
   
   @GetMapping("/v1/runtime/jars")
   public ResponseEntity<RuntimeDto.BootJarRes> findJars() {
-    List<Classpath.BootJarVo> result = Classpath.getBootJars();
+    List<Classpath.BootJarVo> resultVo = Classpath.getBootJars();
     RuntimeDto.BootJarRes resDto = new RuntimeDto.BootJarRes();
-    resDto.setList(result);
+    resDto.setList(resultVo);
     return ResponseEntity.ok(resDto);
   }
 }

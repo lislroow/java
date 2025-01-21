@@ -25,9 +25,9 @@ public class CommonCodeController {
   @GetMapping("/v1/common/codes/all")
   @Cacheable(value = "cache:common-code:all")
   public List<CommonCodeDto.AllCodeRes> allCodes() {
-    List<CommonCodeVo.ResultAllCode> result = commonCodeDao.allCodes();
+    List<CommonCodeVo.ResultAllCode> resultVo = commonCodeDao.allCodes();
     
-    List<CommonCodeDto.AllCodeRes> resDto = result.stream()
+    List<CommonCodeDto.AllCodeRes> resDto = resultVo.stream()
         .collect(Collectors.groupingBy(ResultAllCode::getCdGrp))
         .entrySet().stream()
         .map(entry -> {
@@ -44,9 +44,9 @@ public class CommonCodeController {
   @GetMapping("/v1/common/codes/{cdGrp}")
   public List<CommonCodeDto.CodeRes> findCodesByCdGrp(
       @PathVariable String cdGrp) {
-    List<CommonCodeVo.ResultCode> result = commonCodeDao.findCodesByCdGrp(cdGrp);
+    List<CommonCodeVo.ResultCode> resultVo = commonCodeDao.findCodesByCdGrp(cdGrp);
     
-    List<CommonCodeDto.CodeRes> resDto = result.stream()
+    List<CommonCodeDto.CodeRes> resDto = resultVo.stream()
         .map(item -> modelMapper.map(item, CommonCodeDto.CodeRes.class))
         .collect(Collectors.toList());
     return resDto;

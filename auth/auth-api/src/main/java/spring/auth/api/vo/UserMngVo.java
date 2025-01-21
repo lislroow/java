@@ -25,8 +25,6 @@ public class UserMngVo {
   }
   
   @Data
-  @AllArgsConstructor
-  @NoArgsConstructor
   public static class ResultManager extends AuditVo {
     private String id;
     private String loginId;
@@ -54,9 +52,6 @@ public class UserMngVo {
   }
   
   @Data
-  @Builder
-  @AllArgsConstructor
-  @NoArgsConstructor
   public static class ModifyManager extends AuditVo {
     private String id;
     private String loginPwd;

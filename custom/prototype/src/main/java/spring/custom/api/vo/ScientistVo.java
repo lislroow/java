@@ -1,9 +1,7 @@
 package spring.custom.api.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import spring.custom.common.audit.AuditVo;
 import spring.custom.common.mybatis.PageRequest;
 
@@ -22,10 +20,7 @@ public class ScientistVo {
   }
   
   @Data
-  @AllArgsConstructor
-  @NoArgsConstructor
-  @Builder
-  public static class ResultVo extends AuditVo {
+  public static class ResultScientist extends AuditVo {
     private Integer id;
     private String name;
     private Integer birthYear;
@@ -35,9 +30,6 @@ public class ScientistVo {
   }
   
   @Data
-  @AllArgsConstructor
-  @NoArgsConstructor
-  @Builder
   public static class AddScientist extends AuditVo {
     private Integer id;
     private String name;
@@ -47,9 +39,6 @@ public class ScientistVo {
   }
   
   @Data
-  @AllArgsConstructor
-  @NoArgsConstructor
-  @Builder
   public static class ModifyScientist extends AuditVo {
     private Integer id;
     private String name;

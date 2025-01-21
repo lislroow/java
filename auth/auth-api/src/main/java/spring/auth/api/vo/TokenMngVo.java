@@ -23,7 +23,6 @@ public class TokenMngVo {
   }
   
   @Data
-  @Builder
   public static class ResultTokenClient extends AuditVo {
     private String contactName;
     private String contactEmail;

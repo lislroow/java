@@ -45,9 +45,9 @@ public class RedisSampleController {
   
   @GetMapping("/v1/redis-sample/item/{id}")
   public ResponseEntity<RedisSampleDto.RedisRes> findById(@PathVariable Integer id) {
-    Optional<RedisSampleVo> result = redisSampleRepository.findById(id);
-    if (result.isPresent()) {
-      RedisSampleDto.RedisRes resDto = modelMapper.map(result.get(), RedisSampleDto.RedisRes.class);
+    Optional<RedisSampleVo> optResultVo = redisSampleRepository.findById(id);
+    if (optResultVo.isPresent()) {
+      RedisSampleDto.RedisRes resDto = modelMapper.map(optResultVo.get(), RedisSampleDto.RedisRes.class);
       return ResponseEntity.ok(resDto);
     } else {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -56,9 +56,9 @@ public class RedisSampleController {
   
   @GetMapping("/v1/redis-sample/item/all")
   public ResponseEntity<RedisSampleDto.RedisListRes> findAll() {
-    Iterable<RedisSampleVo> result = redisSampleRepository.findAll();
+    Iterable<RedisSampleVo> iterResultVo = redisSampleRepository.findAll();
     
-    List<RedisSampleDto.RedisRes> list = StreamSupport.stream(result.spliterator(), true)
+    List<RedisSampleDto.RedisRes> list = StreamSupport.stream(iterResultVo.spliterator(), true)
         .map(item -> modelMapper.map(item, RedisSampleDto.RedisRes.class))
         .collect(Collectors.toList());
     if (!list.isEmpty()) {
@@ -73,9 +73,9 @@ public class RedisSampleController {
   @GetMapping("/v1/redis-sample/item/search")
   public ResponseEntity<RedisSampleDto.RedisListRes> searchByName(
       @RequestParam(required = false) String name) {
-    Iterable<RedisSampleVo> result = redisSampleRepository.findAll();
+    Iterable<RedisSampleVo> iterResultVo = redisSampleRepository.findAll();
     
-    List<RedisSampleDto.RedisRes> list = StreamSupport.stream(result.spliterator(), true)
+    List<RedisSampleDto.RedisRes> list = StreamSupport.stream(iterResultVo.spliterator(), true)
         .filter(item -> name == null || item.getName().indexOf(name) > -1)
         .map(item -> modelMapper.map(item, RedisSampleDto.RedisRes.class))
         .collect(Collectors.toList());

@@ -26,13 +26,13 @@ public class CommonCodeMngController {
       @RequestParam(required = false) String cdGrp,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    PageResponse<CommonCodeMngVo.ResultCodeGroup> result = commonCodeMngDao.searchCodeGroups(PageRequest.of(page, size), cdGrp);
+    PageResponse<CommonCodeMngVo.ResultCodeGroup> resultVo = commonCodeMngDao.searchCodeGroups(PageRequest.of(page, size), cdGrp);
     
     PageResponse<CommonCodeMngDto.CodeGroupRes> resDto = new PageResponse<CommonCodeMngDto.CodeGroupRes>(
-        result.stream()
+        resultVo.stream()
           .map(item -> modelMapper.map(item, CommonCodeMngDto.CodeGroupRes.class))
           .collect(Collectors.toList())
-        , result.getPageInfo());
+        , resultVo.getPageInfo());
     return resDto;
   }
   
@@ -52,13 +52,13 @@ public class CommonCodeMngController {
         .cdNm(cdNm)
         .useYn(useYn)
         .build();
-    PageResponse<CommonCodeMngVo.ResultCode> result = commonCodeMngDao.searchCodes(PageRequest.of(page, size), searchVo);
+    PageResponse<CommonCodeMngVo.ResultCode> resultVo = commonCodeMngDao.searchCodes(PageRequest.of(page, size), searchVo);
     
     PageResponse<CommonCodeMngDto.CodeRes> resDto = new PageResponse<CommonCodeMngDto.CodeRes>(
-        result.stream()
+        resultVo.stream()
           .map(item -> modelMapper.map(item, CommonCodeMngDto.CodeRes.class))
           .collect(Collectors.toList())
-        , result.getPageInfo());
+        , resultVo.getPageInfo());
     return resDto;
   }
   

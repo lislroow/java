@@ -42,13 +42,13 @@ public class TokenMngController {
         .contactName(contactName)
         .enableYn(enableYn)
         .build();
-    PageResponse<TokenMngVo.ResultTokenClient> result = tokenMngDao.searchClientTokens(PageRequest.of(page, size), searchVo);
+    PageResponse<TokenMngVo.ResultTokenClient> resultVo = tokenMngDao.searchClientTokens(PageRequest.of(page, size), searchVo);
     
     PageResponse<TokenMngDto.ClientTokenRes> resDto = new PageResponse<TokenMngDto.ClientTokenRes>(
-        result.stream()
+        resultVo.stream()
           .map(item -> modelMapper.map(item, TokenMngDto.ClientTokenRes.class))
           .collect(Collectors.toList())
-        , result.getPageInfo());
+        , resultVo.getPageInfo());
     return resDto;
   }
   
@@ -65,9 +65,9 @@ public class TokenMngController {
   public ResponseEntity<?> modifyClientToken(
       @RequestBody TokenMngDto.ModifyTokenClientReq reqDto) {
     TokenMngVo.ModifyTokenClient modifyVo = modelMapper.map(reqDto, TokenMngVo.ModifyTokenClient.class);
-    int result = tokenMngService.modifyClientToken(modifyVo);
+    int cnt = tokenMngService.modifyClientToken(modifyVo);
     
-    if (result == 0) {
+    if (cnt == 0) {
       return ResponseEntity.noContent().build();
     } else {
       return ResponseEntity.ok(modifyVo);
