@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.TOKEN;
-import spring.custom.common.redis.RedisSupport;
+import spring.custom.common.redis.RedisClient;
 import spring.custom.common.security.LoginDetails;
 import spring.custom.common.vo.MemberVo;
 
@@ -26,7 +26,7 @@ import spring.custom.common.vo.MemberVo;
 public class MemberOAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
   
   final TokenService tokenService;
-  final RedisSupport redisSupport;
+  final RedisClient redisClient;
   
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

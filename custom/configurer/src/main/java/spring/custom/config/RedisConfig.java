@@ -15,7 +15,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import spring.custom.common.constant.Constant;
-import spring.custom.common.redis.RedisSupport;
+import spring.custom.common.redis.RedisClient;
 
 @Configuration
 @ConditionalOnProperty(prefix = "spring.data.redis", name = Constant.DISABLED, havingValue = "false", matchIfMissing = true)
@@ -41,7 +41,7 @@ public class RedisConfig {
   }
   
   @Bean
-  RedisSupport redisSupport(ModelMapper modelMapper, ObjectMapper objectMapper) {
-    return new RedisSupport(redisTemplate(), modelMapper, objectMapper);
+  RedisClient redisClient(ModelMapper modelMapper, ObjectMapper objectMapper) {
+    return new RedisClient(redisTemplate(), modelMapper, objectMapper);
   }
 }

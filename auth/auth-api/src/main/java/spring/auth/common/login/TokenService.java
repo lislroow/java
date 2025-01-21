@@ -44,7 +44,7 @@ import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
 import spring.custom.common.exception.token.RefreshTokenExpiredException;
-import spring.custom.common.redis.RedisSupport;
+import spring.custom.common.redis.RedisClient;
 import spring.custom.common.security.LoginDetails;
 import spring.custom.common.util.IdGenerator;
 import spring.custom.dto.TokenDto;
@@ -54,7 +54,7 @@ import spring.custom.dto.TokenDto;
 @RequiredArgsConstructor
 public class TokenService {
 
-  final RedisSupport redisSupport;
+  final RedisClient redisClient;
   final TokenDao tokenDao;
 
   @Value("${auth.token.private-key-file-path:config/cert/star.develop.net.key}")
@@ -125,7 +125,7 @@ public class TokenService {
       String rtkRedisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.REFRESH_TOKEN, rtk, clientIdent);
       /* for debug */ if (log.isDebugEnabled())
         log.info("create token: {}", rtkRedisKey);
-      this.redisSupport.setValue(rtkRedisKey, refreshToken, Duration.ofSeconds(Constant.TOKEN.RTK_EXPIRE_SEC));
+      this.redisClient.setValue(rtkRedisKey, refreshToken, Duration.ofSeconds(Constant.TOKEN.RTK_EXPIRE_SEC));
       break;
     default:
       break;
@@ -143,7 +143,7 @@ public class TokenService {
     case MEMBER:
     case MANAGER:
       String redisKey = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, atk, clientIdent);
-      accessToken = Optional.ofNullable(this.redisSupport.getValue(redisKey))
+      accessToken = Optional.ofNullable(this.redisClient.getValue(redisKey))
           .orElseThrow(() -> new AccessTokenExpiredException());
       break;
     case CLIENT:
@@ -187,7 +187,7 @@ public class TokenService {
     default:
       throw new AppException(ERROR.A004);
     }
-    String oldRefreshToken = Optional.ofNullable(this.redisSupport.getValue(oldRtkRedis))
+    String oldRefreshToken = Optional.ofNullable(this.redisClient.getValue(oldRtkRedis))
         .orElseThrow(() -> new RefreshTokenExpiredException());
     /* for debug */ if (log.isDebugEnabled()) log.info("refresh token (old): {}", oldRtkRedis);
     Date rtkExpireTime = null;
@@ -243,7 +243,7 @@ public class TokenService {
       long rtkExpireSec = (rtkExpireTime.getTime() - System.currentTimeMillis()) / 1000L;
       /* for debug */ if (log.isDebugEnabled())
         log.info("refresh token (new): {}", newRtkRedis);
-      this.redisSupport.setValue(newRtkRedis, signedJWT.serialize(), Duration.ofSeconds(rtkExpireSec));
+      this.redisClient.setValue(newRtkRedis, signedJWT.serialize(), Duration.ofSeconds(rtkExpireSec));
 
       // accessToken 생성
       claimsSet = new JWTClaimsSet.Builder()
@@ -257,13 +257,13 @@ public class TokenService {
       signedJWT = new SignedJWT(this.header, claimsSet);
       signedJWT.sign(this.signer);
       String newAtkRedis = IdGenerator.createJwtRedisKey(TOKEN.JWT.ACCESS_TOKEN, newAtk, clientIdent);
-      this.redisSupport.setValue(newAtkRedis, signedJWT.serialize(),
+      this.redisClient.setValue(newAtkRedis, signedJWT.serialize(),
           Duration.ofSeconds(Constant.TOKEN.ATK_EXPIRE_SEC));
 
     } catch (Exception e) {
       throw new AppException(ERROR.A004, e);
     }
-    this.redisSupport.removeValue(oldRtkRedis);
+    this.redisClient.removeValue(oldRtkRedis);
     return result;
   }
 

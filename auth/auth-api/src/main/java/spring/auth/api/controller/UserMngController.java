@@ -41,7 +41,7 @@ import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.data.DataNotFoundException;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
-import spring.custom.common.redis.RedisSupport;
+import spring.custom.common.redis.RedisClient;
 import spring.custom.common.util.HashUtil;
 
 @RestController
@@ -55,7 +55,7 @@ public class UserMngController {
   
   final JavaMailSender mailSender;
   final ObjectMapper objectMapper;
-  final RedisSupport redisSupport;
+  final RedisClient redisClient;
   
   @GetMapping("/v1/user-mng/managers/all")
   public UserMngDto.ManagerListRes allManagers() {
@@ -141,7 +141,7 @@ public class UserMngController {
     }
     Map.Entry<String, String> redisEntry = new AbstractMap.SimpleEntry<>(
         "user:register-code:"+registerCode, addVoJson);
-    this.redisSupport.setValue(redisEntry.getKey(), redisEntry.getValue(), Duration.ofDays(1));
+    this.redisClient.setValue(redisEntry.getKey(), redisEntry.getValue(), Duration.ofDays(1));
     
     // email 발송
     String subject = String.format("[develop] '%s' manager registeration code", reqDto.getToName());
@@ -161,7 +161,7 @@ public class UserMngController {
     if (!reqDto.getNewLoginPwd().equals(reqDto.getConfirmLoginPwd())) {
       throw new AppException(ERROR.A014);
     }
-    String addVoJson = this.redisSupport.getValueAndDelete(
+    String addVoJson = this.redisClient.getValueAndDelete(
         "user:register-code:"+reqDto.getRegisterCode());
     if (ObjectUtils.isEmpty(addVoJson)) {
       throw new AppException(ERROR.A016);
