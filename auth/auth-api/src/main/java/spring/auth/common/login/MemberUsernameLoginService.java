@@ -14,7 +14,7 @@ import spring.custom.common.vo.Principal;
 
 @Service
 @RequiredArgsConstructor
-public class MemberLoginService implements UserDetailsService {
+public class MemberUsernameLoginService implements UserDetailsService {
 
   //Logger ecslog = LoggerFactory.getLogger("ECS_JSON");
   final UserLoginDao userLoginDao;

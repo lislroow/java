@@ -20,7 +20,7 @@ import spring.custom.common.vo.MemberPrincipal;
 
 @Slf4j
 @RequiredArgsConstructor
-public class MemberLoginSuccessHandler implements AuthenticationSuccessHandler {
+public class MemberUsernameLoginSuccessHandler implements AuthenticationSuccessHandler {
 
   private final TokenService tokenService;
   

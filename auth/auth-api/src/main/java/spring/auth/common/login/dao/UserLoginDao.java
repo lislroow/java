@@ -17,7 +17,7 @@ public interface UserLoginDao {
   
   Optional<LoginVo.MemberVo> selectMemberById(String loginId);
   
-  int insertMemberOauth(LoginVo.MemberSnsVo memberSnsVo);
+  int insertMemberOauth(LoginVo.MemberOAuth2Vo memberSnsVo);
   
   int insertMember(LoginVo.MemberRegisterVo memberRegisterVo);
 }

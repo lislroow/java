@@ -48,24 +48,22 @@ public class MemberOAuth2LoginService implements OAuth2UserService<OAuth2UserReq
       MemberVo loginVo = userLoginDao.selectMemberById(optId.get())
           .orElseThrow(() -> new AppException(ERROR.A003));
       Principal principal = loginVo.toPrincipal();
-      String roles = loginVo.getRoles();
-      String password = loginVo.getLoginPwd();
-      return new UserAuthentication(principal, roles, password);
+      return principal;
     } else {
-      // registration sns authentication
-      LoginVo.MemberSnsVo snsVo = attributes.toMemberSnsVo();
+      // registration oauth2 authentication
+      LoginVo.MemberOAuth2Vo oauth2Vo = attributes.toMemberOAuth2Vo();
       String id = userMngDao.selectNextId(TOKEN.USER.MEMBER.idprefix());
-      snsVo.setId(id);
+      oauth2Vo.setId(id);
       LoginVo.MemberRegisterVo registerVo = LoginVo.MemberRegisterVo.builder()
-          .id(snsVo.getId())
-          .loginId(snsVo.getEmail())
+          .id(oauth2Vo.getId())
+          .loginId(oauth2Vo.getEmail())
           .roles(ROLE.MEMBER.name())
-          .nickname(snsVo.getNickname())
+          .nickname(oauth2Vo.getNickname())
           .enableYn(YN.Y)
           .lockedYn(YN.N)
           .build();
       userLoginDao.insertMember(registerVo);
-      userLoginDao.insertMemberOauth(snsVo);
+      userLoginDao.insertMemberOauth(oauth2Vo);
       
       // select user
       MemberVo loginVo = userLoginDao.selectMemberById(id)
@@ -73,9 +71,7 @@ public class MemberOAuth2LoginService implements OAuth2UserService<OAuth2UserReq
       
       // return 'OAuth2User'
       Principal principal = loginVo.toPrincipal();
-      String roles = loginVo.getRoles();
-      String password = loginVo.getLoginPwd();
-      return new UserAuthentication(principal, roles, password);
+      return principal;
     }
   }
   

@@ -27,8 +27,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import jakarta.servlet.RequestDispatcher;
 import lombok.RequiredArgsConstructor;
-import spring.auth.common.login.MemberLoginService;
-import spring.auth.common.login.MemberLoginSuccessHandler;
+import spring.auth.common.login.MemberUsernameLoginService;
+import spring.auth.common.login.MemberUsernameLoginSuccessHandler;
 import spring.auth.common.login.MemberLogoutService;
 import spring.auth.common.login.MemberOAuth2LoginSuccessHandler;
 import spring.auth.common.login.TokenIdFilter;
@@ -43,7 +43,7 @@ import spring.custom.common.security.TokenValueFilter;
 public class SecurityConfig {
   
   final OAuth2ClientProperties properties;
-  final MemberLoginService memberLoginService;
+  final MemberUsernameLoginService memberLoginService;
   final TokenService tokenService;
   final ModelMapper modelMapper;
   
@@ -62,7 +62,7 @@ public class SecurityConfig {
             HttpStatus status = HttpStatus.UNAUTHORIZED;
             response.sendError(status.value(), status.getReasonPhrase());
           })
-          .successHandler(new MemberLoginSuccessHandler(tokenService))
+          .successHandler(new MemberUsernameLoginSuccessHandler(tokenService))
       )
       .addFilterBefore(new TokenValueFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
       .addFilterBefore(new TokenIdFilter(tokenService), TokenValueFilter.class)

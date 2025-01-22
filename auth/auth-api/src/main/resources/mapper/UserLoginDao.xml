@@ -38,7 +38,7 @@
     SELECT /* UserLoginDao.selectMemberById */
            A.id
            , A.login_id
-           , A.login_pwd
+           /* , A.login_pwd */
            , A.roles
            , A.realname
            , A.nickname

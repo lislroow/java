@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import jakarta.servlet.ServletException;
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.MemberPrincipal;
+import spring.custom.common.vo.Principal;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,8 +31,8 @@ public class MemberOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
       Authentication authentication) throws IOException, ServletException {
     /* for debug */ if (log.isInfoEnabled()) log.info("{}", authentication.getPrincipal());
     
-    if (!(authentication instanceof UserAuthentication userAuthentication)
-        || !(userAuthentication.getPrincipal() instanceof MemberPrincipal principal)) {
+    if (!(authentication instanceof OAuth2AuthenticationToken oauth2)
+        || !(oauth2.getPrincipal() instanceof Principal principal)) {
       throw new AppException(ERROR.E999);
     }
     

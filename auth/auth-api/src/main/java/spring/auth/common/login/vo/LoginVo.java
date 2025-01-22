@@ -77,7 +77,7 @@ public class LoginVo {
   @NoArgsConstructor
   @AllArgsConstructor
   @Builder
-  public static class MemberSnsVo {
+  public static class MemberOAuth2Vo {
     private String id;
     private String oauth2Id;
     private String registrationId;
