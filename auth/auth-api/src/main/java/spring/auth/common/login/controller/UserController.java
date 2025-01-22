@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import spring.auth.common.login.dao.UserDao;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.vo.ManagerPrincipal;
@@ -21,7 +20,6 @@ import spring.custom.common.vo.MemberPrincipal;
 @RequiredArgsConstructor
 public class UserController {
   
-  final UserDao userDao;
   final ModelMapper modelMapper;
   
   @Data
