@@ -106,7 +106,7 @@ public class TokenService {
   }
   
   public Map.Entry<String, String> createPtk(User principal, LocalDate expDate) {
-    /* for debug */ if (log.isInfoEnabled()) log.info("create permanent token: {}", principal);
+    /* for debug */ if (log.isDebugEnabled()) log.info("create permanent token: {}", principal);
     
     TOKEN.USER userType = TOKEN.USER.byCode(principal.getUserType())
         .orElseThrow(() -> new AppException(ERROR.A022));
@@ -137,7 +137,7 @@ public class TokenService {
   }
   
   public Map.Entry<String, String> createRtk(User principal) {
-    /* for debug */ if (log.isInfoEnabled()) log.info("create refresh token: {}", principal);
+    /* for debug */ if (log.isDebugEnabled()) log.info("create refresh token: {}", principal);
     
     TOKEN.USER userType = TOKEN.USER.byCode(principal.getUserType())
         .orElseThrow(() -> new AppException(ERROR.A022));
@@ -168,7 +168,7 @@ public class TokenService {
   }
   
   public String verifyTokenId(String tokenId) {
-    /* for debug */ if (log.isInfoEnabled()) log.info("verify token id: {}", tokenId);
+    /* for debug */ if (log.isDebugEnabled()) log.info("verify token id: {}", tokenId);
     
     TOKEN.TYPE tokenType = idProvider.parseTokenType(tokenId)
       .orElseThrow(() -> new AppException(ERROR.A019));
@@ -208,7 +208,7 @@ public class TokenService {
   }
   
   public TokenDto.RefreshTokenRes refreshToken(String rtk) {
-    /* for debug */ if (log.isInfoEnabled()) log.info("refresh token: {}", rtk);
+    /* for debug */ if (log.isDebugEnabled()) log.info("refresh token: {}", rtk);
     
     TOKEN.TYPE tokenType = idProvider.parseTokenType(rtk)
         .orElseThrow(() -> new AppException(ERROR.A019));

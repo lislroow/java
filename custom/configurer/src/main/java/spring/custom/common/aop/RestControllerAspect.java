@@ -32,6 +32,9 @@ public class RestControllerAspect {
   public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
     jakarta.servlet.http.HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     jakarta.servlet.http.HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+    
+    log.info("{}", request.getRequestURI());
+    
     String reqUri = request.getRequestURI();
     String method = request.getMethod();
     String contentType = request.getHeader("Content-Type");
@@ -40,7 +43,7 @@ public class RestControllerAspect {
     MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
     Method refMethod = methodSignature.getMethod();
     
-    /* for debug */ if (log.isInfoEnabled()) {
+    /* for debug */ if (log.isDebugEnabled()) {
       String text = String.format(
               "request info\n%s: %s.%s" +
               //"\n%s: %s" +

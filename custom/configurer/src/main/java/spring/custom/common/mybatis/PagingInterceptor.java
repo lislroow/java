@@ -40,7 +40,7 @@ public class PagingInterceptor implements Interceptor {
     ResultHandler<?> resultHandler = (ResultHandler<?>) args[3];
     Executor executor = (Executor) invocation.getTarget();
     
-    log.info("[SQL] {}", ms.getId());
+    log.info("{}", ms.getId());
     
     switch (ms.getSqlCommandType()) {
     case SELECT:
@@ -64,7 +64,7 @@ public class PagingInterceptor implements Interceptor {
               !entry.getKey().toString().startsWith(ParamNameResolver.GENERIC_NAME_PREFIX))
             .map(map -> map.getValue())
             .toList();
-        /* for debug */ log.info("filtered mapper parameter: {}", list);
+        /* for debug */ if (log.isDebugEnabled()) log.info("filtered mapper parameter: {}", list);
         
         /* for debug */ if (!pageRequestObj.isPresent()) {
           if (log.isDebugEnabled()) {
@@ -75,7 +75,8 @@ public class PagingInterceptor implements Interceptor {
           }
         }
         
-        /* for debug */ if (log.isInfoEnabled()) log.info("pageRequest: {}", pageRequestObj);
+        /* for debug */ if (log.isDebugEnabled()) log.info("pageRequest: {}", pageRequestObj);
+        
         if (pageRequestObj.isPresent()) {
           PageRequest pageRequest = pageRequestObj.get();
           PageResponse<Object> pagedList = new PageResponse<>();
