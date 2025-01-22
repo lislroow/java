@@ -32,9 +32,9 @@ public enum DBMS {
   }
   
   public static void setPrimary(String code) {
-    DBMS type = DBMS.fromCode(code);
-    type.primary = true;
-    log.warn("setting up mybatis primary: {}", type.code());
+    DBMS dbmsType = DBMS.byCode(code);
+    dbmsType.primary = true;
+    log.warn("setting up mybatis primary: {}", dbmsType.code());
   }
   
   public String capital() {
@@ -45,7 +45,7 @@ public enum DBMS {
     return this.code + Constant.BEAN.SQL_SESSION_FACTORY_BEAN;
   }
   
-  public static DBMS fromCode(String code) {
+  public static DBMS byCode(String code) {
       return Arrays.stream(DBMS.values())
           .filter(item -> item.code().equals(code))
           .findFirst()

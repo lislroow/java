@@ -59,7 +59,7 @@ public class TokenValueFilter extends OncePerRequestFilter {
           } catch (ParseException e) {
             throw new AppException(ERROR.A008, e);
           }
-          return TOKEN.USER.fromCode(val).orElseThrow(() -> new AppException(ERROR.A008));
+          return TOKEN.USER.byCode(val).orElseThrow(() -> new AppException(ERROR.A008));
         });
         
         // principal

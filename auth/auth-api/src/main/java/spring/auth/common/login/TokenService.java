@@ -108,7 +108,7 @@ public class TokenService {
   public Map.Entry<String, String> createPtk(Principal principal, LocalDate expDate) {
     /* for debug */ if (log.isInfoEnabled()) log.info("create permanent token: {}", principal);
     
-    TOKEN.USER userType = TOKEN.USER.fromCode(principal.getUserType())
+    TOKEN.USER userType = TOKEN.USER.byCode(principal.getUserType())
         .orElseThrow(() -> new AppException(ERROR.A022));
     
     Date expiration = Date.from(expDate.plusDays(1)
@@ -139,7 +139,7 @@ public class TokenService {
   public Map.Entry<String, String> createRtk(Principal principal) {
     /* for debug */ if (log.isInfoEnabled()) log.info("create refresh token: {}", principal);
     
-    TOKEN.USER userType = TOKEN.USER.fromCode(principal.getUserType())
+    TOKEN.USER userType = TOKEN.USER.byCode(principal.getUserType())
         .orElseThrow(() -> new AppException(ERROR.A022));
     
     Date expiration = Date.from(Instant.now().plusSeconds(RTK_EXPIRE_SEC));
@@ -325,7 +325,7 @@ public class TokenService {
         throw new AppException(ERROR.A009);
       }
       String cd = tokenId.substring(0, 1);
-      return TOKEN.TYPE.fromCd(cd);
+      return TOKEN.TYPE.byCd(cd);
     }
     
     Optional<TOKEN.USER> parseUserType(String tokenId) {
@@ -333,7 +333,7 @@ public class TokenService {
         throw new AppException(ERROR.A009);
       }
       String idprefix = tokenId.substring(1, 2);
-      return TOKEN.USER.fromIdprefix(Integer.parseInt(idprefix));
+      return TOKEN.USER.byIdprefix(Integer.parseInt(idprefix));
     }
     
     String createTokenId(TOKEN.USER userType, TOKEN.TYPE tokenType) {

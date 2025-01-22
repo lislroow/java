@@ -27,7 +27,7 @@ public class TOKEN {
       return this.cd;
     }
     
-    public static Optional<TOKEN.TYPE> fromCd(String cd) {
+    public static Optional<TOKEN.TYPE> byCd(String cd) {
       return Arrays.stream(TOKEN.TYPE.values())
           .filter(item -> item.cd().equalsIgnoreCase(cd))
           .findAny();
@@ -56,13 +56,13 @@ public class TOKEN {
       return this.idprefix;
     }
     
-    public static Optional<TOKEN.USER> fromIdprefix(Integer idprefix) {
+    public static Optional<TOKEN.USER> byIdprefix(Integer idprefix) {
       return Arrays.stream(TOKEN.USER.values())
           .filter(item -> item.idprefix() == idprefix)
           .findAny();
     }
     
-    public static Optional<TOKEN.USER> fromCode(String code) {
+    public static Optional<TOKEN.USER> byCode(String code) {
       return Arrays.stream(TOKEN.USER.values())
           .filter(item -> item.code().equalsIgnoreCase(code))
           .findAny();

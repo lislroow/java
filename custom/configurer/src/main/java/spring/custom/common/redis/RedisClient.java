@@ -22,7 +22,7 @@ import spring.custom.common.exception.AppException;
 @RequiredArgsConstructor
 public class RedisClient {
 
-  public static enum CACHE_KEY {
+  public enum CACHE_KEY {
     CACHE_COMMON_CODE("cache:common-code:all", Duration.ofSeconds(60));
     ;
     
@@ -61,7 +61,7 @@ public class RedisClient {
   
   public String getRedisKey(String tokenId) {
     String cd = tokenId.substring(0, 1);
-    TOKEN.TYPE tokenType = TOKEN.TYPE.fromCd(cd)
+    TOKEN.TYPE tokenType = TOKEN.TYPE.byCd(cd)
         .orElseThrow(() -> new AppException(ERROR.A020));
     switch (tokenType) {
     case REFRESH_TOKEN:
