@@ -13,7 +13,7 @@ public class UserPasswordEncoder implements PasswordEncoder {
   @Override
   public String encode(CharSequence rawPassword) {
     /* for debug */ if (log.isInfoEnabled()) log.info("rawPassword: {}", rawPassword);
-    return bcryptPasswordEncoder.encode("1");
+    return bcryptPasswordEncoder.encode(rawPassword);
   }
 
   @Override

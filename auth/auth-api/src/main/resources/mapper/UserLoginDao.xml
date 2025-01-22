@@ -30,7 +30,10 @@
            , A.enable_yn
            , A.locked_yn
            , A.pwd_exp_date
+           , B.oauth2_id
+           , B.registration_id
     FROM   au_member A
+      LEFT OUTER JOIN au_member_oauth B ON A.id = B.id
     WHERE  A.login_id = #{loginId}
   </select>
   

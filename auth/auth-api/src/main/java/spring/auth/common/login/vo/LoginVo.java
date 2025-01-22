@@ -66,16 +66,8 @@ public class LoginVo {
     private YN enableYn;
     private YN lockedYn;
     private LocalDate pwdExpDate;
-    
-    public Member toUser() {
-      return Member.builder()
-          .userType(TOKEN.USER.MEMBER.code())
-          .id(id)
-          .roles(roles)
-          .loginId(loginId)
-          .nickname(nickname)
-          .build();
-    }
+    private String oauth2Id;
+    private String registrationId;
     
     public LoginVo.MemberDetails toDetails() {
       Member user = Member.builder()
@@ -84,6 +76,8 @@ public class LoginVo {
         .roles(roles)
         .loginId(loginId)
         .nickname(nickname)
+        .oauth2Id(oauth2Id)
+        .registrationId(registrationId)
         .build();
       return new LoginVo.MemberDetails(user, loginPwd);
     }
@@ -139,6 +133,8 @@ public class LoginVo {
           .roles(roles)
           .loginId(loginId)
           .nickname(nickname)
+          .oauth2Id(oauth2Id)
+          .registrationId(registrationId)
           .build());
     }
   }
