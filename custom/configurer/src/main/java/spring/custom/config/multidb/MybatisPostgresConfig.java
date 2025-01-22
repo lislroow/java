@@ -1,4 +1,4 @@
-package spring.custom.config;
+package spring.custom.config.multidb;
 
 import javax.sql.DataSource;
 
@@ -15,27 +15,27 @@ import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.DBMS_TYPE;
+import spring.custom.common.enumcode.DBMS;
 import spring.custom.common.mybatis.PagingInterceptor;
-import spring.custom.config.conditions.MybatisMariaEnableCondition;
+import spring.custom.config.conditions.MybatisPostgresEnableCondition;
 import spring.custom.config.properties.MybatisProperties;
 
 @Configuration
-@Conditional(MybatisMariaEnableCondition.class)
+@Conditional(MybatisPostgresEnableCondition.class)
 @EnableConfigurationProperties(spring.custom.config.properties.MybatisProperties.class)
 @Slf4j
-public class MybatisMariaConfig {
+public class MybatisPostgresConfig {
   
   @Autowired
   spring.custom.config.properties.MybatisProperties mybatisProperties;
   
   @Autowired
-  @Qualifier(Constant.DBMS.MARIA + "DataSource")
+  @Qualifier(value = Constant.DBMS_TYPE.POSTGRES + "DataSource")
   DataSource dataSource;
   
-  @Bean(name = Constant.DBMS.MARIA + Constant.BEAN.SQL_SESSION_FACTORY_BEAN)
+  @Bean(name = Constant.DBMS_TYPE.POSTGRES + Constant.BEAN.SQL_SESSION_FACTORY_BEAN)
   SqlSessionFactoryBean sqlSessionFactoryBean() {
-    MybatisProperties.Configure config = mybatisProperties.getConfigure(DBMS_TYPE.MARIA);
+    MybatisProperties.Configure config = mybatisProperties.getConfigure(DBMS.POSTGRES);
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
     
@@ -55,12 +55,12 @@ public class MybatisMariaConfig {
     return sqlSessionFactoryBean;
   }
   
-  @Bean(name = Constant.DBMS.MARIA + "SqlSessionTemplate")
+  @Bean(name = Constant.DBMS_TYPE.POSTGRES + "SqlSessionTemplate")
   SqlSessionTemplate sqlSessionTemplate() throws Exception {
      return new SqlSessionTemplate(sqlSessionFactoryBean().getObject());
   }
   
-  @Bean(name = Constant.DBMS.MARIA + "SqlSessionTemplateForBatchExecutor")
+  @Bean(name = Constant.DBMS_TYPE.POSTGRES + "SqlSessionTemplateForBatchExecutor")
   SqlSessionTemplate sqlSessionTemplateForBatchExecutor() throws Exception {
     return new SqlSessionTemplate(sqlSessionFactoryBean().getObject(), ExecutorType.BATCH);
   }

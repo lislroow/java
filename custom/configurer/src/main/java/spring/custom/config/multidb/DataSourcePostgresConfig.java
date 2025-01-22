@@ -1,4 +1,4 @@
-package spring.custom.config;
+package spring.custom.config.multidb;
 
 import javax.sql.DataSource;
 
@@ -18,31 +18,31 @@ import com.zaxxer.hikari.HikariDataSource;
 import spring.custom.common.constant.Constant;
 
 @Configuration
-@ConditionalOnProperty(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS.ORACLE + ".hikari", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
-public class DataSourceOracleConfig {
+@ConditionalOnProperty(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS_TYPE.POSTGRES + ".hikari", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
+public class DataSourcePostgresConfig {
   
-  @Bean(name = Constant.DBMS.ORACLE + "DataSource")
-  @ConfigurationProperties(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS.ORACLE+".hikari")
+  @Bean(name = Constant.DBMS_TYPE.POSTGRES + "DataSource")
+  @ConfigurationProperties(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS_TYPE.POSTGRES+".hikari")
   DataSource dataSource() {
     HikariDataSource hikariDataSource = DataSourceBuilder.create()
         .type(HikariDataSource.class)
         .build();
-    hikariDataSource.setPoolName("hikari-"+Constant.DBMS.ORACLE);
+    hikariDataSource.setPoolName("hikari-"+Constant.DBMS_TYPE.POSTGRES);
     return hikariDataSource;
   }
   
-  @Bean(name = Constant.DBMS.ORACLE + "PlatformTransactionManager")
+  @Bean(name = Constant.DBMS_TYPE.POSTGRES + "PlatformTransactionManager")
   PlatformTransactionManager transactionManager() {
     PlatformTransactionManager transactionManager = null;
     transactionManager = new DataSourceTransactionManager(dataSource());
     return transactionManager;
   }
   
-  @Value("classpath:sql/init-"+Constant.DBMS.ORACLE+".sql")
+  @Value("classpath:sql/init-"+Constant.DBMS_TYPE.POSTGRES+".sql")
   private org.springframework.core.io.Resource initScript;
   
-  @Bean(name = Constant.DBMS.ORACLE + "DataSourceInitializer")
-  @ConditionalOnProperty(name = "custom.datasource." + Constant.DBMS.ORACLE + ".init", havingValue = "true", matchIfMissing = false)
+  @Bean(name = Constant.DBMS_TYPE.POSTGRES + "DataSourceInitializer")
+  @ConditionalOnProperty(name = Constant.CUSTOM+".datasource." + Constant.DBMS_TYPE.POSTGRES + ".init", havingValue = "true", matchIfMissing = false)
   DataSourceInitializer dataSourceInitializer() {
     DataSourceInitializer initializer = new DataSourceInitializer();
     initializer.setDataSource(dataSource());

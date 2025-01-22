@@ -31,7 +31,7 @@ public class MybatisVerticaEnableCondition implements Condition {
     } catch (IOException ex) {
       log.error("'{}' load fail", FILE_APPLICATION_PROPERTIES);
     }
-    String enabled = properties.getProperty("custom.mybatis." + Constant.DBMS.VERTICA + ".enabled");
+    String enabled = properties.getProperty("custom.mybatis." + Constant.DBMS_TYPE.VERTICA + ".enabled");
     return "true".equals(enabled);
   }
 }

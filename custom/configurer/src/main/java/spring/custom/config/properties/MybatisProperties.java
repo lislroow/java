@@ -12,20 +12,20 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 import lombok.Data;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.DBMS_TYPE;
+import spring.custom.common.enumcode.DBMS;
 
 @ConfigurationProperties(prefix = Constant.CUSTOM+".mybatis", ignoreUnknownFields = true)
 @Data
 public class MybatisProperties {
   
-  private DBMS_TYPE primary;
+  private DBMS primary;
   private Configure h2;
   private Configure maria;
   private Configure oracle;
   private Configure vertica;
   private Configure postgres;
   
-  public Configure getConfigure(DBMS_TYPE dbmsType) {
+  public Configure getConfigure(DBMS dbmsType) {
     switch (dbmsType) {
     case H2:
       return h2;

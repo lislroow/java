@@ -1,4 +1,4 @@
-package spring.custom.config;
+package spring.custom.config.multidb;
 
 import javax.sql.DataSource;
 
@@ -15,27 +15,27 @@ import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.DBMS_TYPE;
+import spring.custom.common.enumcode.DBMS;
 import spring.custom.common.mybatis.PagingInterceptor;
-import spring.custom.config.conditions.MybatisH2EnableCondition;
+import spring.custom.config.conditions.MybatisMariaEnableCondition;
 import spring.custom.config.properties.MybatisProperties;
 
 @Configuration
-@Conditional(MybatisH2EnableCondition.class)
+@Conditional(MybatisMariaEnableCondition.class)
 @EnableConfigurationProperties(spring.custom.config.properties.MybatisProperties.class)
 @Slf4j
-public class MybatisH2Config {
+public class MybatisMariaConfig {
   
   @Autowired
   spring.custom.config.properties.MybatisProperties mybatisProperties;
   
   @Autowired
-  @Qualifier(value = Constant.DBMS.H2 + "DataSource")
+  @Qualifier(Constant.DBMS_TYPE.MARIA + "DataSource")
   DataSource dataSource;
   
-  @Bean(name = Constant.DBMS.H2 + Constant.BEAN.SQL_SESSION_FACTORY_BEAN)
-  SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception {
-    MybatisProperties.Configure config = mybatisProperties.getConfigure(DBMS_TYPE.H2);
+  @Bean(name = Constant.DBMS_TYPE.MARIA + Constant.BEAN.SQL_SESSION_FACTORY_BEAN)
+  SqlSessionFactoryBean sqlSessionFactoryBean() {
+    MybatisProperties.Configure config = mybatisProperties.getConfigure(DBMS.MARIA);
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
     
@@ -55,12 +55,12 @@ public class MybatisH2Config {
     return sqlSessionFactoryBean;
   }
   
-  @Bean(name = Constant.DBMS.H2 + "SqlSessionTemplate")
+  @Bean(name = Constant.DBMS_TYPE.MARIA + "SqlSessionTemplate")
   SqlSessionTemplate sqlSessionTemplate() throws Exception {
      return new SqlSessionTemplate(sqlSessionFactoryBean().getObject());
   }
   
-  @Bean(name = Constant.DBMS.H2 + "SqlSessionTemplateForBatchExecutor")
+  @Bean(name = Constant.DBMS_TYPE.MARIA + "SqlSessionTemplateForBatchExecutor")
   SqlSessionTemplate sqlSessionTemplateForBatchExecutor() throws Exception {
     return new SqlSessionTemplate(sqlSessionFactoryBean().getObject(), ExecutorType.BATCH);
   }

@@ -1,4 +1,4 @@
-package spring.custom.config;
+package spring.custom.config.multidb;
 
 import javax.sql.DataSource;
 
@@ -18,31 +18,31 @@ import com.zaxxer.hikari.HikariDataSource;
 import spring.custom.common.constant.Constant;
 
 @Configuration
-@ConditionalOnProperty(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS.H2 + ".hikari", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
-public class DataSourceH2Config {
+@ConditionalOnProperty(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS_TYPE.VERTICA + ".hikari", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
+public class DataSourceVerticaConfig {
   
-  @Bean(name = Constant.DBMS.H2 + "DataSource")
-  @ConfigurationProperties(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS.H2+".hikari")
+  @Bean(name = Constant.DBMS_TYPE.VERTICA + "DataSource")
+  @ConfigurationProperties(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS_TYPE.VERTICA+".hikari")
   DataSource dataSource() {
     HikariDataSource hikariDataSource = DataSourceBuilder.create()
         .type(HikariDataSource.class)
         .build();
-    hikariDataSource.setPoolName("hikari-"+Constant.DBMS.H2);
+    hikariDataSource.setPoolName("hikari-"+Constant.DBMS_TYPE.VERTICA);
     return hikariDataSource;
   }
   
-  @Bean(name = Constant.DBMS.H2 + "PlatformTransactionManager")
+  @Bean(name = Constant.DBMS_TYPE.VERTICA + "PlatformTransactionManager")
   PlatformTransactionManager transactionManager() {
     PlatformTransactionManager transactionManager = null;
     transactionManager = new DataSourceTransactionManager(dataSource());
     return transactionManager;
   }
   
-  @Value("classpath:sql/init-"+Constant.DBMS.H2+".sql")
+  @Value("classpath:sql/init-"+Constant.DBMS_TYPE.VERTICA+".sql")
   private org.springframework.core.io.Resource initScript;
   
-  @Bean(name = Constant.DBMS.H2 + "DataSourceInitializer")
-  @ConditionalOnProperty(name = "custom.datasource." + Constant.DBMS.H2 + ".init", havingValue = "true", matchIfMissing = false)
+  @Bean(name = Constant.DBMS_TYPE.VERTICA + "DataSourceInitializer")
+  @ConditionalOnProperty(name = "custom.datasource." + Constant.DBMS_TYPE.VERTICA + ".init", havingValue = "true", matchIfMissing = false)
   DataSourceInitializer dataSourceInitializer() {
     DataSourceInitializer initializer = new DataSourceInitializer();
     initializer.setDataSource(dataSource());

@@ -17,7 +17,7 @@ public class Constant {
     public static final Integer PAGE_SIZE = 10;
   }
   
-  public static class DBMS {
+  public static class DBMS_TYPE {
     public static final String H2 = "h2";
     public static final String MARIA = "maria";
     public static final String ORACLE = "oracle";

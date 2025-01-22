@@ -1,4 +1,4 @@
-package spring.custom.config;
+package spring.custom.config.multidb;
 
 import javax.sql.DataSource;
 
@@ -15,7 +15,7 @@ import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.DBMS_TYPE;
+import spring.custom.common.enumcode.DBMS;
 import spring.custom.common.mybatis.PagingInterceptor;
 import spring.custom.config.conditions.MybatisOracleEnableCondition;
 import spring.custom.config.properties.MybatisProperties;
@@ -30,12 +30,12 @@ public class MybatisOracleConfig {
   spring.custom.config.properties.MybatisProperties mybatisProperties;
   
   @Autowired
-  @Qualifier(Constant.DBMS.ORACLE + "DataSource")
+  @Qualifier(Constant.DBMS_TYPE.ORACLE + "DataSource")
   DataSource dataSource;
   
-  @Bean(name = Constant.DBMS.ORACLE + Constant.BEAN.SQL_SESSION_FACTORY_BEAN)
+  @Bean(name = Constant.DBMS_TYPE.ORACLE + Constant.BEAN.SQL_SESSION_FACTORY_BEAN)
   SqlSessionFactoryBean sqlSessionFactoryBean() {
-    MybatisProperties.Configure config = mybatisProperties.getConfigure(DBMS_TYPE.ORACLE);
+    MybatisProperties.Configure config = mybatisProperties.getConfigure(DBMS.ORACLE);
     String typeAliasesPackage = config.getTypeAliasesPackage();
     log.info("[mybatis] mybatis.type-aliases-package: {}", typeAliasesPackage);
     
@@ -55,12 +55,12 @@ public class MybatisOracleConfig {
     return sqlSessionFactoryBean;
   }
   
-  @Bean(name = Constant.DBMS.ORACLE + "SqlSessionTemplate")
+  @Bean(name = Constant.DBMS_TYPE.ORACLE + "SqlSessionTemplate")
   SqlSessionTemplate sqlSessionTemplate() throws Exception {
      return new SqlSessionTemplate(sqlSessionFactoryBean().getObject());
   }
   
-  @Bean(name = Constant.DBMS.ORACLE + "SqlSessionTemplateForBatchExecutor")
+  @Bean(name = Constant.DBMS_TYPE.ORACLE + "SqlSessionTemplateForBatchExecutor")
   SqlSessionTemplate sqlSessionTemplateForBatchExecutor() throws Exception {
     return new SqlSessionTemplate(sqlSessionFactoryBean().getObject(), ExecutorType.BATCH);
   }

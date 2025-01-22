@@ -31,7 +31,7 @@ public class MybatisMariaEnableCondition implements Condition {
     } catch (IOException ex) {
       log.error("'{}' load fail", FILE_APPLICATION_PROPERTIES);
     }
-    String enabled = properties.getProperty("custom.mybatis." + Constant.DBMS.MARIA + ".enabled");
+    String enabled = properties.getProperty("custom.mybatis." + Constant.DBMS_TYPE.MARIA + ".enabled");
     return "true".equals(enabled);
   }
 }

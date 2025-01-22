@@ -31,7 +31,7 @@ public class MybatisH2EnableCondition implements Condition {
     } catch (IOException ex) {
       log.error("'{}' load fail", FILE_APPLICATION_PROPERTIES);
     }
-    String enabled = properties.getProperty("custom.mybatis." + Constant.DBMS.H2 + ".enabled");
+    String enabled = properties.getProperty("custom.mybatis." + Constant.DBMS_TYPE.H2 + ".enabled");
     return "true".equals(enabled);
   }
 }

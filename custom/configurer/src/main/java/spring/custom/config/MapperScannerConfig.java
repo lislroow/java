@@ -18,7 +18,7 @@ import spring.custom.common.annotation.MapperPostgres;
 import spring.custom.common.annotation.MapperVertica;
 import spring.custom.common.bean.MybatisMapperNameGenerator;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.DBMS_TYPE;
+import spring.custom.common.enumcode.DBMS;
 import spring.custom.config.conditions.MybatisH2EnableCondition;
 import spring.custom.config.conditions.MybatisMariaEnableCondition;
 import spring.custom.config.conditions.MybatisOracleEnableCondition;
@@ -53,10 +53,10 @@ public class MapperScannerConfig {
   //  }
   //}
 
-  @Bean(name = Constant.DBMS.H2 + "MapperScannerConfigurer")
+  @Bean(name = Constant.DBMS_TYPE.H2 + "MapperScannerConfigurer")
   @Conditional(MybatisH2EnableCondition.class)
   MapperScannerConfigurer h2MapperScannerConfigurer() {
-    DBMS_TYPE dbmsType = DBMS_TYPE.H2;
+    DBMS dbmsType = DBMS.H2;
     MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
     scannerConfigurer.setBasePackage(Constant.BASE_PACKAGE);
     scannerConfigurer.setSqlSessionFactoryBeanName(dbmsType.sqlSessionFactoryBeanName());
@@ -65,10 +65,10 @@ public class MapperScannerConfig {
     return scannerConfigurer;
   }
   
-  @Bean(Constant.DBMS.MARIA + "MapperScannerConfigurer")
+  @Bean(Constant.DBMS_TYPE.MARIA + "MapperScannerConfigurer")
   @Conditional(MybatisMariaEnableCondition.class)
   MapperScannerConfigurer mariaMapperScannerConfigurer() {
-    DBMS_TYPE dbmsType = DBMS_TYPE.MARIA;
+    DBMS dbmsType = DBMS.MARIA;
     MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
     scannerConfigurer.setBasePackage(Constant.BASE_PACKAGE);
     scannerConfigurer.setSqlSessionFactoryBeanName(dbmsType.sqlSessionFactoryBeanName());
@@ -77,10 +77,10 @@ public class MapperScannerConfig {
     return scannerConfigurer;
   }
   
-  @Bean(Constant.DBMS.ORACLE + "MapperScannerConfigurer")
+  @Bean(Constant.DBMS_TYPE.ORACLE + "MapperScannerConfigurer")
   @Conditional(MybatisOracleEnableCondition.class)
   MapperScannerConfigurer oracleMapperScannerConfigurer() {
-    DBMS_TYPE dbmsType = DBMS_TYPE.ORACLE;
+    DBMS dbmsType = DBMS.ORACLE;
     MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
     scannerConfigurer.setBasePackage(Constant.BASE_PACKAGE);
     scannerConfigurer.setSqlSessionFactoryBeanName(dbmsType.sqlSessionFactoryBeanName());
@@ -89,10 +89,10 @@ public class MapperScannerConfig {
     return scannerConfigurer;
   }
   
-  @Bean(Constant.DBMS.VERTICA + "MapperScannerConfigurer")
+  @Bean(Constant.DBMS_TYPE.VERTICA + "MapperScannerConfigurer")
   @Conditional(MybatisVerticaEnableCondition.class)
   MapperScannerConfigurer verticaMapperScannerConfigurer() {
-    DBMS_TYPE dbmsType = DBMS_TYPE.VERTICA;
+    DBMS dbmsType = DBMS.VERTICA;
     MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
     scannerConfigurer.setBasePackage(Constant.BASE_PACKAGE);
     scannerConfigurer.setSqlSessionFactoryBeanName(dbmsType.sqlSessionFactoryBeanName());
@@ -101,10 +101,10 @@ public class MapperScannerConfig {
     return scannerConfigurer;
   }
   
-  @Bean(Constant.DBMS.POSTGRES + "MapperScannerConfigurer")
+  @Bean(Constant.DBMS_TYPE.POSTGRES + "MapperScannerConfigurer")
   @Conditional(MybatisPostgresEnableCondition.class)
   MapperScannerConfigurer postgresMapperScannerConfigurer() {
-    DBMS_TYPE dbmsType = DBMS_TYPE.POSTGRES;
+    DBMS dbmsType = DBMS.POSTGRES;
     MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
     scannerConfigurer.setBasePackage(Constant.BASE_PACKAGE);
     scannerConfigurer.setSqlSessionFactoryBeanName(dbmsType.sqlSessionFactoryBeanName());

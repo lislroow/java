@@ -1,4 +1,4 @@
-package spring.custom.config;
+package spring.custom.config.multidb;
 
 import javax.sql.DataSource;
 
@@ -18,31 +18,31 @@ import com.zaxxer.hikari.HikariDataSource;
 import spring.custom.common.constant.Constant;
 
 @Configuration
-@ConditionalOnProperty(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS.MARIA + ".hikari", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS_TYPE.MARIA + ".hikari", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
 public class DataSourceMariaConfig {
   
-  @Bean(name = Constant.DBMS.MARIA + "DataSource")
-  @ConfigurationProperties(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS.MARIA+".hikari")
+  @Bean(name = Constant.DBMS_TYPE.MARIA + "DataSource")
+  @ConfigurationProperties(prefix = Constant.CUSTOM+".datasource."+Constant.DBMS_TYPE.MARIA+".hikari")
   DataSource dataSource() {
     HikariDataSource hikariDataSource = DataSourceBuilder.create()
         .type(HikariDataSource.class)
         .build();
-    hikariDataSource.setPoolName("hikari-"+Constant.DBMS.MARIA);
+    hikariDataSource.setPoolName("hikari-"+Constant.DBMS_TYPE.MARIA);
     return hikariDataSource;
   }
   
-  @Bean(name = Constant.DBMS.MARIA + "PlatformTransactionManager")
+  @Bean(name = Constant.DBMS_TYPE.MARIA + "PlatformTransactionManager")
   PlatformTransactionManager transactionManager() {
     PlatformTransactionManager transactionManager = null;
     transactionManager = new DataSourceTransactionManager(dataSource());
     return transactionManager;
   }
   
-  @Value("classpath:sql/init-"+Constant.DBMS.MARIA+".sql")
+  @Value("classpath:sql/init-"+Constant.DBMS_TYPE.MARIA+".sql")
   private org.springframework.core.io.Resource initScript;
   
-  @Bean(name = Constant.DBMS.MARIA + "DataSourceInitializer")
-  @ConditionalOnProperty(name = "custom.datasource." + Constant.DBMS.MARIA + ".init", havingValue = "true", matchIfMissing = false)
+  @Bean(name = Constant.DBMS_TYPE.MARIA + "DataSourceInitializer")
+  @ConditionalOnProperty(name = "custom.datasource." + Constant.DBMS_TYPE.MARIA + ".init", havingValue = "true", matchIfMissing = false)
   DataSourceInitializer dataSourceInitializer() {
     DataSourceInitializer initializer = new DataSourceInitializer();
     initializer.setDataSource(dataSource());

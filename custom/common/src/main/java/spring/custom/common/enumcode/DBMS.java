@@ -7,19 +7,19 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
 
 @Slf4j
-public enum DBMS_TYPE {
+public enum DBMS {
   
-  H2(Constant.DBMS.H2),
-  MARIA(Constant.DBMS.MARIA),
-  ORACLE(Constant.DBMS.ORACLE),
-  VERTICA(Constant.DBMS.VERTICA),
-  POSTGRES(Constant.DBMS.POSTGRES),
+  H2(Constant.DBMS_TYPE.H2),
+  MARIA(Constant.DBMS_TYPE.MARIA),
+  ORACLE(Constant.DBMS_TYPE.ORACLE),
+  VERTICA(Constant.DBMS_TYPE.VERTICA),
+  POSTGRES(Constant.DBMS_TYPE.POSTGRES),
   ;
   
   private String code;
   private Boolean primary;
   
-  private DBMS_TYPE(String code) {
+  private DBMS(String code) {
     this.code = code;
   }
   
@@ -32,7 +32,7 @@ public enum DBMS_TYPE {
   }
   
   public static void setPrimary(String code) {
-    DBMS_TYPE type = DBMS_TYPE.fromCode(code);
+    DBMS type = DBMS.fromCode(code);
     type.primary = true;
     log.warn("setting up mybatis primary: {}", type.code());
   }
@@ -45,8 +45,8 @@ public enum DBMS_TYPE {
     return this.code + Constant.BEAN.SQL_SESSION_FACTORY_BEAN;
   }
   
-  public static DBMS_TYPE fromCode(String code) {
-      return Arrays.stream(DBMS_TYPE.values())
+  public static DBMS fromCode(String code) {
+      return Arrays.stream(DBMS.values())
           .filter(item -> item.code().equals(code))
           .findFirst()
           .orElseThrow(() -> new IllegalArgumentException(String.format("'%s' not exist.", code)));

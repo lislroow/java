@@ -31,7 +31,7 @@ public class MybatisOracleEnableCondition implements Condition {
     } catch (IOException ex) {
       log.error("'{}' load fail", FILE_APPLICATION_PROPERTIES);
     }
-    String enabled = properties.getProperty("custom.mybatis." + Constant.DBMS.ORACLE + ".enabled");
+    String enabled = properties.getProperty("custom.mybatis." + Constant.DBMS_TYPE.ORACLE + ".enabled");
     return "true".equals(enabled);
   }
 }

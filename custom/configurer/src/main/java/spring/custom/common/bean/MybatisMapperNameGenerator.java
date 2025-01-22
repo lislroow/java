@@ -5,14 +5,14 @@ import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.DBMS_TYPE;
+import spring.custom.common.enumcode.DBMS;
 
 @Slf4j
 public class MybatisMapperNameGenerator extends AnnotationBeanNameGenerator {
   
-  private final DBMS_TYPE dbmsType;
+  private final DBMS dbmsType;
   
-  public MybatisMapperNameGenerator(DBMS_TYPE dbmsType) {
+  public MybatisMapperNameGenerator(DBMS dbmsType) {
     this.dbmsType = dbmsType;
   }
   
