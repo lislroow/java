@@ -14,10 +14,8 @@ import lombok.RequiredArgsConstructor;
 import spring.auth.common.login.TokenService;
 import spring.auth.common.login.dao.UserLoginDao;
 import spring.auth.common.login.vo.LoginVo;
-import spring.auth.common.login.vo.LoginVo.ManagerLoginVo;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR;
-import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
 
 @RestController
@@ -32,15 +30,20 @@ public class ManagerLoginController {
   public ResponseEntity<?> managerLogin(
       @RequestParam String username,
       @RequestParam String password) {
-    LoginVo.ManagerLoginVo managerLoginVo = userLoginDao.selectManagerByLoginId(username)
+    // select user
+    LoginVo.ManagerVo loginVo = userLoginDao.selectManagerByLoginId(username)
         .orElseThrow(() -> new AppException(ERROR.A003));
-    if (!bcryptPasswordEncoder.matches(password, managerLoginVo.getLoginPwd())) {
+    
+    // check status
+    if (!bcryptPasswordEncoder.matches(password, loginVo.getLoginPwd())) {
       throw new AppException(ERROR.A017);
     }
     
+    // create 'refresh-token'
     Map.Entry<String, String> refreshToken = 
-        tokenService.createRtk(TOKEN.USER.MANAGER, managerLoginVo);
+        tokenService.createRtk(loginVo.toPrincipal());
     
+    // response 'rtk'
     HttpHeaders headers = new HttpHeaders();
     headers.add(HttpHeaders.SET_COOKIE, ResponseCookie
         .from(Constant.HTTP_HEADER.X_RTK, refreshToken.getKey())

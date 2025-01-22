@@ -31,12 +31,11 @@ import spring.auth.common.login.MemberLoginService;
 import spring.auth.common.login.MemberLoginSuccessHandler;
 import spring.auth.common.login.MemberLogoutService;
 import spring.auth.common.login.MemberOAuth2LoginSuccessHandler;
+import spring.auth.common.login.TokenIdFilter;
 import spring.auth.common.login.TokenService;
-import spring.auth.common.login.TokenAuthorizationFilter;
 //import spring.auth.common.login.UserPasswordEncoder;
 import spring.custom.common.enumcode.SECURITY;
-import spring.custom.common.redis.RedisClient;
-import spring.custom.common.security.TokenAuthFilter;
+import spring.custom.common.security.TokenValueFilter;
 
 @Configuration
 @EnableConfigurationProperties({ OAuth2ClientProperties.class })
@@ -47,7 +46,6 @@ public class SecurityConfig {
   final MemberLoginService memberLoginService;
   final TokenService tokenService;
   final ModelMapper modelMapper;
-  final RedisClient redisClient;
   
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -66,8 +64,8 @@ public class SecurityConfig {
           })
           .successHandler(new MemberLoginSuccessHandler(tokenService))
       )
-      .addFilterBefore(new TokenAuthFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
-      .addFilterBefore(new TokenAuthorizationFilter(tokenService), TokenAuthFilter.class)
+      .addFilterBefore(new TokenValueFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
+      .addFilterBefore(new TokenIdFilter(tokenService), TokenValueFilter.class)
       .exceptionHandling(config -> 
         config.authenticationEntryPoint((request, response, authException) -> {
           HttpStatus status = HttpStatus.FORBIDDEN;
@@ -104,7 +102,7 @@ public class SecurityConfig {
           .redirectionEndpoint(redirectionEndpointCustomizer ->
             redirectionEndpointCustomizer.baseUri("/v1/member/login/oauth2/code/*") // OAuth2LoginAuthenticationFilter.DEFAULT_FILTER_PROCESSES_URI = "/login/oauth2/code/*";
           )
-          .successHandler(new MemberOAuth2LoginSuccessHandler(tokenService, redisClient))
+          .successHandler(new MemberOAuth2LoginSuccessHandler(tokenService))
       )
       .logout(logout ->
         logout.logoutUrl("/v1/member/logout")

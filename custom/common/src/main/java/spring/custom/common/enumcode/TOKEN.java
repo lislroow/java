@@ -35,20 +35,21 @@ public class TOKEN {
   }
   
   public enum USER {
-    MANAGER(1),
-    MEMBER(2),
-    CLIENT(3),
-    SNS(4),
+    MANAGER("manager", 1),
+    MEMBER("member", 2),
+    CLIENT("client", 3)
     ;
     
+    private String code;
     private Integer idprefix;
     
-    private USER(Integer idprefix) {
+    private USER(String code, Integer idprefix) {
+      this.code = code;
       this.idprefix = idprefix;
     }
     
     public String code() {
-      return this.name().toLowerCase();
+      return this.code;
     }
     
     public Integer idprefix() {

@@ -39,6 +39,8 @@ public enum ERROR {
   /** already registered loginId */ A018("already registered"),
   /** invalid token type */ A019("invalid token type"),
   /** fail to create redis-key */ A020("fail to create redis-key"),
+  /** no login user */ A021("no login user"),
+  /** undefined user type */ A022("undefined user type"),
   
   /** access denied */ A403("access denied"),
   

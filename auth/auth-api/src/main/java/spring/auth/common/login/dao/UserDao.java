@@ -4,14 +4,14 @@ import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import spring.custom.common.vo.ManagerVo;
-import spring.custom.common.vo.MemberVo;
+import spring.custom.common.vo.ManagerPrincipal;
+import spring.custom.common.vo.MemberPrincipal;
 
 @Mapper
 public interface UserDao {
   
-  public Optional<MemberVo> selectMemberInfoById(String id);
+  public Optional<MemberPrincipal> selectMemberInfoById(String id);
   
-  public Optional<ManagerVo> selectManagerInfoById(String id);
+  public Optional<ManagerPrincipal> selectManagerInfoById(String id);
   
 }

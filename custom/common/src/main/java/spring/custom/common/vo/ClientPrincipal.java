@@ -11,24 +11,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberVo implements TokenPrincipal {
-  
-  private String id;
+public class ClientPrincipal implements Principal {
+
+  private String userType;
+  private String clientId;
   private String roles;
-  private String loginId;
-  private String nickname;
-  private String registrationId;
-  private String oauth2Id;
+  private String clientName;
   
   @Override
   @JsonIgnore
   public String getName() {
-    return this.id;
+    return this.clientId;
+  }
+
+  @Override
+  public String getId() {
+    return this.clientId;
   }
   
   @Override
-  public String getUsername() {
-    return this.nickname;
+  public String getLoginId() {
+    return "no-login-user";
   }
   
 }

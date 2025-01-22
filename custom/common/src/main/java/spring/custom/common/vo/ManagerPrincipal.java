@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ManagerVo implements TokenPrincipal {
-  
+public class ManagerPrincipal implements Principal {
+
+  private String userType;
   private String id;
   private String roles;
   private String loginId;
@@ -22,11 +23,6 @@ public class ManagerVo implements TokenPrincipal {
   @JsonIgnore
   public String getName() {
     return this.id;
-  }
-  
-  @Override
-  public String getUsername() {
-    return this.mgrName;
   }
   
 }

@@ -2,15 +2,11 @@ package spring.custom.common.security;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -26,13 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.ClientVo;
-import spring.custom.common.vo.ManagerVo;
-import spring.custom.common.vo.MemberVo;
+import spring.custom.common.vo.ClientPrincipal;
+import spring.custom.common.vo.ManagerPrincipal;
+import spring.custom.common.vo.MemberPrincipal;
+import spring.custom.common.vo.Principal;
 
 @Slf4j
 @RequiredArgsConstructor
-public class TokenAuthFilter extends OncePerRequestFilter {
+public class TokenValueFilter extends OncePerRequestFilter {
   
   final ModelMapper modelMapper;
   
@@ -48,7 +45,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
       /* for debug */ if (log.isDebugEnabled()) log.debug("accessToken: {}", accessToken);
       JWTClaimsSet jwtClaimsSet = null;
       String roles = null;
-      AuthenticatedPrincipal principal = null;
+      Principal principal = null;
       try {
         SignedJWT signedJWT = SignedJWT.parse(accessToken);
         jwtClaimsSet = signedJWT.getJWTClaimsSet();
@@ -69,17 +66,17 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         switch (userType) {
         case MEMBER:
           principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), MemberVo.class);
+            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), MemberPrincipal.class);
           });
           break;
         case MANAGER:
           principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), ManagerVo.class);
+            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), ManagerPrincipal.class);
           });
           break;
         case CLIENT:
           principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), ClientVo.class);
+            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), ClientPrincipal.class);
           });
           break;
         default:

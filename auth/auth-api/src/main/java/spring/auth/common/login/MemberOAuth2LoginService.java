@@ -3,6 +3,7 @@ package spring.auth.common.login;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -15,11 +16,13 @@ import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.UserMngDao;
 import spring.auth.common.login.dao.UserLoginDao;
 import spring.auth.common.login.vo.LoginVo;
+import spring.auth.common.login.vo.LoginVo.MemberVo;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.ROLE;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.vo.Principal;
 
 @Service
 @RequiredArgsConstructor
@@ -41,27 +44,38 @@ public class MemberOAuth2LoginService implements OAuth2UserService<OAuth2UserReq
     Optional<String> optId = userLoginDao.selectMemberIdByOauth2Id(attributes.getOauth2Id());
     
     if (optId.isPresent()) {
-      Optional<LoginVo.MemberLoginVo> optMemberLoginVo = userLoginDao.selectMemberById(optId.get());
-      if (optMemberLoginVo.isPresent()) {
-        return new UserAuthentication(TOKEN.USER.MEMBER, optMemberLoginVo.get());
-      } else {
-        throw new AppException(ERROR.A003);
-      }
+      // select user
+      MemberVo loginVo = userLoginDao.selectMemberById(optId.get())
+          .orElseThrow(() -> new AppException(ERROR.A003));
+      Principal principal = loginVo.toPrincipal();
+      String roles = loginVo.getRoles();
+      String password = loginVo.getLoginPwd();
+      return new UserAuthentication(principal, roles, password);
     } else {
-      LoginVo.MemberSnsVo memberSnsVo = attributes.toMemberSnsVo();
+      // registration sns authentication
+      LoginVo.MemberSnsVo snsVo = attributes.toMemberSnsVo();
       String id = userMngDao.selectNextId(TOKEN.USER.MEMBER.idprefix());
-      memberSnsVo.setId(id);
-      LoginVo.MemberRegisterVo memberRegisterVo = LoginVo.MemberRegisterVo.builder()
-          .id(memberSnsVo.getId())
-          .loginId(memberSnsVo.getEmail())
+      snsVo.setId(id);
+      LoginVo.MemberRegisterVo registerVo = LoginVo.MemberRegisterVo.builder()
+          .id(snsVo.getId())
+          .loginId(snsVo.getEmail())
           .roles(ROLE.MEMBER.name())
-          .nickname(memberSnsVo.getNickname())
+          .nickname(snsVo.getNickname())
           .enableYn(YN.Y)
           .lockedYn(YN.N)
           .build();
-      userLoginDao.insertMember(memberRegisterVo);
-      userLoginDao.insertMemberOauth(memberSnsVo);
-      return new UserAuthentication(TOKEN.USER.MEMBER, userLoginDao.selectMemberById(id).get());
+      userLoginDao.insertMember(registerVo);
+      userLoginDao.insertMemberOauth(snsVo);
+      
+      // select user
+      MemberVo loginVo = userLoginDao.selectMemberById(id)
+          .orElseThrow(() -> new AppException(ERROR.A003));
+      
+      // return 'OAuth2User'
+      Principal principal = loginVo.toPrincipal();
+      String roles = loginVo.getRoles();
+      String password = loginVo.getLoginPwd();
+      return new UserAuthentication(principal, roles, password);
     }
   }
   

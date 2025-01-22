@@ -7,43 +7,36 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.util.Assert;
 
 import lombok.Data;
-import spring.custom.common.enumcode.TOKEN;
-import spring.custom.common.security.LoginDetails;
-import spring.custom.common.vo.TokenPrincipal;
+import spring.custom.common.vo.Principal;
 
 @Data
-public class UserAuthentication<T extends TokenPrincipal, S extends LoginDetails<?>> 
-    implements OAuth2User, UserDetails {
+public class UserAuthentication implements OAuth2User, UserDetails {
   
   private static final long serialVersionUID = 2501815366855398147L;
   
-  private S loginDetails;
+  private Principal principal;
+  private String password;
+  private String roles;
   
-  private transient TOKEN.USER userType;
-  private transient T principal;
-  
-  @SuppressWarnings("unchecked")
-  public UserAuthentication(TOKEN.USER userType) {
-    this.userType = userType;
-  }
-  
-  @SuppressWarnings("unchecked")
-  public UserAuthentication(TOKEN.USER userType, S loginDetails) {
-    this.userType = userType;
-    this.loginDetails = loginDetails;
-    this.principal = (T) loginDetails.toPrincipal();
+  public UserAuthentication(Principal principal, String roles, String password) {
+    Assert.hasText(principal.getUserType(), "'userType' must not be empty");
+    
+    this.principal = principal;
+    this.password = password;
+    this.roles = roles;
   }
   
   public String getRoles() {
-    return loginDetails.getRoles();
+    return this.roles;
   }
   
   // [OAuth2User, UserDetails]
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return loginDetails == null ? AuthorityUtils.NO_AUTHORITIES : loginDetails.getAuthorities();
+    return this.roles == null ? AuthorityUtils.NO_AUTHORITIES : AuthorityUtils.commaSeparatedStringToAuthorityList(this.roles);
   }
   // --[OAuth2User, UserDetails]
   
@@ -57,7 +50,7 @@ public class UserAuthentication<T extends TokenPrincipal, S extends LoginDetails
   // [AuthenticatedPrincipal]
   @Override
   public String getName() {
-    return loginDetails.getUsername();
+    return principal.getName();
   }
   // --[AuthenticatedPrincipal]
   
@@ -65,27 +58,11 @@ public class UserAuthentication<T extends TokenPrincipal, S extends LoginDetails
   // [UserDetails]
   @Override
   public String getPassword() {
-    return loginDetails.getPassword();
+    return password;
   }
   @Override
   public String getUsername() {
-    return loginDetails.getUsername();
-  }
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
-  @Override
-  public boolean isAccountNonLocked() {
-    return loginDetails.isAccountNonLocked();
-  }
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return loginDetails.isCredentialsNonExpired();
-  }
-  @Override
-  public boolean isEnabled() {
-    return loginDetails.isEnabled();
+    return principal.getName();
   }
   // --[UserDetails]
 }

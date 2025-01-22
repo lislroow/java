@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class TokenAuthorizationFilter extends OncePerRequestFilter {
+public class TokenIdFilter extends OncePerRequestFilter {
   
   final TokenService tokenService;
   
