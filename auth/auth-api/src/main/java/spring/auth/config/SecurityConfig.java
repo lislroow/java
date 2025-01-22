@@ -27,13 +27,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import jakarta.servlet.RequestDispatcher;
 import lombok.RequiredArgsConstructor;
-import spring.auth.common.login.MemberUsernameLoginService;
-import spring.auth.common.login.MemberUsernameLoginSuccessHandler;
+import spring.auth.common.login.MemberLoginService;
+import spring.auth.common.login.MemberLoginSuccessHandler;
 import spring.auth.common.login.MemberLogoutService;
 import spring.auth.common.login.MemberOAuth2LoginSuccessHandler;
 import spring.auth.common.login.TokenIdFilter;
 import spring.auth.common.login.TokenService;
-//import spring.auth.common.login.UserPasswordEncoder;
+import spring.auth.common.login.UserPasswordEncoder;
 import spring.custom.common.enumcode.SECURITY;
 import spring.custom.common.security.TokenValueFilter;
 
@@ -43,7 +43,7 @@ import spring.custom.common.security.TokenValueFilter;
 public class SecurityConfig {
   
   final OAuth2ClientProperties properties;
-  final MemberUsernameLoginService memberLoginService;
+  final MemberLoginService memberLoginService;
   final TokenService tokenService;
   final ModelMapper modelMapper;
   
@@ -62,7 +62,7 @@ public class SecurityConfig {
             HttpStatus status = HttpStatus.UNAUTHORIZED;
             response.sendError(status.value(), status.getReasonPhrase());
           })
-          .successHandler(new MemberUsernameLoginSuccessHandler(tokenService))
+          .successHandler(new MemberLoginSuccessHandler(tokenService))
       )
       .addFilterBefore(new TokenValueFilter(modelMapper), UsernamePasswordAuthenticationFilter.class)
       .addFilterBefore(new TokenIdFilter(tokenService), TokenValueFilter.class)
@@ -127,8 +127,8 @@ public class SecurityConfig {
   DaoAuthenticationProvider daoAuthenticationProvider() {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
     provider.setUserDetailsService(memberLoginService);
-    //provider.setPasswordEncoder(new UserPasswordEncoder()); // no check
-    provider.setPasswordEncoder(new BCryptPasswordEncoder()); // {bcrypt}, PasswordEncoderFactories, DelegatingPasswordEncoder
+    provider.setPasswordEncoder(new UserPasswordEncoder());
+    //provider.setPasswordEncoder(new BCryptPasswordEncoder()); // {bcrypt}, PasswordEncoderFactories, DelegatingPasswordEncoder
     return provider;
   }
   

@@ -44,14 +44,15 @@ public class AuditInterceptor implements Interceptor {
     default:
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       if (authentication != null) {
+        String id = authentication.getName(); // spring.custom.common.vo.User extends java.security.Principal
         if (parameter instanceof java.util.Map) {
           java.util.Map parameterMap = ((java.util.Map) parameter);
-          parameterMap.put(AUDIT.CREATE_ID.getField(), authentication.getName());
-          parameterMap.put(AUDIT.MODIFY_ID.getField(), authentication.getName());
+          parameterMap.put(AUDIT.CREATE_ID.getField(), id);
+          parameterMap.put(AUDIT.MODIFY_ID.getField(), id);
         } else if (parameter instanceof AuditVo) {
           AuditVo parameterObj = (AuditVo)parameter;
-          parameterObj.setCreateId(authentication.getName());
-          parameterObj.setModifyId(authentication.getName());
+          parameterObj.setCreateId(id);
+          parameterObj.setModifyId(id);
         }
       }
       break;

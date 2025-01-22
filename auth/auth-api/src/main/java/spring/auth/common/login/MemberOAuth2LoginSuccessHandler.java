@@ -15,10 +15,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import spring.auth.common.login.vo.LoginVo;
 import spring.custom.common.constant.Constant;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.Principal;
+import spring.custom.common.vo.Member;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,12 +33,14 @@ public class MemberOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
     /* for debug */ if (log.isInfoEnabled()) log.info("{}", authentication.getPrincipal());
     
     if (!(authentication instanceof OAuth2AuthenticationToken oauth2)
-        || !(oauth2.getPrincipal() instanceof Principal principal)) {
+        || !(oauth2.getPrincipal() instanceof LoginVo.MemberOAuth2 principal)) {
       throw new AppException(ERROR.E999);
     }
     
+    Member user = principal.getUser();
+    
     // create 'refresh-token'
-    Map.Entry<String, String> refreshToken = tokenService.createRtk(principal);
+    Map.Entry<String, String> refreshToken = tokenService.createRtk(user);
     
     // response 'rtk'
     response.addHeader(HttpHeaders.SET_COOKIE, ResponseCookie

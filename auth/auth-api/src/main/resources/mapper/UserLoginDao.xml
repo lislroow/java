@@ -34,29 +34,60 @@
     WHERE  A.login_id = #{loginId}
   </select>
   
-  <select id="selectMemberById">
-    SELECT /* UserLoginDao.selectMemberById */
+  <select id="selectMemberOAuth2ByOAuth2Id">
+    SELECT /* UserLoginDao.selectMemberOAuth2ByOAuth2Id */
            A.id
-           , A.login_id
-           /* , A.login_pwd */
-           , A.roles
-           , A.realname
-           , A.nickname
-           , A.enable_yn
-           , A.locked_yn
-           , A.pwd_exp_date
-    FROM   au_member A
-    WHERE  A.id = #{id}
-  </select>
-  
-  <select id="selectMemberIdByOauth2Id">
-    SELECT /* UserLoginDao.selectMemberOauthByOauth2Id */
-           A.id
+           , A.oauth2_id
+           , A.registration_id
+           , A.email
+           , B.login_id
+           , B.login_pwd
+           , B.roles
+           , B.realname
+           , B.nickname
+           , B.enable_yn
+           , B.locked_yn
+           , B.pwd_exp_date
     FROM   au_member_oauth A
+      LEFT JOIN au_member B ON A.id = B.id
     <where>
        AND A.oauth2_id = #{oauth2Id}
     </where>
   </select>
+  
+  <select id="selectIdByEmail">
+    SELECT /* UserLoginDao.selectIdByEmail */
+           A.id
+    FROM   au_member A
+    <where>
+       AND A.login_id = #{email}
+    </where>
+  </select>
+  
+  <insert id="insertMemberOAuth2">
+    INSERT /* UserLoginDao.insertMemberOAuth2 */
+      INTO au_member_oauth (
+        id
+        , oauth2_id
+        , registration_id
+        , email
+        , nickname
+        , create_time
+        , modify_time
+        , create_id
+        , modify_id
+      ) VALUES (
+        #{id}
+        , #{oauth2Id}
+        , #{registrationId}
+        , #{email}
+        , #{nickname}
+        , now()
+        , now()
+        , #{id}
+        , #{id}
+      )
+  </insert>
   
   <insert id="insertMember">
     INSERT /* UserLoginDao.insertMember */
@@ -80,31 +111,6 @@
         , #{enableYn}
         , #{lockedYn}
         , CURRENT_DATE
-        , now()
-        , now()
-        , #{id}
-        , #{id}
-      )
-  </insert>
-  
-  <insert id="insertMemberOauth">
-    INSERT /* UserLoginDao.insertMemberOauth */
-      INTO au_member_oauth (
-        id
-        , oauth2_id
-        , registration_id
-        , email
-        , nickname
-        , create_time
-        , modify_time
-        , create_id
-        , modify_id
-      ) VALUES (
-        #{id}
-        , #{oauth2Id}
-        , #{registrationId}
-        , #{email}
-        , #{nickname}
         , now()
         , now()
         , #{id}

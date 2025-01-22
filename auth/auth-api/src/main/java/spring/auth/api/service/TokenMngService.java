@@ -11,7 +11,7 @@ import spring.auth.api.dao.TokenMngDao;
 import spring.auth.api.vo.TokenMngVo;
 import spring.auth.common.login.TokenService;
 import spring.custom.common.enumcode.TOKEN;
-import spring.custom.common.vo.ClientPrincipal;
+import spring.custom.common.vo.Client;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class TokenMngService {
   
   @Transactional
   public void addClientToken(TokenMngVo.AddTokenClient addVo) {
-    ClientPrincipal principal = ClientPrincipal.builder()
+    Client principal = Client.builder()
         .userType(TOKEN.USER.CLIENT.code())
         .clientId(addVo.getClientId())
         .roles(addVo.getRoles())

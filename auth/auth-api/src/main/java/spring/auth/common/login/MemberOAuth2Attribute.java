@@ -91,8 +91,8 @@ public class MemberOAuth2Attribute {
             .build();
   }
   
-  public LoginVo.MemberOAuth2Vo toMemberOAuth2Vo() {
-    return LoginVo.MemberOAuth2Vo.builder()
+  public LoginVo.MemberOAuth2AddVo toMemberOAuth2RegisterVo() {
+    return LoginVo.MemberOAuth2AddVo.builder()
         .oauth2Id(oauth2Id)
         .registrationId(registrationId)
         .email(email)

@@ -1,7 +1,5 @@
 package spring.custom.common.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberPrincipal implements Principal {
+public class Member implements User {
 
   private String userType;
   private String id;
@@ -21,9 +19,4 @@ public class MemberPrincipal implements Principal {
   private String registrationId;
   private String oauth2Id;
   
-  @Override
-  @JsonIgnore
-  public String getName() {
-    return this.id;
-  }
 }

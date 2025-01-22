@@ -41,7 +41,7 @@ public class ManagerLoginController {
     
     // create 'refresh-token'
     Map.Entry<String, String> refreshToken = 
-        tokenService.createRtk(loginVo.toPrincipal());
+        tokenService.createRtk(loginVo.toUser());
     
     // response 'rtk'
     HttpHeaders headers = new HttpHeaders();

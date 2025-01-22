@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.ManagerPrincipal;
-import spring.custom.common.vo.MemberPrincipal;
+import spring.custom.common.vo.Manager;
+import spring.custom.common.vo.Member;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,14 +37,14 @@ public class UserController {
   public InfoRes info() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     InfoRes resDto;
-    if (authentication.getPrincipal() instanceof ManagerPrincipal managerVo) {
+    if (authentication.getPrincipal() instanceof Manager managerVo) {
       resDto = InfoRes.builder()
           .id(managerVo.getId())
           .roles(managerVo.getRoles())
           .loginId(managerVo.getLoginId())
           .username(managerVo.getMgrName())
           .build();
-    } else if (authentication.getPrincipal() instanceof MemberPrincipal memberVo) {
+    } else if (authentication.getPrincipal() instanceof Member memberVo) {
       resDto = InfoRes.builder()
           .id(memberVo.getId())
           .roles(memberVo.getRoles())

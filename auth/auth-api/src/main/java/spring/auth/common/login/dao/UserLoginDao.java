@@ -13,11 +13,11 @@ public interface UserLoginDao {
   
   Optional<LoginVo.MemberVo> selectMemberByLoginId(String loginId);
   
-  Optional<String> selectMemberIdByOauth2Id(String oauth2Id);
+  Optional<LoginVo.MemberOAuth2Vo> selectMemberOAuth2ByOAuth2Id(String oauth2Id);
   
-  Optional<LoginVo.MemberVo> selectMemberById(String loginId);
+  Optional<String> selectIdByEmail(String email);
   
-  int insertMemberOauth(LoginVo.MemberOAuth2Vo memberSnsVo);
+  int insertMemberOAuth2(LoginVo.MemberOAuth2AddVo memberOAuth2AddVo);
   
-  int insertMember(LoginVo.MemberRegisterVo memberRegisterVo);
+  int insertMember(LoginVo.MemberAddVo memberAddVo);
 }

@@ -22,10 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
-import spring.custom.common.vo.ClientPrincipal;
-import spring.custom.common.vo.ManagerPrincipal;
-import spring.custom.common.vo.MemberPrincipal;
-import spring.custom.common.vo.Principal;
+import spring.custom.common.vo.Client;
+import spring.custom.common.vo.Manager;
+import spring.custom.common.vo.Member;
+import spring.custom.common.vo.User;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,7 +45,7 @@ public class TokenValueFilter extends OncePerRequestFilter {
       /* for debug */ if (log.isDebugEnabled()) log.debug("accessToken: {}", accessToken);
       JWTClaimsSet jwtClaimsSet = null;
       String roles = null;
-      Principal principal = null;
+      User principal = null;
       try {
         SignedJWT signedJWT = SignedJWT.parse(accessToken);
         jwtClaimsSet = signedJWT.getJWTClaimsSet();
@@ -66,17 +66,17 @@ public class TokenValueFilter extends OncePerRequestFilter {
         switch (userType) {
         case MEMBER:
           principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), MemberPrincipal.class);
+            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), Member.class);
           });
           break;
         case MANAGER:
           principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), ManagerPrincipal.class);
+            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), Manager.class);
           });
           break;
         case CLIENT:
           principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), ClientPrincipal.class);
+            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), Client.class);
           });
           break;
         default:

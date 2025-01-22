@@ -70,7 +70,7 @@ public class TOKEN {
   }
   
   public enum CLAIM_ATTR {
-    USER_TYPE("user_type"),
+    USER_TYPE("userType"),
     PRINCIPAL("principal"),
     ROLES("roles")
     ;

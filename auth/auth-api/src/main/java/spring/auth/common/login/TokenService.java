@@ -49,7 +49,7 @@ import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
 import spring.custom.common.exception.token.RefreshTokenExpiredException;
 import spring.custom.common.redis.RedisClient;
-import spring.custom.common.vo.Principal;
+import spring.custom.common.vo.User;
 import spring.custom.dto.TokenDto;
 
 @Component
@@ -105,7 +105,7 @@ public class TokenService {
     }
   }
   
-  public Map.Entry<String, String> createPtk(Principal principal, LocalDate expDate) {
+  public Map.Entry<String, String> createPtk(User principal, LocalDate expDate) {
     /* for debug */ if (log.isInfoEnabled()) log.info("create permanent token: {}", principal);
     
     TOKEN.USER userType = TOKEN.USER.byCode(principal.getUserType())
@@ -115,7 +115,7 @@ public class TokenService {
         .atStartOfDay(ZoneId.systemDefault())
         .toInstant());
     JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-        .subject(principal.getName())
+        .subject(principal.getId())
         .issuer(ISSUER)
         .expirationTime(expiration)
         .claim(TOKEN.CLAIM_ATTR.PRINCIPAL.code(), principal)
@@ -136,7 +136,7 @@ public class TokenService {
     return result;
   }
   
-  public Map.Entry<String, String> createRtk(Principal principal) {
+  public Map.Entry<String, String> createRtk(User principal) {
     /* for debug */ if (log.isInfoEnabled()) log.info("create refresh token: {}", principal);
     
     TOKEN.USER userType = TOKEN.USER.byCode(principal.getUserType())
@@ -144,7 +144,7 @@ public class TokenService {
     
     Date expiration = Date.from(Instant.now().plusSeconds(RTK_EXPIRE_SEC));
     JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-        .subject(principal.getName())
+        .subject(principal.getId())
         .issuer(ISSUER)
         .expirationTime(expiration)
         .claim(TOKEN.CLAIM_ATTR.PRINCIPAL.code(), principal)
