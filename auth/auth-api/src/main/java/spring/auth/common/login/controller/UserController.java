@@ -39,7 +39,7 @@ public class UserController {
     }
     TokenPrincipal principal = (TokenPrincipal) authentication.getPrincipal();
     TokenPrincipal resultVo = null;
-    TOKEN.USER_TYPE userType = principal.getUserType().orElseThrow(() -> new AppException(ERROR.A403));
+    TOKEN.USER userType = principal.getUserType().orElseThrow(() -> new AppException(ERROR.A403));
     switch (userType) {
     case MANAGER:
       resultVo = userDao.selectManagerInfoById(authentication.getName())

@@ -15,14 +15,63 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import spring.custom.common.enumcode.ERROR;
+import spring.custom.common.enumcode.TOKEN;
+import spring.custom.common.exception.AppException;
 
 @RequiredArgsConstructor
 public class RedisClient {
+
+  public static enum CACHE_KEY {
+    CACHE_COMMON_CODE("cache:common-code:all", Duration.ofSeconds(60));
+    ;
+    
+    private String cacheName;
+    private Duration ttl;
+    
+    private CACHE_KEY(String cacheName, Duration ttl) {
+      this.cacheName = cacheName;
+      this.ttl = ttl;
+    }
+    public String cacheName() {
+      return this.cacheName;
+    }
+    public Duration ttl() {
+      return this.ttl;
+    }
+  }
+  
+  public enum TOKEN_KEY {
+    REFRESH_TOKEN("token:rtk:"),
+    ACCESS_TOKEN("token:atk:")
+    ;
+    private String prefix;
+    
+    private TOKEN_KEY(String prefix) {
+      this.prefix = prefix;
+    }
+    public String prefix() {
+      return this.prefix;
+    }
+  }
 
   final RedisTemplate<String, String> redisTemplate;
   final ModelMapper modelMapper;
   final ObjectMapper objectMapper;
   
+  public String getRedisKey(String tokenId) {
+    String cd = tokenId.substring(0, 1);
+    TOKEN.TYPE tokenType = TOKEN.TYPE.fromCd(cd)
+        .orElseThrow(() -> new AppException(ERROR.A020));
+    switch (tokenType) {
+    case REFRESH_TOKEN:
+      return TOKEN_KEY.REFRESH_TOKEN.prefix() + tokenId;
+    case ACCESS_TOKEN:
+      return TOKEN_KEY.REFRESH_TOKEN.prefix() + tokenId;
+    default:
+      throw new AppException(ERROR.A020);
+    }
+  }
   
   // key
   public Set<String> keys() {

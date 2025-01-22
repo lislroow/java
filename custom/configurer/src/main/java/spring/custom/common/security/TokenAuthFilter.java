@@ -55,14 +55,14 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         /* for debug */ if (log.isDebugEnabled()) log.debug("jwtClaimsSet: {}", jwtClaimsSet);
         
         // userType
-        TOKEN.USER_TYPE userType = jwtClaimsSet.toType((claims) -> {
+        TOKEN.USER userType = jwtClaimsSet.toType((claims) -> {
           String val = null;
           try {
             val = claims.getStringClaim(TOKEN.CLAIM_ATTR.USER_TYPE.code());
           } catch (ParseException e) {
             throw new AppException(ERROR.A008, e);
           }
-          return TOKEN.USER_TYPE.fromCode(val).orElseThrow(() -> new AppException(ERROR.A008));
+          return TOKEN.USER.fromCode(val).orElseThrow(() -> new AppException(ERROR.A008));
         });
         
         // principal

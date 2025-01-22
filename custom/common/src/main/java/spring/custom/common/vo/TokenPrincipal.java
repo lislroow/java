@@ -14,9 +14,9 @@ public interface TokenPrincipal extends AuthenticatedPrincipal {
   String getLoginId();
   String getUsername();
   
-  default Optional<TOKEN.USER_TYPE> getUserType() {
+  default Optional<TOKEN.USER> getUserType() {
     Integer idprefix = Integer.parseInt(this.getId().substring(0, 1));
-    return TOKEN.USER_TYPE.fromIdprefix(idprefix);
+    return TOKEN.USER.fromIdprefix(idprefix);
   }
   
 }

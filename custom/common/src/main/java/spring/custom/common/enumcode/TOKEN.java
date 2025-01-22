@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public class TOKEN {
   
-  public enum TOKEN_TYPE {
+  public enum TYPE {
     PERMANENT_TOKEN("ptk", "p"),
     REFRESH_TOKEN("rtk", "r"),
     ACCESS_TOKEN("atk", "a")
@@ -14,7 +14,7 @@ public class TOKEN {
     private String code;
     private String cd;
     
-    private TOKEN_TYPE(String code, String cd) {
+    private TYPE(String code, String cd) {
       this.cd = cd;
       this.code = code;
     }
@@ -27,14 +27,14 @@ public class TOKEN {
       return this.cd;
     }
     
-    public static Optional<TOKEN.TOKEN_TYPE> fromCd(String cd) {
-      return Arrays.stream(TOKEN.TOKEN_TYPE.values())
+    public static Optional<TOKEN.TYPE> fromCd(String cd) {
+      return Arrays.stream(TOKEN.TYPE.values())
           .filter(item -> item.cd().equalsIgnoreCase(cd))
           .findAny();
     }
   }
   
-  public enum USER_TYPE {
+  public enum USER {
     MANAGER(1),
     MEMBER(2),
     CLIENT(3),
@@ -43,7 +43,7 @@ public class TOKEN {
     
     private Integer idprefix;
     
-    private USER_TYPE(Integer idprefix) {
+    private USER(Integer idprefix) {
       this.idprefix = idprefix;
     }
     
@@ -55,14 +55,14 @@ public class TOKEN {
       return this.idprefix;
     }
     
-    public static Optional<TOKEN.USER_TYPE> fromIdprefix(Integer idprefix) {
-      return Arrays.stream(TOKEN.USER_TYPE.values())
+    public static Optional<TOKEN.USER> fromIdprefix(Integer idprefix) {
+      return Arrays.stream(TOKEN.USER.values())
           .filter(item -> item.idprefix() == idprefix)
           .findAny();
     }
     
-    public static Optional<TOKEN.USER_TYPE> fromCode(String code) {
-      return Arrays.stream(TOKEN.USER_TYPE.values())
+    public static Optional<TOKEN.USER> fromCode(String code) {
+      return Arrays.stream(TOKEN.USER.values())
           .filter(item -> item.code().equalsIgnoreCase(code))
           .findAny();
     }

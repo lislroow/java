@@ -43,13 +43,13 @@ public class MemberOAuth2LoginService implements OAuth2UserService<OAuth2UserReq
     if (optId.isPresent()) {
       Optional<LoginVo.MemberLoginVo> optMemberLoginVo = userLoginDao.selectMemberById(optId.get());
       if (optMemberLoginVo.isPresent()) {
-        return new UserAuthentication(TOKEN.USER_TYPE.MEMBER, optMemberLoginVo.get());
+        return new UserAuthentication(TOKEN.USER.MEMBER, optMemberLoginVo.get());
       } else {
         throw new AppException(ERROR.A003);
       }
     } else {
       LoginVo.MemberSnsVo memberSnsVo = attributes.toMemberSnsVo();
-      String id = userMngDao.selectNextId(TOKEN.USER_TYPE.MEMBER.idprefix());
+      String id = userMngDao.selectNextId(TOKEN.USER.MEMBER.idprefix());
       memberSnsVo.setId(id);
       LoginVo.MemberRegisterVo memberRegisterVo = LoginVo.MemberRegisterVo.builder()
           .id(memberSnsVo.getId())
@@ -61,7 +61,7 @@ public class MemberOAuth2LoginService implements OAuth2UserService<OAuth2UserReq
           .build();
       userLoginDao.insertMember(memberRegisterVo);
       userLoginDao.insertMemberOauth(memberSnsVo);
-      return new UserAuthentication(TOKEN.USER_TYPE.MEMBER, userLoginDao.selectMemberById(id).get());
+      return new UserAuthentication(TOKEN.USER.MEMBER, userLoginDao.selectMemberById(id).get());
     }
   }
   

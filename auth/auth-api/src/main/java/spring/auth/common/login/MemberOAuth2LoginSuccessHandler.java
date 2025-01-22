@@ -38,7 +38,7 @@ public class MemberOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
     
     LoginDetails<MemberVo> memberLoginVo = ((UserAuthentication) authentication.getPrincipal()).getLoginDetails();
     Map.Entry<String, String> refreshToken = 
-        tokenService.createRtk(TOKEN.USER_TYPE.MEMBER, memberLoginVo);
+        tokenService.createRtk(TOKEN.USER.MEMBER, memberLoginVo);
     
     response.addHeader(HttpHeaders.SET_COOKIE, ResponseCookie
         .from(Constant.HTTP_HEADER.X_RTK, refreshToken.getKey())

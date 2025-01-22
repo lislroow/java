@@ -10,7 +10,7 @@
            , A.birth_year
            , A.death_year
            , A.fos_cd
-           , J.cd_nmm AS fos_nm
+           , J.cd_nm AS fos_nm
     FROM   pt_scientist A
       LEFT OUTER JOIN sy_code J ON A.fos_cd = J.cd AND J.cd_grp = 'FOS'
     ORDER BY A.birth_year DESC

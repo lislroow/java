@@ -21,16 +21,16 @@ public class UserAuthentication<T extends TokenPrincipal, S extends LoginDetails
   
   private S loginDetails;
   
-  private transient TOKEN.USER_TYPE userType;
+  private transient TOKEN.USER userType;
   private transient T principal;
   
   @SuppressWarnings("unchecked")
-  public UserAuthentication(TOKEN.USER_TYPE userType) {
+  public UserAuthentication(TOKEN.USER userType) {
     this.userType = userType;
   }
   
   @SuppressWarnings("unchecked")
-  public UserAuthentication(TOKEN.USER_TYPE userType, S loginDetails) {
+  public UserAuthentication(TOKEN.USER userType, S loginDetails) {
     this.userType = userType;
     this.loginDetails = loginDetails;
     this.principal = (T) loginDetails.toPrincipal();

@@ -25,7 +25,7 @@ public class MemberLoginService implements UserDetailsService {
     // 로그인 이후, `UserAuthentication` 사용되는 username 과는 다름
     LoginVo.MemberLoginVo loginVo = userLoginDao.selectMemberByLoginId(username)
         .orElseThrow(() -> new AppException(ERROR.A003));
-    return new UserAuthentication(TOKEN.USER_TYPE.MEMBER, loginVo);
+    return new UserAuthentication(TOKEN.USER.MEMBER, loginVo);
   }
   
 }

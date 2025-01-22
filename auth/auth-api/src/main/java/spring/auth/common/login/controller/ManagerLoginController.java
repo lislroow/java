@@ -39,7 +39,7 @@ public class ManagerLoginController {
     }
     
     Map.Entry<String, String> refreshToken = 
-        tokenService.createRtk(TOKEN.USER_TYPE.MANAGER, managerLoginVo);
+        tokenService.createRtk(TOKEN.USER.MANAGER, managerLoginVo);
     
     HttpHeaders headers = new HttpHeaders();
     headers.add(HttpHeaders.SET_COOKIE, ResponseCookie

@@ -80,17 +80,6 @@ public class LoginVo {
     public boolean isEnabled() {
       return enableYn.compareTo(YN.Y) == 0;
     }
-    
-    @Override
-    public Long getRefreshExpireTime() {
-      return System.currentTimeMillis() + TokenService.RTK_EXPIRE_MILLS;
-    }
-    
-    @Override
-    public Long getAccessExpireTime() {
-      return System.currentTimeMillis() + TokenService.ATK_EXPIRE_MILLS;
-    }
-    
   }
   
   
@@ -142,16 +131,6 @@ public class LoginVo {
     public boolean isEnabled() {
       return enableYn.compareTo(YN.Y) == 0;
     }
-    
-    @Override
-    public Long getRefreshExpireTime() {
-      return System.currentTimeMillis() + TokenService.RTK_EXPIRE_MILLS;
-    }
-    
-    @Override
-    public Long getAccessExpireTime() {
-      return System.currentTimeMillis() + TokenService.ATK_EXPIRE_MILLS;
-    }
   }
   
   
@@ -186,19 +165,6 @@ public class LoginVo {
           .clientName(clientName)
           .build();
       return clientVo;
-    }
-    
-    @Override
-    public Long getRefreshExpireTime() {
-      return this.expDate.plusDays(1)
-          .atStartOfDay(ZoneId.systemDefault())
-          .toInstant()
-          .toEpochMilli();
-    }
-    
-    @Override
-    public Long getAccessExpireTime() {
-      throw new AppException(ERROR.E902);
     }
   }
   

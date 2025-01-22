@@ -180,7 +180,7 @@ public class UserMngController {
       throw new AppException(ERROR.A018.code(), "'"+addVo.getLoginId() + "'" + ERROR.A018.message());
     }
     
-    String id = userMngDao.selectNextId(TOKEN.USER_TYPE.MANAGER.idprefix());
+    String id = userMngDao.selectNextId(TOKEN.USER.MANAGER.idprefix());
     addVo.setId(id);
     addVo.setLoginPwd(bcryptPasswordEncoder.encode(reqDto.getNewLoginPwd()));
     addVo.setEnableYn(YN.Y);

@@ -38,6 +38,7 @@ public enum ERROR {
   /** bad credentials */ A017("bad credentials"),
   /** already registered loginId */ A018("already registered"),
   /** invalid token type */ A019("invalid token type"),
+  /** fail to create redis-key */ A020("fail to create redis-key"),
   
   /** access denied */ A403("access denied"),
   

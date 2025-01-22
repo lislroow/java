@@ -1,5 +1,6 @@
 package spring.auth.api.service;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -9,9 +10,7 @@ import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.TokenMngDao;
 import spring.auth.api.vo.TokenMngVo;
 import spring.auth.common.login.TokenService;
-import spring.auth.common.login.vo.LoginVo.ClientLoginVo;
 import spring.custom.common.enumcode.TOKEN;
-import spring.custom.common.security.LoginDetails;
 import spring.custom.common.vo.ClientVo;
 
 @Service
@@ -23,14 +22,14 @@ public class TokenMngService {
   
   @Transactional
   public void addClientToken(TokenMngVo.AddTokenClient addVo) {
-    LoginDetails<ClientVo> loginVo = ClientLoginVo.builder()
+    ClientVo principal = ClientVo.builder()
         .clientId(addVo.getClientId())
         .roles(addVo.getRoles())
         .clientName(addVo.getClientName())
-        .expDate(addVo.getExpDate())
         .build();
+    LocalDate expDate = addVo.getExpDate();
     
-    Map.Entry<String, String> result = tokenService.createPtk(TOKEN.USER_TYPE.CLIENT, loginVo);
+    Map.Entry<String, String> result = tokenService.createPtk(TOKEN.USER.CLIENT, expDate, principal);
     addVo.setTokenKey(result.getKey());
     addVo.setTokenValue(result.getValue());
     tokenMngDao.addClientToken(addVo);

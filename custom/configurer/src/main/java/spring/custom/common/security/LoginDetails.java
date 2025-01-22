@@ -26,7 +26,7 @@ public interface LoginDetails<T extends TokenPrincipal> extends UserDetails {
     //    .collect(Collectors.toList());
   }
   
-  Long getRefreshExpireTime();
-  Long getAccessExpireTime();
+  //Long getRefreshExpireTime();
+  //Long getAccessExpireTime();
   
 }

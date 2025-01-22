@@ -15,7 +15,7 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.CACHE;
+import spring.custom.common.redis.RedisClient;
 
 @Configuration
 @ConditionalOnProperty(prefix = "spring.cache.", name = Constant.ENABLED, havingValue = "true", matchIfMissing = false)
@@ -36,7 +36,7 @@ public class CacheConfig {
   @Bean
   RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
     Map<String, RedisCacheConfiguration> cacheConfigurations = 
-        Arrays.asList(CACHE.values()).stream().collect(Collectors.toMap(
+        Arrays.asList(RedisClient.CACHE_KEY.values()).stream().collect(Collectors.toMap(
           item -> item.cacheName(),
           item -> RedisCacheConfiguration.defaultCacheConfig()
             .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
