@@ -3,6 +3,7 @@ package spring.custom.common.entity;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
@@ -11,11 +12,10 @@ import jakarta.persistence.MappedSuperclass;
 public class AuditEntity {
 
   @CreationTimestamp
-  @Column(name = "create_time", columnDefinition = "timestamp DEFAULT now() NULL ")
+  @Column(updatable = false)
   private LocalDateTime createTime;
   
-  @CreationTimestamp
-  @Column(name = "modify_time", columnDefinition = "timestamp DEFAULT now() NULL ")
+  @UpdateTimestamp
   private LocalDateTime modifyTime;
   
 }
