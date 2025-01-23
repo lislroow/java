@@ -40,6 +40,7 @@ public class JpaSampleService {
           item.setMass(reqDto.getMass());
           item.setDistanceFromSun(reqDto.getDistanceFromSun());
           item.setOrbitalEccentricity(reqDto.getOrbitalEccentricity());
+          item.setDeleted(reqDto.getDeleted());
           return planetRepository.save(item);
         })
         .orElse(null);
@@ -68,6 +69,7 @@ public class JpaSampleService {
           item.setDistanceFromPlanet(reqDto.getDistanceFromPlanet());
           item.setOrbitalEccentricity(reqDto.getOrbitalEccentricity());
           //item.setMemo(reqDto.getMemo());
+          item.setDeleted(reqDto.getDeleted());
           return satelliteRepository.save(item);
         })
         .orElse(null);

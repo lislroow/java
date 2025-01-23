@@ -3,9 +3,12 @@ package spring.custom.api.entity;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+
 //import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +25,7 @@ import spring.custom.common.entity.AuditEntity;
 
 @Entity
 @Table(name = "pt_planet")
+@SQLDelete(sql = "UPDATE pt_planet SET deleted = true WHERE id = ?")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString
@@ -38,6 +42,8 @@ public class PlanetEntity extends AuditEntity {
   private Double mass;
   private BigInteger distanceFromSun;
   private Double orbitalEccentricity;
+  @Column(insertable = false)
+  private Boolean deleted;
 
   @OneToMany(mappedBy = "planet", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<SatelliteEntity> satellites;

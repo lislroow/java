@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS pt_planet (
   mass NUMERIC NOT NULL,
   distance_from_sun DOUBLE PRECISION NOT NULL,
   orbital_eccentricity FLOAT NOT NULL,
+  deleted BOOLEAN DEFAULT false NOT NULL,
   create_time timestamp DEFAULT now() NULL,
   modify_time timestamp DEFAULT now() NULL,
   create_id VARCHAR(16) DEFAULT '1',

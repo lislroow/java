@@ -20,6 +20,7 @@ public class JpaSampleDto {
     private Double mass;
     private BigInteger distanceFromSun;
     private Double orbitalEccentricity;
+    private Boolean deleted;
   }
   
   @Data
@@ -44,7 +45,9 @@ public class JpaSampleDto {
     private Double mass;
     private BigInteger distanceFromSun;
     private Double orbitalEccentricity;
+    private Boolean deleted;
   }
+  
   
   
   // satellite
@@ -57,6 +60,7 @@ public class JpaSampleDto {
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
     //private String memo;
+    private Boolean deleted;
   }
   
   @Data
@@ -83,7 +87,10 @@ public class JpaSampleDto {
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
     //private String memo;
+    private Boolean deleted;
   }
+  
+  
   
   // star
   @Data

@@ -2,6 +2,10 @@ package spring.custom.api.entity;
 
 import java.math.BigInteger;
 
+import org.hibernate.annotations.SQLDelete;
+
+import jakarta.persistence.Column;
+
 //import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
@@ -21,6 +25,7 @@ import spring.custom.common.entity.AuditEntity;
 
 @Entity
 @Table(name = "pt_satellite")
+@SQLDelete(sql = "UPDATE pt_satellite SET deleted = true WHERE id = ?")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString
@@ -38,6 +43,8 @@ public class SatelliteEntity extends AuditEntity {
   private BigInteger distanceFromPlanet;
   private Double orbitalEccentricity;
   //private String memo;
+  @Column(insertable = false)
+  private Boolean deleted;
   
   @ManyToOne
   @JoinColumn(name = "planet_id")
