@@ -9,6 +9,7 @@ public class SECURITY {
     Swagger("/v3/api-docs/**"),
     Runtime("/v1/runtime/**"),
     MybatisMultipleDatasource("/v1/mybatis-multiple-datasource/**"),
+    JpaSample("/v1/jpa-sample/**"),
     MybatisSample("/v1/mybatis-sample/**"),
     RedisSample("/v1/redis-sample/**"),
     Common("/v1/common/**")

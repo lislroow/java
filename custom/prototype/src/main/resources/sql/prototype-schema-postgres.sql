@@ -45,6 +45,32 @@ CREATE TABLE IF NOT EXISTS pt_scientist
   PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS pt_star CASCADE ;
+CREATE TABLE IF NOT EXISTS pt_star (
+  id SERIAL,
+  name VARCHAR(255),
+  distance DOUBLE PRECISION,
+  brightness DOUBLE PRECISION,
+  mass DOUBLE PRECISION,
+  temperature INT,
+  create_time timestamp DEFAULT now() NULL,
+  modify_time timestamp DEFAULT now() NULL,
+  PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS pt_satellites CASCADE ;
+CREATE TABLE IF NOT EXISTS pt_satellites (
+  id SERIAL,
+  name VARCHAR(255),
+  radius DOUBLE PRECISION,
+  mass NUMERIC,
+  planet_name VARCHAR(255),
+  distance_from_planet INT,
+  orbital_eccentricity DOUBLE PRECISION,
+  create_time timestamp DEFAULT now() NULL,
+  modify_time timestamp DEFAULT now() NULL,
+  PRIMARY KEY (id)
+);
 
 /*  pt_access_control  */
 DROP TABLE IF EXISTS  pt_access_control CASCADE ;
