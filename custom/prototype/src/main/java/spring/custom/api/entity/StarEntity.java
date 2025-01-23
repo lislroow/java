@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import spring.custom.common.entity.AuditEntity;
 
 @Entity
 @Table(name = "pt_star")

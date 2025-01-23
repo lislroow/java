@@ -7,7 +7,7 @@ INSERT INTO sy_code_group (cd_grp, cd_grp_nm) VALUES
 ('FOS', 'field of study'),
 ('FOSP', 'physics'),
 ('NUM_SRCH_MODE', 'numeric search mode'),
-('CHAR_SRCH_MODE', 'character search mode'),
+('CHAR_SRCH_MODE', 'character search mode')
 ;
 
 /* sy_code */

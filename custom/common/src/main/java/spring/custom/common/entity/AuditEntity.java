@@ -1,4 +1,4 @@
-package spring.custom.api.entity;
+package spring.custom.common.entity;
 
 import java.time.LocalDateTime;
 
