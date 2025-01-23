@@ -6,8 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import spring.custom.api.dto.JpaSampleDto;
+import spring.custom.api.entity.PlanetEntity;
 import spring.custom.api.entity.SatelliteEntity;
 import spring.custom.api.entity.StarEntity;
+import spring.custom.api.entity.repository.PlanetRepository;
 import spring.custom.api.entity.repository.SatelliteRepository;
 import spring.custom.api.entity.repository.StarRepository;
 
@@ -19,6 +21,34 @@ public class JpaSampleService {
   final ModelMapper modelMapper;
   final StarRepository starRepository;
   final SatelliteRepository satelliteRepository;
+  final PlanetRepository planetRepository;
+  
+  
+  // planet
+  @Transactional
+  public PlanetEntity addPlanet(JpaSampleDto.AddPlanetReq reqDto) {
+    PlanetEntity entity = modelMapper.map(reqDto, PlanetEntity.class);
+    return planetRepository.save(entity);
+  }
+  
+  @Transactional
+  public PlanetEntity modifyPlanetById(JpaSampleDto.ModifyPlanetReq reqDto) {
+    return planetRepository.findById(reqDto.getId())
+        .map(item -> {
+          item.setName(reqDto.getName());
+          item.setRadius(reqDto.getRadius());
+          item.setMass(reqDto.getMass());
+          item.setDistanceFromSun(reqDto.getDistanceFromSun());
+          item.setOrbitalEccentricity(reqDto.getOrbitalEccentricity());
+          return planetRepository.save(item);
+        })
+        .orElse(null);
+  }
+  
+  @Transactional
+  public void removePlanetById(Integer id) {
+    planetRepository.deleteById(id);
+  }
   
   
   // satellite

@@ -72,6 +72,18 @@ CREATE TABLE IF NOT EXISTS pt_satellite (
   PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS pt_planet CASCADE ;
+CREATE TABLE IF NOT EXISTS pt_planet (
+  id SERIAL,
+  name VARCHAR(50) NOT NULL,
+  radius DOUBLE PRECISION NOT NULL,
+  mass NUMERIC NOT NULL,
+  distance_from_sun DOUBLE PRECISION NOT NULL,
+  orbital_eccentricity FLOAT NOT NULL,
+  PRIMARY KEY (id)
+);
+
+
 /*  pt_access_control  */
 DROP TABLE IF EXISTS  pt_access_control CASCADE ;
 CREATE TABLE IF NOT EXISTS  pt_access_control

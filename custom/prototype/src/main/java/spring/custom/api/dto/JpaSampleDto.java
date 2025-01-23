@@ -9,6 +9,37 @@ public class JpaSampleDto {
   
   private JpaSampleDto() { }
   
+  // planet
+  @Data
+  public static class PlanetRes extends AuditVo {
+    private Integer id;
+    private String name;
+    private Double radius;
+    private Double mass;
+    private BigInteger distanceFromSun;
+    private Double orbitalEccentricity;
+  }
+  
+  @Data
+  public static class AddPlanetReq {
+    private String name;
+    private Double radius;
+    private Double mass;
+    private BigInteger distanceFromSun;
+    private Double orbitalEccentricity;
+  }
+  
+  @Data
+  public static class ModifyPlanetReq {
+    private Integer id;
+    private String name;
+    private Double radius;
+    private Double mass;
+    private BigInteger distanceFromSun;
+    private Double orbitalEccentricity;
+  }
+  
+  
   // satellite
   @Data
   public static class SatelliteRes extends AuditVo {

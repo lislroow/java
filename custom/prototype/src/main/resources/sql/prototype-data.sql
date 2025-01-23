@@ -107,6 +107,24 @@ INSERT INTO pt_satellite (name, radius, mass, planet_name, distance_from_planet,
 ('Kerberos', 10, 1.6e16, 'Pluto', 57783, 0.0032),
 ('Styx', 8, 7.5e15, 'Pluto', 42656, 0.0054);
 
+INSERT INTO pt_planet (name, radius, mass, distance_from_sun, orbital_eccentricity) VALUES
+('Mercury', 2439.7, 3.3011e23, 5.791e7, 0.2056),
+('Venus', 6051.8, 4.8675e24, 1.082e8, 0.0067),
+('Earth', 6371.0, 5.97237e24, 1.496e8, 0.0167),
+('Mars', 3389.5, 6.4171e23, 2.279e8, 0.0934),
+('Jupiter', 69911, 1.8982e27, 7.785e8, 0.0489),
+('Saturn', 58232, 5.6834e26, 1.433e9, 0.0565),
+('Uranus', 25362, 8.6810e25, 2.877e9, 0.0463),
+('Neptune', 24622, 1.02413e26, 4.503e9, 0.0097),
+('Pluto', 1188.3, 1.30900e22, 5.906e9, 0.2488),
+('Ceres', 473, 9.393e20, 4.14e8, 0.0758),
+('Pallas', 272.5, 2.11e20, 4.14e8, 0.2312),
+('Vesta', 262.7, 2.59e20, 3.53e8, 0.0890),
+('Hygiea', 215, 8.32e19, 4.38e8, 0.1155),
+('Eros', 8.42, 6.687e15, 2.18e8, 0.2229);
+
+
+
 /*  pt_access_control  */
 
 

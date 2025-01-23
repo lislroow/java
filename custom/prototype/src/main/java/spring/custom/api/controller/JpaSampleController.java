@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.api.dto.JpaSampleDto;
+import spring.custom.api.entity.PlanetEntity;
 import spring.custom.api.entity.SatelliteEntity;
 import spring.custom.api.entity.StarEntity;
+import spring.custom.api.entity.repository.PlanetRepository;
 import spring.custom.api.entity.repository.SatelliteRepository;
 import spring.custom.api.entity.repository.StarRepository;
+import spring.custom.api.entity.spec.PlanetSpecification;
 import spring.custom.api.entity.spec.SatelliteSpecification;
 import spring.custom.api.entity.spec.StarSpecification;
 import spring.custom.api.service.JpaSampleService;
@@ -36,6 +39,65 @@ public class JpaSampleController {
   final JpaSampleService jpaSampleService;
   final StarRepository starRepository;
   final SatelliteRepository satelliteRepository;
+  final PlanetRepository planetRepository;
+  
+  
+  // planet
+  @GetMapping("/v1/jpa-sample/planets/search")
+  public Page<JpaSampleDto.PlanetRes> searchPlanets(
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false, defaultValue = "0") Integer page,
+      @RequestParam(required = false, defaultValue = "10") Integer size) {
+    
+    Specification<PlanetEntity> spec = 
+        Specification.where(PlanetSpecification.hasName(name));
+    Page<PlanetEntity> result = planetRepository.findAll(spec, PageRequest.of(page, size));
+    return result.map(item -> modelMapper.map(item, JpaSampleDto.PlanetRes.class));
+  }
+  
+  @GetMapping("/v1/jpa-sample/planet/{id}")
+  public ResponseEntity<JpaSampleDto.PlanetRes> findPlanetById(
+      @PathVariable Integer id) {
+    PlanetEntity result = planetRepository.findById(id).orElseThrow(() -> new DataNotFoundException());
+    JpaSampleDto.PlanetRes resDto = modelMapper.map(result, JpaSampleDto.PlanetRes.class);
+    return ResponseEntity.ok(resDto);
+  }
+  
+  @PostMapping("/v1/jpa-sample/planet")
+  public ResponseEntity<?> addPlanet(
+      @RequestBody JpaSampleDto.AddPlanetReq reqDto) {
+    PlanetEntity result = jpaSampleService.addPlanet(reqDto);
+    JpaSampleDto.PlanetRes resDto = modelMapper.map(result, JpaSampleDto.PlanetRes.class);
+    
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .location(URI.create("/v1/jpa-sample/planet/"+resDto.getId()))
+        .body(resDto);
+  }
+  
+  @PutMapping("/v1/jpa-sample/planet")
+  public ResponseEntity<?> modifyPlanetById(
+      @RequestBody JpaSampleDto.ModifyPlanetReq reqDto) {
+    PlanetEntity result = jpaSampleService.modifyPlanetById(reqDto);
+    JpaSampleDto.PlanetRes resDto = result != null 
+        ? modelMapper.map(result, JpaSampleDto.PlanetRes.class)
+            : null;
+    
+    if (result == null) {
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.ok(resDto);
+    }
+  }
+  
+  @DeleteMapping("/v1/jpa-sample/planet/{id}")
+  public ResponseEntity<?> removePlanetById(
+      @PathVariable Integer id) {
+    jpaSampleService.removePlanetById(id);
+    
+    return ResponseEntity.noContent().build();
+  }
+  
+  
   
   // satellite
   @GetMapping("/v1/jpa-sample/satellites/search")
@@ -91,6 +153,7 @@ public class JpaSampleController {
     
     return ResponseEntity.noContent().build();
   }
+  
   
   
   // star
