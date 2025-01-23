@@ -55,9 +55,9 @@ public class JpaSampleController {
     return result.map(planet -> {
       JpaSampleDto.PlanetRes res = modelMapper.map(planet, JpaSampleDto.PlanetRes.class);
       if (planet.getSatellites() != null) {
-        List<JpaSampleDto.SatelliteRes> satellites = planet.getSatellites()
+        List<JpaSampleDto.Satellite> satellites = planet.getSatellites()
             .stream()
-            .map(satellite -> modelMapper.map(satellite, JpaSampleDto.SatelliteRes.class))
+            .map(satellite -> modelMapper.map(satellite, JpaSampleDto.Satellite.class))
             .toList();
         res.setSatellites(satellites);
       }
@@ -71,9 +71,9 @@ public class JpaSampleController {
     PlanetEntity result = planetRepository.findById(id).orElseThrow(() -> new DataNotFoundException());
     JpaSampleDto.PlanetRes resDto = modelMapper.map(result, JpaSampleDto.PlanetRes.class);
     if (result.getSatellites() != null) {
-      List<JpaSampleDto.SatelliteRes> satellites = result.getSatellites()
+      List<JpaSampleDto.Satellite> satellites = result.getSatellites()
           .stream()
-          .map(satellite -> modelMapper.map(satellite, JpaSampleDto.SatelliteRes.class))
+          .map(satellite -> modelMapper.map(satellite, JpaSampleDto.Satellite.class))
           .toList();
       resDto.setSatellites(satellites);
     }

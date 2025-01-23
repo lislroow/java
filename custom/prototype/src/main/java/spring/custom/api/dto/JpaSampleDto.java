@@ -4,6 +4,9 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Data;
 import spring.custom.common.audit.AuditVo;
 
@@ -13,15 +16,18 @@ public class JpaSampleDto {
   
   // planet
   @Data
-  public static class PlanetRes extends AuditVo {
+  public static class Planet extends AuditVo {
     private Integer id;
     private String name;
     private Double radius;
     private Double mass;
     private BigInteger distanceFromSun;
     private Double orbitalEccentricity;
-    
-    private List<JpaSampleDto.SatelliteRes> satellites = new ArrayList<>();
+  }
+  
+  @Data
+  public static class PlanetRes extends Planet {
+    private List<JpaSampleDto.Satellite> satellites = new ArrayList<>();
   }
   
   @Data
@@ -46,7 +52,7 @@ public class JpaSampleDto {
   
   // satellite
   @Data
-  public static class SatelliteRes extends AuditVo {
+  public static class Satellite extends AuditVo {
     private Integer id;
     private String name;
     private Double radius;
@@ -54,6 +60,11 @@ public class JpaSampleDto {
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
     private String memo;
+  }
+  
+  @Data
+  public static class SatelliteRes extends Satellite {
+    private Planet planet;
   }
   
   @Data
