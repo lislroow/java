@@ -5,28 +5,39 @@ INSERT INTO sy_code_group (cd_grp, cd_grp_nm) VALUES
 ('ENABLE_YN', '활성화 여부'),
 ('DISABLED_YN', '비활성화 여부'),
 ('FOS', 'field of study'),
-('FOSP', 'physics')
+('FOSP', 'physics'),
+('NUM_SRCH_MODE', 'numeric search mode'),
+('CHAR_SRCH_MODE', 'character search mode'),
 ;
 
 /* sy_code */
-INSERT INTO sy_code (cd_grp, cd, seq, cd_nm) VALUES
-('USE_YN', 'Y', 1, '사용'),
-('USE_YN', 'N', 2, '미사용'),
-('LOCKED_YN', 'Y', 1, '잠김'),
-('LOCKED_YN', 'N', 2, '정상'),
-('ENABLE_YN', 'Y', 1, '활성'),
-('ENABLE_YN', 'N', 2, '비활성'),
-('DISABLED_YN', 'Y', 1, '비활성'),
-('DISABLED_YN', 'N', 2, '정상'),
-('FOS', 'P', 1, 'physics'),
-('FOS', 'C', 2, 'chemistry'),
-('FOS', 'M', 3, 'mathematics'),
-('FOS', 'B', 4, 'biology'),
-('FOS', 'A', 5, 'astronomy'),
-('FOSP', 'CM', 1, 'Classical Mechanics'),
-('FOSP', 'EM', 2, 'Electromagnetic Mechanics'),
-('FOSP', 'QM', 3, 'Quantum Mechanics'),
-('FOSP', 'FM', 4, 'Fluid Mechanics')
+INSERT INTO sy_code (cd_grp, seq, cd, cd_nm) VALUES
+('NUM_SRCH_MODE', 1, 'eq', 'equal'),
+('NUM_SRCH_MODE', 2, 'gt', 'greaterThan'),
+('NUM_SRCH_MODE', 3, 'ge', 'greaterThanOrEqual'),
+('NUM_SRCH_MODE', 4, 'lt', 'lessThan'),
+('NUM_SRCH_MODE', 5, 'le', 'lessThanOrEqual'),
+('CHAR_SRCH_MODE', 1, 'eq', 'equal'),
+('CHAR_SRCH_MODE', 2, 'like', 'like'),
+('CHAR_SRCH_MODE', 3, 'sw', 'starts-with'),
+('CHAR_SRCH_MODE', 4, 'ew', 'ends-with'),
+('USE_YN', 1, 'Y', '사용'),
+('USE_YN', 2, 'N', '미사용'),
+('LOCKED_YN', 1, 'Y', '잠김'),
+('LOCKED_YN', 2, 'N', '정상'),
+('ENABLE_YN', 1, 'Y', '활성'),
+('ENABLE_YN', 2, 'N', '비활성'),
+('DISABLED_YN', 1, 'Y', '비활성'),
+('DISABLED_YN', 2, 'N', '정상'),
+('FOS', 1, 'P', 'physics'),
+('FOS', 2, 'C', 'chemistry'),
+('FOS', 3, 'M', 'mathematics'),
+('FOS', 4, 'B', 'biology'),
+('FOS', 5, 'A', 'astronomy'),
+('FOSP', 1, 'CM', 'Classical Mechanics'),
+('FOSP', 2, 'EM', 'Electromagnetic Mechanics'),
+('FOSP', 3, 'QM', 'Quantum Mechanics'),
+('FOSP', 4, 'FM', 'Fluid Mechanics')
 ;
 
 INSERT INTO pt_scientist (name, birth_year, death_year, fos_cd) VALUES

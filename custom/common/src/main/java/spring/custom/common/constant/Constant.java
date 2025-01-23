@@ -13,7 +13,7 @@ public class Constant {
   public static final Long MILLS = 1000L;
   
   public static class PAGE {
-    public static final Integer PAGE_NUMBER = 1; // 페이지 시작은 '1' 부터
+    public static final Integer PAGE_NUMBER = 0; // 페이징 시작은 '0' 부터: spring-data-jpa 에서는 0부터 시작함
     public static final Integer PAGE_SIZE = 10;
   }
   
