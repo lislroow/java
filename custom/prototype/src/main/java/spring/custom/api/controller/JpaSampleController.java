@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.api.dto.JpaSampleDto;
+import spring.custom.api.entity.SatelliteEntity;
 import spring.custom.api.entity.StarEntity;
+import spring.custom.api.entity.repository.SatelliteRepository;
 import spring.custom.api.entity.repository.StarRepository;
+import spring.custom.api.entity.spec.SatelliteSpecification;
 import spring.custom.api.entity.spec.StarSpecification;
 import spring.custom.api.service.JpaSampleService;
 import spring.custom.common.exception.data.DataNotFoundException;
@@ -32,7 +35,65 @@ public class JpaSampleController {
   final ModelMapper modelMapper;
   final JpaSampleService jpaSampleService;
   final StarRepository starRepository;
+  final SatelliteRepository satelliteRepository;
   
+  // satellite
+  @GetMapping("/v1/jpa-sample/satellites/search")
+  public Page<JpaSampleDto.SatelliteRes> searchSatellites(
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false, defaultValue = "0") Integer page,
+      @RequestParam(required = false, defaultValue = "10") Integer size) {
+    
+    Specification<SatelliteEntity> spec = 
+        Specification.where(SatelliteSpecification.hasName(name));
+    Page<SatelliteEntity> result = satelliteRepository.findAll(spec, PageRequest.of(page, size));
+    return result.map(item -> modelMapper.map(item, JpaSampleDto.SatelliteRes.class));
+  }
+  
+  @GetMapping("/v1/jpa-sample/satellite/{id}")
+  public ResponseEntity<JpaSampleDto.SatelliteRes> findSatelliteById(
+      @PathVariable Integer id) {
+    SatelliteEntity result = satelliteRepository.findById(id).orElseThrow(() -> new DataNotFoundException());
+    JpaSampleDto.SatelliteRes resDto = modelMapper.map(result, JpaSampleDto.SatelliteRes.class);
+    return ResponseEntity.ok(resDto);
+  }
+  
+  @PostMapping("/v1/jpa-sample/satellite")
+  public ResponseEntity<?> addSatellite(
+      @RequestBody JpaSampleDto.AddSatelliteReq reqDto) {
+    SatelliteEntity result = jpaSampleService.addSatellite(reqDto);
+    JpaSampleDto.SatelliteRes resDto = modelMapper.map(result, JpaSampleDto.SatelliteRes.class);
+    
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .location(URI.create("/v1/jpa-sample/satellite/"+resDto.getId()))
+        .body(resDto);
+  }
+  
+  @PutMapping("/v1/jpa-sample/satellite")
+  public ResponseEntity<?> modifySatelliteById(
+      @RequestBody JpaSampleDto.ModifySatelliteReq reqDto) {
+    SatelliteEntity result = jpaSampleService.modifySatelliteById(reqDto);
+    JpaSampleDto.SatelliteRes resDto = result != null 
+        ? modelMapper.map(result, JpaSampleDto.SatelliteRes.class)
+        : null;
+    
+    if (result == null) {
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.ok(resDto);
+    }
+  }
+  
+  @DeleteMapping("/v1/jpa-sample/satellite/{id}")
+  public ResponseEntity<?> removeSatelliteById(
+      @PathVariable Integer id) {
+    jpaSampleService.removeSatelliteById(id);
+    
+    return ResponseEntity.noContent().build();
+  }
+  
+  
+  // star
   @GetMapping("/v1/jpa-sample/stars")
   public Page<JpaSampleDto.StarRes> findStars(
       @RequestParam(defaultValue = "0") Integer page,

@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import spring.custom.api.dto.JpaSampleDto;
+import spring.custom.api.entity.SatelliteEntity;
 import spring.custom.api.entity.StarEntity;
+import spring.custom.api.entity.repository.SatelliteRepository;
 import spring.custom.api.entity.repository.StarRepository;
 
 @Service
@@ -15,9 +17,39 @@ import spring.custom.api.entity.repository.StarRepository;
 public class JpaSampleService {
   
   final ModelMapper modelMapper;
-  //private JpaSampleDao mybatisSampleDao;
   final StarRepository starRepository;
+  final SatelliteRepository satelliteRepository;
   
+  
+  // satellite
+  @Transactional
+  public SatelliteEntity addSatellite(JpaSampleDto.AddSatelliteReq reqDto) {
+    SatelliteEntity entity = modelMapper.map(reqDto, SatelliteEntity.class);
+    return satelliteRepository.save(entity);
+  }
+  
+  @Transactional
+  public SatelliteEntity modifySatelliteById(JpaSampleDto.ModifySatelliteReq reqDto) {
+    return satelliteRepository.findById(reqDto.getId())
+        .map(item -> {
+          item.setName(reqDto.getName());
+          item.setRadius(reqDto.getRadius());
+          item.setMass(reqDto.getMass());
+          item.setPlanetName(reqDto.getPlanetName());
+          item.setDistanceFromPlanet(reqDto.getDistanceFromPlanet());
+          item.setOrbitalEccentricity(reqDto.getOrbitalEccentricity());
+          return satelliteRepository.save(item);
+        })
+        .orElse(null);
+  }
+  
+  @Transactional
+  public void removeSatelliteById(Integer id) {
+    satelliteRepository.deleteById(id);
+  }
+  
+  
+  // star
   @Transactional
   public StarEntity addStar(JpaSampleDto.AddStarReq reqDto) {
     //return mybatisSampleDao.addStar(addVo);
