@@ -47,9 +47,9 @@ public class JpaSampleDto {
     private String name;
     private Double radius;
     private Double mass;
-    private String planetName;
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
+    private String memo;
   }
   
   @Data
@@ -57,9 +57,9 @@ public class JpaSampleDto {
     private String name;
     private Double radius;
     private Double mass;
-    private String planetName;
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
+    private String memo;
   }
   
   @Data
@@ -68,9 +68,9 @@ public class JpaSampleDto {
     private String name;
     private Double radius;
     private Double mass;
-    private String planetName;
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
+    private String memo;
   }
   
   // star

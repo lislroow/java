@@ -58,20 +58,6 @@ CREATE TABLE IF NOT EXISTS pt_star (
   PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS pt_satellite CASCADE ;
-CREATE TABLE IF NOT EXISTS pt_satellite (
-  id SERIAL,
-  name VARCHAR(255),
-  radius DOUBLE PRECISION,
-  mass NUMERIC,
-  planet_name VARCHAR(255),
-  distance_from_planet INT,
-  orbital_eccentricity DOUBLE PRECISION,
-  create_time timestamp DEFAULT now() NULL,
-  modify_time timestamp DEFAULT now() NULL,
-  PRIMARY KEY (id)
-);
-
 DROP TABLE IF EXISTS pt_planet CASCADE ;
 CREATE TABLE IF NOT EXISTS pt_planet (
   id SERIAL,
@@ -81,6 +67,24 @@ CREATE TABLE IF NOT EXISTS pt_planet (
   distance_from_sun DOUBLE PRECISION NOT NULL,
   orbital_eccentricity FLOAT NOT NULL,
   PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS pt_satellite CASCADE ;
+CREATE TABLE IF NOT EXISTS pt_satellite (
+  id SERIAL,
+  planet_id INT,
+  name VARCHAR(255),
+  radius DOUBLE PRECISION,
+  mass NUMERIC,
+  distance_from_planet INT,
+  orbital_eccentricity DOUBLE PRECISION,
+  memo VARCHAR(255),
+  create_time timestamp DEFAULT now() NULL,
+  modify_time timestamp DEFAULT now() NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_pt_planet_id FOREIGN KEY (planet_id)
+    REFERENCES pt_planet (id)
+    ON DELETE SET NULL
 );
 
 

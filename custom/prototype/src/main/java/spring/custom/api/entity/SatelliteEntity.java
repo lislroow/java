@@ -31,8 +31,8 @@ public class SatelliteEntity extends AuditEntity {
   private String name;
   private Double radius;
   private Double mass;
-  private String planetName;
   private BigInteger distanceFromPlanet;
   private Double orbitalEccentricity;
+  private String memo;
   
 }

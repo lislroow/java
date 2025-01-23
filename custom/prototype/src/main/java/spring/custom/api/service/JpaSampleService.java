@@ -65,9 +65,9 @@ public class JpaSampleService {
           item.setName(reqDto.getName());
           item.setRadius(reqDto.getRadius());
           item.setMass(reqDto.getMass());
-          item.setPlanetName(reqDto.getPlanetName());
           item.setDistanceFromPlanet(reqDto.getDistanceFromPlanet());
           item.setOrbitalEccentricity(reqDto.getOrbitalEccentricity());
+          item.setMemo(reqDto.getMemo());
           return satelliteRepository.save(item);
         })
         .orElse(null);
