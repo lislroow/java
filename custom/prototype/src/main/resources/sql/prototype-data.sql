@@ -71,7 +71,7 @@ INSERT INTO pt_star (name, distance, brightness, mass, temperature) VALUES
 ('Deneb', 2615.0, 196000, 19.0, 8525)
 ;
 
-INSERT INTO pt_satellites (name, radius, mass, planet_name, distance_from_planet, orbital_eccentricity) VALUES
+INSERT INTO pt_satellite (name, radius, mass, planet_name, distance_from_planet, orbital_eccentricity) VALUES
 ('Moon', 1737.4, 7.35e22, 'Earth', 384400, 0.0549),
 ('Phobos', 11.267, 1.08e16, 'Mars', 9377, 0.0151),
 ('Deimos', 6.2, 1.48e15, 'Mars', 23463, 0.0002),

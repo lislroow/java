@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS pt_star (
   PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS pt_satellites CASCADE ;
-CREATE TABLE IF NOT EXISTS pt_satellites (
+DROP TABLE IF EXISTS pt_satellite CASCADE ;
+CREATE TABLE IF NOT EXISTS pt_satellite (
   id SERIAL,
   name VARCHAR(255),
   radius DOUBLE PRECISION,
