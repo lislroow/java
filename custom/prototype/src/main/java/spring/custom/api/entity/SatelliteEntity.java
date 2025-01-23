@@ -2,7 +2,7 @@ package spring.custom.api.entity;
 
 import java.math.BigInteger;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+//import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
