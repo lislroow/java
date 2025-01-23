@@ -1,8 +1,6 @@
 package spring.custom.api.controller;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -34,18 +32,6 @@ public class JpaSampleController {
   final ModelMapper modelMapper;
   final JpaSampleService jpaSampleService;
   final StarRepository starRepository;
-  
-  
-  @GetMapping("/v1/jpa-sample/stars/all")
-  public JpaSampleDto.StarListRes allStars() {
-    List<StarEntity> result = starRepository.findAll();
-    
-    JpaSampleDto.StarListRes resDto = new JpaSampleDto.StarListRes(
-        result.stream()
-          .map(item -> modelMapper.map(item, JpaSampleDto.StarRes.class))
-          .collect(Collectors.toList()));
-    return resDto;
-  }
   
   @GetMapping("/v1/jpa-sample/stars")
   public Page<JpaSampleDto.StarRes> findStars(
