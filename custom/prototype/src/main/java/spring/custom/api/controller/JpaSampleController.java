@@ -1,6 +1,7 @@
 package spring.custom.api.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -48,11 +49,20 @@ public class JpaSampleController {
       @RequestParam(required = false) String name,
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    
     Specification<PlanetEntity> spec = 
         Specification.where(PlanetSpecification.hasName(name));
     Page<PlanetEntity> result = planetRepository.findAll(spec, PageRequest.of(page, size));
-    return result.map(item -> modelMapper.map(item, JpaSampleDto.PlanetRes.class));
+    return result.map(planet -> {
+      JpaSampleDto.PlanetRes res = modelMapper.map(planet, JpaSampleDto.PlanetRes.class);
+      if (planet.getSatellites() != null) {
+        List<JpaSampleDto.SatelliteRes> satellites = planet.getSatellites()
+            .stream()
+            .map(satellite -> modelMapper.map(satellite, JpaSampleDto.SatelliteRes.class))
+            .toList();
+        res.setSatellites(satellites);
+      }
+      return res;
+    });
   }
   
   @GetMapping("/v1/jpa-sample/planet/{id}")
@@ -60,6 +70,13 @@ public class JpaSampleController {
       @PathVariable Integer id) {
     PlanetEntity result = planetRepository.findById(id).orElseThrow(() -> new DataNotFoundException());
     JpaSampleDto.PlanetRes resDto = modelMapper.map(result, JpaSampleDto.PlanetRes.class);
+    if (result.getSatellites() != null) {
+      List<JpaSampleDto.SatelliteRes> satellites = result.getSatellites()
+          .stream()
+          .map(satellite -> modelMapper.map(satellite, JpaSampleDto.SatelliteRes.class))
+          .toList();
+      resDto.setSatellites(satellites);
+    }
     return ResponseEntity.ok(resDto);
   }
   

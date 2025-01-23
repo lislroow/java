@@ -1,6 +1,8 @@
 package spring.custom.api.dto;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
 import spring.custom.common.audit.AuditVo;
@@ -18,6 +20,8 @@ public class JpaSampleDto {
     private Double mass;
     private BigInteger distanceFromSun;
     private Double orbitalEccentricity;
+    
+    private List<JpaSampleDto.SatelliteRes> satellites = new ArrayList<>();
   }
   
   @Data

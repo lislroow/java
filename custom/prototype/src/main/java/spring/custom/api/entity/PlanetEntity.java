@@ -1,11 +1,14 @@
 package spring.custom.api.entity;
 
 import java.math.BigInteger;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,5 +36,8 @@ public class PlanetEntity extends AuditEntity {
   private Double mass;
   private BigInteger distanceFromSun;
   private Double orbitalEccentricity;
-  
+
+  @OneToMany(mappedBy = "planet", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<SatelliteEntity> satellites;
+
 }
