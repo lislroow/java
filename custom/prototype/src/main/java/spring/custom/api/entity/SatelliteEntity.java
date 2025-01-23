@@ -37,7 +37,7 @@ public class SatelliteEntity extends AuditEntity {
   private Double mass;
   private BigInteger distanceFromPlanet;
   private Double orbitalEccentricity;
-  private String memo;
+  //private String memo;
   
   @ManyToOne
   @JoinColumn(name = "planet_id")

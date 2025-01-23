@@ -4,9 +4,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.Data;
 import spring.custom.common.audit.AuditVo;
 
@@ -59,7 +56,7 @@ public class JpaSampleDto {
     private Double mass;
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
-    private String memo;
+    //private String memo;
   }
   
   @Data
@@ -74,7 +71,7 @@ public class JpaSampleDto {
     private Double mass;
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
-    private String memo;
+    //private String memo;
   }
   
   @Data
@@ -85,7 +82,7 @@ public class JpaSampleDto {
     private Double mass;
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
-    private String memo;
+    //private String memo;
   }
   
   // star
