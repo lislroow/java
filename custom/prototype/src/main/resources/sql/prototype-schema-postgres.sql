@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS pt_star (
   temperature INT,
   create_time timestamp DEFAULT now() NULL,
   modify_time timestamp DEFAULT now() NULL,
+  create_id VARCHAR(16) DEFAULT '1',
+  modify_id VARCHAR(16) DEFAULT '1',
   PRIMARY KEY (id)
 );
 
@@ -66,6 +68,10 @@ CREATE TABLE IF NOT EXISTS pt_planet (
   mass NUMERIC NOT NULL,
   distance_from_sun DOUBLE PRECISION NOT NULL,
   orbital_eccentricity FLOAT NOT NULL,
+  create_time timestamp DEFAULT now() NULL,
+  modify_time timestamp DEFAULT now() NULL,
+  create_id VARCHAR(16) DEFAULT '1',
+  modify_id VARCHAR(16) DEFAULT '1',
   PRIMARY KEY (id)
 );
 
@@ -81,6 +87,8 @@ CREATE TABLE IF NOT EXISTS pt_satellite (
   memo VARCHAR(255),
   create_time timestamp DEFAULT now() NULL,
   modify_time timestamp DEFAULT now() NULL,
+  create_id VARCHAR(16) DEFAULT '1',
+  modify_id VARCHAR(16) DEFAULT '1',
   PRIMARY KEY (id),
   CONSTRAINT fk_pt_planet_id FOREIGN KEY (planet_id)
     REFERENCES pt_planet (id)
