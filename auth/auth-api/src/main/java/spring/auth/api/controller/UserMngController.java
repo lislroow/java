@@ -34,6 +34,7 @@ import spring.auth.api.dao.UserMngDao;
 import spring.auth.api.dto.UserMngDto;
 import spring.auth.api.service.UserMngService;
 import spring.auth.api.vo.UserMngVo;
+import spring.custom.code.EnumYN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.data.DataNotFoundException;
 import spring.custom.common.mybatis.PageRequest;
@@ -41,7 +42,6 @@ import spring.custom.common.mybatis.PageResponse;
 import spring.custom.common.redis.RedisClient;
 import spring.custom.common.syscode.ERROR;
 import spring.custom.common.syscode.TOKEN;
-import spring.custom.common.syscode.YN;
 import spring.custom.common.util.HashUtil;
 
 @RestController
@@ -87,8 +87,8 @@ public class UserMngController {
       @RequestParam(required = false) String loginId,
       @RequestParam(required = false) String mgrName,
       @RequestParam(required = false) String roles,
-      @RequestParam(required = false) YN enableYn,
-      @RequestParam(required = false) YN lockedYn,
+      @RequestParam(required = false) EnumYN enableYn,
+      @RequestParam(required = false) EnumYN lockedYn,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     UserMngVo.SearchParam searchVo = UserMngVo.SearchParam.builder()
@@ -183,8 +183,8 @@ public class UserMngController {
     String id = userMngDao.selectNextId(TOKEN.USER.MANAGER.idprefix());
     addVo.setId(id);
     addVo.setLoginPwd(bcryptPasswordEncoder.encode(reqDto.getNewLoginPwd()));
-    addVo.setEnableYn(YN.Y);
-    addVo.setLockedYn(YN.N);
+    addVo.setEnableYn(EnumYN.Y);
+    addVo.setLockedYn(EnumYN.N);
     addVo.setPwdExpDate(LocalDate.now().plusDays(90));
     addVo.setCreateId(id);
     addVo.setModifyId(id);

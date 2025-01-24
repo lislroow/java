@@ -16,9 +16,9 @@ import spring.auth.api.dao.TokenMngDao;
 import spring.auth.api.dto.TokenMngDto;
 import spring.auth.api.service.TokenMngService;
 import spring.auth.api.vo.TokenMngVo;
+import spring.custom.code.EnumYN;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
-import spring.custom.common.syscode.YN;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +33,7 @@ public class TokenMngController {
       @RequestParam(required = false) String clientId,
       @RequestParam(required = false) String tokenKey,
       @RequestParam(required = false) String contactName,
-      @RequestParam(required = false) YN enableYn,
+      @RequestParam(required = false) EnumYN enableYn,
       @RequestParam(required = false, defaultValue = "1") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     TokenMngVo.SearchParam searchVo = TokenMngVo.SearchParam.builder()

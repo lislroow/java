@@ -15,11 +15,11 @@ import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.UserMngDao;
 import spring.auth.common.login.dao.UserLoginDao;
 import spring.auth.common.login.vo.LoginVo;
+import spring.custom.code.EnumYN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.syscode.ERROR;
 import spring.custom.common.syscode.ROLE;
 import spring.custom.common.syscode.TOKEN;
-import spring.custom.common.syscode.YN;
 
 @Service
 @RequiredArgsConstructor
@@ -59,8 +59,8 @@ public class MemberOAuth2LoginService implements OAuth2UserService<OAuth2UserReq
             .loginId(memberOAuth2AddVo.getEmail())
             .roles(ROLE.MEMBER.name())
             .nickname(memberOAuth2AddVo.getNickname())
-            .enableYn(YN.Y)
-            .lockedYn(YN.N)
+            .enableYn(EnumYN.Y)
+            .lockedYn(EnumYN.N)
             .build();
         userLoginDao.insertMember(memberAddVo);
       }

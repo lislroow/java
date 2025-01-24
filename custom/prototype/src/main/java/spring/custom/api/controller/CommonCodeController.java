@@ -26,11 +26,10 @@ public class CommonCodeController {
   final CommonCodeDao commonCodeDao;
   final EnumMapper enumMapper;
   
-  @GetMapping("/v1/common/codes/all")
+  @GetMapping("/v1/common/code/all")
   @Cacheable(value = "cache:common-code:all")
-  public List<CommonCodeDto.AllCodeRes> allCodes() {
+  public List<CommonCodeDto.AllCodeRes> allCode() {
     List<CommonCodeVo.ResultAllCode> resultVo = commonCodeDao.allCodes();
-    
     List<CommonCodeDto.AllCodeRes> resDto = resultVo.stream()
         .collect(Collectors.groupingBy(ResultAllCode::getCdGrp))
         .entrySet().stream()
@@ -45,26 +44,54 @@ public class CommonCodeController {
     return resDto;
   }
   
-  @GetMapping("/v1/common/codes/{cdGrp}")
-  public List<CommonCodeDto.CodeRes> findCodesByCdGrp(
-      @PathVariable String cdGrp) {
+  @GetMapping("/v1/common/code/{cdGrp}")
+  public List<CommonCodeDto.CodeRes> findCodeByCdGrp(@PathVariable String cdGrp) {
     List<CommonCodeVo.ResultCode> resultVo = commonCodeDao.findCodesByCdGrp(cdGrp);
-    
     List<CommonCodeDto.CodeRes> resDto = resultVo.stream()
         .map(item -> modelMapper.map(item, CommonCodeDto.CodeRes.class))
         .collect(Collectors.toList());
     return resDto;
   }
   
+  @GetMapping("/v1/common/code-enum/all")
+  public List<CommonCodeDto.AllCodeRes> allCodeEnum() {
+    Map<String, List<EnumCode>> allCodes = enumMapper.allCodes();
+    List<CommonCodeDto.AllCodeRes> resDto = allCodes.entrySet().stream()
+        .map(map -> {
+          List<CommonCodeDto.CodeRes> list = map.getValue().stream()
+              .map(item -> CommonCodeDto.CodeRes.builder()
+                  .cd(item.getValue())
+                  .cdNm(item.getLabel())
+                  .seq(item.getSeq())
+                  .build())
+              .collect(Collectors.toList());
+          return new CommonCodeDto.AllCodeRes(map.getKey(), list);
+        })
+        .collect(Collectors.toList());
+    return resDto;
+  }
+  
+  @GetMapping("/v1/common/code-enum/{key}")
+  public List<CommonCodeDto.CodeRes> findCodeEnumByCdGrp(@PathVariable String key) {
+    List<EnumCode> code = enumMapper.getCode(key);
+    List<CommonCodeDto.CodeRes> resDto = code.stream()
+        .map(item -> CommonCodeDto.CodeRes.builder()
+            .cd(item.getValue())
+            .cdNm(item.getLabel())
+            .seq(item.getSeq())
+            .build())
+        .collect(Collectors.toList());
+    return resDto;
+  }
+  
   @GetMapping("/v1/common/enums/all")
   public Map<String, List<EnumCode>> allEnums() {
-    Map<String, List<EnumCode>> allCodes = enumMapper.allCodes();
-    return allCodes;
+    Map<String, List<EnumCode>> allCode = enumMapper.allCodes();
+    return allCode;
   }
   
   @GetMapping("/v1/common/enums/{key}")
-  public List<EnumCode> findEnumsByCdGrp(
-      @PathVariable String key) {
+  public List<EnumCode> findCodeEnumByKey(@PathVariable String key) {
     List<EnumCode> code = enumMapper.getCode(key);
     return code;
   }

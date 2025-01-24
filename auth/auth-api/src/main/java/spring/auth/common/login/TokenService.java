@@ -42,13 +42,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.auth.common.login.dao.TokenDao;
 import spring.auth.common.login.vo.TokenVo;
+import spring.custom.code.EnumYN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
 import spring.custom.common.exception.token.RefreshTokenExpiredException;
 import spring.custom.common.redis.RedisClient;
 import spring.custom.common.syscode.ERROR;
 import spring.custom.common.syscode.TOKEN;
-import spring.custom.common.syscode.YN;
 import spring.custom.common.vo.User;
 import spring.custom.dto.TokenDto;
 
@@ -185,7 +185,7 @@ public class TokenService {
       TokenVo.ClientToken clientTokenVo = tokenDao.findClientTokenByTokenKey(tokenId)
           .orElseThrow(() -> new AppException(ERROR.A005));
       // status 체크
-      if (clientTokenVo.getEnableYn() != YN.Y) {
+      if (clientTokenVo.getEnableYn() != EnumYN.Y) {
         throw new AppException(ERROR.A010);
       }
       // --

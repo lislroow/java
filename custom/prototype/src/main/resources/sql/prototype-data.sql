@@ -1,43 +1,34 @@
 /* sy_code_group */
 INSERT INTO sy_code_group (cd_grp, cd_grp_nm) VALUES
-('USE_YN', '사용 여부'),
-('LOCKED_YN', '잠김 여부'),
-('ENABLE_YN', '활성화 여부'),
-('DISABLED_YN', '비활성화 여부'),
-('FOS', 'field of study'),
-('FOSP', 'physics'),
-('NUM_SRCH_MODE', 'numeric search mode'),
-('CHAR_SRCH_MODE', 'character search mode')
+('yn', '여부'),
+('scientist:fos', 'scientist: field of study'),
+('scientist:physics', 'scientist: physics'),
+('search-mode:numeric', 'search: numeric search mode'),
+('search-mode:char', 'search: character search mode')
 ;
 
 /* sy_code */
 INSERT INTO sy_code (cd_grp, seq, cd, cd_nm) VALUES
-('NUM_SRCH_MODE', 1, 'eq', 'equal'),
-('NUM_SRCH_MODE', 2, 'gt', 'greaterThan'),
-('NUM_SRCH_MODE', 3, 'ge', 'greaterThanOrEqual'),
-('NUM_SRCH_MODE', 4, 'lt', 'lessThan'),
-('NUM_SRCH_MODE', 5, 'le', 'lessThanOrEqual'),
-('CHAR_SRCH_MODE', 1, 'eq', 'equal'),
-('CHAR_SRCH_MODE', 2, 'like', 'like'),
-('CHAR_SRCH_MODE', 3, 'sw', 'starts-with'),
-('CHAR_SRCH_MODE', 4, 'ew', 'ends-with'),
-('USE_YN', 1, 'Y', '사용'),
-('USE_YN', 2, 'N', '미사용'),
-('LOCKED_YN', 1, 'Y', '잠김'),
-('LOCKED_YN', 2, 'N', '정상'),
-('ENABLE_YN', 1, 'Y', '활성'),
-('ENABLE_YN', 2, 'N', '비활성'),
-('DISABLED_YN', 1, 'Y', '비활성'),
-('DISABLED_YN', 2, 'N', '정상'),
-('FOS', 1, 'P', 'physics'),
-('FOS', 2, 'C', 'chemistry'),
-('FOS', 3, 'M', 'mathematics'),
-('FOS', 4, 'B', 'biology'),
-('FOS', 5, 'A', 'astronomy'),
-('FOSP', 1, 'CM', 'Classical Mechanics'),
-('FOSP', 2, 'EM', 'Electromagnetic Mechanics'),
-('FOSP', 3, 'QM', 'Quantum Mechanics'),
-('FOSP', 4, 'FM', 'Fluid Mechanics')
+('yn', 1, 'Y', 'Y'),
+('yn', 2, 'N', 'N'),
+('search-mode:numeric', 1, 'eq', 'equal'),
+('search-mode:numeric', 2, 'gt', 'greaterThan'),
+('search-mode:numeric', 3, 'ge', 'greaterThanOrEqual'),
+('search-mode:numeric', 4, 'lt', 'lessThan'),
+('search-mode:numeric', 5, 'le', 'lessThanOrEqual'),
+('search-mode:char', 1, 'eq', 'equal'),
+('search-mode:char', 2, 'like', 'like'),
+('search-mode:char', 3, 'sw', 'startsWith'),
+('search-mode:char', 4, 'ew', 'endsWith'),
+('scientist:fos', 1, 'P', 'physics'),
+('scientist:fos', 2, 'C', 'chemistry'),
+('scientist:fos', 3, 'M', 'mathematics'),
+('scientist:fos', 4, 'B', 'biology'),
+('scientist:fos', 5, 'A', 'astronomy'),
+('scientist:physics', 1, 'C', 'Classical Mechanics'),
+('scientist:physics', 2, 'E', 'Electromagnetic Mechanics'),
+('scientist:physics', 3, 'Q', 'Quantum Mechanics'),
+('scientist:physics', 4, 'F', 'Fluid Mechanics')
 ;
 
 INSERT INTO pt_scientist (name, birth_year, death_year, fos_cd) VALUES

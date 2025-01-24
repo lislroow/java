@@ -14,8 +14,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import spring.custom.code.EnumYN;
 import spring.custom.common.syscode.TOKEN;
-import spring.custom.common.syscode.YN;
 import spring.custom.common.vo.Manager;
 import spring.custom.common.vo.Member;
 
@@ -36,8 +36,8 @@ public class LoginVo {
     private String loginPwd;
     private String mgrName;
     private String roles;
-    private YN enableYn;
-    private YN lockedYn;
+    private EnumYN enableYn;
+    private EnumYN lockedYn;
     private LocalDate pwdExpDate;
     
     public Manager toUser() {
@@ -63,8 +63,8 @@ public class LoginVo {
     private String roles;
     private String realname;
     private String nickname;
-    private YN enableYn;
-    private YN lockedYn;
+    private EnumYN enableYn;
+    private EnumYN lockedYn;
     private LocalDate pwdExpDate;
     private String oauth2Id;
     private String registrationId;
@@ -122,8 +122,8 @@ public class LoginVo {
     private String roles;
     private String realname;
     private String nickname;
-    private YN enableYn;
-    private YN lockedYn;
+    private EnumYN enableYn;
+    private EnumYN lockedYn;
     private LocalDate pwdExpDate;
     
     public LoginVo.MemberOAuth2 toOAuth2() {
@@ -173,8 +173,8 @@ public class LoginVo {
     private String roles;
     private String email;
     private String nickname;
-    private YN enableYn;
-    private YN lockedYn;
+    private EnumYN enableYn;
+    private EnumYN lockedYn;
     private LocalDate pwdExpDate;
   }
   

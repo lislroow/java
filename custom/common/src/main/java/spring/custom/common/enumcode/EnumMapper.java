@@ -32,9 +32,9 @@ public class EnumMapper {
       log.error("@Code(\"codename\") undefined: {}", enumCodeType.getName());
       return;
     }
-    AtomicInteger idx = new AtomicInteger(0);
+    AtomicInteger seq = new AtomicInteger(0);
     List<EnumCode> values = Arrays.stream(enumCodeType.getEnumConstants())
-        .map(item -> new EnumCode(item, idx.incrementAndGet()))
+        .map(item -> new EnumCode(item, seq.incrementAndGet()))
         .collect(Collectors.toList());
     //List<EnumCode> values = IntStream.of(enumCodeType.getEnumConstants().length)
     //    .mapToObj(idx -> new EnumCode(enumCodeType.getEnumConstants()[idx], idx))

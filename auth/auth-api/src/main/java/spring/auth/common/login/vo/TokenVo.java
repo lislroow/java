@@ -3,7 +3,7 @@ package spring.auth.common.login.vo;
 import java.time.LocalDate;
 
 import lombok.Data;
-import spring.custom.common.syscode.YN;
+import spring.custom.code.EnumYN;
 
 
 public class TokenVo {
@@ -15,7 +15,7 @@ public class TokenVo {
     private String clientId;
     private String tokenKey;  // condition
     private String tokenValue;
-    private YN enableYn;
+    private EnumYN enableYn;
     private String clientIp;
     private LocalDate expDate;
   }

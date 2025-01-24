@@ -7,7 +7,7 @@ import spring.custom.common.enumcode.EnumCodeType;
 
 public class EnumScientist {
 
-  @Code("FOS")
+  @Code("scientist:fos")
   @Getter
   @RequiredArgsConstructor
   public enum FieldOfStudy implements EnumCodeType {
@@ -19,8 +19,23 @@ public class EnumScientist {
     ASTRONOMY("A", "astronomy"),
     ;
     
-    public final String code;
     public final String value;
+    public final String label;
+  }
+  
+  @Code("scientist:physics")
+  @Getter
+  @RequiredArgsConstructor
+  public enum Physics implements EnumCodeType {
+    
+    CLASSICAL("C", "Classical Mechanics"),
+    ELECTROMAGNETIC("E", "Electromagnetic Mechanics"),
+    QUANTUM("Q", "Quantum Mechanics"),
+    FLUID("F", "Fluid Mechanics"),
+    ;
+    
+    public final String value;
+    public final String label;
   }
 
 }

@@ -6,9 +6,9 @@ import java.util.List;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import spring.custom.code.EnumYN;
 import spring.custom.common.audit.AuditVo;
 import spring.custom.common.mybatis.PageInfo;
-import spring.custom.common.syscode.YN;
 
 public class UserMngDto {
   
@@ -20,8 +20,8 @@ public class UserMngDto {
     private String loginId;
     private String mgrName;
     private String roles;
-    private YN enableYn;
-    private YN lockedYn;
+    private EnumYN enableYn;
+    private EnumYN lockedYn;
     private LocalDate pwdExpDate;
   }
   
@@ -61,8 +61,8 @@ public class UserMngDto {
   public static class ModifyManagerReq {
     private String id;
     private String roles;
-    private YN enableYn;
-    private YN lockedYn;
+    private EnumYN enableYn;
+    private EnumYN lockedYn;
   }
   
   @Data

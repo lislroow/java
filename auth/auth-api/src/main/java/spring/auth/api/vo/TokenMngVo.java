@@ -4,9 +4,9 @@ import java.time.LocalDate;
 
 import lombok.Builder;
 import lombok.Data;
+import spring.custom.code.EnumYN;
 import spring.custom.common.audit.AuditVo;
 import spring.custom.common.mybatis.PageRequest;
-import spring.custom.common.syscode.YN;
 
 
 public class TokenMngVo {
@@ -19,7 +19,7 @@ public class TokenMngVo {
     private String clientId;
     private String tokenKey;
     private String contactName;
-    private YN enableYn;
+    private EnumYN enableYn;
   }
   
   @Data
@@ -31,7 +31,7 @@ public class TokenMngVo {
     private String clientIp;
     private String clientName;
     private String roles;
-    private YN enableYn;
+    private EnumYN enableYn;
     private LocalDate expDate;
   }
   
@@ -42,7 +42,7 @@ public class TokenMngVo {
     private String clientName;
     private String clientIp;
     private String roles;
-    private YN enableYn;
+    private EnumYN enableYn;
     private LocalDate expDate;
     private String tokenValue;
   }
@@ -50,7 +50,7 @@ public class TokenMngVo {
   @Data
   public static class ModifyTokenClient extends AuditVo {
     private String tokenKey;
-    private YN enableYn;
+    private EnumYN enableYn;
     private LocalDate expDate;
   }
   

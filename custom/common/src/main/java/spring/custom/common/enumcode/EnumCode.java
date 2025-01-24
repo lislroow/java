@@ -7,13 +7,13 @@ import lombok.ToString;
 @ToString
 public class EnumCode {
   
-  private final String code;
   private final String value;
+  private final String label;
   private final Integer seq;
   
   public EnumCode(EnumCodeType enumCodeType, Integer seq) {
-    this.code = enumCodeType.getCode();
     this.value = enumCodeType.getValue();
+    this.label = enumCodeType.getLabel();
     this.seq = seq;
   }
 }
