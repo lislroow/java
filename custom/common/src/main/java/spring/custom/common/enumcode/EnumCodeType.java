@@ -14,7 +14,7 @@ public interface EnumCodeType {
         return enumConstant;
       }
     }
-    throw new IllegalArgumentException("Invalid value: " + value);
+    return null;
   }
 
 }
