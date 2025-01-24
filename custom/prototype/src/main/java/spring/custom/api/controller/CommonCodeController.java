@@ -1,6 +1,7 @@
 package spring.custom.api.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -14,6 +15,8 @@ import spring.custom.api.dao.CommonCodeDao;
 import spring.custom.api.dto.CommonCodeDto;
 import spring.custom.api.vo.CommonCodeVo;
 import spring.custom.api.vo.CommonCodeVo.ResultAllCode;
+import spring.custom.common.enumcode.EnumCode;
+import spring.custom.common.enumcode.EnumMapper;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class CommonCodeController {
 
   final ModelMapper modelMapper;
   final CommonCodeDao commonCodeDao;
+  final EnumMapper enumMapper;
   
   @GetMapping("/v1/common/codes/all")
   @Cacheable(value = "cache:common-code:all")
@@ -50,6 +54,19 @@ public class CommonCodeController {
         .map(item -> modelMapper.map(item, CommonCodeDto.CodeRes.class))
         .collect(Collectors.toList());
     return resDto;
+  }
+  
+  @GetMapping("/v1/common/enums/all")
+  public Map<String, List<EnumCode>> allEnums() {
+    Map<String, List<EnumCode>> allCodes = enumMapper.allCodes();
+    return allCodes;
+  }
+  
+  @GetMapping("/v1/common/enums/{key}")
+  public List<EnumCode> findEnumsByCdGrp(
+      @PathVariable String key) {
+    List<EnumCode> code = enumMapper.getCode(key);
+    return code;
   }
   
 }
