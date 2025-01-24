@@ -11,8 +11,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.syscode.ERROR;
 import spring.custom.common.vo.Manager;
 import spring.custom.common.vo.Member;
 

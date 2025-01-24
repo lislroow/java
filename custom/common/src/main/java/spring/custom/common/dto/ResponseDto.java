@@ -1,7 +1,7 @@
 package spring.custom.common.dto;
 
 import lombok.Data;
-import spring.custom.common.enumcode.ERROR;
+import spring.custom.common.syscode.ERROR;
 
 @Deprecated
 @Data

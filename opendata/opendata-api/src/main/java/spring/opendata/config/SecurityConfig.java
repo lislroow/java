@@ -14,8 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.common.enumcode.SECURITY;
 import spring.custom.common.security.TokenValueFilter;
+import spring.custom.common.syscode.SECURITY;
 
 @Configuration
 @RequiredArgsConstructor

@@ -16,9 +16,9 @@ import spring.auth.api.dao.TokenMngDao;
 import spring.auth.api.dto.TokenMngDto;
 import spring.auth.api.service.TokenMngService;
 import spring.auth.api.vo.TokenMngVo;
-import spring.custom.common.enumcode.YN;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
+import spring.custom.common.syscode.YN;
 
 @RestController
 @RequiredArgsConstructor

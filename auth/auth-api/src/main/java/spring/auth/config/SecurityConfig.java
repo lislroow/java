@@ -34,8 +34,8 @@ import spring.auth.common.login.MemberOAuth2LoginSuccessHandler;
 import spring.auth.common.login.TokenIdFilter;
 import spring.auth.common.login.TokenService;
 import spring.auth.common.login.UserPasswordEncoder;
-import spring.custom.common.enumcode.SECURITY;
 import spring.custom.common.security.TokenValueFilter;
+import spring.custom.common.syscode.SECURITY;
 
 @Configuration
 @EnableConfigurationProperties({ OAuth2ClientProperties.class })

@@ -15,8 +15,8 @@ import spring.auth.common.login.TokenService;
 import spring.auth.common.login.dao.UserLoginDao;
 import spring.auth.common.login.vo.LoginVo;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.syscode.ERROR;
 
 @RestController
 @RequiredArgsConstructor

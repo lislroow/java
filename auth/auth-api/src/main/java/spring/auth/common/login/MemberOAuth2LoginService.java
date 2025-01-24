@@ -15,11 +15,11 @@ import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.UserMngDao;
 import spring.auth.common.login.dao.UserLoginDao;
 import spring.auth.common.login.vo.LoginVo;
-import spring.custom.common.enumcode.ERROR;
-import spring.custom.common.enumcode.ROLE;
-import spring.custom.common.enumcode.TOKEN;
-import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.syscode.ERROR;
+import spring.custom.common.syscode.ROLE;
+import spring.custom.common.syscode.TOKEN;
+import spring.custom.common.syscode.YN;
 
 @Service
 @RequiredArgsConstructor

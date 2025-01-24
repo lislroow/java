@@ -12,9 +12,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.data.DataNotFoundException;
 import spring.custom.common.exception.token.AccessTokenExpiredException;
+import spring.custom.common.syscode.ERROR;
 
 @RestControllerAdvice
 @AllArgsConstructor

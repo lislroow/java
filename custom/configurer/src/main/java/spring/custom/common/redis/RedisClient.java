@@ -15,9 +15,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import spring.custom.common.enumcode.ERROR;
-import spring.custom.common.enumcode.TOKEN;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.syscode.ERROR;
+import spring.custom.common.syscode.TOKEN;
 
 @RequiredArgsConstructor
 public class RedisClient {

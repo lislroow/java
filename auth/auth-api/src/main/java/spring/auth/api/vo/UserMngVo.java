@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import spring.custom.common.audit.AuditVo;
-import spring.custom.common.enumcode.YN;
 import spring.custom.common.mybatis.PageRequest;
+import spring.custom.common.syscode.YN;
 
 public class UserMngVo {
   

@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import spring.auth.api.dao.TokenMngDao;
 import spring.auth.api.vo.TokenMngVo;
 import spring.auth.common.login.TokenService;
-import spring.custom.common.enumcode.TOKEN;
+import spring.custom.common.syscode.TOKEN;
 import spring.custom.common.vo.Client;
 
 @Service

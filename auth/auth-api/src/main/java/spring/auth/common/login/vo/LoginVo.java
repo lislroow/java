@@ -14,8 +14,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import spring.custom.common.enumcode.TOKEN;
-import spring.custom.common.enumcode.YN;
+import spring.custom.common.syscode.TOKEN;
+import spring.custom.common.syscode.YN;
 import spring.custom.common.vo.Manager;
 import spring.custom.common.vo.Member;
 

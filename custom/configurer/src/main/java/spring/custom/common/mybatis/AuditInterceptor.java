@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.audit.AuditVo;
-import spring.custom.common.enumcode.AUDIT;
+import spring.custom.common.syscode.AUDIT;
 
 @Intercepts({
   @Signature(type = Executor.class, method = "update", 

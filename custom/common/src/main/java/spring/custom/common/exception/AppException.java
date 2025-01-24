@@ -1,6 +1,6 @@
 package spring.custom.common.exception;
 
-import spring.custom.common.enumcode.ERROR;
+import spring.custom.common.syscode.ERROR;
 
 public class AppException extends RuntimeException {
   

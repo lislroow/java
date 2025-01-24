@@ -12,7 +12,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 import lombok.Data;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.DBMS;
+import spring.custom.common.syscode.DBMS;
 
 @ConfigurationProperties(prefix = Constant.CUSTOM+".mybatis", ignoreUnknownFields = true)
 @Data

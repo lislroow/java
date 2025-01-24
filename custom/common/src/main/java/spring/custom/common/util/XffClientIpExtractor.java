@@ -1,7 +1,7 @@
 package spring.custom.common.util;
 
-import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.syscode.ERROR;
 
 public class XffClientIpExtractor {
 

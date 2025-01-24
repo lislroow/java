@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import spring.auth.common.login.dao.UserLoginDao;
 import spring.auth.common.login.vo.LoginVo;
-import spring.custom.common.enumcode.ERROR;
 import spring.custom.common.exception.AppException;
+import spring.custom.common.syscode.ERROR;
 
 @Service
 @RequiredArgsConstructor

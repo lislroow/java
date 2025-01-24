@@ -5,7 +5,7 @@ import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.DBMS;
+import spring.custom.common.syscode.DBMS;
 
 @Slf4j
 public class MybatisMapperNameGenerator extends AnnotationBeanNameGenerator {

@@ -5,8 +5,8 @@ import java.util.List;
 
 import lombok.Data;
 import spring.custom.common.audit.AuditVo;
-import spring.custom.common.enumcode.YN;
 import spring.custom.common.mybatis.PageInfo;
+import spring.custom.common.syscode.YN;
 
 public class TokenMngDto {
 

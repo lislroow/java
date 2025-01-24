@@ -1,8 +1,5 @@
-package spring.custom.common.enumcode;
+package spring.custom.common.syscode;
 
-import lombok.Getter;
-
-@Getter
 public enum ROLE {
   
   ADMIN,

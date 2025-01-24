@@ -34,14 +34,14 @@ import spring.auth.api.dao.UserMngDao;
 import spring.auth.api.dto.UserMngDto;
 import spring.auth.api.service.UserMngService;
 import spring.auth.api.vo.UserMngVo;
-import spring.custom.common.enumcode.ERROR;
-import spring.custom.common.enumcode.TOKEN;
-import spring.custom.common.enumcode.YN;
 import spring.custom.common.exception.AppException;
 import spring.custom.common.exception.data.DataNotFoundException;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
 import spring.custom.common.redis.RedisClient;
+import spring.custom.common.syscode.ERROR;
+import spring.custom.common.syscode.TOKEN;
+import spring.custom.common.syscode.YN;
 import spring.custom.common.util.HashUtil;
 
 @RestController

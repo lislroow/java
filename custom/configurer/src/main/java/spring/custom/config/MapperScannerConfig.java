@@ -18,7 +18,7 @@ import spring.custom.common.annotation.MapperPostgres;
 import spring.custom.common.annotation.MapperVertica;
 import spring.custom.common.bean.MybatisMapperNameGenerator;
 import spring.custom.common.constant.Constant;
-import spring.custom.common.enumcode.DBMS;
+import spring.custom.common.syscode.DBMS;
 import spring.custom.config.conditions.MybatisH2EnableCondition;
 import spring.custom.config.conditions.MybatisMariaEnableCondition;
 import spring.custom.config.conditions.MybatisOracleEnableCondition;

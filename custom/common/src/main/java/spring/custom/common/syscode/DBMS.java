@@ -1,4 +1,4 @@
-package spring.custom.common.enumcode;
+package spring.custom.common.syscode;
 
 import java.util.Arrays;
 import java.util.Optional;
