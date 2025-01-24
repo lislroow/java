@@ -1,5 +1,7 @@
 package spring.custom.code;
 
+//import com.fasterxml.jackson.annotation.JsonCreator;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import spring.custom.common.enumcode.Code;
@@ -21,6 +23,16 @@ public class EnumScientist {
     
     public final String value;
     public final String label;
+    
+    /* unused code */ //@JsonCreator
+    //public static FieldOfStudy fromValue(String value) {
+    //  for (FieldOfStudy field : FieldOfStudy.values()) {
+    //    if (field.value.equals(value)) {
+    //      return field;
+    //    }
+    //  }
+    //  throw new IllegalArgumentException("Invalid value for FieldOfStudy: " + value);
+    //}
   }
   
   @Code("scientist:physics")
@@ -37,5 +49,5 @@ public class EnumScientist {
     public final String value;
     public final String label;
   }
-
+  
 }

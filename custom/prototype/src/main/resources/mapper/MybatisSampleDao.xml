@@ -68,6 +68,9 @@
       <if test="fosCd != null and !''.equals(fosCd)">
         AND UPPER(A.fos_cd) LIKE '%' || UPPER(#{fosCd}) || '%'
       </if>
+      <if test="century != null">
+        AND CEIL(death_year / 100.0) = #{century}
+      </if>
     </where>
     ORDER BY A.birth_year DESC
   </select>

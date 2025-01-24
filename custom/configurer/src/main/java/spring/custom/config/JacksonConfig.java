@@ -27,7 +27,9 @@ public class JacksonConfig {
     
     objectMapper.registerModule(module);
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
+    
+    /* unused code */ // objectMapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
+    
     return objectMapper;
   }
 

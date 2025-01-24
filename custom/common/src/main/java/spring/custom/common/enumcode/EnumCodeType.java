@@ -8,4 +8,13 @@ public interface EnumCodeType {
   String getValue();
   String getLabel();
   
+  static <T extends EnumCodeType> T fromValue(Class<T> enumType, String value) {
+    for (T enumConstant : enumType.getEnumConstants()) {
+      if (enumConstant.getValue().equals(value)) {
+        return enumConstant;
+      }
+    }
+    throw new IllegalArgumentException("Invalid value: " + value);
+  }
+
 }

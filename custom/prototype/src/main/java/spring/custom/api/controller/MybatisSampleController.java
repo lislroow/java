@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import spring.custom.api.dao.MybatisSampleDao;
 import spring.custom.api.dto.MybatisSampleDto;
 import spring.custom.api.service.MybatisSampleService;
 import spring.custom.api.vo.ScientistVo;
 import spring.custom.code.EnumScientist;
+import spring.custom.common.enumcode.EnumCodeType;
 import spring.custom.common.exception.data.DataNotFoundException;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
@@ -61,12 +65,15 @@ public class MybatisSampleController {
   @GetMapping("/v1/mybatis-sample/scientists/search")
   public PageResponse<MybatisSampleDto.ScientistRes> searchScientists(
       @RequestParam(required = false) String name,
-      @RequestParam(required = false) EnumScientist.FieldOfStudy fosCd,
+      /* dead code */ //@RequestParam(required = false) EnumScientist.FieldOfStudy fosCd,
+      @RequestParam(required = false) String fosCd,
+      @RequestParam(required = false) @Min(1) @Max(21) @Nullable Integer century,
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     ScientistVo.SearchParam searchVo = ScientistVo.SearchParam.builder()
         .name(name)
-        .fosCd(fosCd)
+        .fosCd(EnumCodeType.fromValue(EnumScientist.FieldOfStudy.class, fosCd))
+        .century(century)
         .build();
     PageResponse<ScientistVo.ResultScientist> resultVo = mybatisSampleDao.searchScientists(PageRequest.of(page, size), searchVo);
     

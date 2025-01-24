@@ -18,6 +18,7 @@ public class ScientistVo {
     private Integer birthYear;
     private Integer deathYear;
     private EnumScientist.FieldOfStudy fosCd;
+    private Integer century;
   }
   
   @Data
