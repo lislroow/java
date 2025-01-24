@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -18,7 +19,9 @@ import org.springframework.util.ObjectUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.common.constant.Constant;
+import spring.custom.common.enumcode.EnumCodeType;
 import spring.custom.common.mybatis.AuditInterceptor;
+import spring.custom.common.mybatis.EnumCodeTypeHandler;
 import spring.custom.common.mybatis.PagingInterceptor;
 
 @Configuration
@@ -53,6 +56,11 @@ public class MybatisConfig {
     //configuration.setJdbcTypeForNull(config.getJdbcTypeForNull()); // JdbcType.VARCHAR 로 설정되어 postgres 의 INT 타입에 오류 발생
     configuration.setJdbcTypeForNull(JdbcType.NULL);
     configuration.setMapUnderscoreToCamelCase(config.getMapUnderscoreToCamelCase());
+    
+    // EnumCodeType(spring.custom.common.enumcode) 타입 Handler
+    TypeHandlerRegistry registry = configuration.getTypeHandlerRegistry();
+    registry.register(EnumCodeType.class, new EnumCodeTypeHandler<>(EnumCodeType.class));
+    
     sqlSessionFactoryBean.setConfiguration(configuration);
     
     sqlSessionFactoryBean.setPlugins(new PagingInterceptor(), new AuditInterceptor());

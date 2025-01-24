@@ -2,6 +2,7 @@ package spring.custom.api.vo;
 
 import lombok.Builder;
 import lombok.Data;
+import spring.custom.code.EnumScientist;
 import spring.custom.common.audit.AuditVo;
 import spring.custom.common.mybatis.PageRequest;
 
@@ -16,7 +17,7 @@ public class ScientistVo {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
-    private String fosCd;
+    private EnumScientist.FieldOfStudy fosCd;
   }
   
   @Data
@@ -25,7 +26,7 @@ public class ScientistVo {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
-    private String fosCd;
+    private EnumScientist.FieldOfStudy fosCd;
     private String fosNm;
   }
   
@@ -35,7 +36,7 @@ public class ScientistVo {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
-    private String fosCd;
+    private EnumScientist.FieldOfStudy fosCd;
   }
   
   @Data
@@ -44,6 +45,6 @@ public class ScientistVo {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
-    private String fosCd;
+    private EnumScientist.FieldOfStudy fosCd;
   }
 }

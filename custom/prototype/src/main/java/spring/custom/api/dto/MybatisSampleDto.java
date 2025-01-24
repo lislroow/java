@@ -3,6 +3,7 @@ package spring.custom.api.dto;
 import java.util.List;
 
 import lombok.Data;
+import spring.custom.code.EnumScientist;
 import spring.custom.common.audit.AuditVo;
 import spring.custom.common.mybatis.PageInfo;
 
@@ -16,7 +17,7 @@ public class MybatisSampleDto {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
-    private String fosCd;
+    private EnumScientist.FieldOfStudy fosCd;
     private String fosNm;
   }
   
@@ -40,7 +41,7 @@ public class MybatisSampleDto {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
-    private String fosCd;
+    private EnumScientist.FieldOfStudy fosCd;
   }
   
   @Data
@@ -49,7 +50,7 @@ public class MybatisSampleDto {
     private String name;
     private Integer birthYear;
     private Integer deathYear;
-    private String fosCd;
+    private EnumScientist.FieldOfStudy fosCd;
   }
   
 }

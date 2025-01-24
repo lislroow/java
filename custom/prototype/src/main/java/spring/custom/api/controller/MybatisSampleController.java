@@ -20,6 +20,7 @@ import spring.custom.api.dao.MybatisSampleDao;
 import spring.custom.api.dto.MybatisSampleDto;
 import spring.custom.api.service.MybatisSampleService;
 import spring.custom.api.vo.ScientistVo;
+import spring.custom.code.EnumScientist;
 import spring.custom.common.exception.data.DataNotFoundException;
 import spring.custom.common.mybatis.PageRequest;
 import spring.custom.common.mybatis.PageResponse;
@@ -60,7 +61,7 @@ public class MybatisSampleController {
   @GetMapping("/v1/mybatis-sample/scientists/search")
   public PageResponse<MybatisSampleDto.ScientistRes> searchScientists(
       @RequestParam(required = false) String name,
-      @RequestParam(required = false) String fosCd,
+      @RequestParam(required = false) EnumScientist.FieldOfStudy fosCd,
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     ScientistVo.SearchParam searchVo = ScientistVo.SearchParam.builder()
@@ -92,7 +93,7 @@ public class MybatisSampleController {
     ScientistVo.AddScientist addVo = modelMapper.map(reqDto, ScientistVo.AddScientist.class);
     mybatisSampleService.addScientist(addVo);
     
-    return ResponseEntity.status(HttpStatus.CREATED).build(); // location 정보는 JPA 일 때 적합
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
   
   @PutMapping("/v1/mybatis-sample/scientist")

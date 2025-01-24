@@ -12,7 +12,7 @@
            , A.fos_cd
            , J.cd_nm AS fos_nm
     FROM   pt_scientist A
-      LEFT OUTER JOIN sy_code J ON A.fos_cd = J.cd AND J.cd_grp = 'FOS'
+      LEFT OUTER JOIN sy_code J ON A.fos_cd = J.cd AND J.cd_grp = 'scientist:fos'
     ORDER BY A.birth_year DESC
   </select>
   
@@ -23,7 +23,7 @@
            , A.birth_year
            , A.death_year
            , A.fos_cd
-           , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
+           , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'scientist:fos' AND A.fos_cd = S.cd) AS fos_nm
            , A.create_id
            , A.create_time
            , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
@@ -41,7 +41,7 @@
            , A.birth_year
            , A.death_year
            , A.fos_cd
-           , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
+           , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'scientist:fos' AND A.fos_cd = S.cd) AS fos_nm
     FROM   pt_scientist A
     ORDER BY A.birth_year DESC
   </select>
@@ -53,7 +53,7 @@
            , A.birth_year
            , A.death_year
            , A.fos_cd
-           , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'FOS' AND A.fos_cd = S.cd) AS fos_nm
+           , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'scientist:fos' AND A.fos_cd = S.cd) AS fos_nm
            , A.create_id
            , A.create_time
            , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
