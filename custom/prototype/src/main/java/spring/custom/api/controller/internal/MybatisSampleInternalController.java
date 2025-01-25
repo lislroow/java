@@ -11,7 +11,7 @@ import spring.custom.api.dto.MybatisSampleDto;
 import spring.custom.common.mybatis.PageResponse;
 import spring.custom.config.FeignClientConfig;
 
-@FeignClient(name = "story-api", configuration = {FeignClientConfig.class})
+@FeignClient(name = "story-api", contextId = "mybatisSampleInternalController", configuration = {FeignClientConfig.class})
 public interface MybatisSampleInternalController {
   
   @GetMapping("/v1/mybatis-sample/scientists/all")
