@@ -13,7 +13,7 @@ public class StarSpecification {
   public static Specification<StarEntity> hasName(String name) {
     return (Root<StarEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteria) -> 
       // 기본형: name != null ? criteria.equal(root.get("name"), name) : null;
-      name != null 
+      name != null && !"".equals(name)
         ? criteria.like(
             criteria.lower(root.get("name")),
             name.toLowerCase() + "%")

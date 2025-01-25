@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,9 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import spring.custom.api.controller.internal.JpaSampleInternalController;
 import spring.custom.api.controller.internal.MybatisSampleInternalController;
+import spring.custom.api.dto.JpaSampleDto;
 import spring.custom.api.dto.MybatisSampleDto;
 import spring.custom.code.EnumScientist;
 import spring.custom.common.constant.Constant;
@@ -43,7 +46,177 @@ import spring.custom.common.util.StringFormat;
 public class ExcelDownController {
   
   final MybatisSampleInternalController mybatisSampleInternalController;
+  final JpaSampleInternalController jpaSampleInternalController;
   final EnumMapper enumMapper;
+  
+  @GetMapping("/excel-down/v1/jpa-sample/stars/all")
+  public ResponseEntity<byte[]> allStarsExcelDown() {
+    // data
+    List<JpaSampleDto.StarRes> data = jpaSampleInternalController.allStars();
+    if (data.size() == 0) {
+      throw new DataNotFoundException();
+    }
+    
+    final String subject = "항성_all";
+    
+    try (XSSFWorkbook workbook = new XSSFWorkbook();
+        ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+      
+      // sheet
+      Sheet sheet = workbook.createSheet(subject);
+      
+      // header row:0
+      @AllArgsConstructor
+      enum HeaderStar0 {
+        No("No.", 6),
+        id("id", 6),
+        NAME("name", 25),
+        distance("distance", 14),
+        brightness("brightness", 14),
+        mass("mass", 14),
+        temperature("temperature", 14),
+        ;
+        String name;
+        int width;
+      }
+      Row row0 = sheet.createRow(0);
+      for (int i=0; i<HeaderStar0.values().length; i++) {
+        HeaderStar0 header = HeaderStar0.values()[i];
+        sheet.setDefaultColumnStyle(i, PoiCellStyle.cellContent(workbook));
+        sheet.setColumnWidth(i, 256*header.width);
+        
+        Cell cell = row0.createCell(i);
+        cell.setCellValue(header.name);
+        cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
+      }
+      
+      int cntHeader = 1;
+      
+      // contents
+      int cnt = data.size();
+      AtomicInteger no = new AtomicInteger(0);
+      for (int ridx=0; ridx<cnt; ridx++) {
+        Row row = sheet.createRow(ridx+cntHeader);
+        JpaSampleDto.StarRes item = data.get(ridx);
+        
+        Cell cell;
+        AtomicInteger cidx = new AtomicInteger(0);
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(no.incrementAndGet());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getId());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getName());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getDistance());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getBrightness());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getMass());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getTemperature());
+      }
+      
+      // response
+      workbook.write(out);
+      String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+      String filename = URLEncoder.encode(subject+"_"+now+".xlsx", Constant.ENCODING_UTF8);
+      return ResponseEntity.ok()
+          .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+filename+"\";")
+          .contentType(MediaType.APPLICATION_OCTET_STREAM)
+          .body(out.toByteArray());
+    } catch (IOException e) {
+      throw new AppException(ERROR.E906, e, new Object[] {subject+".xlsx"});
+    }
+  }
+  
+  @GetMapping("/excel-down/v1/jpa-sample/stars/search")
+  public ResponseEntity<byte[]> searchStarsExcelDown(
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false, defaultValue = "0") Integer page,
+      @RequestParam(required = false, defaultValue = "10") Integer size) {
+    
+    // data
+    Page<JpaSampleDto.StarRes> result = jpaSampleInternalController.searchStars(name, page, size);
+    List<JpaSampleDto.StarRes> data = result.getContent();
+    if (data.size() == 0) {
+      throw new DataNotFoundException();
+    }
+    
+    final String subject = "항성";
+    try (XSSFWorkbook workbook = new XSSFWorkbook();
+        ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+      
+      // sheet
+      Sheet sheet = workbook.createSheet(subject);
+      
+      sheet.setColumnWidth(0, 256*6);
+      sheet.setColumnWidth(1, 256*25);
+      sheet.setColumnWidth(2, 256*14);
+      sheet.setColumnWidth(3, 256*14);
+      sheet.setColumnWidth(4, 256*14);
+      sheet.setColumnWidth(5, 256*14);
+      
+      // header row0
+      Row row0 = sheet.createRow(0);
+      Cell cell = row0.createCell(0);
+      cell.setCellValue("id");
+      cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
+      
+      cell = row0.createCell(1);
+      cell.setCellValue("name");
+      cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
+      
+      cell = row0.createCell(2);
+      cell.setCellValue("distance");
+      cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
+      
+      cell = row0.createCell(3);
+      cell.setCellValue("brightness");
+      cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
+      
+      cell = row0.createCell(4);
+      cell.setCellValue("mass");
+      cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
+      
+      cell = row0.createCell(5);
+      cell.setCellValue("temperature");
+      cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
+      
+      // contents
+      int cnt = data.size();
+      for (int ridx=0; ridx<cnt; ridx++) {
+        Row row = sheet.createRow(ridx+1);
+        JpaSampleDto.StarRes item = data.get(ridx);
+        AtomicInteger cidx = new AtomicInteger(0);
+        
+        row.createCell(cidx.getAndIncrement()).setCellValue(item.getId());
+        row.createCell(cidx.getAndIncrement()).setCellValue(item.getName());
+        row.createCell(cidx.getAndIncrement()).setCellValue(item.getDistance());
+        row.createCell(cidx.getAndIncrement()).setCellValue(item.getBrightness());
+        row.createCell(cidx.getAndIncrement()).setCellValue(item.getMass());
+        row.createCell(cidx.getAndIncrement()).setCellValue(item.getTemperature());
+      }
+      
+      // response
+      workbook.write(out);
+      String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+      String filename = URLEncoder.encode(subject+"_"+now+".xlsx", Constant.ENCODING_UTF8);
+      return ResponseEntity.ok()
+          .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+filename+"\";")
+          .contentType(MediaType.APPLICATION_OCTET_STREAM)
+          .body(out.toByteArray());
+    } catch (IOException e) {
+      throw new AppException(ERROR.E906, e, new Object[] {subject+".xlsx"});
+    }
+  }
   
   @GetMapping("/excel-down/v1/mybatis-sample/scientists/all")
   public ResponseEntity<byte[]> allScientistsExcelDown() {

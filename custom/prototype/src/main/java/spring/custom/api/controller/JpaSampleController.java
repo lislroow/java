@@ -2,6 +2,7 @@ package spring.custom.api.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,24 @@ public class JpaSampleController {
   
   
   // planet
+  @GetMapping("/v1/jpa-sample/planets/all")
+  public List<JpaSampleDto.PlanetRes> allPlanets() {
+    List<PlanetEntity> result = planetRepository.findAll();
+    return result.stream()
+        .map(planet -> {
+          JpaSampleDto.PlanetRes res = modelMapper.map(planet, JpaSampleDto.PlanetRes.class);
+          if (planet.getSatellites() != null) {
+            List<JpaSampleDto.Satellite> satellites = planet.getSatellites()
+                .stream()
+                .map(satellite -> modelMapper.map(satellite, JpaSampleDto.Satellite.class))
+                .toList();
+            res.setSatellites(satellites);
+          }
+          return res;
+        })
+        .collect(Collectors.toList());
+  }
+  
   @GetMapping("/v1/jpa-sample/planets/search")
   public Page<JpaSampleDto.PlanetRes> searchPlanets(
       @RequestParam(required = false) String name,
@@ -117,6 +136,14 @@ public class JpaSampleController {
   
   
   // satellite
+  @GetMapping("/v1/jpa-sample/satellites/all")
+  public List<JpaSampleDto.SatelliteRes> allSatellites() {
+    List<SatelliteEntity> result = satelliteRepository.findAll();
+    return result.stream()
+        .map(item -> modelMapper.map(item, JpaSampleDto.SatelliteRes.class))
+        .collect(Collectors.toList());
+  }
+  
   @GetMapping("/v1/jpa-sample/satellites/search")
   public Page<JpaSampleDto.SatelliteRes> searchSatellites(
       @RequestParam(required = false) String name,
@@ -174,6 +201,14 @@ public class JpaSampleController {
   
   
   // star
+  @GetMapping("/v1/jpa-sample/stars/all")
+  public List<JpaSampleDto.StarRes> allStars() {
+    List<StarEntity> result = starRepository.findAll();
+    return result.stream()
+        .map(item -> modelMapper.map(item, JpaSampleDto.StarRes.class))
+        .collect(Collectors.toList());
+  }
+  
   @GetMapping("/v1/jpa-sample/stars")
   public Page<JpaSampleDto.StarRes> findStars(
       @RequestParam(defaultValue = "0") Integer page,
