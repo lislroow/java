@@ -47,7 +47,7 @@ public class AppException extends RuntimeException {
     this.message = error.message();
   }
   
-  public AppException(ERROR error, Object[] args, Throwable cause) {
+  public AppException(ERROR error, Throwable cause, Object[] args) {
     super("["+error.code()+"] " + error.message(), cause);
     this.code = error.code();
     this.message = MessageFormat.format(error.message(), args);

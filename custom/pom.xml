@@ -21,6 +21,7 @@
     <lombok.version>1.18.32</lombok.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <modelmapper.version>3.2.0</modelmapper.version>
+    <poi.version>5.4.0</poi.version>
     
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
   </properties>
@@ -54,6 +55,13 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
+      
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>common</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      
       <dependency>
         <groupId>org.mapstruct</groupId>
         <artifactId>mapstruct</artifactId>
@@ -93,10 +101,16 @@
       </dependency>
       
       <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>common</artifactId>
-        <version>${project.version}</version>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>${poi.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>${poi.version}</version>
+      </dependency>
+      
     </dependencies>
   </dependencyManagement>
   

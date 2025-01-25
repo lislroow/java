@@ -15,7 +15,7 @@ public enum ERROR {
   /** fail to save */ E903("fail to save"),
   /** fail to json convert */ E904("fail to json convert"),
   /** x-forwarded-for is empty */ E905("x-forwarded-for is empty"),
-  /** not available */ A906("not available"),
+  /** not available */ E906("fail to excel file download: {0}"), // TODO 
   
   /** access token expired */ A100("access token expired"),
   /** refresh token expired */ A200("refresh token expired"),

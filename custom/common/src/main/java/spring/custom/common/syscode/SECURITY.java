@@ -12,7 +12,8 @@ public class SECURITY {
     JpaSample("/v1/jpa-sample/**"),
     MybatisSample("/v1/mybatis-sample/**"),
     RedisSample("/v1/redis-sample/**"),
-    Common("/v1/common/**")
+    Common("/v1/common/**"),
+    ExcelDown("/excel-down/**"),
     ;
     
     private String pattern;
