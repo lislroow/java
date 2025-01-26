@@ -32,7 +32,7 @@ import spring.custom.common.entity.AuditEntity;
 public class FundIrEntity extends AuditEntity {
   
   @Column(insertable = false)
-  private String deleted;
+  private Boolean deleted;
   
   @Id
   private String basYmd;
