@@ -1,12 +1,15 @@
 package spring.custom.api.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,5 +59,8 @@ public class FundMstEntity extends AuditEntity {
   private String bmEnm;
   private String excHdgeYnCd;
   private String kitcaTypeCd;
+  
+  @OneToMany(mappedBy = "fundMst", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<FundIrEntity> fundIrs;
   
 }

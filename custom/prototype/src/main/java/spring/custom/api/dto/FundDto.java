@@ -36,4 +36,13 @@ public class FundDto {
     private String excHdgeYnCd;
     private String kitcaTypeCd;
   }
+  
+  @Data
+  public static class FundIrRes {
+
+    private String basYmd;
+    private String fundCd;
+    
+    private Double basPrice;
+  }
 }

@@ -1,10 +1,14 @@
 package spring.custom.api.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +17,7 @@ import spring.custom.api.dto.FundDto;
 import spring.custom.api.entity.FundMstEntity;
 import spring.custom.api.entity.repository.FundMstRepository;
 import spring.custom.api.entity.spec.FundMstSpecification;
+import spring.custom.common.exception.data.DataNotFoundException;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +36,15 @@ public class FundController {
         Specification.where(FundMstSpecification.hasFundFnm(fundFnm));
     Page<FundMstEntity> result = fundMstRepository.findAll(spec, PageRequest.of(page, size));
     return result.map(item -> modelMapper.map(item, FundDto.FundMstRes.class));
+  }
+  
+  @GetMapping("/v1/fund/fund-ir/{fundCd}")
+  public List<FundDto.FundIrRes> findFundIrs(
+      @PathVariable String fundCd) {
+    FundMstEntity result = fundMstRepository.findById(fundCd).orElseThrow(() -> new DataNotFoundException());
+    return result.getFundIrs().stream()
+        .map(item -> modelMapper.map(item, FundDto.FundIrRes.class))
+        .collect(Collectors.toList());
   }
   
 }
