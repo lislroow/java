@@ -1,5 +1,6 @@
 package spring.custom.api.controller;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import spring.custom.api.dto.FundDto;
+import spring.custom.api.entity.FundIrEntity;
 import spring.custom.api.entity.FundMstEntity;
 import spring.custom.api.entity.repository.FundMstRepository;
 import spring.custom.api.entity.spec.FundMstSpecification;
@@ -40,11 +42,12 @@ public class FundController {
     return result.map(item -> modelMapper.map(item, FundDto.FundMstRes.class));
   }
   
-  @GetMapping("/v1/fund/fund-ir/{fundCd}")
-  public List<FundDto.FundIrRes> findFundIrs(
+  @GetMapping("/v1/fund/ir/line-chart/{fundCd}")
+  public List<FundDto.FundIrRes> findIrLineChart(
       @PathVariable String fundCd) {
     FundMstEntity result = fundMstRepository.findById(fundCd).orElseThrow(() -> new DataNotFoundException());
     return result.getFundIrs().stream()
+        .sorted(Comparator.comparing(FundIrEntity::getBasYmd))
         .map(item -> modelMapper.map(item, FundDto.FundIrRes.class))
         .collect(Collectors.toList());
   }
