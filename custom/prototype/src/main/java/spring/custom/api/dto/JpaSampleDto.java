@@ -14,13 +14,14 @@ public class JpaSampleDto {
   // planet
   @Data
   public static class Planet extends AuditVo {
+    private Boolean deleted;
+    
     private Integer id;
     private String name;
     private Double radius;
     private Double mass;
     private BigInteger distanceFromSun;
     private Double orbitalEccentricity;
-    private Boolean deleted;
   }
   
   @Data
@@ -39,13 +40,14 @@ public class JpaSampleDto {
   
   @Data
   public static class ModifyPlanetReq {
+    private Boolean deleted;
+    
     private Integer id;
     private String name;
     private Double radius;
     private Double mass;
     private BigInteger distanceFromSun;
     private Double orbitalEccentricity;
-    private Boolean deleted;
   }
   
   
@@ -53,6 +55,8 @@ public class JpaSampleDto {
   // satellite
   @Data
   public static class Satellite extends AuditVo {
+    private Boolean deleted;
+    
     private Integer id;
     private String name;
     private Double radius;
@@ -60,7 +64,6 @@ public class JpaSampleDto {
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
     //private String memo;
-    private Boolean deleted;
   }
   
   @Data
@@ -80,6 +83,8 @@ public class JpaSampleDto {
   
   @Data
   public static class ModifySatelliteReq {
+    private Boolean deleted;
+    
     private Integer id;
     private String name;
     private Double radius;
@@ -87,7 +92,6 @@ public class JpaSampleDto {
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
     //private String memo;
-    private Boolean deleted;
   }
   
   

@@ -34,6 +34,9 @@ import spring.custom.common.entity.AuditEntity;
 @NoArgsConstructor
 public class PlanetEntity extends AuditEntity {
   
+  @Column(insertable = false)
+  private Boolean deleted;
+  
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
@@ -42,8 +45,6 @@ public class PlanetEntity extends AuditEntity {
   private Double mass;
   private BigInteger distanceFromSun;
   private Double orbitalEccentricity;
-  @Column(insertable = false)
-  private Boolean deleted;
 
   @OneToMany(mappedBy = "planet", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<SatelliteEntity> satellites;

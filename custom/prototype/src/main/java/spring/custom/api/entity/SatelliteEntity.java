@@ -34,6 +34,9 @@ import spring.custom.common.entity.AuditEntity;
 @NoArgsConstructor
 public class SatelliteEntity extends AuditEntity {
   
+  @Column(insertable = false)
+  private Boolean deleted;
+  
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
@@ -43,8 +46,6 @@ public class SatelliteEntity extends AuditEntity {
   private BigInteger distanceFromPlanet;
   private Double orbitalEccentricity;
   //private String memo;
-  @Column(insertable = false)
-  private Boolean deleted;
   
   @ManyToOne
   @JoinColumn(name = "planet_id")

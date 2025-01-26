@@ -14,6 +14,7 @@ public class SECURITY {
     RedisSample("/v1/redis-sample/**"),
     Common("/v1/common/**"),
     ExcelDown("/excel-down/**"),
+    Fund("/v1/fund/**"),
     ;
     
     private String pattern;
