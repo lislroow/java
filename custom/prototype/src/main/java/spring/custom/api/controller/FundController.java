@@ -29,11 +29,13 @@ public class FundController {
   
   @GetMapping("/v1/fund/fund-mst/search")
   public Page<FundDto.FundMstRes> searchFundMsts(
+      @RequestParam(required = false) String fundCd,
       @RequestParam(required = false) String fundFnm,
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     Specification<FundMstEntity> spec = 
-        Specification.where(FundMstSpecification.hasFundFnm(fundFnm));
+        Specification.where(FundMstSpecification.hasFundCd(fundCd))
+        .and(FundMstSpecification.hasFundFnm(fundFnm));
     Page<FundMstEntity> result = fundMstRepository.findAll(spec, PageRequest.of(page, size));
     return result.map(item -> modelMapper.map(item, FundDto.FundMstRes.class));
   }
