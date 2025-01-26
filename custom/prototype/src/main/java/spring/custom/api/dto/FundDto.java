@@ -1,7 +1,5 @@
 package spring.custom.api.dto;
 
-import java.math.BigDecimal;
-
 import lombok.Data;
 
 public class FundDto {
@@ -25,9 +23,9 @@ public class FundDto {
     private String chgYmd;
     private String haejiGb;
     private String haejiYmd;
-    private BigDecimal fstSeoljAek;
-    private BigDecimal fstSeoljJwa;
-    private BigDecimal fstGijunGa;
+    private Double fstSeoljAek;
+    private Double fstSeoljJwa;
+    private Double fstGijunGa;
     private Double stockPnibRt;
     private Double kosdaqPnibRt;
     private String bmCd;

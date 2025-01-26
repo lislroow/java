@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -45,6 +46,15 @@ public class PoiCellStyle {
     style.setBorderLeft(BorderStyle.THIN);
     style.setWrapText(true);
     style.setFont(PoiCellStyle.fontContent(workbook));
+    return style;
+  }
+  
+  public static CellStyle cellNumber(XSSFWorkbook workbook) {
+    CellStyle style = PoiCellStyle.cellContent(workbook);
+    
+    DataFormat format = workbook.createDataFormat();
+    style.setDataFormat(format.getFormat("#,##0"));
+    style.setAlignment(HorizontalAlignment.RIGHT);
     return style;
   }
   

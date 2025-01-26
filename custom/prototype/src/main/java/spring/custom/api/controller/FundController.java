@@ -29,6 +29,15 @@ public class FundController {
   final FundMstRepository fundMstRepository;
   
   
+  @GetMapping("/v1/fund/fund-mst/all")
+  public List<FundDto.FundMstRes> allFundMsts() {
+    List<FundMstEntity> result = fundMstRepository.findAll();
+    return result.stream()
+        .sorted(Comparator.comparing(FundMstEntity::getFundFnm))
+        .map(item -> modelMapper.map(item, FundDto.FundMstRes.class))
+        .collect(Collectors.toList());
+  }
+  
   @GetMapping("/v1/fund/fund-mst/search")
   public Page<FundDto.FundMstRes> searchFundMsts(
       @RequestParam(required = false) String fundCd,

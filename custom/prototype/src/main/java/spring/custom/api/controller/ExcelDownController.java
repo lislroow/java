@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -27,8 +28,10 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import spring.custom.api.controller.internal.FundInternalController;
 import spring.custom.api.controller.internal.JpaSampleInternalController;
 import spring.custom.api.controller.internal.MybatisSampleInternalController;
+import spring.custom.api.dto.FundDto;
 import spring.custom.api.dto.JpaSampleDto;
 import spring.custom.api.dto.MybatisSampleDto;
 import spring.custom.code.EnumScientist;
@@ -47,7 +50,98 @@ public class ExcelDownController {
   
   final MybatisSampleInternalController mybatisSampleInternalController;
   final JpaSampleInternalController jpaSampleInternalController;
+  final FundInternalController fundInternalController;
   final EnumMapper enumMapper;
+  
+  @GetMapping("/excel-down/v1/fund/fund-mst/all")
+  public ResponseEntity<byte[]> allFundMstsExcelDown() {
+    // data
+    List<FundDto.FundMstRes> data = fundInternalController.allFundMsts();
+    if (data.size() == 0) {
+      throw new DataNotFoundException();
+    }
+    
+    final String subject = "펀드_all";
+    
+    try (XSSFWorkbook workbook = new XSSFWorkbook();
+        ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+      
+      // sheet
+      Sheet sheet = workbook.createSheet(subject);
+      
+      // header row:0
+      @AllArgsConstructor
+      enum HeaderStar0 {
+        no("No.", 10),
+        fundCd("fundCd", 13),
+        fundFnm("fundFnm", 70),
+        seoljYmd("seoljYmd", 10),
+        fstSeoljAek("fstSeoljAek", 25),
+        bmCd("bmCd", 12),
+        bmNm("bmNm", 65),
+        ;
+        String name;
+        int width;
+      }
+      Row row0 = sheet.createRow(0);
+      for (int i=0; i<HeaderStar0.values().length; i++) {
+        HeaderStar0 header = HeaderStar0.values()[i];
+        sheet.setDefaultColumnStyle(i, PoiCellStyle.cellContent(workbook));
+        sheet.setColumnWidth(i, 256*header.width);
+        
+        Cell cell = row0.createCell(i);
+        cell.setCellValue(header.name);
+        cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
+      }
+      
+      int cntHeader = 1;
+      
+      // contents
+      int cnt = data.size();
+      AtomicInteger no = new AtomicInteger(0);
+      CellStyle numberStyle = PoiCellStyle.cellNumber(workbook);
+      for (int ridx=0; ridx<cnt; ridx++) {
+        Row row = sheet.createRow(ridx+cntHeader);
+        FundDto.FundMstRes item = data.get(ridx);
+        
+        Cell cell;
+        AtomicInteger cidx = new AtomicInteger(0);
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(no.incrementAndGet());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getFundCd());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getFundFnm());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getSeoljYmd());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getFstSeoljAek() == null ? 0.0 : item.getFstSeoljAek());
+        cell.setCellStyle(numberStyle);
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getBmCd());
+        
+        cell = row.createCell(cidx.getAndIncrement());
+        cell.setCellValue(item.getBmNm());
+      }
+      
+      // response
+      workbook.write(out);
+      String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+      String filename = URLEncoder.encode(subject+"_"+now+".xlsx", Constant.ENCODING_UTF8);
+      return ResponseEntity.ok()
+          .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+filename+"\";")
+          .contentType(MediaType.APPLICATION_OCTET_STREAM)
+          .body(out.toByteArray());
+    } catch (IOException e) {
+      throw new AppException(ERROR.E906, e, new Object[] {subject+".xlsx"});
+    }
+  }
   
   @GetMapping("/excel-down/v1/jpa-sample/stars/all")
   public ResponseEntity<byte[]> allStarsExcelDown() {

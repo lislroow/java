@@ -1,6 +1,5 @@
 package spring.custom.api.entity;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
@@ -49,9 +48,9 @@ public class FundMstEntity extends AuditEntity {
   private String chgYmd;
   private String haejiGb;
   private String haejiYmd;
-  private BigDecimal fstSeoljAek;
-  private BigDecimal fstSeoljJwa;
-  private BigDecimal fstGijunGa;
+  private Double fstSeoljAek;
+  private Double fstSeoljJwa;
+  private Double fstGijunGa;
   private Double stockPnibRt;
   private Double kosdaqPnibRt;
   private String bmCd;
