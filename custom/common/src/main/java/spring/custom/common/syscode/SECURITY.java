@@ -4,17 +4,17 @@ public class SECURITY {
   
   public enum PERMIT_URI {
     
-    Error("/error"),
-    Actuator("/actuator/**"),
-    Swagger("/v3/api-docs/**"),
-    Runtime("/v1/runtime/**"),
-    MybatisMultipleDatasource("/v1/mybatis-multiple-datasource/**"),
-    JpaSample("/v1/jpa-sample/**"),
-    MybatisSample("/v1/mybatis-sample/**"),
-    RedisSample("/v1/redis-sample/**"),
-    Common("/v1/common/**"),
-    ExcelDown("/excel-down/**"),
-    Fund("/v1/fund/**"),
+    error("/error"),
+    actuator("/actuator/**"),
+    swgger("/v3/api-docs/**"),
+    runtime("/v1/runtime/**"),
+    jpa("/v1/jpa-sample/**"),
+    mybatis("/v1/mybatis-sample/**"),
+    redis("/v1/redis-sample/**"),
+    common("/v1/common/**"),
+    excel("/excel-down/**"),
+    fund("/v1/fund/**"),
+    fibonacci("/v1/fibonacci/**"),
     ;
     
     private String pattern;

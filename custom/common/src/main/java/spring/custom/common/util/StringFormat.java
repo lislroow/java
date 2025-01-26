@@ -1,5 +1,7 @@
 package spring.custom.common.util;
 
+import java.text.NumberFormat;
+
 public class StringFormat {
   
   public static String toOrdinal(int n) {
@@ -13,5 +15,10 @@ public class StringFormat {
     case 3: return n + "rd";
     default: return n + "th";
     }
+  }
+  
+  public static String toComma(int n) {
+    NumberFormat format = NumberFormat.getNumberInstance();
+    return format.format(n);
   }
 }
