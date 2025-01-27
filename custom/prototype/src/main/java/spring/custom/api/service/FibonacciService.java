@@ -3,12 +3,19 @@ package spring.custom.api.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.function.Supplier;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.api.dto.FibonacciDto;
 import spring.custom.common.util.StringFormat;
@@ -22,10 +29,10 @@ public class FibonacciService {
     List<String> logs = new ArrayList<>();
     List<Map<String, String>> list = new ArrayList<>();
     for (int i=0; i<n; i++) {
-      StopWatch watch = new StopWatch(StringFormat.toOrdinal(i));
+      StopWatch watch = new StopWatch(StringFormat.toOrdinal(i+1));
       watch.start();
-      int r = fibonacci(i);
-      list.add(Map.of(StringFormat.toOrdinal(i), StringFormat.toComma(r)));
+      double r = fibonacci((double)i);
+      list.add(Map.of(StringFormat.toOrdinal(i+1), StringFormat.toComma(r)));
       if (watch != null) {
         watch.stop();
         String result = watch.shortSummary();
@@ -39,7 +46,7 @@ public class FibonacciService {
         .build();
   }
   
-  int fibonacci(int n) {
+  double fibonacci(double n) {
     if (n <= 1) {
       return n;
     }
@@ -47,47 +54,58 @@ public class FibonacciService {
   }
   
   
-  // Fork
-  public FibonacciDto.ResultRes fibonacciFork(int n) {
+  // multi-thread
+  public FibonacciDto.ResultRes fibonacciThread(int n) {
     List<String> logs = new ArrayList<>();
     List<Map<String, String>> list = new ArrayList<>();
-    ForkJoinPool forkJoinPool = new ForkJoinPool();
+    ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(n);
+    List<CompletableFuture<FibonacciResult>> futures = new ArrayList<>();
     for (int i=0; i<n; i++) {
-      StopWatch watch = new StopWatch(StringFormat.toOrdinal(i));
-      watch.start();
-      int r = forkJoinPool.invoke(new FibonacciTask(i));
-      list.add(Map.of(StringFormat.toOrdinal(i), StringFormat.toComma(r)));
-      watch.stop();
-      String result = watch.shortSummary();
-      logs.add(result);
-      log.info(result);
+      CompletableFuture<FibonacciResult> result = CompletableFuture
+          .supplyAsync(new FibonacciTask(i), pool);
+      futures.add(result);
     }
+    
+    CompletableFuture<Void> allDone = CompletableFuture
+        .allOf(futures.toArray(new CompletableFuture[0]));
+    allDone.join();
+    
+    for (int i=0; i<n; i++) {
+      double value = Double.MIN_VALUE;
+      try {
+        value = futures.get(i).get().getValue();
+      } catch (InterruptedException|ExecutionException e) {
+        e.printStackTrace();
+      }
+      list.add(Map.of(StringFormat.toOrdinal(i+1), StringFormat.toComma(value)));
+    }
+    pool.shutdown();
     return FibonacciDto.ResultRes.builder()
         .list(list)
         .logs(logs)
         .build();
   }
   
-  @SuppressWarnings("serial")
-  class FibonacciTask extends RecursiveTask<Integer> {
-    private int n;
-    
-    public FibonacciTask(int n) {
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
+  public static class FibonacciResult {
+    private double n;
+    private double value;
+  }
+  
+  class FibonacciTask implements Supplier<FibonacciResult> {
+    double n;
+    public FibonacciTask(double n) {
       this.n = n;
     }
-    
     @Override
-    protected Integer compute() {
-      if (n <= 1) {
-        return n;
-      }
-      
-      FibonacciTask task1 = new FibonacciTask(n - 1);
-      FibonacciTask task2 = new FibonacciTask(n - 2);
-      task1.fork();
-      task2.fork();
-      
-      return task1.join() + task2.join();
+    public FibonacciResult get() {
+      log.info(String.format("%f start", n+1));
+      double valuer = fibonacci(n);
+      log.info(String.format("%f: %f done", n+1, valuer));
+      return FibonacciResult.builder().n(n).value(valuer).build();
     }
   }
   

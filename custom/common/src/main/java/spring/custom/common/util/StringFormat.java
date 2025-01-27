@@ -17,7 +17,7 @@ public class StringFormat {
     }
   }
   
-  public static String toComma(int n) {
+  public static String toComma(Number n) {
     NumberFormat format = NumberFormat.getNumberInstance();
     return format.format(n);
   }
