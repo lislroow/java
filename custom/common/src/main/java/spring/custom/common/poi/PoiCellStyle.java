@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -13,13 +14,12 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class PoiCellStyle {
   
   public static final String FONT = "맑은 고딕";
   
-  public static CellStyle cellHeader(XSSFWorkbook workbook) {
+  public static CellStyle cellHeader(Workbook workbook) {
     CellStyle style = workbook.createCellStyle();
     style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.GREY_25_PERCENT.getIndex());
     style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -34,7 +34,7 @@ public class PoiCellStyle {
     return style;
   }
   
-  public static CellStyle cellContent(XSSFWorkbook workbook) {
+  public static CellStyle cellContent(Workbook workbook) {
     CellStyle style = workbook.createCellStyle();
     //style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.GREY_25_PERCENT.getIndex());
     //style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -49,13 +49,31 @@ public class PoiCellStyle {
     return style;
   }
   
-  public static CellStyle cellNumber(XSSFWorkbook workbook) {
+  public static CellStyle cellNumber(Workbook workbook) {
     CellStyle style = PoiCellStyle.cellContent(workbook);
     
     DataFormat format = workbook.createDataFormat();
     style.setDataFormat(format.getFormat("#,##0"));
     style.setAlignment(HorizontalAlignment.RIGHT);
     return style;
+  }
+
+  
+  public static void copyCell(Cell source, Cell target) {
+    switch (source.getCellType()) {
+      case STRING:
+        target.setCellValue(source.getStringCellValue());
+        break;
+      case NUMERIC:
+        target.setCellValue(source.getNumericCellValue());
+        break;
+      case BOOLEAN:
+        target.setCellValue(source.getBooleanCellValue());
+        break;
+      default:
+        target.setCellValue(source.toString());
+        break;
+    }
   }
   
   public static String ofLocalDateTime(LocalDateTime localDateTime) {

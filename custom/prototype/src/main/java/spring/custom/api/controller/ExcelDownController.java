@@ -5,20 +5,28 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,15 +61,15 @@ public class ExcelDownController {
   final FundInternalController fundInternalController;
   final EnumMapper enumMapper;
   
-  @GetMapping("/excel-down/v1/fund/fund-mst/all")
-  public ResponseEntity<byte[]> allFundMstsExcelDown() {
+  @GetMapping("/excel-down/multi-thread/v1/fund/fund-mst/all")
+  public ResponseEntity<byte[]> allFundMstsExcelDownMultiThread() {
     // data
     List<FundDto.FundMstRes> data = fundInternalController.allFundMsts();
     if (data.size() == 0) {
       throw new DataNotFoundException();
     }
     
-    final String subject = "펀드_all";
+    final String subject = "펀드_all(multi-thread)";
     
     try (XSSFWorkbook workbook = new XSSFWorkbook();
         ByteArrayOutputStream out = new ByteArrayOutputStream()) {
@@ -97,6 +105,142 @@ public class ExcelDownController {
       int cntHeader = 1;
       
       // contents
+      int chunkSize = 10000;
+      int cnt = data.size();
+      int threadCount = (int) Math.ceil((double) cnt / chunkSize);
+      ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+      List<Future<Workbook>> futures = new ArrayList<>();
+      for (int i = 0; i < threadCount; i++) {
+        final int start = i * chunkSize;
+        final int end = Math.min(start + chunkSize, cnt);
+        futures.add(executorService.submit(() -> createWorkbookChunk(data.subList(start, end), start)));
+      }
+      
+      StopWatch stopWatch = new StopWatch("merge processing");
+      stopWatch.start();
+      int rowIndex = cntHeader;
+      for (Future<Workbook> future : futures) {
+        Workbook chunkWorkbook;
+        try {
+          chunkWorkbook = future.get(); // chunkWorkbook: thread 별 처리 결과
+        } catch (InterruptedException | ExecutionException e) {
+          e.printStackTrace();
+          continue;
+        }
+        Sheet chunkSheet = chunkWorkbook.getSheetAt(0);
+        for (Row row : chunkSheet) {
+          Row newRow = sheet.createRow(rowIndex++);
+          for (Cell cell : row) {
+            Cell newCell = newRow.createCell(cell.getColumnIndex());
+            PoiCellStyle.copyCell(cell, newCell);
+          }
+        }
+      }
+      stopWatch.stop();
+      System.err.println(stopWatch.shortSummary());
+      
+      executorService.shutdown();
+      
+      // response
+      workbook.write(out);
+      String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+      String filename = URLEncoder.encode(subject+"_"+now+".xlsx", Constant.ENCODING_UTF8);
+      return ResponseEntity.ok()
+          .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+filename+"\";")
+          .contentType(MediaType.APPLICATION_OCTET_STREAM)
+          .body(out.toByteArray());
+    } catch (IOException e) {
+      throw new AppException(ERROR.E906, e, new Object[] {subject+".xlsx"});
+    }
+  }
+  
+  private Workbook createWorkbookChunk(List<FundDto.FundMstRes> chunkData, int startRowIndex) {
+    StopWatch stopWatch = new StopWatch("chunk processing");
+    stopWatch.start();
+    Workbook workbook = new XSSFWorkbook();
+    Sheet sheet = workbook.createSheet("chunk-sheet");
+    CellStyle numberStyle = PoiCellStyle.cellNumber(workbook);
+    
+    IntStream.range(0, chunkData.size()).forEach(ridx -> {
+      Row row = sheet.createRow(ridx);
+      FundDto.FundMstRes item = chunkData.get(ridx);
+
+      Cell cell;
+      int cidx = 0;
+
+      cell = row.createCell(cidx++);
+      cell.setCellValue(startRowIndex + ridx + 1);
+
+      cell = row.createCell(cidx++);
+      cell.setCellValue(item.getFundCd());
+
+      cell = row.createCell(cidx++);
+      cell.setCellValue(item.getFundFnm());
+
+      cell = row.createCell(cidx++);
+      cell.setCellValue(item.getSeoljYmd());
+
+      cell = row.createCell(cidx++);
+      cell.setCellValue(item.getFstSeoljAek() == null ? 0.0 : item.getFstSeoljAek());
+      cell.setCellStyle(numberStyle);
+
+      cell = row.createCell(cidx++);
+      cell.setCellValue(item.getBmCd());
+
+      cell = row.createCell(cidx++);
+      cell.setCellValue(item.getBmNm());
+    });
+    stopWatch.stop();
+    System.err.println(stopWatch.shortSummary());
+    return workbook;
+  }
+  
+  @GetMapping("/excel-down/v1/fund/fund-mst/all")
+  public ResponseEntity<byte[]> allFundMstsExcelDown() {
+    // data
+    List<FundDto.FundMstRes> data = fundInternalController.allFundMsts();
+    if (data.size() == 0) {
+      throw new DataNotFoundException();
+    }
+    
+    final String subject = "펀드_all";
+    
+    try (Workbook workbook = new XSSFWorkbook();
+        ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+      
+      // sheet
+      Sheet sheet = workbook.createSheet(subject);
+      
+      // header row:0
+      @AllArgsConstructor
+      enum HeaderStar0 {
+        no("No.", 10),
+        fundCd("fundCd", 13),
+        fundFnm("fundFnm", 70),
+        seoljYmd("seoljYmd", 10),
+        fstSeoljAek("fstSeoljAek", 25),
+        bmCd("bmCd", 12),
+        bmNm("bmNm", 65),
+        ;
+        String name;
+        int width;
+      }
+      Row row0 = sheet.createRow(0);
+      for (int i=0; i<HeaderStar0.values().length; i++) {
+        HeaderStar0 header = HeaderStar0.values()[i];
+        sheet.setDefaultColumnStyle(i, PoiCellStyle.cellContent(workbook));
+        sheet.setColumnWidth(i, 256*header.width);
+        
+        Cell cell = row0.createCell(i);
+        cell.setCellValue(header.name);
+        cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
+      }
+      
+      int cntHeader = 1;
+      
+      // contents
+      StopWatch stopWatch = new StopWatch("contents processing");
+      stopWatch.start();
       int cnt = data.size();
       AtomicInteger no = new AtomicInteger(0);
       CellStyle numberStyle = PoiCellStyle.cellNumber(workbook);
@@ -129,6 +273,8 @@ public class ExcelDownController {
         cell = row.createCell(cidx.getAndIncrement());
         cell.setCellValue(item.getBmNm());
       }
+      stopWatch.stop();
+      System.err.println(stopWatch.shortSummary());
       
       // response
       workbook.write(out);
@@ -153,7 +299,7 @@ public class ExcelDownController {
     
     final String subject = "항성_all";
     
-    try (XSSFWorkbook workbook = new XSSFWorkbook();
+    try (Workbook workbook = new XSSFWorkbook();
         ByteArrayOutputStream out = new ByteArrayOutputStream()) {
       
       // sheet
