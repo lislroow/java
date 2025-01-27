@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import spring.custom.api.dto.FibonacciDto;
+import spring.custom.api.func.CalculatorFunc;
 import spring.custom.common.util.StringFormat;
 
 @Service
@@ -31,7 +33,7 @@ public class FibonacciService {
     for (int i=0; i<n; i++) {
       StopWatch watch = new StopWatch(StringFormat.toOrdinal(i+1));
       watch.start();
-      double r = fibonacci((double)i);
+      double r = CalculatorFunc.fibonacci(i);
       list.add(Map.of(StringFormat.toOrdinal(i+1), StringFormat.toComma(r)));
       if (watch != null) {
         watch.stop();
@@ -46,13 +48,6 @@ public class FibonacciService {
         .build();
   }
   
-  double fibonacci(double n) {
-    if (n <= 1) {
-      return n;
-    }
-    return fibonacci(n-1) + fibonacci(n - 2);
-  }
-  
   
   // multi-thread
   public FibonacciDto.ResultRes fibonacciThread(int n) {
@@ -62,7 +57,7 @@ public class FibonacciService {
     List<CompletableFuture<FibonacciResult>> futures = new ArrayList<>();
     for (int i=0; i<n; i++) {
       CompletableFuture<FibonacciResult> result = CompletableFuture
-          .supplyAsync(new FibonacciTask(i), pool);
+          .supplyAsync(new FibonacciTask(i, CalculatorFunc::fibonacci), pool);
       futures.add(result);
     }
     
@@ -91,20 +86,23 @@ public class FibonacciService {
   @AllArgsConstructor
   @Builder
   public static class FibonacciResult {
-    private double n;
+    private int n;
     private double value;
   }
   
   class FibonacciTask implements Supplier<FibonacciResult> {
-    double n;
-    public FibonacciTask(double n) {
+    int n;
+    Function<Integer, Double> func;
+    
+    public FibonacciTask(int n, Function<Integer, Double> func) {
       this.n = n;
+      this.func = func;
     }
     @Override
     public FibonacciResult get() {
-      log.info(String.format("%f start", n+1));
-      double valuer = fibonacci(n);
-      log.info(String.format("%f: %f done", n+1, valuer));
+      log.info(String.format("%d start", n+1));
+      double valuer = this.func.apply(n);
+      log.info(String.format("%d: %f done", n+1, valuer));
       return FibonacciResult.builder().n(n).value(valuer).build();
     }
   }
