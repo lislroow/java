@@ -18,7 +18,7 @@ public class FibonacciDto {
   @NoArgsConstructor
   public static class ResultRes {
     private List<Map<String, String>> list;
-    private List<String> logs;
+    private List<String> times;
     private String summary;
   }
   
