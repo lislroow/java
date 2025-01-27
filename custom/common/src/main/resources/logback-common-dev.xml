@@ -6,6 +6,7 @@
   <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
   
   <property name="logs.path" value="../../logs"/>
+  <property name="logs.max-history" value="${LOG_FILE_MAX_HISTORY:-2}"/>
   
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
@@ -17,14 +18,35 @@
     <file>${logs.path}/debug-${APPLICATION_NAME:-}.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <fileNamePattern>${logs.path}/backup/%d{yyyyMM, aux}/debug-${APPLICATION_NAME:-}.log-%d{yyyyMMdd_HH}.gz</fileNamePattern>
+      <cleanHistoryOnStart>${LOG_FILE_CLEAN_HISTORY_ON_START:-true}</cleanHistoryOnStart>
+      <maxHistory>${logs.max-history}</maxHistory>
     </rollingPolicy>
     <encoder>
       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ${APPLICATION_NAME:-},%X{traceId:-},%X{spanId:-} [${LOG_LEVEL_PATTERN:-%5p}] [%thread] %C{40}:%L ## %msg%n</pattern>
     </encoder>
   </appender>
   
-  <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+  <appender name="ASYNC_LOGFILE" class="ch.qos.logback.classic.AsyncAppender">
     <appender-ref ref="LOGFILE" />
+    <queueSize>4096</queueSize>
+    <discardingThreshold>20</discardingThreshold>
+    <includeCallerData>true</includeCallerData>
+    <neverBlock>false</neverBlock>
+  </appender>
+  
+  <appender name="LOGECS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logs.path}/debug-${APPLICATION_NAME:-}.json</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logs.path}/backup/%d{yyyyMM, aux}/debug-${APPLICATION_NAME:-}.json-%d{yyyyMMdd_HH}.gz</fileNamePattern>
+      <maxHistory>${logs.max-history}</maxHistory>
+    </rollingPolicy>
+    <encoder class="co.elastic.logging.logback.EcsEncoder">
+      <serviceName>${APPLICATION_NAME}</serviceName>
+    </encoder>
+  </appender>
+  
+  <appender name="ASYNC_LOGECS" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="LOGECS" />
     <queueSize>4096</queueSize>
     <discardingThreshold>20</discardingThreshold>
     <includeCallerData>true</includeCallerData>
@@ -34,7 +56,9 @@
   <appender name="LOGFILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${logs.path}/error-${APPLICATION_NAME:-}.log</File>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <FileNamePattern>${logs.path}/backup/%d{yyyyMM, aux}/error.log-%d{yyyyMMdd}.gz</FileNamePattern>
+      <FileNamePattern>${logs.path}/backup/%d{yyyyMM, aux}/error-${APPLICATION_NAME:-}.log-%d{yyyyMMdd}.gz</FileNamePattern>
+      <cleanHistoryOnStart>${LOG_FILE_CLEAN_HISTORY_ON_START:-true}</cleanHistoryOnStart>
+      <maxHistory>${logs.max-history}</maxHistory>
     </rollingPolicy>
     <encoder>
       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ${APPLICATION_NAME:-},%X{traceId:-},%X{spanId:-} [${LOG_LEVEL_PATTERN:-%5p}] [%thread] %C{40}:%L ## %msg%n</pattern>
@@ -46,8 +70,33 @@
     </filter>
   </appender>
   
-  <appender name="ASYNC_ERROR" class="ch.qos.logback.classic.AsyncAppender">
+  <appender name="ASYNC_LOGFILE_ERROR" class="ch.qos.logback.classic.AsyncAppender">
     <appender-ref ref="LOGFILE_ERROR" />
+    <queueSize>4096</queueSize>
+    <discardingThreshold>20</discardingThreshold>
+    <includeCallerData>true</includeCallerData>
+    <neverBlock>false</neverBlock>
+  </appender>
+  
+  <appender name="LOGECS_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${logs.path}/error-${APPLICATION_NAME:-}.json</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${logs.path}/backup/%d{yyyyMM, aux}/error-${APPLICATION_NAME:-}.json-%d{yyyyMMdd}.gz</FileNamePattern>
+      <cleanHistoryOnStart>${LOG_FILE_CLEAN_HISTORY_ON_START:-true}</cleanHistoryOnStart>
+      <maxHistory>${logs.max-history}</maxHistory>
+    </rollingPolicy>
+    <encoder class="co.elastic.logging.logback.EcsEncoder">
+      <serviceName>${APPLICATION_NAME}</serviceName>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+  
+  <appender name="ASYNC_LOGECS_ERROR" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="LOGECS_ERROR" />
     <queueSize>4096</queueSize>
     <discardingThreshold>20</discardingThreshold>
     <includeCallerData>true</includeCallerData>
@@ -65,105 +114,147 @@
   -->
   <logger name="com.zaxxer.hikari.HikariConfig" level="debug" additivity="false">
     <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   
   <logger name="org.springframework.security" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.FrameworkServlet" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.data.repository.config.RepositoryConfigurationDelegate" level="error" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.security.web" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="com.zaxxer.hikari.pool.HikariPool" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="io.lettuce.core" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.data.redis" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.apache.kafka" level="error" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   
   
   <logger name="com.netflix.discovery" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.apache.http" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.apache.hc" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   
   <logger name="org.springframework.web.servlet.FrameworkServlet" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.DispatcherServlet" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.core.log.LogFormatUtils" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.handler.AbstractHandlerMapping" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.web.method.support.InvocableHandlerMethod" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="debug" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor" level="debug" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   <logger name="org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver" level="debug" additivity="false">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
   
 </configuration>

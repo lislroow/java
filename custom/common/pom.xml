@@ -76,6 +76,11 @@
       <artifactId>micrometer-tracing-bridge-brave</artifactId>
     </dependency>
     
+    <dependency>
+      <groupId>co.elastic.logging</groupId>
+      <artifactId>logback-ecs-encoder</artifactId>
+    </dependency>
+    
   </dependencies>
   
   <build>

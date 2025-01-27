@@ -26,9 +26,6 @@
     
     <spring.custom-component.version>0.1-SNAPSHOT</spring.custom-component.version>
     
-    <market-lib-api.version>0.1-SNAPSHOT</market-lib-api.version>
-    <market-lib-common.version>0.1-SNAPSHOT</market-lib-common.version>
-    
     <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
   </properties>
   
@@ -175,19 +172,6 @@
         <artifactId>prototype</artifactId>
         <version>${spring.custom-component.version}</version>
       </dependency>
-      
-      <!--
-      <dependency>
-        <groupId>spring</groupId>
-        <artifactId>market-lib-api</artifactId>
-        <version>${market-lib-api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>spring</groupId>
-        <artifactId>market-lib-common</artifactId>
-        <version>${market-lib-common.version}</version>
-      </dependency>
-      -->
     </dependencies>
   </dependencyManagement>
   
