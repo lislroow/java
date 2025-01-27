@@ -12,10 +12,6 @@ management:
   tracing.propagation.produce: B3_MULTI
   zipkin.tracing.endpoint: http://mgkim.net:59411/api/v2/spans
 
-spring:
-  profiles.active: local
-  config.location: currentdir/config
-  application.name: cloud-gateway
 
 eureka:
   client:
@@ -35,6 +31,8 @@ server.port: 10100
 
 spring:
   config.activate.on-profile: local, dev
+  config.location: currentdir/config
+  application.name: cloud-gateway
   
   data.redis.repositories.enabled: false
   
@@ -89,6 +87,8 @@ server:
 
 spring:
   config.activate.on-profile: local-auth, dev-auth
+  config.location: currentdir/config
+  application.name: cloud-gateway-auth
   
   data.redis.repositories.enabled: false
   

@@ -4,6 +4,7 @@
   <include resource="logback-common-dev.xml" />
   
   <root level="info">
+    <appender-ref ref="STDOUT"/>
     <appender-ref ref="ASYNC"/>
     <appender-ref ref="ASYNC_ERROR"/>
   </root>

@@ -80,7 +80,7 @@ public class FilteringWebHandler implements WebHandler, ApplicationListener<Refr
 	}
 
 	private static List<GatewayFilter> loadFilters(List<GlobalFilter> filters) {
-	  /* for debug */ filters.forEach(filter -> log.error("[loadFilters] {}", filter.getClass().getName()));
+	  /* for debug */ filters.forEach(filter -> log.info("[loadFilters] {}", filter.getClass().getName()));
 	  
 		return filters.stream().map(filter -> {
 			GatewayFilterAdapter gatewayFilter = new GatewayFilterAdapter(filter);
