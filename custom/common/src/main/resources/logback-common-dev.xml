@@ -2,7 +2,7 @@
 <configuration>
 
   <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
-  
+  <springProperty name="APPLICATION_NAME" source="spring.application.name" scope="context"/>
   <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
   
   <property name="logs.path" value="./logs"/>
@@ -13,7 +13,7 @@
       <fileNamePattern>${logs.path}/backup/%d{yyyyMM, aux}/debug.log-%d{yyyyMMdd_HH}.gz</fileNamePattern>
     </rollingPolicy>
     <encoder>
-      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${LOG_LEVEL_PATTERN:-%5p}] [%thread] %C{40}:%L ## %msg%n</pattern>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ${APPLICATION_NAME:-},%X{traceId:-},%X{spanId:-} [${LOG_LEVEL_PATTERN:-%5p}] [%thread] %C{40}:%L ## %msg%n</pattern>
     </encoder>
   </appender>
   
@@ -31,7 +31,7 @@
       <FileNamePattern>${logs.path}/backup/%d{yyyyMM, aux}/error.log-%d{yyyyMMdd}.gz</FileNamePattern>
     </rollingPolicy>
     <encoder>
-      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${LOG_LEVEL_PATTERN:-%5p}] [%thread] %C{40}:%L ## %msg%n</pattern>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ${APPLICATION_NAME:-},%X{traceId:-},%X{spanId:-} [${LOG_LEVEL_PATTERN:-%5p}] [%thread] %C{40}:%L ## %msg%n</pattern>
     </encoder>
     <filter class="ch.qos.logback.classic.filter.LevelFilter">
       <level>ERROR</level>
