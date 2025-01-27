@@ -1,0 +1,61 @@
+filebeat.inputs:
+- type: filestream
+  id: hx370-fs
+  enabled: true
+  paths:
+    - 'C:/project/java/logs/*.json'
+  json:
+    keys_under_root: true
+    overwrite_keys: true
+    message_key: "message"
+
+processors:
+  - decode_json_fields:
+      fields: ["message"]  # message 필드에서 JSON을 파싱
+      target: ""           # JSON 키를 루트 필드로 병합
+      overwrite_keys: true # 기존 키를 덮어씀
+  - add_host_metadata: ~
+  #- add_cloud_metadata: ~
+  #- add_docker_metadata: ~
+  #- add_kubernetes_metadata: ~
+
+setup.ilm.enabled: false
+
+setup.template:
+  name: "java"
+  pattern: "java-*"
+  enabled: true
+
+output.elasticsearch:
+  hosts: ["elastic:9280"]
+  preset: balanced
+  protocol: "https"
+  username: "elastic"
+  password: "trustno1"
+  ssl.enabled: true
+  index: "java-%{+yyyy-MM-dd}"
+  index_patterns:
+    - "java-*"
+  index_template:
+    pattern: "java-*"
+    settings:
+      index:
+        number_of_shards: 1
+        number_of_replicas: 1
+        codec: best_compression
+    mappings:
+      properties:
+        traceId:
+          type: text
+        spanId:
+          type: text
+      dynamic_templates:
+        - strings_as_keyword:
+            match_mapping_type: string
+            mapping:
+              type: keyword
+              ignore_above: 1024
+        - int_as_long:
+            match_mapping_type: long
+            mapping:
+              type: long
