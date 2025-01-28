@@ -5,8 +5,10 @@
   
   <root level="info">
     <appender-ref ref="STDOUT"/>
-    <appender-ref ref="ASYNC"/>
-    <appender-ref ref="ASYNC_ERROR"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </root>
   
 </configuration>
