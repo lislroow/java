@@ -21,18 +21,16 @@ eureka:
 ---
 server.port: 10100
 
-management:
-  endpoints.web.exposure.include: routes, filters, refresh, health, beans, busrefresh, info, metrics, prometheus
-  tracing.sampling.probability: 1.0
-  otlp.metrics.export.url: http://rocky8-market:4318/v1/metrics
-  otlp.metrics.export.step: 10s
-  otlp.tracing.endpoint: http://rocky8-market:4318/v1/traces
-  server.port: 20100
-  
-otel:
-  exporter.otlp.logs.endpoint: http://rocky8-market:4318/v1/logs
-  exporter.otlp.endpoint: http://rocky8-market:4318
-  
+management.endpoints.web.exposure.include: routes, filters, refresh, health, beans, busrefresh, info, metrics, prometheus
+management.tracing.sampling.probability: 1.0
+management.otlp.metrics.export.url: http://rocky8-market:4318/v1/metrics
+management.otlp.metrics.export.step: 10s
+management.otlp.tracing.endpoint: http://rocky8-market:4318/v1/traces
+management.server.port: 20100
+otel.exporter.otlp.logs.endpoint: http://rocky8-market:4318/v1/logs
+otel.exporter.otlp.endpoint: http://rocky8-market:4318
+
+
 spring:
   config.activate.on-profile: local, dev
   config.location: currentdir/config
@@ -89,22 +87,14 @@ springdoc:
 server:
   port: 10200
 
-management:
-  endpoints.web.exposure.include: routes, filters, refresh, health, beans, busrefresh, info, metrics, prometheus
-  tracing.sampling.probability: 1.0
-  tracing.propagation.consume: B3
-  tracing.propagation.produce: B3_MULTI
-  #zipkin.tracing.endpoint: http://rocky8-market:9411/api/v2/spans
-  otlp.metrics.export.url: http://rocky8-market:4318/v1/metrics
-  otlp.metrics.export.step: 10s
-  server.port: 20200
-  otlp.tracing.endpoint: http://rocky8-market:4318/v1/traces
-
-otel:
-  service.name: cloud-gateway-auth
-  sdk.disabled: false
-  exporter.otlp.logs.endpoint: http://rocky8-market:4318/v1/logs
-  exporter.otlp.endpoint: http://rocky8-market:4318
+management.endpoints.web.exposure.include: routes, filters, refresh, health, beans, busrefresh, info, metrics, prometheus
+management.tracing.sampling.probability: 1.0
+management.otlp.metrics.export.url: http://rocky8-market:4318/v1/metrics
+management.otlp.metrics.export.step: 10s
+management.otlp.tracing.endpoint: http://rocky8-market:4318/v1/traces
+management.server.port: 20200
+otel.exporter.otlp.logs.endpoint: http://rocky8-market:4318/v1/logs
+otel.exporter.otlp.endpoint: http://rocky8-market:4318
 
 spring:
   config.activate.on-profile: local-auth, dev-auth
