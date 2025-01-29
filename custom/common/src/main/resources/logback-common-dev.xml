@@ -14,6 +14,12 @@
     </encoder>
   </appender>
   
+  <!-- temp fix. numLogsCapturedBeforeOtelInstall value of the OpenTelemetry appender is too small. -->
+  <appender name="OpenTelemetry" class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender">
+    <captureExperimentalAttributes>true</captureExperimentalAttributes>
+    <captureKeyValuePairAttributes>true</captureKeyValuePairAttributes>
+  </appender>
+  
   <appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>${logs.path}/debug-${APPLICATION_NAME:-}.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
