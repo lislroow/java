@@ -22,14 +22,9 @@ eureka:
 server.port: 10100
 
 management.endpoints.web.exposure.include: routes, filters, refresh, health, beans, busrefresh, info, metrics, prometheus
-management.tracing.sampling.probability: 1.0
-management.otlp.metrics.export.url: http://rocky8-market:4318/v1/metrics
-management.otlp.metrics.export.step: 10s
-management.otlp.tracing.endpoint: http://rocky8-market:4318/v1/traces
 management.server.port: 20100
-otel.exporter.otlp.logs.endpoint: http://rocky8-market:4318/v1/logs
+management.tracing.sampling.probability: 1.0
 otel.exporter.otlp.endpoint: http://rocky8-market:4318
-
 
 spring:
   config.activate.on-profile: local, dev
@@ -84,16 +79,11 @@ springdoc:
 #cloud.gateway.filter.auth-url: http://localhost/auth-api/v1/token/verify-token
 
 ---
-server:
-  port: 10200
+server.port: 10200
 
 management.endpoints.web.exposure.include: routes, filters, refresh, health, beans, busrefresh, info, metrics, prometheus
-management.tracing.sampling.probability: 1.0
-management.otlp.metrics.export.url: http://rocky8-market:4318/v1/metrics
-management.otlp.metrics.export.step: 10s
-management.otlp.tracing.endpoint: http://rocky8-market:4318/v1/traces
 management.server.port: 20200
-otel.exporter.otlp.logs.endpoint: http://rocky8-market:4318/v1/logs
+management.tracing.sampling.probability: 1.0
 otel.exporter.otlp.endpoint: http://rocky8-market:4318
 
 spring:
