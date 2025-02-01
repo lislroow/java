@@ -179,7 +179,7 @@ public class TokenService {
       throw new AppException(ERROR.A019);
     case ACCESS_TOKEN:
       tokenValue = this.getRedis(tokenId)
-        .orElseThrow(() -> new AccessTokenExpiredException());
+        .orElseThrow(AccessTokenExpiredException::new);
       break;
     case PERMANENT_TOKEN:
       TokenVo.ClientToken clientTokenVo = tokenDao.findClientTokenByTokenKey(tokenId)
@@ -226,7 +226,7 @@ public class TokenService {
     String roles = null;
     try {
       String oldRefreshToken = this.getRedis(rtk)
-          .orElseThrow(() -> new RefreshTokenExpiredException());
+          .orElseThrow(RefreshTokenExpiredException::new);
       SignedJWT signedJWT = SignedJWT.parse(oldRefreshToken);
       if (signedJWT.verify(this.verifier)) {
         JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();

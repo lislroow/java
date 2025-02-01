@@ -112,7 +112,7 @@ public class UserMngController {
   public ResponseEntity<UserMngDto.ManagerRes> findManagerById(
       @PathVariable String id) {
     UserMngVo.ResultManager resultVo = userMngDao.findManagerById(id)
-        .orElseThrow(() -> new DataNotFoundException());
+        .orElseThrow(DataNotFoundException::new);
     UserMngDto.ManagerRes resDto = modelMapper.map(resultVo, UserMngDto.ManagerRes.class);
     return ResponseEntity.ok(resDto);
   }

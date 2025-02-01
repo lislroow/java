@@ -87,7 +87,7 @@ public class JpaSampleController {
   @GetMapping("/v1/jpa-sample/planet/{id}")
   public ResponseEntity<JpaSampleDto.PlanetRes> findPlanetById(
       @PathVariable Integer id) {
-    PlanetEntity result = planetRepository.findById(id).orElseThrow(() -> new DataNotFoundException());
+    PlanetEntity result = planetRepository.findById(id).orElseThrow(DataNotFoundException::new);
     JpaSampleDto.PlanetRes resDto = modelMapper.map(result, JpaSampleDto.PlanetRes.class);
     if (result.getSatellites() != null) {
       List<JpaSampleDto.Satellite> satellites = result.getSatellites()
@@ -159,7 +159,7 @@ public class JpaSampleController {
   @GetMapping("/v1/jpa-sample/satellite/{id}")
   public ResponseEntity<JpaSampleDto.SatelliteRes> findSatelliteById(
       @PathVariable Integer id) {
-    SatelliteEntity result = satelliteRepository.findById(id).orElseThrow(() -> new DataNotFoundException());
+    SatelliteEntity result = satelliteRepository.findById(id).orElseThrow(DataNotFoundException::new);
     JpaSampleDto.SatelliteRes resDto = modelMapper.map(result, JpaSampleDto.SatelliteRes.class);
     return ResponseEntity.ok(resDto);
   }
@@ -253,7 +253,7 @@ public class JpaSampleController {
   @GetMapping("/v1/jpa-sample/star/{id}")
   public ResponseEntity<JpaSampleDto.StarRes> findStarById(
       @PathVariable Integer id) {
-    StarEntity result = starRepository.findById(id).orElseThrow(() -> new DataNotFoundException());
+    StarEntity result = starRepository.findById(id).orElseThrow(DataNotFoundException::new);
     JpaSampleDto.StarRes resDto = modelMapper.map(result, JpaSampleDto.StarRes.class);
     return ResponseEntity.ok(resDto);
   }

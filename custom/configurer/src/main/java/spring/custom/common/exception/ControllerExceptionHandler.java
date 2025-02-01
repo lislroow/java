@@ -25,7 +25,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   protected ResponseEntity<ProblemDetail> handleDataNotFoundException(DataNotFoundException e, WebRequest request) {
     /* for debug */ if (log.isInfoEnabled()) log.info("data not found");
     
-    HttpStatusCode status = HttpStatus.OK;
+    HttpStatusCode status = HttpStatus.NO_CONTENT;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
         .title(e.getErrorCode())
         .detail(e.getErrorMessage())

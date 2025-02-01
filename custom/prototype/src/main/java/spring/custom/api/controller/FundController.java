@@ -54,7 +54,7 @@ public class FundController {
   @GetMapping("/v1/fund/ir/line-chart/{fundCd}")
   public List<FundDto.FundIrRes> findIrLineChart(
       @PathVariable String fundCd) {
-    FundMstEntity result = fundMstRepository.findById(fundCd).orElseThrow(() -> new DataNotFoundException());
+    FundMstEntity result = fundMstRepository.findById(fundCd).orElseThrow(DataNotFoundException::new);
     return result.getFundIrs().stream()
         .sorted(Comparator.comparing(FundIrEntity::getBasYmd))
         .map(item -> modelMapper.map(item, FundDto.FundIrRes.class))

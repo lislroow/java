@@ -89,7 +89,7 @@ public class MybatisSampleController {
   public ResponseEntity<MybatisSampleDto.ScientistRes> findScientistById(
       @PathVariable Integer id) {
     ScientistVo.ResultScientist resultVo = mybatisSampleDao.findScientistById(id)
-        .orElseThrow(() -> new DataNotFoundException());
+        .orElseThrow(DataNotFoundException::new);
     MybatisSampleDto.ScientistRes resDto = modelMapper.map(resultVo, MybatisSampleDto.ScientistRes.class);
     return ResponseEntity.ok(resDto);
   }
