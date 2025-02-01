@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="1 seconds">
-  <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+  
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <!--
-      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(%C){cyan}:%L{cyan} ## %msg%n</pattern>
-      <pattern>%d{HH:mm:ss.SSS} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([%C]){cyan}:%L{cyan} ## %msg%n</pattern>
-      -->
-      <pattern>%d{HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} [%C]:%L ## %msg%n</pattern>
+      <pattern>%d{HH:mm:ss.SSS} %X{traceId:-} [${LOG_LEVEL_PATTERN:-%5p}] [%thread] %C{40}:%L ## %msg%n</pattern>
     </encoder>
   </appender>
   
-  <logger name="samples.xml" level="info" additivity="false">
-    <appender-ref ref="STDOUT"/>
-  </logger>
+  <logger name="log4jdbc.log4j2" level="OFF" />
+  <logger name="jdbc.sqlonly" level="OFF" />
+  <logger name="jdbc.audit" level="OFF" />
+  <logger name="jdbc.resultset" level="OFF" />
+  <logger name="jdbc.connection" level="OFF" />
   
   <root level="info">
     <appender-ref ref="STDOUT"/>
