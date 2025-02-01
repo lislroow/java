@@ -3,6 +3,7 @@ package main.redis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -17,13 +18,19 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.annotation.Resource;
+import spring.custom.api.dto.FundDto;
 import spring.custom.api.entity.FundMstEntity;
 import spring.custom.api.entity.repository.FundMstRepository;
 import spring.redis.repository.FundMstRedis;
+import spring.redis.service.FundIrService;
 import spring.redis.vo.FundMstRvo;
 
 @SpringBootApplication
@@ -39,16 +46,61 @@ public class RedisSpringMain implements CommandLineRunner {
     SpringApplication.run(RedisSpringMain.class, args);
   }
   
+  @Autowired ObjectMapper objectMapper;
   @Autowired ModelMapper modelMapper;
   @Autowired RedisTemplate<String, String> redisTemplate;
   @Autowired FundMstRepository fundMstRepository;
   @Autowired FundMstRedis fundMstRedis;
   @Resource(name="redisTemplate") ListOperations<String, String> listOps;
+  @Autowired FundIrService fundIrService;
+  ZSetOperations<String, String> zSetOps;
   
   @Override
   public void run(String... args) throws Exception {
-    test1();
+    //test1();
     test2();
+    test3();
+    //test4();
+  }
+  
+  public record FundYmdPrice(String ymd, Double price) {};
+  
+  private void test4() {
+    if (zSetOps == null) zSetOps = redisTemplate.opsForZSet();
+
+    List<String> allFundCd = listOps.range("fund:fundCd-list", 0, -1);
+    String fundCd = allFundCd.get(1);
+    //String fundCd = "KR5224593347";
+    String key = "fund:ir:"+fundCd;
+    Set<String> result = zSetOps.rangeByScore(key, Double.MIN_VALUE, Double.MAX_VALUE);
+    List<FundDto.FundIrRes> resDto = result.stream().map(item -> {
+      try {
+        return objectMapper.readValue(item, FundDto.FundIrRes.class);
+      } catch (JsonProcessingException e) {
+        e.printStackTrace();
+      }
+      return null;
+    }).collect(Collectors.toList());
+    System.out.println("resDto: "+resDto);
+  }
+  
+  private void test3() {
+    if (zSetOps == null) zSetOps = redisTemplate.opsForZSet();
+    List<String> allFundCd = listOps.range("fund:fundCd-list", 0, -1);
+    allFundCd.stream().forEach(fundCd -> {
+      //String fundCd = allFundCd.get(1);
+      List<FundYmdPrice> listYmdPrice = fundIrService.getFundIrs(fundCd);
+      listYmdPrice.stream().parallel().forEach(item -> {
+        try {
+          String key = "fund:ir:"+fundCd;
+          String value = objectMapper.writeValueAsString(new FundDto.FundIrRes(item.ymd, item.price));
+          Double score = Double.parseDouble(item.ymd);
+          zSetOps.add(key, value, score);
+        } catch (NumberFormatException|JsonProcessingException e) {
+          e.printStackTrace();
+        }
+      });
+    });
   }
   
   private void test2() {

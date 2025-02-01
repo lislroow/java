@@ -1,6 +1,9 @@
 package spring.custom.api.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 public class FundDto {
   
@@ -36,6 +39,9 @@ public class FundDto {
   }
   
   @Data
+  @Builder
+  @AllArgsConstructor
+  @NoArgsConstructor
   public static class FundIrRes {
 
     private String basYmd;
