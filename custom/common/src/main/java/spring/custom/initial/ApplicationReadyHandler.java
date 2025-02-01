@@ -4,14 +4,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
+import spring.custom.common.constant.Constant;
 import spring.custom.common.util.AsciiTable;
 
 @Component
+@ConditionalOnProperty(prefix = "custom.application-ready-handler", name = Constant.DISABLED, havingValue = "false", matchIfMissing = true)
 @Slf4j
 public class ApplicationReadyHandler {
   

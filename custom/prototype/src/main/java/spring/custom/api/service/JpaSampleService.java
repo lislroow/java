@@ -1,6 +1,7 @@
 package spring.custom.api.service;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +20,9 @@ import spring.custom.api.entity.repository.StarRepository;
 public class JpaSampleService {
   
   final ModelMapper modelMapper;
-  final StarRepository starRepository;
-  final SatelliteRepository satelliteRepository;
-  final PlanetRepository planetRepository;
+  @Nullable final StarRepository starRepository;
+  @Nullable final SatelliteRepository satelliteRepository;
+  @Nullable final PlanetRepository planetRepository;
   
   
   // planet

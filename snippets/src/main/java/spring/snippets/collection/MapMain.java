@@ -1,4 +1,4 @@
-package snippets.collection;
+package spring.snippets.collection;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

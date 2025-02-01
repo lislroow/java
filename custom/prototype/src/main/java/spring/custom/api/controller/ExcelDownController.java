@@ -56,9 +56,9 @@ import spring.custom.common.util.StringFormat;
 @RequiredArgsConstructor
 public class ExcelDownController {
   
-  final MybatisSampleInternalController mybatisSampleInternalController;
-  final JpaSampleInternalController jpaSampleInternalController;
-  final FundInternalController fundInternalController;
+  @Nullable final MybatisSampleInternalController mybatisSampleInternalController;
+  @Nullable final JpaSampleInternalController jpaSampleInternalController;
+  @Nullable final FundInternalController fundInternalController;
   final EnumMapper enumMapper;
   
   @GetMapping("/excel-down/multi-thread/v1/fund/fund-mst/all")

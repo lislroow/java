@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ import spring.custom.common.enumcode.EnumMapper;
 public class CommonCodeController {
 
   final ModelMapper modelMapper;
-  final CommonCodeDao commonCodeDao;
+  @Nullable final CommonCodeDao commonCodeDao;
   final EnumMapper enumMapper;
   
   @GetMapping("/v1/common/code/all")

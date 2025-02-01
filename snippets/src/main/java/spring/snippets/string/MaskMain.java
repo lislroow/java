@@ -1,4 +1,4 @@
-package snippets.string;
+package spring.snippets.string;
 
 public class MaskMain {
 

@@ -1,4 +1,4 @@
-package snippets.oauth2;
+package spring.snippets.oauth2;
 
 import java.util.Base64;
 import java.util.Map;

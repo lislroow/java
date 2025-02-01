@@ -1,4 +1,4 @@
-package snippets.io;
+package spring.snippets.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

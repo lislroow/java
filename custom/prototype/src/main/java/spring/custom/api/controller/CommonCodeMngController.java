@@ -3,6 +3,7 @@ package spring.custom.api.controller;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ import spring.custom.common.mybatis.PageResponse;
 public class CommonCodeMngController {
 
   final ModelMapper modelMapper;
-  final CommonCodeMngDao commonCodeMngDao;
+  @Nullable final CommonCodeMngDao commonCodeMngDao;
   
   @GetMapping("/v1/common/code-mng/code-groups/search")
   public PageResponse<CommonCodeMngDto.CodeGroupRes> searchCodeGroups(

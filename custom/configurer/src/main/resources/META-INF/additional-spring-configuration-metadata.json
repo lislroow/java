@@ -1965,5 +1965,15 @@
     "name": "spring.data.redis.disabled",
     "type": "java.lang.String",
     "description": "A description for 'spring.data.redis.disabled'"
+  },
+  {
+    "name": "mybatis.disabled",
+    "type": "java.lang.String",
+    "description": "A description for 'mybatis.disabled'"
+  },
+  {
+    "name": "custom.application-ready-handler.disabled",
+    "type": "java.lang.Boolean",
+    "description": "A description for 'custom.application-ready-handler.disabled'"
   }
 ]}

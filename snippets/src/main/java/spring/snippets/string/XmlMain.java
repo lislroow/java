@@ -1,4 +1,4 @@
-package snippets.string;
+package spring.snippets.string;
 
 import java.util.ArrayList;
 import java.util.Arrays;

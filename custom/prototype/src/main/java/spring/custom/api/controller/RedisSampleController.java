@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,8 +34,8 @@ public class RedisSampleController {
   
   final ModelMapper modelMapper;
   final RedisSampleService redisSampleService;
-  final RedisSampleRepository redisSampleRepository;
-  final RedisClient redisClient;
+  @Nullable final RedisSampleRepository redisSampleRepository;
+  @Nullable final RedisClient redisClient;
   
   @PutMapping("/v1/redis-sample/item")
   public ResponseEntity<?> addSample(@RequestBody RedisSampleDto.RedisAddReq reqDto) {

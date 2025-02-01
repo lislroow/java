@@ -1,4 +1,4 @@
-package snippets.reflection;
+package spring.snippets.reflection;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

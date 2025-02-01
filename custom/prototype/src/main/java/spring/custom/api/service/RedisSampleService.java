@@ -1,6 +1,7 @@
 package spring.custom.api.service;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import spring.custom.common.constant.Constant;
 @RequiredArgsConstructor
 public class RedisSampleService {
   
-  final RedisSampleRepository redisCrudRepository;
+  @Nullable final RedisSampleRepository redisCrudRepository;
   
   public void addSample(RedisSampleVo param) {
     redisCrudRepository.save(param);

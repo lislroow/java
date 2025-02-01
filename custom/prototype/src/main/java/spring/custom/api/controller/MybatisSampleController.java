@@ -35,7 +35,7 @@ public class MybatisSampleController {
 
   final ModelMapper modelMapper;
   final MybatisSampleService mybatisSampleService;
-  final MybatisSampleDao mybatisSampleDao;
+  @Nullable final MybatisSampleDao mybatisSampleDao;
   
   @GetMapping("/v1/mybatis-sample/scientists/all")
   public MybatisSampleDto.ScientistListRes allScientists() {

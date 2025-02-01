@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,9 +40,9 @@ public class JpaSampleController {
 
   final ModelMapper modelMapper;
   final JpaSampleService jpaSampleService;
-  final StarRepository starRepository;
-  final SatelliteRepository satelliteRepository;
-  final PlanetRepository planetRepository;
+  @Nullable final StarRepository starRepository;
+  @Nullable final SatelliteRepository satelliteRepository;
+  @Nullable final PlanetRepository planetRepository;
   
   
   // planet

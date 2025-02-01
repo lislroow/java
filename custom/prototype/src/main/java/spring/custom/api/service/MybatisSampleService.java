@@ -1,5 +1,6 @@
 package spring.custom.api.service;
 
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,7 @@ import spring.custom.api.vo.ScientistVo;
 @AllArgsConstructor
 public class MybatisSampleService {
   
-  private MybatisSampleDao mybatisSampleDao;
+  @Nullable final MybatisSampleDao mybatisSampleDao;
   
   @Transactional
   public int addScientist(ScientistVo.AddScientist addVo) {
