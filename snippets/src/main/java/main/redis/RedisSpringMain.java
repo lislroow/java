@@ -1,7 +1,9 @@
 package main.redis;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,6 +17,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,6 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.annotation.Resource;
 import spring.custom.api.dto.FundDto;
+import spring.custom.api.entity.FundIrEntity;
 import spring.custom.api.entity.FundMstEntity;
 import spring.custom.api.entity.repository.FundMstRepository;
 import spring.redis.repository.FundMstRedis;
@@ -58,12 +63,61 @@ public class RedisSpringMain implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     //test1();
-    test2();
-    test3();
+    //test2();
+    //test3();
     //test4();
+    test5();
   }
   
-  public record FundYmdPrice(String ymd, Double price) {};
+  public record FundYmdPrice(String fundCd, String basYmd,
+      Double fundSizeAmt, Double fundUnitAmt, Double basPrice,
+      Double taxBasPrice, Double ir, Double bmIr,
+      Double actIr, Double irIdx, Double bmIrIdx,
+      Double actIrIdx) {};
+
+  private void test5() {
+    if (zSetOps == null) zSetOps = redisTemplate.opsForZSet();
+    int chunkSize = 2_500;
+    int i = 41;
+    Page<FundMstEntity> result = null;
+    do {
+      System.out.println("["+i+" page] process");
+      result = fundMstRepository.findAll(PageRequest.of(i++, chunkSize));
+      List<FundMstEntity> allFunds = result.getContent();
+      List<String> fundCds = allFunds.subList(i, Math.min(i+chunkSize, allFunds.size())).stream()
+          .map(item -> item.getFundCd())
+          .collect(Collectors.toList());
+      Map<String, List<FundYmdPrice>> groups = fundIrService.getAllFundIrs(fundCds);
+      groups.entrySet().stream().forEach(entry -> {
+        List<FundYmdPrice> listYmdPrice = entry.getValue();
+        listYmdPrice.stream().parallel().forEach(item -> {
+          try {
+            String key = "fund:ir:"+entry.getKey();
+            String value = objectMapper.writeValueAsString(new FundDto.FundIrRes(
+                item.basYmd,
+                item.fundSizeAmt,
+                item.fundUnitAmt,
+                item.basPrice,
+                item.taxBasPrice,
+                item.ir,
+                item.bmIr,
+                item.actIr,
+                item.irIdx,
+                item.bmIrIdx,
+                item.actIrIdx));
+            Double score = Double.parseDouble(item.basYmd);
+            Set<String> existingValues = zSetOps.rangeByScore(key, score, score);
+            if (existingValues != null && !existingValues.isEmpty()) {
+              existingValues.forEach(v -> zSetOps.remove(key, v));
+            }
+            zSetOps.add(key, value, score);
+          } catch (NumberFormatException|JsonProcessingException e) {
+            e.printStackTrace();
+          }
+        });
+      });
+    } while (i < result.getTotalPages());
+  }
   
   private void test4() {
     if (zSetOps == null) zSetOps = redisTemplate.opsForZSet();
@@ -90,11 +144,22 @@ public class RedisSpringMain implements CommandLineRunner {
     allFundCd.stream().forEach(fundCd -> {
       //String fundCd = allFundCd.get(1);
       List<FundYmdPrice> listYmdPrice = fundIrService.getFundIrs(fundCd);
-      listYmdPrice.stream().parallel().forEach(item -> {
+      listYmdPrice.stream().sorted(Comparator.comparing(FundYmdPrice::basYmd)).parallel().forEach(item -> {
         try {
           String key = "fund:ir:"+fundCd;
-          String value = objectMapper.writeValueAsString(new FundDto.FundIrRes(item.ymd, item.price));
-          Double score = Double.parseDouble(item.ymd);
+          String value = objectMapper.writeValueAsString(new FundDto.FundIrRes(
+              item.basYmd,
+              item.fundSizeAmt,
+              item.fundUnitAmt,
+              item.basPrice,
+              item.taxBasPrice,
+              item.ir,
+              item.bmIr,
+              item.actIr,
+              item.irIdx,
+              item.bmIrIdx,
+              item.actIrIdx));
+          Double score = Double.parseDouble(item.basYmd);
           zSetOps.add(key, value, score);
         } catch (NumberFormatException|JsonProcessingException e) {
           e.printStackTrace();
