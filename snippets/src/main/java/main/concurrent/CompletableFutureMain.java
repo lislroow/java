@@ -1,4 +1,4 @@
-package spring.snippets.concurrent;
+package main.concurrent;
 
 import java.util.LinkedList;
 import java.util.Queue;

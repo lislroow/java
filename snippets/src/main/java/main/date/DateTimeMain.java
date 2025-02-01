@@ -1,4 +1,4 @@
-package spring.snippets.date;
+package main.date;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

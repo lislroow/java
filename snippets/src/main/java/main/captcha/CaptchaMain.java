@@ -1,4 +1,4 @@
-package spring.snippets.captcha;
+package main.captcha;
 
 import java.awt.Color;
 import java.awt.Font;

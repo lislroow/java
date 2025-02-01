@@ -1,4 +1,4 @@
-package spring.snippets.crypto;
+package main.crypto;
 
 import java.security.InvalidKeyException;
 import java.security.KeyPair;

@@ -1,4 +1,4 @@
-package spring.snippets.string;
+package main.string;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;

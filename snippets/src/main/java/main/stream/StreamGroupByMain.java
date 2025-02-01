@@ -1,4 +1,4 @@
-package spring.snippets.stream;
+package main.stream;
 
 import java.util.Arrays;
 import java.util.List;

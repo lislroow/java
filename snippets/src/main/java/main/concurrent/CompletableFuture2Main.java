@@ -1,4 +1,4 @@
-package spring.snippets.concurrent;
+package main.concurrent;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +50,7 @@ public class CompletableFuture2Main implements CommandLineRunner {
     List<JpaSampleDto.SatelliteRes> list = result.stream()
         .map(item -> modelMapper.map(item, JpaSampleDto.SatelliteRes.class))
         .collect(Collectors.toList());
+    redisClient.getValue("token:rtk:r1b7031a198f1a4ba58516014b9aba48a9");
     return list;
   }
   
