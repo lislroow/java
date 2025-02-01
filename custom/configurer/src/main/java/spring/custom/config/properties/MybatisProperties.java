@@ -26,19 +26,14 @@ public class MybatisProperties {
   private Configure postgres;
   
   public Configure getConfigure(DBMS dbmsType) {
-    switch (dbmsType) {
-    case H2:
-      return h2;
-    case MARIA:
-      return maria;
-    case ORACLE:
-      return oracle;
-    case VERTICA:
-      return vertica;
-    case POSTGRES:
-      return postgres;
-    }
-    return null;
+    Configure res = switch (dbmsType) {
+      case H2: yield h2;
+      case MARIA: yield maria;
+      case ORACLE: yield oracle;
+      case VERTICA: yield vertica;
+      case POSTGRES: yield postgres;
+    };
+    return res;
   }
   
   @Data

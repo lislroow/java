@@ -35,28 +35,26 @@ public class AuditInterceptor implements Interceptor {
     Object[] args = invocation.getArgs();
     MappedStatement ms = (MappedStatement) args[0];
     Object parameter = args[1];
-    
     log.info("[SQL] {}", ms.getId());
-    
     switch (ms.getSqlCommandType()) {
-    case SELECT:
-      break;
-    default:
-      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      if (authentication != null) {
-        String id = authentication.getName(); // spring.custom.common.vo.User extends java.security.Principal
-        if (parameter instanceof java.util.Map) {
-          java.util.Map parameterMap = ((java.util.Map) parameter);
-          parameterMap.put(AUDIT.CREATE_ID.getField(), id);
-          parameterMap.put(AUDIT.MODIFY_ID.getField(), id);
-        } else if (parameter instanceof AuditVo) {
-          AuditVo parameterObj = (AuditVo)parameter;
-          parameterObj.setCreateId(id);
-          parameterObj.setModifyId(id);
+      case INSERT, UPDATE, DELETE -> {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+          String id = authentication.getName(); // spring.custom.common.vo.User extends java.security.Principal
+          if (parameter instanceof java.util.Map) {
+            java.util.Map parameterMap = ((java.util.Map) parameter);
+            parameterMap.put(AUDIT.CREATE_ID.getField(), id);
+            parameterMap.put(AUDIT.MODIFY_ID.getField(), id);
+          } else if (parameter instanceof AuditVo) {
+            AuditVo parameterObj = (AuditVo)parameter;
+            parameterObj.setCreateId(id);
+            parameterObj.setModifyId(id);
+          }
         }
+        break;
       }
-      break;
-    }
+      default -> {}
+    };
     return invocation.proceed();
   }
   

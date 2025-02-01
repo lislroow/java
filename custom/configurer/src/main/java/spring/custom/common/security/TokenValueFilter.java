@@ -64,23 +64,24 @@ public class TokenValueFilter extends OncePerRequestFilter {
         
         // principal
         switch (userType) {
-        case MEMBER:
-          principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), Member.class);
-          });
-          break;
-        case MANAGER:
-          principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), Manager.class);
-          });
-          break;
-        case CLIENT:
-          principal = jwtClaimsSet.toType((claims) -> {
-            return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), Client.class);
-          });
-          break;
-        default:
-          throw new AppException(ERROR.A008);
+          case MEMBER -> {
+            principal = jwtClaimsSet.toType((claims) -> {
+              return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), Member.class);
+            });
+          }
+          case MANAGER -> {
+            principal = jwtClaimsSet.toType((claims) -> {
+              return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), Manager.class);
+            });
+          }
+          case CLIENT -> {
+            principal = jwtClaimsSet.toType((claims) -> {
+              return modelMapper.map(claims.getClaim(TOKEN.CLAIM_ATTR.PRINCIPAL.code()), Client.class);
+            });
+          }
+          default -> {
+            throw new AppException(ERROR.A008);
+          }
         }
         /* for debug */ if (log.isDebugEnabled()) log.debug("principal: {}", principal);
         

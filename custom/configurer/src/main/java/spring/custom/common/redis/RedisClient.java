@@ -63,14 +63,12 @@ public class RedisClient {
     String cd = tokenId.substring(0, 1);
     TOKEN.TYPE tokenType = TOKEN.TYPE.byCd(cd)
         .orElseThrow(() -> new AppException(ERROR.A020));
-    switch (tokenType) {
-    case REFRESH_TOKEN:
-      return TOKEN_KEY.REFRESH_TOKEN.prefix() + tokenId;
-    case ACCESS_TOKEN:
-      return TOKEN_KEY.REFRESH_TOKEN.prefix() + tokenId;
-    default:
-      throw new AppException(ERROR.A020);
-    }
+    String key = switch (tokenType) {
+      case REFRESH_TOKEN: yield (TOKEN_KEY.REFRESH_TOKEN.prefix() + tokenId);
+      case ACCESS_TOKEN: yield (TOKEN_KEY.REFRESH_TOKEN.prefix() + tokenId);
+      default: throw new AppException(ERROR.A020);
+    };
+    return key;
   }
   
   // key

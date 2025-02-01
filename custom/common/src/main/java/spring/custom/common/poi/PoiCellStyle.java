@@ -61,19 +61,11 @@ public class PoiCellStyle {
   
   public static void copyCell(Cell source, Cell target) {
     switch (source.getCellType()) {
-      case STRING:
-        target.setCellValue(source.getStringCellValue());
-        break;
-      case NUMERIC:
-        target.setCellValue(source.getNumericCellValue());
-        break;
-      case BOOLEAN:
-        target.setCellValue(source.getBooleanCellValue());
-        break;
-      default:
-        target.setCellValue(source.toString());
-        break;
-    }
+      case STRING -> target.setCellValue(source.getStringCellValue());
+      case NUMERIC -> target.setCellValue(source.getNumericCellValue());
+      case BOOLEAN -> target.setCellValue(source.getBooleanCellValue());
+      default -> target.setCellValue(source.toString());
+    };
   }
   
   public static String ofLocalDateTime(LocalDateTime localDateTime) {

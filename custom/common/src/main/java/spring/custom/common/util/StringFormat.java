@@ -9,12 +9,13 @@ public class StringFormat {
       return n + "th";
     }
     
-    switch (n % 10) {
-    case 1: return n + "st";
-    case 2: return n + "nd";
-    case 3: return n + "rd";
-    default: return n + "th";
-    }
+    String ordinal = switch (n % 10) {
+      case 1: yield n + "st";
+      case 2: yield n + "nd";
+      case 3: yield n + "rd";
+      default: yield n + "th";
+    };
+    return ordinal;
   }
   
   public static String toComma(Number n) {

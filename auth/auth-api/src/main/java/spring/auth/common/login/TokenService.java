@@ -175,24 +175,19 @@ public class TokenService {
     
     String tokenValue = null;
     switch (tokenType) {
-    case REFRESH_TOKEN:
-      throw new AppException(ERROR.A019);
-    case ACCESS_TOKEN:
-      tokenValue = this.getRedis(tokenId)
-        .orElseThrow(AccessTokenExpiredException::new);
-      break;
-    case PERMANENT_TOKEN:
-      TokenVo.ClientToken clientTokenVo = tokenDao.findClientTokenByTokenKey(tokenId)
-          .orElseThrow(() -> new AppException(ERROR.A005));
-      // status 체크
-      if (clientTokenVo.getEnableYn() != EnumYN.Y) {
-        throw new AppException(ERROR.A010);
+      case REFRESH_TOKEN -> throw new AppException(ERROR.A019);
+      case ACCESS_TOKEN -> tokenValue = this.getRedis(tokenId).orElseThrow(AccessTokenExpiredException::new);
+      case PERMANENT_TOKEN -> {
+        TokenVo.ClientToken clientTokenVo = tokenDao.findClientTokenByTokenKey(tokenId)
+            .orElseThrow(() -> new AppException(ERROR.A005));
+        // status 체크
+        if (clientTokenVo.getEnableYn() != EnumYN.Y) {
+          throw new AppException(ERROR.A010);
+        }
+        // --
+        tokenValue = clientTokenVo.getTokenValue();
       }
-      // --
-      tokenValue = clientTokenVo.getTokenValue();
-      break;
-    default:
-      throw new AppException(ERROR.A002);
+      default -> throw new AppException(ERROR.A002);
     }
     
     try {
