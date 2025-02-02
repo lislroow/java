@@ -14,9 +14,12 @@ public interface FundIrRepository extends JpaRepository<FundIrEntity, FundIrId>
   , JpaSpecificationExecutor<FundIrEntity> {
   
   @Query("""
-      SELECT new spring.custom.api.entity.rec.FundIrCountRec(A.fundCd, COUNT(A.basYmd))
-        FROM FundIrEntity A
+      SELECT new spring.custom.api.entity.rec.FundIrCountRec(A.fundCd, COUNT(B.basYmd))
+        FROM FundMstEntity A
+        LEFT JOIN FundIrEntity B ON A.fundCd = B.fundCd
+       WHERE A.deleted = false
        GROUP BY A.fundCd
+       ORDER BY A.fundFnm
       """)
   List<FundIrCountRec> findFundIrCount();
   

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -56,8 +57,9 @@ public class FundController {
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     Specification<FundMstEntity> spec = 
         Specification.where(FundMstSpecification.hasFundCd(fundCd))
-        .and(FundMstSpecification.hasFundFnm(fundFnm));
-    Page<FundMstEntity> result = fundMstRepository.findAll(spec, PageRequest.of(page, size));
+        .and(FundMstSpecification.hasFundFnm(fundFnm))
+        .and((root, query, criteria) -> criteria.equal(root.get("deleted"), false));
+    Page<FundMstEntity> result = fundMstRepository.findAll(spec, PageRequest.of(page, size, Sort.by("fundFnm").ascending()));
     return result.map(item -> modelMapper.map(item, FundDto.FundMstRes.class));
   }
   

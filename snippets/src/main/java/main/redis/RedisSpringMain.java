@@ -132,7 +132,7 @@ public class RedisSpringMain implements CommandLineRunner {
       System.out.println(String.format("  groups.size: %d", groups.size()));
       
       log.info("[phase4] ir 데이터 변환 object -> json / redis 적재");
-      final AtomicInteger logidx = new AtomicInteger(0);
+      final AtomicInteger logidx = new AtomicInteger(-1);
       int groupCount = groups.size();
       groups.entrySet().stream().forEach(entry -> {
         String key = entry.getKey();

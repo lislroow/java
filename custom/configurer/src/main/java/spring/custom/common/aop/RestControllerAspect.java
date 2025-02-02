@@ -79,7 +79,7 @@ public class RestControllerAspect {
       log.error("[error] {}, {}", joinPoint.getTarget().getClass().getName(), e.getMessage());
       throw e;
     }
-    /* for debug */ if (log.isInfoEnabled()) {
+    /* for debug */ if (log.isDebugEnabled()) {
       log.info("[normal] {}", joinPoint.getTarget().getClass().getName());
     }
     return result;
