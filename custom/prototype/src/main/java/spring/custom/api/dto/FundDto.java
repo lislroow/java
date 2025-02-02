@@ -45,7 +45,7 @@ public class FundDto {
   public static class FundIrRes {
 
     private String basYmd;
-    //private String fundCd;
+    private String fundCd;
 
     private Double fundSizeAmt;
     private Double fundUnitAmt;
