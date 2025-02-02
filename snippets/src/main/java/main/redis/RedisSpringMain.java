@@ -120,7 +120,7 @@ public class RedisSpringMain implements CommandLineRunner {
     
     log.info("[phase2] 처리 대상 fundCd chunk 단위 분리");
     List<List<FundIrCountRec>> chunkList = this.splitList(allFunds, chunkSize);
-    int chunkTotal = chunkList.size();
+    int chunkTotal = chunkList.size()-1;
     AtomicInteger chunkIdx = new AtomicInteger(-1);
     chunkList.forEach(subList -> {
       StopWatch stopWatch = new StopWatch("chunk["+chunkIdx.incrementAndGet()+"/"+chunkTotal+"]");
