@@ -43,19 +43,19 @@ public class FundDto {
   @AllArgsConstructor
   @NoArgsConstructor
   public static class FundIrRes {
-
+    
     private String basYmd;
     private String fundCd;
 
-    private Double fundSizeAmt;
-    private Double fundUnitAmt;
+    //private Double fundSizeAmt;
+    //private Double fundUnitAmt;
     private Double basPrice;
-    private Double taxBasPrice;
-    private Double ir;
-    private Double bmIr;
-    private Double actIr;
-    private Double irIdx;
-    private Double bmIrIdx;
-    private Double actIrIdx;
+    //private Double taxBasPrice;
+    //private Double ir;
+    //private Double bmIr;
+    //private Double actIr;
+    //private Double irIdx;
+    //private Double bmIrIdx;
+    //private Double actIrIdx;
   }
 }
