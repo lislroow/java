@@ -58,6 +58,12 @@ public class RedisSpringMain implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     db2redis_2();
+    /*
+     * 1) chunkSize:1_000_000L, Xmx:4gb > 183.2110893 seconds
+     * 2) chunkSize:2_000_000L, Xmx:4gb > 1066.2696171 seconds
+     * 3) chunkSize:1_000_000L, Xmx:4gb > 24.0146274 seconds + 89.2843408 seconds  '변환/저장' 분리
+     * 4) chunkSize:1_000_000L, Xmx:4gb > 73.8473658 seconds '변환/저장' 통합
+    */
   }
   
   private List<List<FundIrCountRec>> splitList(List<FundIrCountRec> srcList, Long threshold) {
@@ -84,8 +90,8 @@ public class RedisSpringMain implements CommandLineRunner {
   
   
   record RedisSortedSet(String redisKey, String json, Double score) {}
-  
-  private void db2redis_2() {
+
+  private void db2redis_1() {
     if (zSetOps == null) zSetOps = redisTemplate.opsForZSet();
     Long chunkSize = 1_000_000L; // limits > Xmx1g:600_000L, Xmx2g:1_000_000L, Xmx4g: 2_000_000L
     System.out.println(String.format("  chunkSize: %d", chunkSize));
@@ -158,11 +164,58 @@ public class RedisSpringMain implements CommandLineRunner {
       
       stopWatch.stop();
       System.out.println(stopWatch.shortSummary() + "\n");
-      /*
-       * 1) chunkSize:1_000_000L, Xmx:4gb > 183.2110893 seconds
-       * 2) chunkSize:2_000_000L, Xmx:4gb > 1066.2696171 seconds
-       * 3) chunkSize:1_000_000L, Xmx:4gb > 21.9754792 seconds + 83.6557743 seconds  '변환/저장' 분리
-      */
+    });
+  }
+  
+  private void db2redis_2() {
+    if (zSetOps == null) zSetOps = redisTemplate.opsForZSet();
+    Long chunkSize = 1_000_000L; // limits > Xmx1g:600_000L, Xmx2g:1_000_000L, Xmx4g: 2_000_000L
+    System.out.println(String.format("  chunkSize: %d", chunkSize));
+    
+    log.info("[phase1] ir 전체 데이터 개수 조회");
+    List<FundIrCountRec> allFunds = fundIrRepository.findFundIrCount();
+    System.out.println(String.format("  allFunds: %s", allFunds));
+    
+    log.info("[phase2] 처리 대상 fundCd chunk 단위 분리");
+    List<List<FundIrCountRec>> result = this.splitList(allFunds, chunkSize);
+    result.forEach(subList -> {
+      StopWatch stopWatch = new StopWatch();
+      stopWatch.start();
+      log.info("[phase3] ir 데이터 조회");
+      List<String> fundCds = subList.stream().map(item -> item.fundCd()).collect(Collectors.toList());
+      Long sum = subList.stream().mapToLong(item -> item.count()).sum();
+      System.out.println(String.format("  sum(count): %d, fundCds: %s", sum, fundCds));
+      Map<String, List<FundDto.FundIrRes>> groups = fundIrService.getAllFundIrs(fundCds);
+      System.out.println(String.format("  groups.size(): %d", groups.size()));
+      
+      log.info("[phase4] ir 데이터 변환 object -> json");
+      final AtomicInteger logidx = new AtomicInteger(0);
+      groups.entrySet().stream().forEach(entry -> {
+        String key = entry.getKey();
+        List<FundDto.FundIrRes> fundIrs = entry.getValue();
+        System.out.print(String.format("  %s ", entry.getKey()));
+        if (logidx.incrementAndGet() % 7 == 6) System.out.println("");
+        fundIrs.stream().parallel()
+          .forEach(item -> {
+            try {
+              String redisKey = "fund:ir:"+key;
+              String json = objectMapper.writeValueAsString(item);
+              Double score = Double.parseDouble(item.getBasYmd());
+              Set<String> existingValues = zSetOps.rangeByScore(redisKey, score, score);
+              if (existingValues != null && !existingValues.isEmpty()) {
+                existingValues.forEach(v -> zSetOps.remove(redisKey, v));
+              }
+              zSetOps.add(redisKey, json, score);
+            } catch (JsonProcessingException e) {
+              e.printStackTrace();
+            }
+          });
+      });
+      
+      System.out.println("");
+      
+      stopWatch.stop();
+      System.out.println(stopWatch.shortSummary() + "\n");
     });
   }
 }
