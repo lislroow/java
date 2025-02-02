@@ -24,7 +24,7 @@ public class FundIrService {
   
   public Map<String, List<FundDto.FundIrRes>> getAllFundIrs(List<String> fundCds) {
     List<FundIrEntity> result = fundIrRepository.findByFundCdIn(fundCds);
-    System.out.println("fund-ir size: " + result.size());
+    System.out.println(String.format("  fundIrs: %d, fundCds: %d", fundCds.size(), result.size()));
     Map<String, List<FundDto.FundIrRes>> groups = result.stream()
         .map(item -> modelMapper.map(item, FundDto.FundIrRes.class))
         .collect(Collectors.groupingBy(FundDto.FundIrRes::getFundCd));
