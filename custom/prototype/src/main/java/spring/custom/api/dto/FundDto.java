@@ -1,5 +1,7 @@
 package spring.custom.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,7 +47,8 @@ public class FundDto {
   public static class FundIrRes {
     
     private String basYmd;
-    private String fundCd;
+    @JsonIgnore
+    private String fundCd; // redis, chart 에는 불필요한 컬럼이지만 stream 에서 groupBy 를 위해 필요함
 
     //private Double fundSizeAmt;
     //private Double fundUnitAmt;
