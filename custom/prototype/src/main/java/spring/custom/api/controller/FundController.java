@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import spring.custom.api.dto.FundDto;
 import spring.custom.api.entity.FundIrEntity;
@@ -39,6 +40,10 @@ public class FundController {
   @Nullable final RedisTemplate<String, String> redisTemplate;
   ZSetOperations<String, String> zSetOps;
   
+  @PostConstruct
+  public void init() {
+    if (zSetOps == null) zSetOps = redisTemplate.opsForZSet();
+  }
   
   @GetMapping("/v1/fund/fund-mst/all")
   public List<FundDto.FundMstRes> allFundMsts() {
@@ -76,7 +81,6 @@ public class FundController {
   @GetMapping("/v1/fund/ir/line-chart/redis/{fundCd}")
   public List<FundDto.FundIrRes> findIrLineChartRedis(
       @PathVariable String fundCd) {
-    if (zSetOps == null) zSetOps = redisTemplate.opsForZSet();
     String key = "fund:ir:"+fundCd;
     Set<String> result = zSetOps.rangeByScore(key, Double.MIN_VALUE, Double.MAX_VALUE);
     List<FundDto.FundIrRes> resDto = result.stream().map(item -> {

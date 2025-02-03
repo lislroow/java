@@ -75,10 +75,10 @@
   <logger name="org.springframework.web.method.support.InvocableHandlerMethod" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
   </logger>
-  <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="debug" additivity="false">
+  <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
   </logger>
-  <logger name="org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor" level="debug" additivity="false">
+  <logger name="org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
   </logger>
   <logger name="org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver" level="debug" additivity="false">

@@ -241,14 +241,14 @@
     <appender-ref ref="ASYNC_LOGECS"/>
     <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
-  <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="debug" additivity="false">
+  <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
     <appender-ref ref="ASYNC_LOGFILE"/>
     <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
     <appender-ref ref="ASYNC_LOGECS"/>
     <appender-ref ref="ASYNC_LOGECS_ERROR"/>
   </logger>
-  <logger name="org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor" level="debug" additivity="false">
+  <logger name="org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor" level="info" additivity="false">
     <appender-ref ref="STDOUT"/>
     <appender-ref ref="ASYNC_LOGFILE"/>
     <appender-ref ref="ASYNC_LOGFILE_ERROR"/>

@@ -23,7 +23,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   
   @ExceptionHandler({DataNotFoundException.class})
   protected ResponseEntity<ProblemDetail> handleDataNotFoundException(DataNotFoundException e, WebRequest request) {
-    /* for debug */ if (log.isInfoEnabled()) log.info("data not found");
+    /* for debug */ if (log.isDebugEnabled()) log.info("data not found");
     
     HttpStatusCode status = HttpStatus.NO_CONTENT;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
@@ -36,7 +36,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   
   @ExceptionHandler({AccessTokenExpiredException.class})
   protected ResponseEntity<ProblemDetail> handleAccessTokenExpiredException(AccessTokenExpiredException e, WebRequest request) {
-    /* for debug */ if (log.isInfoEnabled()) log.info("accessToken expired");
+    /* for debug */ if (log.isDebugEnabled()) log.info("accessToken expired");
     
     HttpStatusCode status = HttpStatus.UNAUTHORIZED;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
@@ -69,7 +69,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   
   @ExceptionHandler({AuthorizationDeniedException.class})
   protected ResponseEntity<ProblemDetail> handleAuthorizationDeniedException(Exception e, WebRequest request) {
-    /* for debug */ if (log.isInfoEnabled()) log.error("", e); 
+    /* for debug */ if (log.isDebugEnabled()) log.error("", e); 
     
     HttpStatusCode status = HttpStatus.FORBIDDEN;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()
@@ -82,7 +82,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
   
   @ExceptionHandler({Exception.class})
   protected ResponseEntity<ProblemDetail> handleUncategorizedException(Exception e, WebRequest request) {
-    /* for debug */ if (log.isInfoEnabled()) log.error("", e);
+    /* for debug */ if (log.isDebugEnabled()) log.error("", e);
     
     HttpStatusCode status = HttpStatus.INTERNAL_SERVER_ERROR;
     ProblemDetail problemDetail = ProblemDetailBuilder.builder()

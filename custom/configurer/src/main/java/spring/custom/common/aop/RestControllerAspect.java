@@ -33,7 +33,7 @@ public class RestControllerAspect {
     jakarta.servlet.http.HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
     jakarta.servlet.http.HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
     
-    log.info("{}", request.getRequestURI());
+    log.info("requestURI: {}", request.getRequestURI());
     
     String reqUri = request.getRequestURI();
     String method = request.getMethod();
@@ -76,11 +76,8 @@ public class RestControllerAspect {
       result = joinPoint.proceed(args);
     } catch (Throwable e) {
       throwable = e;
-      log.error("[error] {}, {}", joinPoint.getTarget().getClass().getName(), e.getMessage());
+      log.error("{} #{} #{}", e.getStackTrace()[0], e.getClass(), e.getMessage());
       throw e;
-    }
-    /* for debug */ if (log.isDebugEnabled()) {
-      log.info("[normal] {}", joinPoint.getTarget().getClass().getName());
     }
     return result;
   }
