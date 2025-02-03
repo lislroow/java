@@ -80,7 +80,8 @@ public class RedisSpringMain implements CommandLineRunner {
     /*redis 적재 시 처리 시간 테스트
      * chunk 2,000,000, Xmx4g, 필수 필드(3개) 일 경우 145.3474229 seconds
      * chunk 500,000, Xmx1g, 필수 필드(3개) 일 경우 40.4031113 seconds
-     * chunk 250,000, Xmx500m, 필수 필드(3개) 일 경우 28.6671717 seconds (*)
+     * chunk 250,000, Xmx500m, 필수 필드(3개) 일 경우 28.6671717 seconds
+     * chunk 250,000, Xmx500m, 필수 필드(2개) 일 경우 17.4683982 seconds (*)
     */
   }
   
