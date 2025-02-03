@@ -85,15 +85,12 @@ public class JpaSampleService {
   // star
   @Transactional
   public StarEntity addStar(JpaSampleDto.AddStarReq reqDto) {
-    //return mybatisSampleDao.addStar(addVo);
-    
     StarEntity entity = modelMapper.map(reqDto, StarEntity.class);
     return starRepository.save(entity);
   }
   
   @Transactional
   public StarEntity modifyStarById(JpaSampleDto.ModifyStarReq reqDto) {
-    //return mybatisSampleDao.modifyStarById(modifyVo);
     return starRepository.findById(reqDto.getId())
         .map(item -> {
           item.setName(reqDto.getName());
@@ -108,7 +105,6 @@ public class JpaSampleService {
   
   @Transactional
   public void removeStarById(Integer id) {
-    //return mybatisSampleDao.removeStarById(id);
     starRepository.deleteById(id);
   }
   

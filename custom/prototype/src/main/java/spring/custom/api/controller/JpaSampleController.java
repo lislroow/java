@@ -214,13 +214,6 @@ public class JpaSampleController {
   public Page<JpaSampleDto.StarRes> findStars(
       @RequestParam(defaultValue = "0") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
-    //PageResponse<StarVo.ResultStar> resultVo = jpaSampleDao.findStars(PageRequest.of(page, size));
-    //PageResponse<JpaSampleDto.StarRes> resDto = new PageResponse<JpaSampleDto.StarRes>(
-    //    resultVo.stream()
-    //      .map(item -> modelMapper.map(item, JpaSampleDto.StarRes.class))
-    //      .collect(Collectors.toList())
-    //    , resultVo.getPageInfo());
-    
     Page<StarEntity> result = starRepository.findAll(PageRequest.of(page, size));
     return result.map(item -> modelMapper.map(item, JpaSampleDto.StarRes.class));
   }
@@ -228,23 +221,8 @@ public class JpaSampleController {
   @GetMapping("/v1/jpa-sample/stars/search")
   public Page<JpaSampleDto.StarRes> searchStars(
       @RequestParam(required = false) String name,
-      //@RequestParam(required = false) Double distance,
-      //@RequestParam(required = false) Boolean distanceGreater,
-      //@RequestParam(required = false) Integer temperature,
-      //@RequestParam(required = false) Boolean temperatureGreater,
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    //StarVo.SearchParam searchVo = StarVo.SearchParam.builder()
-    //    .name(name)
-    //    .fosCd(fosCd)
-    //    .build();
-    //PageResponse<StarVo.ResultStar> resultVo = jpaSampleDao.searchStars(PageRequest.of(page, size), searchVo);
-    //PageResponse<JpaSampleDto.StarRes> resDto = new PageResponse<JpaSampleDto.StarRes>(
-    //    resultVo.stream()
-    //      .map(item -> modelMapper.map(item, JpaSampleDto.StarRes.class))
-    //      .collect(Collectors.toList())
-    //    , resultVo.getPageInfo());
-    
     Specification<StarEntity> spec = 
         Specification.where(StarSpecification.hasName(name));
     Page<StarEntity> result = starRepository.findAll(spec, PageRequest.of(page, size));
@@ -262,11 +240,7 @@ public class JpaSampleController {
   @PostMapping("/v1/jpa-sample/star")
   public ResponseEntity<?> addStar(
       @RequestBody JpaSampleDto.AddStarReq reqDto) {
-    //StarVo.AddStar addVo = modelMapper.map(reqDto, StarVo.AddStar.class);
-    //jpaSampleService.addStar(addVo);
-    
     StarEntity result = jpaSampleService.addStar(reqDto);
-    // location
     JpaSampleDto.StarRes resDto = modelMapper.map(result, JpaSampleDto.StarRes.class);
     
     return ResponseEntity.status(HttpStatus.CREATED)
@@ -277,9 +251,6 @@ public class JpaSampleController {
   @PutMapping("/v1/jpa-sample/star")
   public ResponseEntity<?> modifyStarById(
       @RequestBody JpaSampleDto.ModifyStarReq reqDto) {
-    //StarVo.ModifyStar modifyVo = modelMapper.map(reqDto, StarVo.ModifyStar.class);
-    //int cnt = jpaSampleService.modifyStarById(modifyVo);
-    
     StarEntity result = jpaSampleService.modifyStarById(reqDto);
     JpaSampleDto.StarRes resDto = result != null 
         ? modelMapper.map(result, JpaSampleDto.StarRes.class)
@@ -295,8 +266,6 @@ public class JpaSampleController {
   @DeleteMapping("/v1/jpa-sample/star/{id}")
   public ResponseEntity<?> removeStarById(
       @PathVariable Integer id) {
-    //jpaSampleService.removeStarById(id);
-    
     jpaSampleService.removeStarById(id);
     
     return ResponseEntity.noContent().build();
