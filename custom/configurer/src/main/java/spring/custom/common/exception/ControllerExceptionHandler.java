@@ -146,7 +146,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         .clientIp(XffClientIpExtractor.getClientIp(request))
         .requestBody(requestBody.toString())
         .requestParam(request.getQueryString())
-        .requestUri(request.getRequestURL().toString())
+        .requestUri(request.getRequestURI())
         .createId(username)
         .createTime(LocalDateTime.now())
         .modifyId(username)

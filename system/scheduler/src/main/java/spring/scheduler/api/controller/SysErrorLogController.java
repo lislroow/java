@@ -3,6 +3,7 @@ package spring.scheduler.api.controller;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +25,7 @@ public class SysErrorLogController {
   public Page<SysErrorLogDto.SysErrorLogRes> searchSysErrorLogs(
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    Page<SysErrorLogEntity> result = sysErrorLogRepository.findAll(PageRequest.of(page, size));
+    Page<SysErrorLogEntity> result = sysErrorLogRepository.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
     return result.map(planet -> modelMapper.map(planet, SysErrorLogDto.SysErrorLogRes.class));
   }
   
