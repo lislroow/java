@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS sy_error_log
   service_name VARCHAR(20),
   client_ip VARCHAR(28),
   request_body TEXT,
+  request_param TEXT,
   request_uri TEXT,
   create_time TIMESTAMP DEFAULT NOW(),
   modify_time TIMESTAMP DEFAULT NOW(),

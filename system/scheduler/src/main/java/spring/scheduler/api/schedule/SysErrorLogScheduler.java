@@ -1,5 +1,8 @@
 package spring.scheduler.api.schedule;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ListOperations;
@@ -35,16 +38,23 @@ public class SysErrorLogScheduler {
   @Scheduled(fixedDelayString = "${scheduler.sys-error-log.delay-time:3s}", initialDelay = 8_000)
   public void task() {
     String key = RedisClient.LOG_KEY.ERROR_LOG.key();
-    String json = listOps.leftPop(key);
-    if (json == null) {
+    String json = null;
+    
+    List<SysErrorLogDto.RedisDto> dtoList = null;
+    while ((json = listOps.leftPop(key)) != null) {
+      if (dtoList == null) {
+        dtoList = new ArrayList<>();
+      }
+      try {
+        dtoList.add(objectMapper.readValue(json, SysErrorLogDto.RedisDto.class));
+      } catch (JsonProcessingException e) {
+        log.error("{}\njson: {}", e.getStackTrace()[0], json);
+      }
+    }
+    if (dtoList == null || dtoList.size() == 0) {
       return;
     }
-    try {
-      SysErrorLogDto.RedisDto dto = objectMapper.readValue(json, SysErrorLogDto.RedisDto.class);
-      sysErrorLogService.addSysErrorLog(dto);
-    } catch (JsonProcessingException e1) {
-      e1.printStackTrace();
-    }
+    sysErrorLogService.addSysErrorLogs(dtoList);
   }
   
 }

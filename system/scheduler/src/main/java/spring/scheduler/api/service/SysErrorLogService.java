@@ -1,5 +1,8 @@
 package spring.scheduler.api.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -18,9 +21,12 @@ public class SysErrorLogService {
   final ModelMapper modelMapper;
   @Nullable final SysErrorLogRepository sysErrorLogRepository;
   
-  public SysErrorLogEntity addSysErrorLog(SysErrorLogDto.RedisDto dto) {
-    SysErrorLogEntity entity = modelMapper.map(dto, SysErrorLogEntity.class);
-    return sysErrorLogRepository.save(entity);
+  public List<SysErrorLogEntity> addSysErrorLogs(List<SysErrorLogDto.RedisDto> dtoList) {
+    List<SysErrorLogEntity> entityList = dtoList.stream()
+        .map(item -> modelMapper.map(item, SysErrorLogEntity.class))
+        .collect(Collectors.toList());
+    sysErrorLogRepository.saveAll(entityList);
+    return entityList;
   }
   
 }

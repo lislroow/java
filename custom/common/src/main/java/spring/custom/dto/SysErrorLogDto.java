@@ -27,6 +27,7 @@ public class SysErrorLogDto {
     private String serviceName;
     private String clientIp;
     private String requestBody;
+    private String requestParam;
     private String requestUri;
     
     private LocalDateTime createTime;

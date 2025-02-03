@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,7 +39,12 @@ public class SatelliteEntity extends AuditEntity {
   private Boolean deleted;
   
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pt_satellite_seq")
+  @SequenceGenerator(
+    name = "pt_satellite_seq",
+    sequenceName = "pt_satellite_id_seq",
+    allocationSize = 1
+  )
   private Integer id;
   private String name;
   private Double radius;

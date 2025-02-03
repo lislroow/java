@@ -27,12 +27,12 @@ public class DataSourceConfig {
   //  return hikariDataSource;
   //}
   
-  @Bean
-  PlatformTransactionManager transactionManager(DataSource dataSource) {
-    PlatformTransactionManager transactionManager = null;
-    transactionManager = new DataSourceTransactionManager(dataSource);
-    return transactionManager;
-  }
+//  @Bean
+//  PlatformTransactionManager transactionManager(DataSource dataSource) {
+//    PlatformTransactionManager transactionManager = null;
+//    transactionManager = new DataSourceTransactionManager(dataSource);
+//    return transactionManager;
+//  }
   
 //  @Value("classpath:init-h2.sql")
 //  private org.springframework.core.io.Resource initScript;

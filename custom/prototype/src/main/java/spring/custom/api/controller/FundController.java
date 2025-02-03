@@ -81,7 +81,6 @@ public class FundController {
   @GetMapping("/v1/fund/ir/line-chart/redis/{fundCd}")
   public List<FundDto.FundIrRes> findIrLineChartRedis(
       @PathVariable String fundCd) {
-    int i=1/0;
     String key = "fund:ir:"+fundCd;
     Set<String> result = zSetOps.rangeByScore(key, Double.MIN_VALUE, Double.MAX_VALUE);
     List<FundDto.FundIrRes> resDto = result.stream().map(item -> {

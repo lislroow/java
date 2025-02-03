@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +24,12 @@ import lombok.ToString;
 public class SysErrorLogEntity {
   
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sy_error_log_seq")
+  @SequenceGenerator(
+    name = "sy_error_log_seq",
+    sequenceName = "sy_error_log_id_seq",
+    allocationSize = 1
+  )
   private Long id;
   private LocalDateTime txTime;
   private String traceId;
@@ -35,6 +41,7 @@ public class SysErrorLogEntity {
   private String serviceName;
   private String clientIp;
   private String requestBody;
+  private String requestParam;
   private String requestUri;
   private LocalDateTime createTime;
   private LocalDateTime modifyTime;
