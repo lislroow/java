@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="3 seconds">
+  
+  <include resource="logback-common-dev.xml" />
+  
+  <root level="info">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ASYNC_LOGFILE"/>
+    <appender-ref ref="ASYNC_LOGFILE_ERROR"/>
+    <appender-ref ref="ASYNC_LOGECS"/>
+    <appender-ref ref="ASYNC_LOGECS_ERROR"/>
+  </root>
+  
+</configuration>

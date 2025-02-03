@@ -3,10 +3,10 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>auth-api</artifactId>
+  <artifactId>scheduler</artifactId>
   <parent>
     <groupId>spring</groupId>
-    <artifactId>auth</artifactId>
+    <artifactId>system</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
   
@@ -18,12 +18,6 @@
   </properties>
   
   <dependencies>
-    <!--
-    <dependency>
-      <groupId>spring</groupId>
-      <artifactId>market-lib-api</artifactId>
-    </dependency>
-    -->
     <dependency>
       <groupId>spring.custom</groupId>
       <artifactId>common</artifactId>
@@ -104,15 +98,6 @@
     <dependency>
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis-spring</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.mariadb.jdbc</groupId>
-      <artifactId>mariadb-java-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
     </dependency>
     <dependency>
       <groupId>org.postgresql</groupId>

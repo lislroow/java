@@ -293,7 +293,7 @@ public class TokenService {
   
   
   private void saveRedis(String tokenId, String tokenValue, Date expiration) {
-    String redisKey = redisClient.getRedisKey(tokenId);
+    String redisKey = redisClient.getTokenKey(tokenId);
     /* for debug */ if (log.isDebugEnabled()) log.info("redisKey: {}", redisKey);
     long ttl = expiration.getTime() - System.currentTimeMillis();
     this.redisClient.setValue(redisKey, tokenValue, Duration.ofMillis(ttl));
@@ -301,14 +301,14 @@ public class TokenService {
   
   private Optional<String> getRedis(String tokenId) {
     String tokenValue = null;
-    String redisKey = redisClient.getRedisKey(tokenId);
+    String redisKey = redisClient.getTokenKey(tokenId);
     /* for debug */ if (log.isDebugEnabled()) log.info("redisKey: {}", redisKey);
     tokenValue = this.redisClient.getValue(redisKey);
     return Optional.ofNullable(tokenValue);
   }
   
   private void removeRedis(String tokenId) {
-    String redisKey = redisClient.getRedisKey(tokenId);
+    String redisKey = redisClient.getTokenKey(tokenId);
     /* for debug */ if (log.isDebugEnabled()) log.info("redisKey: {}", redisKey);
     this.redisClient.removeValue(redisKey);
   }

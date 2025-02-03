@@ -26,15 +26,15 @@ public class RedisClient {
     CACHE_COMMON_CODE("cache:common-code:all", Duration.ofSeconds(60));
     ;
     
-    private String cacheName;
+    private String key;
     private Duration ttl;
     
     private CACHE_KEY(String cacheName, Duration ttl) {
-      this.cacheName = cacheName;
+      this.key = cacheName;
       this.ttl = ttl;
     }
-    public String cacheName() {
-      return this.cacheName;
+    public String key() {
+      return this.key;
     }
     public Duration ttl() {
       return this.ttl;
@@ -45,13 +45,28 @@ public class RedisClient {
     REFRESH_TOKEN("token:rtk:"),
     ACCESS_TOKEN("token:atk:")
     ;
-    private String prefix;
+    private String keyPrefix;
     
-    private TOKEN_KEY(String prefix) {
-      this.prefix = prefix;
+    private TOKEN_KEY(String keyPrefix) {
+      this.keyPrefix = keyPrefix;
     }
-    public String prefix() {
-      return this.prefix;
+    public String keyPrefix() {
+      return this.keyPrefix;
+    }
+  }
+  
+  public enum LOG_KEY {
+    ERROR_LOG("log:error"),
+    ACCESS_LOG("log:access"),
+    ;
+    
+    private String key;
+    
+    private LOG_KEY(String key) {
+      this.key = key;
+    }
+    public String key() {
+      return this.key;
     }
   }
 
@@ -59,13 +74,13 @@ public class RedisClient {
   final ModelMapper modelMapper;
   final ObjectMapper objectMapper;
   
-  public String getRedisKey(String tokenId) {
+  public String getTokenKey(String tokenId) {
     String cd = tokenId.substring(0, 1);
     TOKEN.TYPE tokenType = TOKEN.TYPE.byCd(cd)
         .orElseThrow(() -> new AppException(ERROR.A020));
     String key = switch (tokenType) {
-      case REFRESH_TOKEN: yield (TOKEN_KEY.REFRESH_TOKEN.prefix() + tokenId);
-      case ACCESS_TOKEN: yield (TOKEN_KEY.REFRESH_TOKEN.prefix() + tokenId);
+      case REFRESH_TOKEN: yield (TOKEN_KEY.REFRESH_TOKEN.keyPrefix() + tokenId);
+      case ACCESS_TOKEN: yield (TOKEN_KEY.ACCESS_TOKEN.keyPrefix() + tokenId);
       default: throw new AppException(ERROR.A020);
     };
     return key;

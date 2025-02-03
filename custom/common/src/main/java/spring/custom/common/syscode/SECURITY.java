@@ -15,6 +15,7 @@ public class SECURITY {
     excel("/excel-down/**"),
     fund("/v1/fund/**"),
     fibonacci("/v1/fibonacci/**"),
+    syserrorlog("/v1/sys-error-log/**"),
     ;
     
     private String pattern;

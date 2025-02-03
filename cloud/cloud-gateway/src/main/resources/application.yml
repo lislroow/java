@@ -45,6 +45,15 @@ spring:
           enabled: false
           lower-case-service-id: true
       routes:
+        # scheduler
+        - id: scheduler
+          predicates:
+            - Path=/scheduler/**
+          uri: lb://scheduler
+          filters:
+            - RewritePathFilter
+            - TokenVerifyGatewayFilter
+        
         # story
         - id: story-api
           predicates:
@@ -75,6 +84,9 @@ springdoc:
         
       - name: 2. Opendata API (opendata-api)
         url: /opendata-api/v3/api-docs
+        
+      - name: 3. Scheduler (scheduler)
+        url: /scheduler/v3/api-docs
 
 #cloud.gateway.filter.auth-url: http://localhost/auth-api/v1/token/verify-token
 

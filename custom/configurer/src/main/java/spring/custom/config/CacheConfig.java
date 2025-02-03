@@ -39,7 +39,7 @@ public class CacheConfig {
   RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
     Map<String, RedisCacheConfiguration> cacheConfigurations = 
         Arrays.asList(RedisClient.CACHE_KEY.values()).stream().collect(Collectors.toMap(
-          item -> item.cacheName(),
+          item -> item.key(),
           item -> RedisCacheConfiguration.defaultCacheConfig()
             .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
                 new GenericJackson2JsonRedisSerializer()))
