@@ -13,8 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import lombok.extern.slf4j.Slf4j;
-import spring.custom.common.audit.AuditVo;
 import spring.custom.common.syscode.AUDIT;
+import spring.custom.common.vo.AuditVo;
 
 @Intercepts({
   @Signature(type = Executor.class, method = "update", 

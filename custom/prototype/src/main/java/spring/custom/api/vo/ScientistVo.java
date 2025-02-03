@@ -3,8 +3,8 @@ package spring.custom.api.vo;
 import lombok.Builder;
 import lombok.Data;
 import spring.custom.code.EnumScientist;
-import spring.custom.common.audit.AuditVo;
 import spring.custom.common.mybatis.PageRequest;
+import spring.custom.common.vo.AuditVo;
 
 public class ScientistVo {
   

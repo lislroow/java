@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
-import spring.custom.common.audit.AuditVo;
+import spring.custom.common.vo.AuditVo;
 
 public class JpaSampleDto {
   

@@ -1,4 +1,4 @@
-package spring.custom.common.audit;
+package spring.custom.common.vo;
 
 import java.time.LocalDateTime;
 
