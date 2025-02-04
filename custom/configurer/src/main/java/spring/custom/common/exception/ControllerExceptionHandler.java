@@ -124,15 +124,16 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     /* for debug */ if (log.isDebugEnabled()) log.error("", e);
     String username = SecurityContextHolder.getContext().getAuthentication().getName();
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    StringBuilder requestBody = new StringBuilder();
-    try (BufferedReader reader = request.getReader()) {
-      String line;
-      while ((line = reader.readLine()) != null) {
-        requestBody.append(line);
-      }
-    } catch (IOException ie) {
-      log.error("{}", ie.getStackTrace()[0]);
-    }
+    // issue: java.lang.IllegalStateException: getInputStream() has already been called for this request
+    //StringBuilder requestBody = new StringBuilder();
+    //try (BufferedReader reader = request.getReader()) {
+    //  String line;
+    //  while ((line = reader.readLine()) != null) {
+    //    requestBody.append(line);
+    //  }
+    //} catch (IOException ie) {
+    //  log.error("{}", ie.getStackTrace()[0]);
+    //}
     
     SysErrorLogDto.RedisDto dto = SysErrorLogDto.RedisDto.builder()
         .txTime(LocalDateTime.now())
@@ -144,9 +145,10 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         .hostIp(request.getLocalAddr())
         .serviceName(serviceName)
         .clientIp(XffClientIpExtractor.getClientIp(request))
-        .requestBody(requestBody.toString())
-        .requestParam(request.getQueryString())
+        //.requestBody(requestBody.toString())
+        .method(request.getMethod())
         .requestUri(request.getRequestURI())
+        .requestParam(request.getQueryString())
         .createId(username)
         .createTime(LocalDateTime.now())
         .modifyId(username)

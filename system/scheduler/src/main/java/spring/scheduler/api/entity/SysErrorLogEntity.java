@@ -40,9 +40,10 @@ public class SysErrorLogEntity {
   private String hostIp;
   private String serviceName;
   private String clientIp;
-  private String requestBody;
-  private String requestParam;
+  //private String requestBody;
+  private String method;
   private String requestUri;
+  private String requestParam;
   private LocalDateTime createTime;
   private LocalDateTime modifyTime;
   private String createId;

@@ -76,7 +76,7 @@ public class RestControllerAspect {
       result = joinPoint.proceed(args);
     } catch (Throwable e) {
       throwable = e;
-      log.error("{} #{} #{}", e.getStackTrace()[0], e.getClass(), e.getMessage());
+      log.error("\n{} #{} #{}", e.getStackTrace()[0], e.getClass(), e.getMessage());
       throw e;
     }
     return result;
