@@ -1,7 +1,6 @@
 package spring.custom.api.dto;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -26,7 +25,7 @@ public class JpaSampleDto {
   
   @Data
   public static class PlanetRes extends Planet {
-    private List<JpaSampleDto.Satellite> satellites = new ArrayList<>();
+    private List<JpaSampleDto.Satellite> satellites;
   }
   
   @Data
