@@ -2,7 +2,6 @@ package spring.custom.api.controller;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,7 +34,6 @@ import spring.custom.common.exception.data.DataNotFoundException;
 @RequiredArgsConstructor
 public class JpaSampleController {
 
-  final ModelMapper modelMapper;
   final JpaSampleService jpaSampleService;
   @Nullable final StarRepository starRepository;
   @Nullable final SatelliteRepository satelliteRepository;

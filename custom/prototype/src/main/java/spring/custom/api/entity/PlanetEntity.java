@@ -51,8 +51,8 @@ public class PlanetEntity extends AuditEntity {
   private Double mass;
   private BigInteger distanceFromSun;
   private Double orbitalEccentricity;
-
-  @OneToMany(mappedBy = "planet", cascade = CascadeType.ALL, orphanRemoval = true)
+  
+  @OneToMany(mappedBy = "planet", cascade = CascadeType.ALL, orphanRemoval = false)
   private List<SatelliteEntity> satellites;
 
 }

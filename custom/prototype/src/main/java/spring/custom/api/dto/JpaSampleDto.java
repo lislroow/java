@@ -35,6 +35,8 @@ public class JpaSampleDto {
     private Double mass;
     private BigInteger distanceFromSun;
     private Double orbitalEccentricity;
+    
+    private List<JpaSampleDto.AddSatelliteReq> satellites;
   }
   
   @Data

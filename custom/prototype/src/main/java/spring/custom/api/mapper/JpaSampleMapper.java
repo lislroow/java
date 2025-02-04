@@ -33,7 +33,6 @@ public class JpaSampleMapper {
     
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "deleted", ignore = true)
-    @Mapping(target = "satellites", ignore = true)
     PlanetEntity toEntityForAdd(JpaSampleDto.AddPlanetReq addDto);
     
     @Mappings({

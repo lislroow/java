@@ -1,6 +1,5 @@
 package spring.custom.api.service;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,6 @@ import spring.custom.common.exception.data.DataNotFoundException;
 @AllArgsConstructor
 public class JpaSampleService {
   
-  final ModelMapper modelMapper;
   @Nullable final StarRepository starRepository;
   @Nullable final SatelliteRepository satelliteRepository;
   @Nullable final PlanetRepository planetRepository;
@@ -32,8 +30,16 @@ public class JpaSampleService {
   // planet
   @Transactional
   public PlanetEntity addPlanet(JpaSampleDto.AddPlanetReq addDto) {
-    PlanetEntity entity = modelMapper.map(addDto, PlanetEntity.class);
-    return planetRepository.save(entity);
+    PlanetEntity entity = planetMapper.toEntityForAdd(addDto);
+    planetRepository.save(entity);
+    if (entity.getSatellites() != null) {
+      for (SatelliteEntity satellite : entity.getSatellites()) {
+        satellite.setPlanet(entity);
+        satellite.setDeleted(false); // 코드 개선 필요
+      }
+      satelliteRepository.saveAll(entity.getSatellites());
+    }
+    return entity;
   }
   
   @Transactional
