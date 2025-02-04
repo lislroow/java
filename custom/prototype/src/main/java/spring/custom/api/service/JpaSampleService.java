@@ -13,6 +13,8 @@ import spring.custom.api.entity.StarEntity;
 import spring.custom.api.entity.repository.PlanetRepository;
 import spring.custom.api.entity.repository.SatelliteRepository;
 import spring.custom.api.entity.repository.StarRepository;
+import spring.custom.api.mapper.StarMapper;
+import spring.custom.common.exception.data.DataNotFoundException;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,7 +25,7 @@ public class JpaSampleService {
   @Nullable final StarRepository starRepository;
   @Nullable final SatelliteRepository satelliteRepository;
   @Nullable final PlanetRepository planetRepository;
-  
+  final StarMapper starMapper;
   
   // planet
   @Transactional
@@ -69,7 +71,6 @@ public class JpaSampleService {
           item.setMass(reqDto.getMass());
           item.setDistanceFromPlanet(reqDto.getDistanceFromPlanet());
           item.setOrbitalEccentricity(reqDto.getOrbitalEccentricity());
-          //item.setMemo(reqDto.getMemo());
           item.setDeleted(reqDto.getDeleted());
           return satelliteRepository.save(item);
         })
@@ -84,23 +85,18 @@ public class JpaSampleService {
   
   // star
   @Transactional
-  public StarEntity addStar(JpaSampleDto.AddStarReq reqDto) {
-    StarEntity entity = modelMapper.map(reqDto, StarEntity.class);
+  public StarEntity addStar(JpaSampleDto.AddStarReq addDto) {
+    StarEntity entity = starMapper.toEntityForAdd(addDto);
     return starRepository.save(entity);
   }
   
   @Transactional
-  public StarEntity modifyStarById(JpaSampleDto.ModifyStarReq reqDto) {
-    return starRepository.findById(reqDto.getId())
-        .map(item -> {
-          item.setName(reqDto.getName());
-          item.setDistance(reqDto.getDistance());
-          item.setBrightness(reqDto.getBrightness());
-          item.setTemperature(reqDto.getTemperature());
-          item.setMass(reqDto.getMass());
-          return starRepository.save(item);
-        })
-        .orElse(null);
+  public StarEntity modifyStarById(JpaSampleDto.ModifyStarReq modifyDto) {
+    StarEntity entity = starRepository.findById(modifyDto.getId())
+        .orElseThrow(DataNotFoundException::new);
+    starMapper.updateEntityFromDto(modifyDto, entity);
+    starRepository.save(entity);
+    return entity;
   }
   
   @Transactional

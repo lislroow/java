@@ -63,7 +63,6 @@ public class JpaSampleDto {
     private Double mass;
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
-    //private String memo;
   }
   
   @Data
@@ -78,7 +77,6 @@ public class JpaSampleDto {
     private Double mass;
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
-    //private String memo;
   }
   
   @Data
@@ -91,7 +89,6 @@ public class JpaSampleDto {
     private Double mass;
     private BigInteger distanceFromPlanet;
     private Double orbitalEccentricity;
-    //private String memo;
   }
   
   

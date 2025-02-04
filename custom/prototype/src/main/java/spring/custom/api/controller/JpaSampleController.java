@@ -31,6 +31,7 @@ import spring.custom.api.entity.repository.StarRepository;
 import spring.custom.api.entity.spec.PlanetSpecification;
 import spring.custom.api.entity.spec.SatelliteSpecification;
 import spring.custom.api.entity.spec.StarSpecification;
+import spring.custom.api.mapper.StarMapper;
 import spring.custom.api.service.JpaSampleService;
 import spring.custom.common.exception.data.DataNotFoundException;
 
@@ -43,6 +44,7 @@ public class JpaSampleController {
   @Nullable final StarRepository starRepository;
   @Nullable final SatelliteRepository satelliteRepository;
   @Nullable final PlanetRepository planetRepository;
+  final StarMapper starMapper;
   
   
   // planet
@@ -205,9 +207,7 @@ public class JpaSampleController {
   @GetMapping("/v1/jpa-sample/stars/all")
   public List<JpaSampleDto.StarRes> allStars() {
     List<StarEntity> result = starRepository.findAll();
-    return result.stream()
-        .map(item -> modelMapper.map(item, JpaSampleDto.StarRes.class))
-        .collect(Collectors.toList());
+    return starMapper.toDtoList(result);
   }
   
   @GetMapping("/v1/jpa-sample/stars")
@@ -215,7 +215,7 @@ public class JpaSampleController {
       @RequestParam(defaultValue = "0") Integer page,
       @RequestParam(defaultValue = "10") Integer size) {
     Page<StarEntity> result = starRepository.findAll(PageRequest.of(page, size));
-    return result.map(item -> modelMapper.map(item, JpaSampleDto.StarRes.class));
+    return starMapper.toDtoPage(result);
   }
   
   @GetMapping("/v1/jpa-sample/stars/search")
@@ -226,14 +226,14 @@ public class JpaSampleController {
     Specification<StarEntity> spec = 
         Specification.where(StarSpecification.hasName(name));
     Page<StarEntity> result = starRepository.findAll(spec, PageRequest.of(page, size));
-    return result.map(item -> modelMapper.map(item, JpaSampleDto.StarRes.class));
+    return starMapper.toDtoPage(result);
   }
   
   @GetMapping("/v1/jpa-sample/star/{id}")
   public ResponseEntity<JpaSampleDto.StarRes> findStarById(
       @PathVariable Integer id) {
     StarEntity result = starRepository.findById(id).orElseThrow(DataNotFoundException::new);
-    JpaSampleDto.StarRes resDto = modelMapper.map(result, JpaSampleDto.StarRes.class);
+    JpaSampleDto.StarRes resDto = starMapper.toDto(result);
     return ResponseEntity.ok(resDto);
   }
   
@@ -241,8 +241,7 @@ public class JpaSampleController {
   public ResponseEntity<?> addStar(
       @RequestBody JpaSampleDto.AddStarReq reqDto) {
     StarEntity result = jpaSampleService.addStar(reqDto);
-    JpaSampleDto.StarRes resDto = modelMapper.map(result, JpaSampleDto.StarRes.class);
-    
+    JpaSampleDto.StarRes resDto = starMapper.toDto(result);
     return ResponseEntity.status(HttpStatus.CREATED)
         .location(URI.create("/v1/jpa-sample/star/"+resDto.getId()))
         .body(resDto);
@@ -252,22 +251,14 @@ public class JpaSampleController {
   public ResponseEntity<?> modifyStarById(
       @RequestBody JpaSampleDto.ModifyStarReq reqDto) {
     StarEntity result = jpaSampleService.modifyStarById(reqDto);
-    JpaSampleDto.StarRes resDto = result != null 
-        ? modelMapper.map(result, JpaSampleDto.StarRes.class)
-        : null;
-    
-    if (result == null) {
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.ok(resDto);
-    }
+    JpaSampleDto.StarRes resDto = starMapper.toDto(result);
+    return ResponseEntity.ok(resDto);
   }
   
   @DeleteMapping("/v1/jpa-sample/star/{id}")
   public ResponseEntity<?> removeStarById(
       @PathVariable Integer id) {
     jpaSampleService.removeStarById(id);
-    
     return ResponseEntity.noContent().build();
   }
   

@@ -11,7 +11,7 @@ public class AuditVo {
   private LocalDateTime modifyTime;
   private String createId;
   private String modifyId;
-  private String createName;
-  private String modifyName;
+  //private String createName;
+  //private String modifyName;
   
 }
