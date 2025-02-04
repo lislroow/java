@@ -1,8 +1,6 @@
 package spring.custom.api.controller;
 
-import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -31,7 +29,7 @@ import spring.custom.api.entity.repository.StarRepository;
 import spring.custom.api.entity.spec.PlanetSpecification;
 import spring.custom.api.entity.spec.SatelliteSpecification;
 import spring.custom.api.entity.spec.StarSpecification;
-import spring.custom.api.mapper.StarMapper;
+import spring.custom.api.mapper.JpaSampleMapper;
 import spring.custom.api.service.JpaSampleService;
 import spring.custom.common.exception.data.DataNotFoundException;
 
@@ -44,26 +42,16 @@ public class JpaSampleController {
   @Nullable final StarRepository starRepository;
   @Nullable final SatelliteRepository satelliteRepository;
   @Nullable final PlanetRepository planetRepository;
-  final StarMapper starMapper;
+  final JpaSampleMapper.PlanetMapper planetMapper;
+  final JpaSampleMapper.SatelliteMapper satelliteMapper;
+  final JpaSampleMapper.StarMapper starMapper;
   
   
   // planet
   @GetMapping("/v1/jpa-sample/planets/all")
   public List<JpaSampleDto.PlanetRes> allPlanets() {
     List<PlanetEntity> result = planetRepository.findAll();
-    return result.stream()
-        .map(planet -> {
-          JpaSampleDto.PlanetRes res = modelMapper.map(planet, JpaSampleDto.PlanetRes.class);
-          if (planet.getSatellites() != null) {
-            List<JpaSampleDto.Satellite> satellites = planet.getSatellites()
-                .stream()
-                .map(satellite -> modelMapper.map(satellite, JpaSampleDto.Satellite.class))
-                .toList();
-            res.setSatellites(satellites);
-          }
-          return res;
-        })
-        .collect(Collectors.toList());
+    return planetMapper.toDtoList(result);
   }
   
   @GetMapping("/v1/jpa-sample/planets/search")
@@ -74,65 +62,38 @@ public class JpaSampleController {
     Specification<PlanetEntity> spec = 
         Specification.where(PlanetSpecification.hasName(name));
     Page<PlanetEntity> result = planetRepository.findAll(spec, PageRequest.of(page, size));
-    return result.map(planet -> {
-      JpaSampleDto.PlanetRes res = modelMapper.map(planet, JpaSampleDto.PlanetRes.class);
-      if (planet.getSatellites() != null) {
-        List<JpaSampleDto.Satellite> satellites = planet.getSatellites()
-            .stream()
-            .map(satellite -> modelMapper.map(satellite, JpaSampleDto.Satellite.class))
-            .toList();
-        res.setSatellites(satellites);
-      }
-      return res;
-    });
+    return planetMapper.toDtoPage(result);
   }
   
   @GetMapping("/v1/jpa-sample/planet/{id}")
   public ResponseEntity<JpaSampleDto.PlanetRes> findPlanetById(
       @PathVariable Integer id) {
     PlanetEntity result = planetRepository.findById(id).orElseThrow(DataNotFoundException::new);
-    JpaSampleDto.PlanetRes resDto = modelMapper.map(result, JpaSampleDto.PlanetRes.class);
-    if (result.getSatellites() != null) {
-      List<JpaSampleDto.Satellite> satellites = result.getSatellites()
-          .stream()
-          .map(satellite -> modelMapper.map(satellite, JpaSampleDto.Satellite.class))
-          .toList();
-      resDto.setSatellites(satellites);
-    }
+    JpaSampleDto.PlanetRes resDto = planetMapper.toDto(result);
     return ResponseEntity.ok(resDto);
   }
   
   @PostMapping("/v1/jpa-sample/planet")
   public ResponseEntity<?> addPlanet(
-      @RequestBody JpaSampleDto.AddPlanetReq reqDto) {
-    PlanetEntity result = jpaSampleService.addPlanet(reqDto);
-    JpaSampleDto.PlanetRes resDto = modelMapper.map(result, JpaSampleDto.PlanetRes.class);
-    
+      @RequestBody JpaSampleDto.AddPlanetReq addDto) {
+    PlanetEntity result = jpaSampleService.addPlanet(addDto);
+    JpaSampleDto.PlanetRes resDto = planetMapper.toDto(result);
     return ResponseEntity.status(HttpStatus.CREATED)
-        .location(URI.create("/v1/jpa-sample/planet/"+resDto.getId()))
         .body(resDto);
   }
   
   @PutMapping("/v1/jpa-sample/planet")
   public ResponseEntity<?> modifyPlanetById(
-      @RequestBody JpaSampleDto.ModifyPlanetReq reqDto) {
-    PlanetEntity result = jpaSampleService.modifyPlanetById(reqDto);
-    JpaSampleDto.PlanetRes resDto = result != null 
-        ? modelMapper.map(result, JpaSampleDto.PlanetRes.class)
-            : null;
-    
-    if (result == null) {
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.ok(resDto);
-    }
+      @RequestBody JpaSampleDto.ModifyPlanetReq modifyDto) {
+    PlanetEntity result = jpaSampleService.modifyPlanetById(modifyDto);
+    JpaSampleDto.PlanetRes resDto = planetMapper.toDto(result);
+    return ResponseEntity.ok(resDto);
   }
   
   @DeleteMapping("/v1/jpa-sample/planet/{id}")
   public ResponseEntity<?> removePlanetById(
       @PathVariable Integer id) {
     jpaSampleService.removePlanetById(id);
-    
     return ResponseEntity.noContent().build();
   }
   
@@ -142,9 +103,7 @@ public class JpaSampleController {
   @GetMapping("/v1/jpa-sample/satellites/all")
   public List<JpaSampleDto.SatelliteRes> allSatellites() {
     List<SatelliteEntity> result = satelliteRepository.findAll();
-    return result.stream()
-        .map(item -> modelMapper.map(item, JpaSampleDto.SatelliteRes.class))
-        .collect(Collectors.toList());
+    return satelliteMapper.toDtoList(result);
   }
   
   @GetMapping("/v1/jpa-sample/satellites/search")
@@ -152,52 +111,40 @@ public class JpaSampleController {
       @RequestParam(required = false) String name,
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
-    
     Specification<SatelliteEntity> spec = 
         Specification.where(SatelliteSpecification.hasName(name));
     Page<SatelliteEntity> result = satelliteRepository.findAll(spec, PageRequest.of(page, size));
-    return result.map(item -> modelMapper.map(item, JpaSampleDto.SatelliteRes.class));
+    return satelliteMapper.toDtoPage(result);
   }
   
   @GetMapping("/v1/jpa-sample/satellite/{id}")
   public ResponseEntity<JpaSampleDto.SatelliteRes> findSatelliteById(
       @PathVariable Integer id) {
     SatelliteEntity result = satelliteRepository.findById(id).orElseThrow(DataNotFoundException::new);
-    JpaSampleDto.SatelliteRes resDto = modelMapper.map(result, JpaSampleDto.SatelliteRes.class);
+    JpaSampleDto.SatelliteRes resDto = satelliteMapper.toDto(result);
     return ResponseEntity.ok(resDto);
   }
   
   @PostMapping("/v1/jpa-sample/satellite")
-  public ResponseEntity<?> addSatellite(
-      @RequestBody JpaSampleDto.AddSatelliteReq reqDto) {
-    SatelliteEntity result = jpaSampleService.addSatellite(reqDto);
-    JpaSampleDto.SatelliteRes resDto = modelMapper.map(result, JpaSampleDto.SatelliteRes.class);
-    
-    return ResponseEntity.status(HttpStatus.CREATED)
-        .location(URI.create("/v1/jpa-sample/satellite/"+resDto.getId()))
-        .body(resDto);
+  public ResponseEntity<JpaSampleDto.SatelliteRes> addSatellite(
+      @RequestBody JpaSampleDto.AddSatelliteReq addDto) {
+    SatelliteEntity result = jpaSampleService.addSatellite(addDto);
+    JpaSampleDto.SatelliteRes resDto = satelliteMapper.toDto(result);
+    return ResponseEntity.status(HttpStatus.CREATED).body(resDto);
   }
   
   @PutMapping("/v1/jpa-sample/satellite")
-  public ResponseEntity<?> modifySatelliteById(
-      @RequestBody JpaSampleDto.ModifySatelliteReq reqDto) {
-    SatelliteEntity result = jpaSampleService.modifySatelliteById(reqDto);
-    JpaSampleDto.SatelliteRes resDto = result != null 
-        ? modelMapper.map(result, JpaSampleDto.SatelliteRes.class)
-        : null;
-    
-    if (result == null) {
-      return ResponseEntity.noContent().build();
-    } else {
-      return ResponseEntity.ok(resDto);
-    }
+  public ResponseEntity<JpaSampleDto.SatelliteRes> modifySatelliteById(
+      @RequestBody JpaSampleDto.ModifySatelliteReq modifyDto) {
+    SatelliteEntity result = jpaSampleService.modifySatelliteById(modifyDto);
+    JpaSampleDto.SatelliteRes resDto = satelliteMapper.toDto(result);
+    return ResponseEntity.ok(resDto);
   }
   
   @DeleteMapping("/v1/jpa-sample/satellite/{id}")
   public ResponseEntity<?> removeSatelliteById(
       @PathVariable Integer id) {
     jpaSampleService.removeSatelliteById(id);
-    
     return ResponseEntity.noContent().build();
   }
   
@@ -238,19 +185,18 @@ public class JpaSampleController {
   }
   
   @PostMapping("/v1/jpa-sample/star")
-  public ResponseEntity<?> addStar(
-      @RequestBody JpaSampleDto.AddStarReq reqDto) {
-    StarEntity result = jpaSampleService.addStar(reqDto);
+  public ResponseEntity<JpaSampleDto.StarRes> addStar(
+      @RequestBody JpaSampleDto.AddStarReq addDto) {
+    StarEntity result = jpaSampleService.addStar(addDto);
     JpaSampleDto.StarRes resDto = starMapper.toDto(result);
     return ResponseEntity.status(HttpStatus.CREATED)
-        .location(URI.create("/v1/jpa-sample/star/"+resDto.getId()))
         .body(resDto);
   }
   
   @PutMapping("/v1/jpa-sample/star")
-  public ResponseEntity<?> modifyStarById(
-      @RequestBody JpaSampleDto.ModifyStarReq reqDto) {
-    StarEntity result = jpaSampleService.modifyStarById(reqDto);
+  public ResponseEntity<JpaSampleDto.StarRes> modifyStarById(
+      @RequestBody JpaSampleDto.ModifyStarReq modifyDto) {
+    StarEntity result = jpaSampleService.modifyStarById(modifyDto);
     JpaSampleDto.StarRes resDto = starMapper.toDto(result);
     return ResponseEntity.ok(resDto);
   }

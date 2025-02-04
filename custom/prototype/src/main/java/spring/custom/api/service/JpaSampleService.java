@@ -13,7 +13,7 @@ import spring.custom.api.entity.StarEntity;
 import spring.custom.api.entity.repository.PlanetRepository;
 import spring.custom.api.entity.repository.SatelliteRepository;
 import spring.custom.api.entity.repository.StarRepository;
-import spring.custom.api.mapper.StarMapper;
+import spring.custom.api.mapper.JpaSampleMapper;
 import spring.custom.common.exception.data.DataNotFoundException;
 
 @Service
@@ -25,28 +25,23 @@ public class JpaSampleService {
   @Nullable final StarRepository starRepository;
   @Nullable final SatelliteRepository satelliteRepository;
   @Nullable final PlanetRepository planetRepository;
-  final StarMapper starMapper;
+  final JpaSampleMapper.PlanetMapper planetMapper;
+  final JpaSampleMapper.SatelliteMapper satelliteMapper;
+  final JpaSampleMapper.StarMapper starMapper;
   
   // planet
   @Transactional
-  public PlanetEntity addPlanet(JpaSampleDto.AddPlanetReq reqDto) {
-    PlanetEntity entity = modelMapper.map(reqDto, PlanetEntity.class);
+  public PlanetEntity addPlanet(JpaSampleDto.AddPlanetReq addDto) {
+    PlanetEntity entity = modelMapper.map(addDto, PlanetEntity.class);
     return planetRepository.save(entity);
   }
   
   @Transactional
-  public PlanetEntity modifyPlanetById(JpaSampleDto.ModifyPlanetReq reqDto) {
-    return planetRepository.findById(reqDto.getId())
-        .map(item -> {
-          item.setName(reqDto.getName());
-          item.setRadius(reqDto.getRadius());
-          item.setMass(reqDto.getMass());
-          item.setDistanceFromSun(reqDto.getDistanceFromSun());
-          item.setOrbitalEccentricity(reqDto.getOrbitalEccentricity());
-          item.setDeleted(reqDto.getDeleted());
-          return planetRepository.save(item);
-        })
-        .orElse(null);
+  public PlanetEntity modifyPlanetById(JpaSampleDto.ModifyPlanetReq modifyDto) {
+    PlanetEntity entity = planetRepository.findById(modifyDto.getId()).orElseThrow(DataNotFoundException::new);
+    planetMapper.updateEntityFromDto(modifyDto, entity);
+    planetRepository.save(entity);
+    return entity;
   }
   
   @Transactional
@@ -57,24 +52,18 @@ public class JpaSampleService {
   
   // satellite
   @Transactional
-  public SatelliteEntity addSatellite(JpaSampleDto.AddSatelliteReq reqDto) {
-    SatelliteEntity entity = modelMapper.map(reqDto, SatelliteEntity.class);
+  public SatelliteEntity addSatellite(JpaSampleDto.AddSatelliteReq addDto) {
+    SatelliteEntity entity = satelliteMapper.toEntityForAdd(addDto);
     return satelliteRepository.save(entity);
   }
   
   @Transactional
-  public SatelliteEntity modifySatelliteById(JpaSampleDto.ModifySatelliteReq reqDto) {
-    return satelliteRepository.findById(reqDto.getId())
-        .map(item -> {
-          item.setName(reqDto.getName());
-          item.setRadius(reqDto.getRadius());
-          item.setMass(reqDto.getMass());
-          item.setDistanceFromPlanet(reqDto.getDistanceFromPlanet());
-          item.setOrbitalEccentricity(reqDto.getOrbitalEccentricity());
-          item.setDeleted(reqDto.getDeleted());
-          return satelliteRepository.save(item);
-        })
-        .orElse(null);
+  public SatelliteEntity modifySatelliteById(JpaSampleDto.ModifySatelliteReq modifyDto) {
+    SatelliteEntity entity = satelliteRepository.findById(modifyDto.getId())
+        .orElseThrow(DataNotFoundException::new);
+    satelliteMapper.updateEntityFromDto(modifyDto, entity);
+    satelliteRepository.save(entity);
+    return entity;
   }
   
   @Transactional
