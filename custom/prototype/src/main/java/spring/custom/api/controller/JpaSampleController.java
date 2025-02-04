@@ -26,9 +26,7 @@ import spring.custom.api.entity.StarEntity;
 import spring.custom.api.entity.repository.PlanetRepository;
 import spring.custom.api.entity.repository.SatelliteRepository;
 import spring.custom.api.entity.repository.StarRepository;
-import spring.custom.api.entity.spec.PlanetSpecification;
-import spring.custom.api.entity.spec.SatelliteSpecification;
-import spring.custom.api.entity.spec.StarSpecification;
+import spring.custom.api.entity.spec.JpaSampleSpec;
 import spring.custom.api.mapper.JpaSampleMapper;
 import spring.custom.api.service.JpaSampleService;
 import spring.custom.common.exception.data.DataNotFoundException;
@@ -60,7 +58,7 @@ public class JpaSampleController {
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     Specification<PlanetEntity> spec = 
-        Specification.where(PlanetSpecification.hasName(name));
+        Specification.where(JpaSampleSpec.PlanetSpec.hasName(name));
     Page<PlanetEntity> result = planetRepository.findAll(spec, PageRequest.of(page, size));
     return planetMapper.toDtoPage(result);
   }
@@ -112,7 +110,7 @@ public class JpaSampleController {
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     Specification<SatelliteEntity> spec = 
-        Specification.where(SatelliteSpecification.hasName(name));
+        Specification.where(JpaSampleSpec.SatelliteSpec.hasName(name));
     Page<SatelliteEntity> result = satelliteRepository.findAll(spec, PageRequest.of(page, size));
     return satelliteMapper.toDtoPage(result);
   }
@@ -171,7 +169,7 @@ public class JpaSampleController {
       @RequestParam(required = false, defaultValue = "0") Integer page,
       @RequestParam(required = false, defaultValue = "10") Integer size) {
     Specification<StarEntity> spec = 
-        Specification.where(StarSpecification.hasName(name));
+        Specification.where(JpaSampleSpec.StarSpec.hasName(name));
     Page<StarEntity> result = starRepository.findAll(spec, PageRequest.of(page, size));
     return starMapper.toDtoPage(result);
   }
