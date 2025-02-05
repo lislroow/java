@@ -18,6 +18,7 @@ import spring.custom.api.entity.StarEntity;
 
 public class JpaSampleMapper {
   
+  // planet
   @Mapper(componentModel = "spring")
   public static interface PlanetMapper {
     
@@ -47,6 +48,8 @@ public class JpaSampleMapper {
     PlanetEntity updateEntityFromDto(JpaSampleDto.ModifyPlanetReq modifyDto, @MappingTarget PlanetEntity entity);
   }
   
+  
+  // satellite
   @Mapper(componentModel = "spring")
   public static interface SatelliteMapper {
     
@@ -77,6 +80,8 @@ public class JpaSampleMapper {
     SatelliteEntity updateEntityFromDto(JpaSampleDto.ModifySatelliteReq modifyDto, @MappingTarget SatelliteEntity entity);
   }
   
+  
+  // star
   @Mapper(componentModel = "spring")
   public static interface StarMapper {
     
