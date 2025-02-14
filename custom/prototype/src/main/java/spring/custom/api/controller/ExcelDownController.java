@@ -626,7 +626,7 @@ public class ExcelDownController {
       cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
       
       cell = row0.createCell(4);
-      cell.setCellValue("fos_cd");
+      cell.setCellValue("fos_nm");
       cell.setCellStyle(PoiCellStyle.cellHeader(workbook));
       
       // contents
@@ -640,7 +640,7 @@ public class ExcelDownController {
         row.createCell(cidx.getAndIncrement()).setCellValue(item.getName());
         row.createCell(cidx.getAndIncrement()).setCellValue(item.getBirthYear());
         row.createCell(cidx.getAndIncrement()).setCellValue(item.getDeathYear());
-        row.createCell(cidx.getAndIncrement()).setCellValue(Optional.ofNullable(item.getFosCd()).map(EnumScientist.FieldOfStudy::getValue).orElse(""));
+        row.createCell(cidx.getAndIncrement()).setCellValue(Optional.ofNullable(item.getFosCd()).map(EnumScientist.FieldOfStudy::getLabel).orElse(""));
       }
       
       // response
