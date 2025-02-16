@@ -46,6 +46,14 @@ INSERT INTO pt_scientist (name, birth_year, death_year, fos_cd) VALUES
 ('Richard Feynman', 1918, 1988, 'P')
 ;
 
+truncate table pt_scientist_image;
+INSERT INTO pt_scientist_image (id, scientist_id, seq, image_desc, image_date, create_time, modify_time, create_id, modify_id) VALUES
+('ee0e7001-df39-4206-b12a-aa378446bc40', 5, 1, '', '1921', now(), now(), '1', '1'),
+('bb55130d-b4f4-46e8-924b-5fceb5ea9714', 5, 2, '', '19401001', now(), now(), '1', '1'),
+('5c86b814-15aa-4867-acf0-45a69a34ac3a', 5, 3, '', '', now(), now(), '1', '1'),
+('094b264a-94c5-4c63-9b0b-bc785ed79e8a', 6, 1, '', '2007', now(), now(), '1', '1')
+;
+
 
 INSERT INTO pt_star (name, distance, brightness, mass, temperature) VALUES
 ('Proxima Centauri', 4.24, 0.0017, 0.12, 3042),

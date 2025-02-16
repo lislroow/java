@@ -15,6 +15,7 @@ public interface MybatisSampleDao {
   List<ScientistVo.ResultScientist> allScientists();
   
   Optional<ScientistVo.ResultScientist> findScientistById(Integer id);
+  List<ScientistVo.ResultScientistImage> findScientistImageByScientistId(Integer scientistId);
   
   PageResponse<ScientistVo.ResultScientist> findScientists(PageRequest pageRequest);
   

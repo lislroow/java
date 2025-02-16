@@ -90,7 +90,9 @@ public class MybatisSampleController {
       @PathVariable Integer id) {
     ScientistVo.ResultScientist resultVo = mybatisSampleDao.findScientistById(id)
         .orElseThrow(DataNotFoundException::new);
+    List<ScientistVo.ResultScientistImage> imageList = mybatisSampleDao.findScientistImageByScientistId(id);
     MybatisSampleDto.ScientistRes resDto = modelMapper.map(resultVo, MybatisSampleDto.ScientistRes.class);
+    resDto.setImages(imageList.stream().map(item -> modelMapper.map(item, MybatisSampleDto.ScientistImageRes.class)).collect(Collectors.toList()));
     return ResponseEntity.ok(resDto);
   }
   

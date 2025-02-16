@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 DROP TABLE IF EXISTS sy_code_group CASCADE ;
 CREATE TABLE IF NOT EXISTS sy_code_group
 (
@@ -43,6 +45,24 @@ CREATE TABLE IF NOT EXISTS pt_scientist
   create_id VARCHAR(16) DEFAULT '1',
   modify_id VARCHAR(16) DEFAULT '1',
   PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS pt_scientist_image CASCADE ;
+CREATE TABLE IF NOT EXISTS pt_scientist_image 
+(
+  id UUID DEFAULT uuid_generate_v4(),
+  scientist_id SERIAL,
+  seq INT2,
+  image_desc TEXT,
+  image_date VARCHAR(10),
+  create_time TIMESTAMP DEFAULT NOW(),
+  modify_time TIMESTAMP DEFAULT NOW(),
+  create_id VARCHAR(16) DEFAULT '1',
+  modify_id VARCHAR(16) DEFAULT '1',
+  PRIMARY KEY (id),
+  CONSTRAINT fk_pt_scientist_id FOREIGN KEY (scientist_id)
+    REFERENCES pt_scientist (id)
+    ON DELETE SET NULL
 );
 
 DROP TABLE IF EXISTS pt_star CASCADE ;

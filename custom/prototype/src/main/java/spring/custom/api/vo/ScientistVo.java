@@ -32,6 +32,15 @@ public class ScientistVo {
   }
   
   @Data
+  public static class ResultScientistImage extends AuditVo {
+    private String id;
+    private Integer scientistId;
+    private Integer seq;
+    private String imageDesc;
+    private String imageDate;
+  }
+  
+  @Data
   public static class AddScientist extends AuditVo {
     private Integer id;
     private String name;

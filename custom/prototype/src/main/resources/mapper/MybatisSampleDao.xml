@@ -34,6 +34,24 @@
     WHERE  A.id = #{id}
   </select>
   
+  <select id="findScientistImageByScientistId">
+    SELECT /* MybatisSampleDao.findScientistImageByScientistId */
+           A.id
+           , A.scientist_id
+           , A.seq
+           , A.image_desc
+           , A.image_date
+           , A.create_id
+           , A.create_time
+           , (SELECT mgr_name FROM au_manager WHERE id = A.create_id) AS create_name
+           , A.modify_id
+           , A.modify_time
+           , (SELECT mgr_name FROM au_manager WHERE id = A.modify_id) AS modify_name
+    FROM   pt_scientist_image A
+    WHERE  A.scientist_id = #{scientistId}
+    ORDER BY A.seq
+  </select>
+  
   <select id="findScientists">
     SELECT /* MybatisSampleDao.findScientists */
            A.id

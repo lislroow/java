@@ -19,6 +19,16 @@ public class MybatisSampleDto {
     private Integer deathYear;
     private EnumScientist.FieldOfStudy fosCd;
     private String fosNm;
+    private List<ScientistImageRes> images;
+  }
+  
+  @Data
+  public static class ScientistImageRes {
+    private String id;
+    private Integer scientistId;
+    private Integer seq;
+    private String imageDesc;
+    private String imageDate;
   }
   
   @Data
