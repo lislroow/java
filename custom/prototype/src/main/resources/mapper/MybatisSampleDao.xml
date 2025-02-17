@@ -34,8 +34,8 @@
     WHERE  A.id = #{id}
   </select>
   
-  <select id="findScientistImageByScientistId">
-    SELECT /* MybatisSampleDao.findScientistImageByScientistId */
+  <select id="findImageByScientistId">
+    SELECT /* MybatisSampleDao.findImageByScientistId */
            A.id
            , A.scientist_id
            , A.seq
@@ -87,10 +87,42 @@
         AND UPPER(A.fos_cd) LIKE '%' || UPPER(#{fosCd}) || '%'
       </if>
       <if test="century != null">
-        AND CEIL(death_year / 100.0) = #{century}
+        AND CEIL(A.death_year / 100.0) = #{century}
       </if>
     </where>
     ORDER BY A.birth_year DESC
+  </select>
+  
+  <select id="searchScientistImages">
+    SELECT /* MybatisSampleDao.searchScientistImages */
+           A.id
+           , A.scientist_id
+           , A.seq
+           , A.image_desc
+           , A.image_date
+           , B.name
+           , B.birth_year
+           , B.death_year
+           , (SELECT S.cd_nm from sy_code S WHERE S.cd_grp = 'scientist:fos' AND B.fos_cd = S.cd) AS fos_nm
+    FROM   pt_scientist_image A
+      LEFT JOIN pt_scientist B ON A.scientist_id = B.id
+    <where>
+      <if test="imageDesc != null and !''.equals(imageDesc)">
+        AND UPPER(A.image_desc) LIKE '%' || UPPER(#{imageDesc}) || '%'
+      </if>
+      <if test="imageDate != null and !''.equals(imageDate)">
+        AND A.image_date LIKE '%' || #{imageDate} || '%'
+      </if>
+      <if test="name != null and !''.equals(name)">
+        AND UPPER(B.name) LIKE '%' || UPPER(#{name}) || '%'
+      </if>
+      <if test="fosCd != null and !''.equals(fosCd)">
+        AND UPPER(B.fos_cd) LIKE '%' || UPPER(#{fosCd}) || '%'
+      </if>
+      <if test="century != null">
+        AND CEIL(B.death_year / 100.0) = #{century}
+      </if>
+    </where>
   </select>
   
   <insert id="addScientist">

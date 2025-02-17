@@ -15,12 +15,15 @@ public interface MybatisSampleDao {
   List<ScientistVo.ResultScientist> allScientists();
   
   Optional<ScientistVo.ResultScientist> findScientistById(Integer id);
-  List<ScientistVo.ResultScientistImage> findScientistImageByScientistId(Integer scientistId);
+  List<ScientistVo.ResultImage> findImageByScientistId(Integer scientistId);
   
   PageResponse<ScientistVo.ResultScientist> findScientists(PageRequest pageRequest);
   
   PageResponse<ScientistVo.ResultScientist> searchScientists(
       PageRequest pageRequest, ScientistVo.SearchParam searchVo);
+  
+  PageResponse<ScientistVo.ResultScientistImage> searchScientistImages(
+      PageRequest pageRequest, ScientistVo.SearchImageParam searchVo);
   
   int addScientist(ScientistVo.AddScientist addVo);
   

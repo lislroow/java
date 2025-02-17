@@ -90,10 +90,35 @@ public class MybatisSampleController {
       @PathVariable Integer id) {
     ScientistVo.ResultScientist resultVo = mybatisSampleDao.findScientistById(id)
         .orElseThrow(DataNotFoundException::new);
-    List<ScientistVo.ResultScientistImage> imageList = mybatisSampleDao.findScientistImageByScientistId(id);
+    List<ScientistVo.ResultImage> imageList = mybatisSampleDao.findImageByScientistId(id);
     MybatisSampleDto.ScientistRes resDto = modelMapper.map(resultVo, MybatisSampleDto.ScientistRes.class);
-    resDto.setImages(imageList.stream().map(item -> modelMapper.map(item, MybatisSampleDto.ScientistImageRes.class)).collect(Collectors.toList()));
+    resDto.setImages(imageList.stream().map(item -> modelMapper.map(item, MybatisSampleDto.ImageRes.class)).collect(Collectors.toList()));
     return ResponseEntity.ok(resDto);
+  }
+  
+  @GetMapping("/v1/mybatis-sample/scientist/images")
+  public PageResponse<MybatisSampleDto.ScientistImageRes> findScientistById(
+      @RequestParam(required = false) String imageDesc,
+      @RequestParam(required = false) String imageDate,
+      @RequestParam(required = false) Integer scientistId,
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) String fosCd,
+      @RequestParam(required = false) @Min(1) @Max(21) @Nullable Integer century,
+      @RequestParam(required = false, defaultValue = "0") Integer page,
+      @RequestParam(required = false, defaultValue = "10") Integer size) {
+    ScientistVo.SearchImageParam searchVo = ScientistVo.SearchImageParam.builder()
+        .name(name)
+        .fosCd(EnumCodeType.fromValue(EnumScientist.FieldOfStudy.class, fosCd))
+        .century(century)
+        .build();
+    PageResponse<ScientistVo.ResultScientistImage> resultVo = mybatisSampleDao.searchScientistImages(PageRequest.of(page, size), searchVo);
+    
+    PageResponse<MybatisSampleDto.ScientistImageRes> resDto = new PageResponse<MybatisSampleDto.ScientistImageRes>(
+        resultVo.stream()
+          .map(item -> modelMapper.map(item, MybatisSampleDto.ScientistImageRes.class))
+          .collect(Collectors.toList())
+        , resultVo.getPageInfo());
+    return resDto;
   }
   
   @PostMapping("/v1/mybatis-sample/scientist")
