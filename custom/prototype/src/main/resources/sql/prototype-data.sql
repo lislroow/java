@@ -48,10 +48,26 @@ INSERT INTO pt_scientist (name, birth_year, death_year, fos_cd) VALUES
 
 truncate table pt_scientist_image;
 INSERT INTO pt_scientist_image (id, scientist_id, seq, image_desc, image_date, create_time, modify_time, create_id, modify_id) VALUES
+('d8716b69-13aa-4b8f-ad69-5ce4a1a01305', 1, 1, '', '1637', now(), now(), '1', '1'),
+('9f2177dc-c416-4550-92f2-ae43271c5a72', 1, 2, '', '', now(), now(), '1', '1'),
+('e46c6df6-c139-4908-ba05-d33f430225c4', 2, 1, '', '1730', now(), now(), '1', '1'),
+('0da9df68-73da-4187-802d-14a8873703ed', 3, 1, '', '1689', now(), now(), '1', '1'),
+('e5643ad3-e8eb-48a5-9e0d-df354637fd38', 3, 2, '', '1702', now(), now(), '1', '1'),
+('451ebdae-0874-4b6e-a286-1f385f2bad66', 4, 1, '', '1878', now(), now(), '1', '1'),
+('4b4babda-28b2-43e5-9d46-682ab7e58957', 4, 2, '', '', now(), now(), '1', '1'),
+('9bb1e3cf-959d-432e-863b-60af3d8efc1f', 4, 3, '', '', now(), now(), '1', '1'),
 ('ee0e7001-df39-4206-b12a-aa378446bc40', 5, 1, '', '1921', now(), now(), '1', '1'),
-('bb55130d-b4f4-46e8-924b-5fceb5ea9714', 5, 2, '', '19401001', now(), now(), '1', '1'),
+('bb55130d-b4f4-46e8-924b-5fceb5ea9714', 5, 2, '', '1940', now(), now(), '1', '1'),
 ('5c86b814-15aa-4867-acf0-45a69a34ac3a', 5, 3, '', '', now(), now(), '1', '1'),
-('094b264a-94c5-4c63-9b0b-bc785ed79e8a', 6, 1, '', '2007', now(), now(), '1', '1')
+('094b264a-94c5-4c63-9b0b-bc785ed79e8a', 6, 1, '', '2007', now(), now(), '1', '1'),
+('c7f3a119-ad47-4441-af6c-f9c10f49cfd9', 7, 1, '', '', now(), now(), '1', '1'),
+('f6e3ec36-b411-4c77-a939-0de6951b687a', 8, 1, '', '', now(), now(), '1', '1'),
+('5ff86b75-4068-48d5-992a-581213d1dff8', 9, 1, '', '1860', now(), now(), '1', '1'),
+('b25d7f4c-4857-45d5-80db-39d01f4887c8', 9, 1, '', '', now(), now(), '1', '1'),
+('f7bafdb8-4d2b-4069-8d15-0bb0a8ad8373', 9, 1, '', '', now(), now(), '1', '1'),
+('3e2590b7-86e3-4d61-9d32-74d1e24e13d8', 10, 1, '', '', now(), now(), '1', '1'),
+('4b90c983-b1a1-45d8-8aa0-a50e2e9ae1d6', 11, 1, '', '', now(), now(), '1', '1'),
+('d122e335-ffd5-4d0c-833b-18a7ea4cc854', 12, 1, '', '', now(), now(), '1', '1')
 ;
 
 
