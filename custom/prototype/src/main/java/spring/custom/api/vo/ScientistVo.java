@@ -48,6 +48,7 @@ public class ScientistVo {
     private String id;
     private Integer scientistId;
     private Integer seq;
+    private String format;
     private String imageDesc;
     private String imageDate;
   }
@@ -57,6 +58,7 @@ public class ScientistVo {
     private String id;
     private Integer scientistId;
     private Integer seq;
+    private String format;
     private String imageDesc;
     private String imageDate;
     

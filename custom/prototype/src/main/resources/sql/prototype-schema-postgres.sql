@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS pt_scientist_image
   id UUID DEFAULT uuid_generate_v4(),
   scientist_id SERIAL,
   seq INT2,
+  format VARCHAR(5),
   image_desc TEXT,
   image_date VARCHAR(10),
   create_time TIMESTAMP DEFAULT NOW(),

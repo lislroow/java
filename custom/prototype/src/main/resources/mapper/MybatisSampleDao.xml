@@ -39,6 +39,7 @@
            A.id
            , A.scientist_id
            , A.seq
+           , A.format
            , A.image_desc
            , A.image_date
            , A.create_id
@@ -98,6 +99,7 @@
            A.id
            , A.scientist_id
            , A.seq
+           , A.format
            , A.image_desc
            , A.image_date
            , B.name

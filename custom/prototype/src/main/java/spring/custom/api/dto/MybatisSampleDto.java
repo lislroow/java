@@ -45,6 +45,7 @@ public class MybatisSampleDto {
     private String id;
     private Integer scientistId;
     private Integer seq;
+    private String format;
     private String imageDesc;
     private String imageDate;
     
@@ -76,6 +77,7 @@ public class MybatisSampleDto {
     private String id;
     private Integer scientistId;
     private Integer seq;
+    private String format;
     private String imageDesc;
     private String imageDate;
   }
