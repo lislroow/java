@@ -71,6 +71,8 @@
       <artifactId>poi-ooxml</artifactId>
     </dependency>
     
+    <!--
+    주석 해제 시, boot 초기화 시 otel 서버와 연동 시작 
     <dependency>
       <groupId>io.opentelemetry.instrumentation</groupId>
       <artifactId>opentelemetry-spring-boot-starter</artifactId>
@@ -85,6 +87,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+    -->
     
     <dependency>
       <groupId>co.elastic.logging</groupId>
