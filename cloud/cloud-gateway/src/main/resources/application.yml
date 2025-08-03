@@ -1,3 +1,8 @@
+spring:
+  profiles.active: local
+  config.location: currentdir/config
+  application.name: cloud-gateway
+
 logging:
   level:
     '[org.springframework.cloud.gateway]': info
@@ -24,7 +29,7 @@ server.port: 10100
 management.endpoints.web.exposure.include: routes, filters, refresh, health, beans, busrefresh, info, metrics, prometheus
 management.server.port: 20100
 management.tracing.sampling.probability: 1.0
-otel.exporter.otlp.endpoint: http://rocky8-market:4318
+#otel.exporter.otlp.endpoint: http://172.28.200.101:4318
 
 spring:
   config.activate.on-profile: local, dev
@@ -96,7 +101,7 @@ server.port: 10200
 management.endpoints.web.exposure.include: routes, filters, refresh, health, beans, busrefresh, info, metrics, prometheus
 management.server.port: 20200
 management.tracing.sampling.probability: 1.0
-otel.exporter.otlp.endpoint: http://rocky8-market:4318
+#otel.exporter.otlp.endpoint: http://172.28.200.101:4318
 
 spring:
   config.activate.on-profile: local-auth, dev-auth
